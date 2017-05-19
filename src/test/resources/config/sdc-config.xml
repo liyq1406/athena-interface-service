@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<components>
+<import resource="classpath*:config/**/module-*.xml"/>
+	<constant name="useIBatis" value="classpath:config/sqlmap-config.xml" />
+	<constant name="useCache" value="classpath:config/ehcache.xml" />
+	
+	<component-scan 
+		package="com.toft.widgets,com.toft.core3,com.toft.core2,com.athena" />
+
+	<datasources transaction-manager="local">
+	
+	<datasource id="1" name="测试数据库" type="Oracle">
+			<connection user-name="ZBC_TEST" password="!2#ATHENA&lt;&gt;?"
+				server-name="10.26.218.180" port="1521" db-name="dev1db">
+			</connection>
+		<!-- 
+		<connection user-name="ZBC_TEST" password="ZBC_TEST"
+				server-name="10.26.218.52" port="1521" db-name="functdb">
+			</connection>
+		<connection user-name="DEV_PCFJ" password="DEV_PCFJ" server-name="10.26.218.231"
+			port="1521" db-name="testdb">
+		</connection> -->
+		<!-- <connection user-name="athena" password="athena" server-name="10.26.171.190"
+			port="1521" db-name="orcl">
+		</connection> -->
+		
+	</datasource>
+
+		<!-- <datasource id="1" name="测试数据库1" type="Oracle"> -->
+		<!-- <connection user-name="lwftest" password="password" -->
+		<!-- server-name="10.24.16.44" port="1521" db-name="oracle" > -->
+		<!-- </connection> -->
+		<!-- </datasource> -->
+		<!-- <datasources transaction-manager="local"> -->
+		<!-- <datasource id="1" name="测试数据库1" type="Oracle"> -->
+		<!-- <connection user-name="sdc35" password="password" -->
+		<!-- server-name="10.24.16.63" port="1521" db-name="test" > -->
+		<!-- </connection> -->
+		<!-- </datasource> -->
+		<!-- <datasource id="1" name="测试数据库1" type="Oracle"> -->
+		<!-- <connection user-name="wf3" password="password" -->
+		<!-- server-name="10.24.16.67" port="1521" db-name="orcl" max-size="150" -->
+		<!-- min-size="100"> -->
+		<!-- </connection> -->
+		<!-- </datasource> -->
+
+
+		<!-- <datasource id="1" name="测试数据库1" type="DB2"> -->
+		<!-- <connection user-name="sdcgd" password="1qaz2WSX" -->
+		<!-- server-name="10.24.16.70" port="50000" db-name="gd17750"> -->
+		<!-- </connection> -->
+		<!-- </datasource> -->
+
+
+	</datasources>
+	
+	<listener class="com.toft.core3.biz.module.ModuleListener" />
+		<message resource="config.toft.ToftErrorCode"/>
+	<message resource="config.toft.ToftSYSErrorCode"/>
+	<!-- 
+	<component id="remoteWtcService"
+	  class="com.athena.component.wtc.json.JsonWtcManager">
+	</component>
+	
+	<component id="hessianExporter"
+		class="com.toft.core3.remoting.hessian.HessianServiceExporter">
+		<property name="service" ref="remoteWtcService" />
+		<property name="serviceInterface" value="com.athena.component.wtc.WtcManager" />
+	</component>
+	
+	<component id="wtcService"
+		class="com.toft.core3.remoting.hessian.HessianServiceFactory">
+		<property name="serviceUrl"
+			value="http://127.0.0.1:8080/sdcdemo/remoting/hessianExporter" />
+		<property name="serviceInterface" value="com.athena.component.wtc.WtcManager" />
+	</component>
+	 -->
+	
+</components>

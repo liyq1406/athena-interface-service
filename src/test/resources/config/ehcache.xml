@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<ehcache updateCheck="false"
+	     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="ehcache.xsd"
+         name="SdcCache"  monitoring="autodetect"
+         dynamicConfig="true">
+
+    <defaultCache
+            maxElementsInMemory="10000"
+            eternal="false"
+            timeToIdleSeconds="300"
+            timeToLiveSeconds="300"
+            memoryStoreEvictionPolicy="LRU"
+            />
+
+    <cache name="localeMessage"
+           maxElementsInMemory="5000"
+           eternal="false"
+           memoryStoreEvictionPolicy="LRU"
+            />
+    <cache name="agencyIdFromUserCache"
+           maxElementsInMemory="5000"
+           eternal="false"
+           memoryStoreEvictionPolicy="LRU"
+            />
+    <cache name="dataList"
+           maxElementsInMemory="5000"
+           eternal="false"
+           memoryStoreEvictionPolicy="LRU"
+            />
+    <cache name="allAgencyAdnGroup"
+           maxElementsInMemory="5000"
+           eternal="false"
+           memoryStoreEvictionPolicy="LRU"
+            />
+    <cache name="AllDataList"
+           maxElementsInMemory="5000"
+           eternal="false"
+           memoryStoreEvictionPolicy="LRU"
+            />
+    <cache name="menus"
+           maxElementsInMemory="5000"
+           eternal="false"
+           memoryStoreEvictionPolicy="LRU"
+            />
+	<cache name="menuType"
+           maxElementsInMemory="5000"
+           eternal="false"
+           memoryStoreEvictionPolicy="LRU"
+            />
+    <cache name="userMap"
+           maxElementsInMemory="5000"
+           eternal="false"
+           memoryStoreEvictionPolicy="LRU"
+            />
+    <cache name="userUnits"
+           maxElementsInMemory="5000"
+           eternal="false"
+           memoryStoreEvictionPolicy="LRU"
+            />
+    <cache name="AgencyResultByUser"
+           maxElementsInMemory="5000"
+           eternal="false"
+           memoryStoreEvictionPolicy="LRU"
+            />
+            
+            
+</ehcache>

@@ -1,0 +1,2569 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<!-- ibatis数据库操作配置文件 -->
+<sqlMap namespace="outPut">
+
+	<!-- 1910 工作时间模板 -->
+	<select id="gongzjQuery" parameterClass="java.util.Map"
+		resultClass="java.util.HashMap" remapResults="true">
+		<![CDATA[
+		$head$
+		select tt.*,ROWNUM RN from (
+		SELECT USERCENTER,CHANX,
+				to_char(GONGZR,'yyyy-MM-dd') as GONGZR,
+				XIAOHSJ,
+				 to_char(JUEDSK,'yyyy-MM-dd HH24:MI:SS') as JUEDSK
+				FROM ${dbSchemalzbc}CKX_GONGZSJMB
+			 WHERE  1=1	   
+		]]>
+		<dynamic>
+			<isNotEmpty prepend=" AND " property="usercenter"><![CDATA[ usercenter  in ($usercenter$) ]]></isNotEmpty>
+		</dynamic>
+		<![CDATA[
+         $middle$      
+		 order by USERCENTER, CHANX, GONGZR, XIAOHSJ  
+		 ) tt where 1=1 	 
+		$foot$
+		]]>
+	</select>
+
+	<!-- 1180 供应商  xss_0013000 -->
+	<select id="gongysQuery" parameterClass="java.util.Map"
+		resultClass="java.util.HashMap" remapResults="true">	
+		<![CDATA[
+		$head$
+		select tt.*,ROWNUM RN from (
+   			select usercenter, gcbh, leix, gonghlx, gongsmc, diz, youb, 
+				   lianxr, dianh, chuanz, beihzq, fayzq, kacbztj, songhzdpc, songhzxpc, neibgys_cangkbh, 
+				   edzzl, bodfdxs, fayd, neibyhzx, biaos from ${dbSchemalzbc}ckx_gongys where 1=1 
+		]]>
+		<![CDATA[
+		$middle$
+		  order by USERCENTER , GCBH 
+		 ) tt where 1=1 	 
+		$foot$
+		]]>
+	</select>
+
+	<!-- id="1340" caption="配送类别" -->
+	<select id="peislbQuery" parameterClass="java.util.Map"
+		resultClass="java.util.HashMap" remapResults="true">
+		<![CDATA[
+		$head$
+		select tt.*,ROWNUM RN from (
+		select peislx, peislxmc, baozlx, baozsl, zuicddcws, tongbjpbs, shangxd, peitsxbs, 
+		beihtqq, xiaohccxc, shifgj, beiz, shifbhd, cangkbh, biaos, zickbh, wlgyy from ${dbSchemalzbc}ckx_peislb where 1=1 
+		]]>
+		<dynamic>
+			<isNotEmpty prepend=" AND " property="usercenter"><![CDATA[ usercenter  in ($usercenter$) ]]></isNotEmpty>
+		</dynamic>
+		<![CDATA[
+		$middle$
+		order by USERCENTER,PEISLX	
+		 ) tt where 1=1 		
+		$foot$
+		]]>
+	</select>
+
+	<!-- modify by yz 2015-12-12 增加分装线号字段 -->
+	<!-- id="1240" caption="物流路径总图" -->
+	<select id="wulljQuery" parameterClass="java.util.Map"
+		resultClass="java.util.HashMap" remapResults="true">
+		<![CDATA[
+		$head$
+		select tt.*,ROWNUM RN from (
+		select usercenter, fenpqh, lingjbh, gongysbh, shengcxbh, lujbh, lujmc, fahd, waibms, 
+			wjianglms, wshengxsj, gongyfe, zhidgys, jiaofm, beihzq, yunszq, gcbh, xiehztbh, songhpc, 
+			beihsjc, mudd, dinghck, mos2, jianglms2, shengxsj2, cangkshpc2, cangkshsj2, cangkfhsj2, 
+			beihsj2, ibeihsj2, pbeihsj2, xianbck, mos, jianglms, shengxsj, cangkshpc, cangkshsj, 
+			cangkfhsj, beihsj, ibeihsj, pbeihsj, zhizlx, gongyslx, dinghcklx, wulgyyz2, wulgyyz1, 
+			wulgyyz， fenzxh from ${dbSchemalzbc}ckx_wullj where 1=1 
+		]]>
+		<dynamic>
+			<isNotEmpty prepend=" AND " property="usercenter"><![CDATA[ usercenter  in ($usercenter$) ]]></isNotEmpty>
+		</dynamic>
+		<![CDATA[
+		$middle$
+		 order by USERCENTER, FENPQH, LINGJBH, GONGYSBH    
+		) tt where 1=1 				
+		$foot$
+   		]]>
+	</select>
+
+	<!-- id="1430" caption="小火车运输时刻表" -->
+	<select id="xiaohcysskQuery" parameterClass="java.util.Map"
+		resultClass="java.util.HashMap" remapResults="true">
+		<![CDATA[
+		$head$
+		select tt.*,ROWNUM RN from (
+			select usercenter, shengcxbh, xiaohcbh, riq, tangc, 
+				to_char(kaisbhsj, 'yyyy-MM-dd HH24:MI:SS') kaisbhsj, 
+				to_char(chufsxsj, 'yyyy-MM-dd HH24:MI:SS') chufsxsj 
+				from ${dbSchemalzbc}ckx_xiaohcyssk where 1=1  
+		]]>
+		<dynamic>
+			<isNotEmpty prepend=" AND " property="usercenter"><![CDATA[ usercenter  in ($usercenter$) ]]></isNotEmpty>
+		</dynamic>
+		<![CDATA[	
+		$middle$
+		order by USERCENTER, SHENGCXBH, XIAOHCBH, RIQ, TANGC    
+		) tt where 1=1 		
+		$foot$
+   		]]>
+	</select>
+
+	<!-- id="1440" caption="生产线-线边仓库" -->
+	<select id="shengcxbQuery" parameterClass="java.util.Map"
+		resultClass="java.util.HashMap" remapResults="true">
+		<![CDATA[
+		$head$
+		select tt.*,ROWNUM RN from (
+			select usercenter, lingjbh, fenpqh, qid, qidlx, mos, shengxbs, jianglms, 
+			jianglmssxsj, shengcxbh, zick, zuh zuh from ${dbSchemalzbc}ckx_shengcx_xianb where 1=1 
+		]]>
+		<dynamic>
+			<isNotEmpty prepend=" AND " property="usercenter"><![CDATA[ usercenter in ($usercenter$) ]]></isNotEmpty>
+		</dynamic>
+		<![CDATA[
+		$middle$
+		order by USERCENTER, LINGJBH, FENPQH     
+		) tt where 1=1 	
+		$foot$
+   		]]>
+	</select>
+
+	<!-- id="1190" caption="零件" -->
+	<select id="lingjQuery" parameterClass="java.util.Map"
+		resultClass="java.util.HashMap" remapResults="true">
+		<![CDATA[
+		$head$ 
+		select tt.*,ROWNUM RN from (
+			select usercenter, lingjbh, zhongwmc, fawmc, lingjlx, lingjsx, 
+			jihy, danw, zhizlx, 
+			to_char(kaisrq,'yyyy-MM-dd HH24:MI:SS') kaisrq, 
+			to_char(jiesrq,'yyyy-MM-dd HH24:MI:SS') jiesrq, 
+			zhuangcxs, anqm, lingjzl, biaos, 
+			guanjljjb, dinghcj, gongybm, zongcldm, 
+			to_char(diycqysj,'yyyy-MM-dd HH24:MI:SS') diycqysj,
+			wuly, zhijy, pcjhy, wlgyy ,anjmlxhd
+			from ${dbSchemalzbc}ckx_lingj where 1=1 and biaos!= 2 
+		]]>
+		<dynamic>
+			<isNotEmpty prepend=" AND " property="usercenter"><![CDATA[ usercenter  in ($usercenter$) ]]></isNotEmpty>
+		</dynamic>
+		<![CDATA[	
+		$middle$
+		order by usercenter, lingjbh      
+		) tt where 1=1 			
+		$foot$
+   		]]>
+	</select>
+
+	<!-- 1200 零件仓库设置 -->
+	<select id="lingjckszQuery" parameterClass="java.util.Map"
+		resultClass="java.util.HashMap" remapResults="true">
+		<![CDATA[
+		$head$ 
+		select tt.*,ROWNUM RN from (
+			 select usercenter, lingjbh, cangkbh, zickbh, yuanckbh, xiehztbh,
+			 anqkcts, anqkcsl, zuidkcts, zuidkcsl, dingdbdzl, dingdzzzl, yijfzl, xittzz, 
+			 danqkbh, danqkw, zuidsx, zuixxx, jistzz, 
+			 zuixqdl, shifxlh, beiykbh, 
+			 dingzkw, usbzlx, usbzrl, uclx, ucrl, fifo, zidfhbz, zuh  from ${dbSchemalzbc}ckx_lingjck where 1=1 
+		]]>
+		<dynamic>
+			<isNotEmpty prepend=" AND " property="usercenter"><![CDATA[ usercenter  in ($usercenter$) ]]></isNotEmpty>
+		</dynamic>
+		<![CDATA[		
+		$middle$
+		order by USERCENTER, LINGJBH, CANGKBH  	
+		) tt where 1=1 		  
+		$foot$
+   		]]>
+	</select>
+
+	<!-- 1280 仓库循环时间 -->
+	<select id="cangkxhsjQuery" parameterClass="java.util.Map"
+		resultClass="java.util.HashMap" remapResults="true">
+		<![CDATA[
+		$head$ 
+		select tt.*,ROWNUM RN from (
+			SELECT 
+			USERCENTER,CANGKBH,FENPQHCK,MOS,
+			CANGKSHPCF,CANGKSHSJ,CANGKFHSJ,
+			BEIHSJ,IBEIHSJ,PBEIHSJ,SHIFZDBH,
+			SHENGXBS,ZUH  
+			FROM ${dbSchemalzbc}CKX_CANGKXHSJ  WHERE  1=1 
+		]]>
+		<dynamic>
+			<isNotEmpty prepend=" AND " property="usercenter"><![CDATA[ usercenter  in ($usercenter$) ]]></isNotEmpty>
+		</dynamic>
+		<![CDATA[
+		$middle$
+		order by USERCENTER, FENPQHCK, CANGKBH, MOS   	
+		) tt where 1=1 				
+		$foot$
+   		]]>
+	</select>
+
+	<!-- 1210 卸货站台编组 -->
+	<select id="xiehztbzQuery" parameterClass="java.util.Map"
+		resultClass="java.util.HashMap" remapResults="true">
+		<![CDATA[
+		$head$ 
+		select tt.*,ROWNUM RN from (
+			select usercenter,xiehztbzh, tongsjdcs, chulsj, biaos, wulgyyz from 
+			${dbSchemalzbc}ckx_xiehztbz WHERE  1=1  
+		]]>
+		<dynamic>
+			<isNotEmpty prepend=" AND " property="usercenter"><![CDATA[ usercenter  in ($usercenter$) ]]></isNotEmpty>
+		</dynamic>
+		<![CDATA[	
+		$middle$
+		order by XIEHZTBZH   	
+		) tt where 1=1 				
+		$foot$
+   		]]>
+	</select>
+
+	<!-- 1260 运输时刻 -->
+	<select id="yunsskQuery" parameterClass="java.util.Map"
+		resultClass="java.util.HashMap" remapResults="true">
+		<![CDATA[
+		$head$ 
+		select tt.*,ROWNUM RN from (
+     		SELECT 
+			USERCENTER,XIEHZTBH,GCBH,
+			TO_CHAR(FACSJ,'YYYY-MM-DD HH24:MI:SS') FACSJ,
+			TO_CHAR(DAOHSJ,'YYYY-MM-DD HH24:MI:SS') DAOHSJ,
+			XUH,ZUH    
+			FROM ${dbSchemalzbc}CKX_YUNSSK
+			 WHERE  1=1 
+		]]>
+		<dynamic>
+			<isNotEmpty prepend=" AND " property="usercenter"><![CDATA[ usercenter  in ($usercenter$) ]]></isNotEmpty>
+		</dynamic>
+		<![CDATA[	
+		$middle$
+		order by USERCENTER, XIEHZTBH, GCBH, DAOHSJ, XUH   	
+		) tt where 1=1 				 
+		$foot$
+   		]]>
+	</select>
+
+	<!-- 1330 包装 -->
+	<select id="baozQuery" parameterClass="java.util.Map"
+		resultClass="java.util.HashMap" remapResults="true">
+		<![CDATA[
+		$head$ 
+		select tt.*,ROWNUM RN from ( 
+     		SELECT 
+			BAOZLX, CHANGD, KUAND, GAOD,
+			 BAOZZL, CAIZ, BAOZMC, SHIFHS, 
+			 LEIB, ZHEDGD, DUIDCS, BAIFFX, BIAOS 
+			  FROM ${dbSchemalzbc}CKX_BAOZ
+			 WHERE  1=1  
+		$middle$
+		order by BAOZLX    	
+		) tt where 1=1 		 				 
+		$foot$
+   		]]>
+	</select>
+
+	<!-- 1130 未来几日剔除休息时间 -->
+	<select id="weiljrtcxxsjQuery" parameterClass="java.util.Map"
+		resultClass="java.util.HashMap" remapResults="true">
+		<![CDATA[
+		$head$ 
+		select tt.*,ROWNUM RN from ( 
+     		SELECT 
+			USERCENTER, CHANXCK, GONGZR, SHUNXH, 
+			RIQ, SHIJDKSSJ, SHIJDJSSJ, SHIJCD   		
+			FROM ${dbSchemalzbc}CKX_TICXXSJ
+			 WHERE  1=1  
+		]]>
+		<dynamic>
+			<isNotEmpty prepend=" AND " property="usercenter"><![CDATA[ usercenter  in ($usercenter$) ]]></isNotEmpty>
+		</dynamic>
+		<![CDATA[	
+		$middle$
+		order by USERCENTER, CHANXCK, SHUNXH, GONGZR    	
+		) tt where 1=1 				 
+		$foot$
+   		]]>
+	</select>
+
+	<!-- 1120 零件消耗点 modified by lc 2015-12-14 -->
+	<select id="lingjxhdQuery" parameterClass="java.util.Map"
+		resultClass="java.util.HashMap" remapResults="true">
+		<![CDATA[
+		$head$ 
+		select tt.*,ROWNUM RN from (
+     		SELECT 
+			USERCENTER, LINGJBH, XIAOHDBH, WULBH, 
+			FENPQBH, SHENGCXBH, PEISLXBH, QIANHCBS, 
+			JIPBZWZ, SHENGXR, JIESR, GUANLYBH, 
+			TIQJSXHBL, XIAOHBL, GONGYSBH, SHUNXGLBZ, 
+			ZIDFHBZ, XIANBYHLX, YANCSXBZ, BEIHDBZ, 
+			XIAOHCBH, XIAOHCCXBH, YUANXHDBH, ANQKCTS, 
+			ANQKCS, XIANBLLKC, YIFYHLZL, JIAOFZL, XITTZZ,
+			 PDSBZ, BIAOS, ZHONGZZL,  ZUH ,GONGYBS,GONGYXL,FENZXH 	
+			 FROM ${dbSchemalzbc}CKX_LINGJXHD
+			 WHERE  1=1  and biaos!='2' 
+		]]>
+		<dynamic>
+			<isNotEmpty prepend=" AND " property="usercenter"><![CDATA[ usercenter  in ($usercenter$) ]]></isNotEmpty>
+		</dynamic>
+		<![CDATA[	
+		$middle$
+		order by USERCENTER, LINGJBH, XIAOHDBH     	
+		) tt where 1=1 			 
+		$foot$
+   		]]>
+	</select>
+
+	<!-- 1110 工艺消耗点 -->
+	<select id="gongyxhdQuery" parameterClass="java.util.Map"
+		resultClass="java.util.HashMap" remapResults="true">
+		<![CDATA[
+		$head$ 
+		select tt.*,ROWNUM RN from ( 
+     		SELECT 
+			GONGYXHD, CHESSL, PIANYSJ, LIUSH, 
+			GONGYBS, BIAOS, ZUH ，SHENGCXBH 
+			FROM ${dbSchemalzbc}CKX_GONGYXHD
+			 WHERE  1=1  and biaos!=2 	
+		$middle$ 
+		order by GONGYXHD      	
+		) tt where 1=1 	 			 
+		$foot$
+   		]]>
+	</select>
+
+	<!-- 1140 生产线 -->
+	<select id="shengcxQuery" parameterClass="java.util.Map"
+		resultClass="java.util.HashMap" remapResults="true">
+		<![CDATA[
+		$head$
+		select tt.*,ROWNUM RN from (  
+     		SELECT 
+			USERCENTER, SHENGCXBH, CHANXZBH, 			
+			 SHENGCJP, WEILSCJP, QIEHSJ,
+			 CHULTS, BIAOS, CPSHENGCJP, FLAG 
+			 FROM ${dbSchemalzbc}CKX_SHENGCX
+			  WHERE  1=1  
+		]]>
+		<dynamic>
+			<isNotEmpty prepend=" AND " property="usercenter"><![CDATA[ usercenter  in ($usercenter$) ]]></isNotEmpty>
+		</dynamic>
+		<![CDATA[	
+		$middle$ 
+		order by USERCENTER, SHENGCXBH       	
+		) tt where 1=1 	 			  
+		$foot$
+   		]]>
+	</select>
+
+	<!-- 1460 订单（下传所有订单） -->
+	<select id="dingdxcsyQuery" parameterClass="java.util.Map"
+		resultClass="java.util.HashMap" remapResults="true">
+		<![CDATA[
+		$head$ 
+		select tt.*,ROWNUM RN from ( 
+     		SELECT 
+			USERCENTER, JISZQ, DINGDH, HETH, 
+			DINGDLX, GONGYSDM, GONGYSLX, 
+			CHULLX, DINGDZT, DINGDSXCZR, 
+			DINGDSXSJ, DINGDFSSJ, SHIFFSGYS, 
+			BEIZ, DINGDJSSJ, DINGDNR, ZIYHQRQ, 
+			FAHZQ, MAOXQBC, JISLX, SHIFZFSYHL, 
+			SHIFYJSYHL,  ACTIVE  
+			FROM ${dbSchemalzbc}XQJS_DINGD d WHERE DINGDZT='4' and (d.dingdlx <> '3' and d.dingdlx <> '5' and d.dingdlx <> '6' and
+            d.dingdlx <> '7' and d.dingdlx <> '8') 
+        $middle$ 
+		order by DINGDH        	
+		) tt where 1=1 	      
+		$foot$
+   		]]>
+	</select>
+
+	<!-- 1610 订单（下传正常按需订单）， hzg 2014.4.26改为区分用户中心输出 -->
+	<select id="dingdxczcaxQuery" parameterClass="java.util.Map"
+		resultClass="java.util.HashMap" remapResults="true">
+		<![CDATA[
+		$head$ 
+		select tt.*,ROWNUM RN from ( 
+			SELECT 
+			USERCENTER, JISZQ, DINGDH, HETH, 
+			DINGDLX, GONGYSDM, GONGYSLX, 
+			CHULLX, DINGDZT, DINGDSXCZR, 
+			DINGDSXSJ, DINGDFSSJ, SHIFFSGYS, 
+			BEIZ, DINGDJSSJ, DINGDNR, ZIYHQRQ, 
+			FAHZQ, MAOXQBC, JISLX, SHIFZFSYHL, 
+			SHIFYJSYHL,  ACTIVE  
+			FROM ${dbSchemalzbc}XQJS_DINGD WHERE DINGDZT='4' and( DINGDLX='5'OR DINGDLX='6') 
+		]]>
+		<dynamic>
+			<isNotEmpty prepend=" AND " property="usercenter"><![CDATA[ usercenter  in ($usercenter$) ]]></isNotEmpty>
+		</dynamic>
+		<![CDATA[	
+		$middle$ 
+		order by DINGDH        	
+		) tt where 1=1 	
+		$foot$
+   		]]>
+	</select>
+
+	<!-- 1760 订单（下传初始化按需订单） |xss-0012049-->
+	<select id="dingdxccshaxQuery" parameterClass="java.util.Map"
+		resultClass="java.util.HashMap" remapResults="true">
+		<![CDATA[
+		$head$ 
+		select tt.*,ROWNUM RN from ( 
+     		SELECT 
+			USERCENTER, JISZQ, DINGDH, HETH, 
+			DINGDLX, GONGYSDM, GONGYSLX, 
+			CHULLX, DINGDZT, DINGDSXCZR, 
+			DINGDSXSJ, DINGDFSSJ, SHIFFSGYS, 
+			BEIZ, DINGDJSSJ, DINGDNR, ZIYHQRQ, 
+			FAHZQ, MAOXQBC, JISLX, SHIFZFSYHL, 
+			SHIFYJSYHL,  ACTIVE  
+			FROM ${dbSchemalzbc}XQJS_DINGD WHERE DINGDZT='4' and( DINGDLX='3' OR  DINGDLX='7' OR DINGDLX='8')  
+		 and 
+		 edit_time >= (SELECT to_date(to_char(B.LASTCPLTIME-1/(24*60),'yyyy-mm-dd HH24:mi:ss') ,'yyyy-mm-dd HH24:mi:ss') FROM ${dbSchemalzbc}IN_ZIDB B WHERE B.INBH='1760') 
+         AND edit_time < (SELECT to_date(to_char(B.Yunxkssj-1/(24*60),'yyyy-mm-dd HH24:mi:ss') ,'yyyy-mm-dd HH24:mi:ss') FROM ${dbSchemalzbc}IN_ZIDB B WHERE B.INBH='1760') 
+		order by DINGDH        	
+		) tt where 1=1 				
+		$foot$
+   		]]>
+	</select>
+
+	<!-- 1230 订单明细（订单明细所有订单：既定、预告） ,hanwu 20150722 新增“是否混托”、“巷道”、“工作日” |xss-0012049-->
+	<select id="dingdmxsyQuery" parameterClass="java.util.Map"
+		resultClass="java.util.HashMap" remapResults="true">
+		<![CDATA[
+		$head$ 
+		select tt.*,ROWNUM RN from (
+     		SELECT    ID,
+							       X.DINGDH,
+							       LINGJBH,
+							       X.USERCENTER,
+							       X.GONGYSDM,
+							       X.GONGYSLX,
+							       TO_CHAR(YAOHQSRQ, 'YYYY-MM-DD HH24:MI:SS') AS YAOHQSRQ,
+							       TO_CHAR(YAOHJSRQ, 'YYYY-MM-DD HH24:MI:SS') AS YAOHJSRQ,
+							       CANGKDM,
+							       XIEHZT,
+							       FAHD,
+							       DINGHCJ,
+							       SHUL,
+							       DANW,
+							       UABZLX,
+							       UABZUCLX,
+							       UABZUCSL,
+							       UABZUCRL,
+							       TO_CHAR(FAYRQ, 'YYYY-MM-DD HH24:MI:SS') AS FAYRQ,
+							       TO_CHAR(JIAOFRQ, 'YYYY-MM-DD HH24:MI:SS') AS JIAOFRQ,
+							       ZHUANGT,
+							       YUGSFQZ,
+							       LEIX,
+							       LUJDM,
+							       JIHYZ,
+							       ZUIHWHR,
+							       TO_CHAR(ZUIHWHSJ, 'YYYY-MM-DD HH24:MI:SS') AS ZUIHWHSJ,
+							       JISSL,
+							       GONGHLX,
+							       YIJFL,
+							       YIZZL,
+							       YAOHLGSZL,
+							       YAOHLGSYJF,
+							       YAOHLGSYZZ,
+							       YIJFLDDMX,
+							       YIZZLDDMX,
+							       TO_CHAR(SHID, 'YYYY-MM-DD HH24:MI:SS') AS SHID,
+							       TO_CHAR(ZUIZDHSJ, 'YYYY-MM-DD HH24:MI:SS') AS ZUIZDHSJ,
+							       TO_CHAR(ZUIWDHSJ, 'YYYY-MM-DD HH24:MI:SS') AS ZUIWDHSJ,
+							       TO_CHAR(XIAOHSJ, 'YYYY-MM-DD HH24:MI:SS') AS XIAOHSJ,
+							       XIAOHCBHSJ,
+							       XIAOHCSXSJ,
+							       XIEHD,
+							       XIANBYHLX,
+							       USBAOZLX,
+							       USBAOZRL,
+							       XIAOHCH,
+							       XIAOHCCXH,
+							       CHANX,
+							       XIAOHD,
+							       FENPXH,
+							       X.ACTIVE,
+							       KANBXHBM,
+							       TANGC,
+							       PAICZT,
+							       GCBH,
+							       BEIHSJ2,
+							       LINGJMC,
+							       GONGSMC,
+							       NEIBYHZX,
+							       PCKAISSJ,
+							       PCJIESSJ,
+							       PCEDITOR,
+							       PCEDIT_TIME,
+							       SHIFHT,
+							       XIANGD,
+							       TO_CHAR(GONGZR, 'YYYY-MM-DD HH24:MI:SS') AS GONGZR 
+							  FROM ${dbSchemalzbc}XQJS_DINGDMX X
+							  JOIN ${dbSchemalzbc}XQJS_DINGD D ON D.DINGDH = X.DINGDH
+							                   AND D.USERCENTER   like '%'||X.USERCENTER||'%'
+							 WHERE X.ZHUANGT = '4'
+							   AND D.DINGDZT = '4'
+							   AND (D.DINGDLX <> '3' AND D.DINGDLX <> '5' AND D.DINGDLX <> '6' AND
+							       D.DINGDLX <> '7' AND D.DINGDLX <> '8')
+							       and  X.EDIT_TIME >= (SELECT to_date(to_char(B.LASTCPLTIME,'yyyy-mm-dd HH24:mi:ss') ,'yyyy-mm-dd HH24:mi:ss') FROM ${dbSchemalzbc}IN_ZIDB B WHERE B.INBH='1230') 
+                  				   AND X.EDIT_TIME < (SELECT to_date(to_char(B.Yunxkssj,'yyyy-mm-dd HH24:mi:ss') ,'yyyy-mm-dd HH24:mi:ss') FROM ${dbSchemalzbc}IN_ZIDB B WHERE B.INBH='1230')     
+		$middle$ 
+		ORDER BY X.ID 
+         ) tt where 1=1 
+		$foot$
+   		]]>
+	</select>
+
+	<!-- 1620 订单明细（下传按需订单）,hzg 2014.4.26 改为区分用户中心输出 ,hanwu 20150722 新增“是否混托”、“巷道”、“工作日” |xss-0012049-->
+	<select id="dingdmxxcaxQuery" parameterClass="java.util.Map"
+		resultClass="java.util.HashMap" remapResults="true">
+		<![CDATA[
+		$head$ 
+		select tt.*,ROWNUM RN from (
+     		SELECT 
+			ID, dm.DINGDH, LINGJBH, dm.USERCENTER, dm.GONGYSDM, 
+			dm.GONGYSLX, 
+			to_char(YAOHQSRQ,'yyyy-MM-dd Hh24:Mi:ss') as YAOHQSRQ,
+			to_char(YAOHJSRQ,'yyyy-MM-dd Hh24:Mi:ss') as YAOHJSRQ, 
+			CANGKDM,XIEHZT, FAHD, DINGHCJ, SHUL, DANW, UABZLX, 
+			UABZUCLX, UABZUCSL, UABZUCRL, 
+			to_char(FAYRQ,'yyyy-MM-dd Hh24:Mi:ss') as FAYRQ, 
+			to_char(JIAOFRQ,'yyyy-MM-dd Hh24:Mi:ss') as JIAOFRQ,
+			ZHUANGT, YUGSFQZ, LEIX, LUJDM, JIHYZ, ZUIHWHR, 
+			to_char(ZUIHWHSJ,'yyyy-MM-dd Hh24:Mi:ss') as ZUIHWHSJ, 
+			JISSL,GONGHLX, YIJFL, YIZZL, YAOHLGSZL, 
+			YAOHLGSYJF, YAOHLGSYZZ, YIJFLDDMX, YIZZLDDMX, 
+			to_char(SHID,'yyyy-MM-dd Hh24:Mi:ss') as SHID, 
+			to_char(ZUIZDHSJ,'yyyy-MM-dd Hh24:Mi:ss') as ZUIZDHSJ, 
+			to_char(ZUIWDHSJ,'yyyy-MM-dd Hh24:Mi:ss') as ZUIWDHSJ, 
+			to_char(XIAOHSJ,'yyyy-MM-dd Hh24:Mi:ss') as XIAOHSJ, 
+			XIAOHCBHSJ,XIAOHCSXSJ, XIEHD, XIANBYHLX, USBAOZLX, USBAOZRL, 
+			XIAOHCH, XIAOHCCXH, CHANX, XIAOHD, FENPXH, 
+			dm.ACTIVE, KANBXHBM, TANGC, PAICZT ,GCBH ,BEIHSJ2,LINGJMC,GONGSMC,
+			NEIBYHZX,PCKAISSJ,PCJIESSJ,PCEDITOR,PCEDIT_TIME,
+			SHIFHT,XIANGD,TO_CHAR(GONGZR, 'YYYY-MM-DD HH24:MI:SS') AS GONGZR    
+			FROM ${dbSchemalzbc}XQJS_DINGDMX dm INNER JOIN ${dbSchemalzbc}XQJS_DINGD d  ON dm.dingdh=d.dingdh
+			where  dm.Zhuangt='4' and d.Dingdzt='4' and( d.DINGDLX='5'OR d.DINGDLX='6')
+			  ]]>
+		<dynamic>
+			<isNotEmpty prepend=" AND " property="usercenter"><![CDATA[ d.usercenter  in ($usercenter$) ]]></isNotEmpty>
+		</dynamic>
+		<![CDATA[ 
+		       and d.EDIT_TIME >= (SELECT to_date(to_char(B.LASTCPLTIME,'yyyy-mm-dd HH24:mi:ss') ,'yyyy-mm-dd HH24:mi:ss') FROM ${dbSchemalzbc}IN_ZIDB B WHERE B.INBH='1620') 
+               AND d.EDIT_TIME < (SELECT to_date(to_char(B.Yunxkssj,'yyyy-mm-dd HH24:mi:ss') ,'yyyy-mm-dd HH24:mi:ss') FROM ${dbSchemalzbc}IN_ZIDB B WHERE B.INBH='1620') 
+         ORDER BY dm.ID 
+         ) tt where 1=1 
+		$foot$
+   		]]>
+	</select>
+
+
+	<!-- 1621 订单明细（下传按需订单）,hzg 2014.4.26 改为区分用户中心输出 ,hanwu 20150722 新增“是否混托”、“巷道”、“工作日” |xss-0012049-->
+	<select id="dingdmxxcaxQueryUW" parameterClass="java.util.Map"
+		resultClass="java.util.HashMap" remapResults="true">
+		<![CDATA[
+		$head$ 
+		select tt.*,ROWNUM RN from (
+     		SELECT 
+			ID, dm.DINGDH, LINGJBH, dm.USERCENTER, dm.GONGYSDM, 
+			dm.GONGYSLX, 
+			to_char(YAOHQSRQ,'yyyy-MM-dd Hh24:Mi:ss') as YAOHQSRQ,
+			to_char(YAOHJSRQ,'yyyy-MM-dd Hh24:Mi:ss') as YAOHJSRQ, 
+			CANGKDM,XIEHZT, FAHD, DINGHCJ, SHUL, DANW, UABZLX, 
+			UABZUCLX, UABZUCSL, UABZUCRL, 
+			to_char(FAYRQ,'yyyy-MM-dd Hh24:Mi:ss') as FAYRQ, 
+			to_char(JIAOFRQ,'yyyy-MM-dd Hh24:Mi:ss') as JIAOFRQ,
+			ZHUANGT, YUGSFQZ, LEIX, LUJDM, JIHYZ, ZUIHWHR, 
+			to_char(ZUIHWHSJ,'yyyy-MM-dd Hh24:Mi:ss') as ZUIHWHSJ, 
+			JISSL,GONGHLX, YIJFL, YIZZL, YAOHLGSZL, 
+			YAOHLGSYJF, YAOHLGSYZZ, YIJFLDDMX, YIZZLDDMX, 
+			to_char(SHID,'yyyy-MM-dd Hh24:Mi:ss') as SHID, 
+			to_char(ZUIZDHSJ,'yyyy-MM-dd Hh24:Mi:ss') as ZUIZDHSJ, 
+			to_char(ZUIWDHSJ,'yyyy-MM-dd Hh24:Mi:ss') as ZUIWDHSJ, 
+			to_char(XIAOHSJ,'yyyy-MM-dd Hh24:Mi:ss') as XIAOHSJ, 
+			XIAOHCBHSJ,XIAOHCSXSJ, XIEHD, XIANBYHLX, USBAOZLX, USBAOZRL, 
+			XIAOHCH, XIAOHCCXH, CHANX, XIAOHD, FENPXH, 
+			dm.ACTIVE, KANBXHBM, TANGC, PAICZT ,GCBH ,BEIHSJ2,LINGJMC,GONGSMC,
+			NEIBYHZX,PCKAISSJ,PCJIESSJ,PCEDITOR,PCEDIT_TIME,
+			SHIFHT,XIANGD,TO_CHAR(GONGZR, 'YYYY-MM-DD HH24:MI:SS') AS GONGZR       
+			FROM ${dbSchemalzbc}XQJS_DINGDMX dm INNER JOIN ${dbSchemalzbc}XQJS_DINGD d  ON dm.dingdh=d.dingdh
+			where  dm.Zhuangt='4' and d.Dingdzt='4' and( d.DINGDLX='5'OR d.DINGDLX='6')
+			  ]]>
+		<dynamic>
+			<isNotEmpty prepend=" AND " property="usercenter"><![CDATA[ d.usercenter  in ($usercenter$) ]]></isNotEmpty>
+		</dynamic>
+		<![CDATA[ 
+		         and d.EDIT_TIME >= (SELECT to_date(to_char(B.LASTCPLTIME,'yyyy-mm-dd HH24:mi:ss') ,'yyyy-mm-dd HH24:mi:ss') FROM ${dbSchemalzbc}IN_ZIDB B WHERE B.INBH='1621') 
+                  AND d.EDIT_TIME < (SELECT to_date(to_char(B.Yunxkssj,'yyyy-mm-dd HH24:mi:ss') ,'yyyy-mm-dd HH24:mi:ss') FROM ${dbSchemalzbc}IN_ZIDB B WHERE B.INBH='1621') 
+         ORDER BY dm.ID 
+         ) tt where 1=1 
+		$foot$
+   		]]>
+	</select>
+	
+	
+	
+	<!-- 1622 订单明细（下传按需订单）,hzg 2016.4.22 区分用户中心输出 -->
+	<select id="dingdmxxcaxQueryVD" parameterClass="java.util.Map"
+		resultClass="java.util.HashMap" remapResults="true">
+		<![CDATA[
+		$head$ 
+		select tt.*,ROWNUM RN from (
+     		SELECT 
+			ID, dm.DINGDH, LINGJBH, dm.USERCENTER, dm.GONGYSDM, 
+			dm.GONGYSLX, 
+			to_char(YAOHQSRQ,'yyyy-MM-dd Hh24:Mi:ss') as YAOHQSRQ,
+			to_char(YAOHJSRQ,'yyyy-MM-dd Hh24:Mi:ss') as YAOHJSRQ, 
+			CANGKDM,XIEHZT, FAHD, DINGHCJ, SHUL, DANW, UABZLX, 
+			UABZUCLX, UABZUCSL, UABZUCRL, 
+			to_char(FAYRQ,'yyyy-MM-dd Hh24:Mi:ss') as FAYRQ, 
+			to_char(JIAOFRQ,'yyyy-MM-dd Hh24:Mi:ss') as JIAOFRQ,
+			ZHUANGT, YUGSFQZ, LEIX, LUJDM, JIHYZ, ZUIHWHR, 
+			to_char(ZUIHWHSJ,'yyyy-MM-dd Hh24:Mi:ss') as ZUIHWHSJ, 
+			JISSL,GONGHLX, YIJFL, YIZZL, YAOHLGSZL, 
+			YAOHLGSYJF, YAOHLGSYZZ, YIJFLDDMX, YIZZLDDMX, 
+			to_char(SHID,'yyyy-MM-dd Hh24:Mi:ss') as SHID, 
+			to_char(ZUIZDHSJ,'yyyy-MM-dd Hh24:Mi:ss') as ZUIZDHSJ, 
+			to_char(ZUIWDHSJ,'yyyy-MM-dd Hh24:Mi:ss') as ZUIWDHSJ, 
+			to_char(XIAOHSJ,'yyyy-MM-dd Hh24:Mi:ss') as XIAOHSJ, 
+			XIAOHCBHSJ,XIAOHCSXSJ, XIEHD, XIANBYHLX, USBAOZLX, USBAOZRL, 
+			XIAOHCH, XIAOHCCXH, CHANX, XIAOHD, FENPXH, 
+			dm.ACTIVE, KANBXHBM, TANGC, PAICZT ,GCBH ,BEIHSJ2,LINGJMC,GONGSMC,
+			NEIBYHZX,PCKAISSJ,PCJIESSJ,PCEDITOR,PCEDIT_TIME,
+			SHIFHT,XIANGD,TO_CHAR(GONGZR, 'YYYY-MM-DD HH24:MI:SS') AS GONGZR       
+			FROM ${dbSchemalzbc}XQJS_DINGDMX dm INNER JOIN ${dbSchemalzbc}XQJS_DINGD d  ON dm.dingdh=d.dingdh
+			where  dm.Zhuangt='4' and d.Dingdzt='4' and( d.DINGDLX='5'OR d.DINGDLX='6')
+			  ]]>
+		<dynamic>
+			<isNotEmpty prepend=" AND " property="usercenter"><![CDATA[ d.usercenter  in ($usercenter$) ]]></isNotEmpty>
+		</dynamic>
+		<![CDATA[ 
+		         AND d.EDIT_TIME >= (SELECT  B.LASTCPLTIME FROM ${dbSchemalzbc}IN_ZIDB B WHERE B.INBH='1622') 
+                  AND d.EDIT_TIME < (SELECT B.Yunxkssj FROM ${dbSchemalzbc}IN_ZIDB B WHERE B.INBH='1622') 
+         ORDER BY dm.ID 
+         ) tt where 1=1 
+		$foot$
+   		]]>
+	</select>
+
+	<!-- 1600 KD订单明细（KD订单：既定、预告） |xss-0012049-->
+	<select id="KDdingdmxQuery" parameterClass="java.util.Map"
+		resultClass="java.util.HashMap" remapResults="true">
+		<![CDATA[
+		$head$ 
+		select tt.*,ROWNUM RN from (
+     		SELECT 
+			ID, dm.DINGDH, LINGJBH, dm.USERCENTER, dm.GONGYSDM, 
+			dm.GONGYSLX, 
+			to_char(YAOHQSRQ,'yyyy-MM-dd HH24:Mi:SS') as YAOHQSRQ,
+			to_char(YAOHJSRQ,'yyyy-MM-dd HH24:Mi:SS') as YAOHJSRQ, 
+			CANGKDM,XIEHZT, FAHD, DINGHCJ, SHUL, DANW, UABZLX, 
+			UABZUCLX, UABZUCSL, UABZUCRL, 
+			to_char(FAYRQ,'yyyy-MM-dd HH24:Mi:SS') as FAYRQ, 
+			to_char(JIAOFRQ,'yyyy-MM-dd HH24:Mi:SS') as JIAOFRQ,
+			ZHUANGT, YUGSFQZ, LEIX, LUJDM, JIHYZ, ZUIHWHR, 
+			to_char(ZUIHWHSJ,'yyyy-MM-dd Hh24:Mi:ss') as ZUIHWHSJ, 
+			JISSL,GONGHLX, YIJFL, YIZZL, YAOHLGSZL, 
+			YAOHLGSYJF, YAOHLGSYZZ, YIJFLDDMX, YIZZLDDMX, 
+			to_char(SHID,'yyyy-MM-dd HH24:Mi:SS') as SHID, 
+			to_char(ZUIZDHSJ,'yyyy-MM-dd HH24:Mi:SS') as ZUIZDHSJ, 
+			to_char(ZUIWDHSJ,'yyyy-MM-dd HH24:Mi:SS') as ZUIWDHSJ, 
+			to_char(XIAOHSJ,'yyyy-MM-dd HH24:Mi:SS') as XIAOHSJ, 
+			XIAOHCBHSJ,XIAOHCSXSJ, XIEHD, XIANBYHLX, USBAOZLX, USBAOZRL, 
+			XIAOHCH, XIAOHCCXH, CHANX, XIAOHD, FENPXH, 
+			dm.ACTIVE, KANBXHBM, TANGC, PAICZT ,GCBH ,BEIHSJ2,LINGJMC,GONGSMC     
+			FROM ${dbSchemalzbc}XQJS_DINGDMX_Kdr dm INNER JOIN ${dbSchemalzbc}XQJS_DINGD d  ON dm.dingdh=d.dingdh
+			where  dm.Zhuangt='4' and d.Dingdzt='4'  
+			and d.EDIT_TIME >= (SELECT to_date(to_char(B.LASTCPLTIME,'yyyy-mm-dd HH24:mi:ss') ,'yyyy-mm-dd HH24:mi:ss') FROM ${dbSchemalzbc}IN_ZIDB B WHERE B.INBH='1600') 
+            AND d.EDIT_TIME < (SELECT to_date(to_char(B.Yunxkssj,'yyyy-mm-dd HH24:mi:ss') ,'yyyy-mm-dd HH24:mi:ss')  FROM ${dbSchemalzbc}IN_ZIDB B WHERE B.INBH='1600') 
+                  
+         $middle$ 
+         ORDER BY dm.ID 
+         ) tt where 1=1                 
+		$foot$
+   		]]>
+	</select>
+
+	<!-- 1770 订单明细（下传初始化按需订单） ,hanwu 20150722 新增“是否混托”、“巷道”、“工作日” |xss-00120490-->
+	<select id="dingdmxxccshaxQuery" parameterClass="java.util.Map"
+		resultClass="java.util.HashMap" remapResults="true">
+		<![CDATA[
+		$head$ 
+		select tt.*,ROWNUM RN from (
+     		SELECT 
+			ID, dm.DINGDH, LINGJBH, dm.USERCENTER, dm.GONGYSDM, 
+			dm.GONGYSLX, 
+			to_char(YAOHQSRQ,'yyyy-MM-dd Hh24:Mi:ss') as YAOHQSRQ,
+			to_char(YAOHJSRQ,'yyyy-MM-dd Hh24:Mi:ss') as YAOHJSRQ, 
+			CANGKDM,XIEHZT, FAHD, DINGHCJ, SHUL, DANW, UABZLX, 
+			UABZUCLX, UABZUCSL, UABZUCRL, 
+			to_char(FAYRQ,'yyyy-MM-dd Hh24:Mi:ss') as FAYRQ, 
+			to_char(JIAOFRQ,'yyyy-MM-dd Hh24:Mi:ss') as JIAOFRQ,
+			ZHUANGT, YUGSFQZ, LEIX, LUJDM, JIHYZ, ZUIHWHR, 
+			to_char(ZUIHWHSJ,'yyyy-MM-dd Hh24:Mi:ss') as ZUIHWHSJ, 
+			JISSL,GONGHLX, YIJFL, YIZZL, YAOHLGSZL, 
+			YAOHLGSYJF, YAOHLGSYZZ, YIJFLDDMX, YIZZLDDMX, 
+			to_char(SHID,'yyyy-MM-dd Hh24:Mi:ss') as SHID, 
+			to_char(ZUIZDHSJ,'yyyy-MM-dd Hh24:Mi:ss') as ZUIZDHSJ, 
+			to_char(ZUIWDHSJ,'yyyy-MM-dd Hh24:Mi:ss') as ZUIWDHSJ, 
+			to_char(XIAOHSJ,'yyyy-MM-dd Hh24:Mi:ss') as XIAOHSJ, 
+			XIAOHCBHSJ,XIAOHCSXSJ, XIEHD, XIANBYHLX, USBAOZLX, USBAOZRL, 
+			XIAOHCH, XIAOHCCXH, CHANX, XIAOHD, FENPXH, 
+			dm.ACTIVE, KANBXHBM, TANGC, PAICZT ,GCBH ,BEIHSJ2,LINGJMC,GONGSMC,
+			NEIBYHZX,PCKAISSJ,PCJIESSJ,PCEDITOR,PCEDIT_TIME,
+			SHIFHT,XIANGD,TO_CHAR(GONGZR, 'YYYY-MM-DD HH24:MI:SS') AS GONGZR    
+			FROM ${dbSchemalzbc}XQJS_DINGDMX dm INNER JOIN ${dbSchemalzbc}XQJS_DINGD d  ON dm.dingdh=d.dingdh
+			where  dm.Zhuangt='4' and d.Dingdzt='4' and( d.DINGDLX='3' OR d.DINGDLX='7' OR d.DINGDLX='8')
+			and d.EDIT_TIME >= (SELECT to_date(to_char(B.LASTCPLTIME-1/(24*60),'yyyy-mm-dd HH24:mi:ss') ,'yyyy-mm-dd HH24:mi:ss') FROM ${dbSchemalzbc}IN_ZIDB B WHERE B.INBH='1770') 
+            AND d.EDIT_TIME < (SELECT to_date(to_char(B.Yunxkssj-1/(24*60),'yyyy-mm-dd HH24:mi:ss') ,'yyyy-mm-dd HH24:mi:ss') FROM ${dbSchemalzbc}IN_ZIDB B WHERE B.INBH='1770') 	       
+             ORDER BY dm.ID 
+         ) tt where 1=1   
+		$foot$
+   		]]>
+	</select>
+
+	<!-- 1350 日历版次 -->
+	<select id="rilbcQuery" parameterClass="java.util.Map"
+		resultClass="java.util.HashMap" remapResults="true">
+		<![CDATA[
+		$head$ 
+		select tt.*,ROWNUM RN from ( 
+     		select banc,
+		       usercenter,
+		       riq,
+		       xingq,
+		       nianzq,
+		       zhoux,
+		       nianzx,
+		       xis,
+		       shifjfr,
+		       shifgzr,
+		       biaos,
+		       creator,
+		       create_time,
+		       editor,
+		       edit_time 
+		  from ${dbSchemalzbc}ckx_calendar_version where 1=1 
+		]]>
+		<dynamic>
+			<isNotEmpty prepend=" AND " property="usercenter"><![CDATA[ usercenter  in ($usercenter$) ]]></isNotEmpty>
+		</dynamic>
+		<![CDATA[	
+		$middle$
+		order by BANC, USERCENTER, RIQ     	
+		) tt where 1=1 	  
+		$foot$
+   		]]>
+	</select>
+
+	<!-- 1270 外部物流路径 -->
+	<select id="waibwlljQuery" parameterClass="java.util.Map"
+		resultClass="java.util.HashMap" remapResults="true">
+		<![CDATA[
+		$head$ 
+		select tt.*,ROWNUM RN from ( 
+     		select lujbh,
+			       lujmc,
+			       usercenter,
+			       gongysbh,
+			       fahd,
+			       mudd,
+			       jiaofm,
+			       beihzq,
+			       panysj,
+			       creator,
+			       create_time,
+			       editor,
+			       edit_time 
+			  from ${dbSchemalzbc}ckx_waibwl where 1=1 
+		]]>
+		<dynamic>
+			<isNotEmpty prepend=" AND " property="usercenter"><![CDATA[ usercenter  in ($usercenter$) ]]></isNotEmpty>
+		</dynamic>
+		<![CDATA[	
+		$middle$
+		order by USERCENTER, GONGYSBH, FAHD, MUDD     	
+		) tt where 1=1 	 		  
+		$foot$
+   		]]>
+	</select>
+
+	<!-- 1250 零件供应商 -->
+	<select id="lingjgysQuery" parameterClass="java.util.Map"
+		resultClass="java.util.HashMap" remapResults="true">
+		<![CDATA[
+		$head$ 
+		select tt.*,ROWNUM RN from ( 
+     		select usercenter,
+			       gongysbh,
+			       lingjbh,
+			       gongyhth,
+			       gongyfe,
+			       youxq,
+			       fayd,
+			       to_char(shengxsj,'yyyy-MM-dd HH24:MI:SS') as shengxsj,
+			       to_char(shixsj,'yyyy-MM-dd HH24:MI:SS') as shixsj,
+			       zuixqdl,
+			       cankfz,
+			       zhijcjbl,
+			       shifyzpch,
+			       shifsxgl,
+			       ucbzlx,
+			       ucrl,
+			       uabzlx,
+			       uaucgs,
+			       gaib,
+			       neic,
+			       shifczlsbz,
+			       biaos,
+			       sap_fene,
+			       flag 
+			  from ${dbSchemalzbc}ckx_lingjgys where 1=1  
+		]]>
+		<dynamic>
+			<isNotEmpty prepend=" AND " property="usercenter"><![CDATA[ usercenter  in ($usercenter$) ]]></isNotEmpty>
+		</dynamic>
+		<![CDATA[	
+		$middle$
+		order by GONGYSBH, USERCENTER, LINGJBH      	
+		) tt where 1=1 	 
+		$foot$
+   		]]>
+	</select>
+
+	<!-- 1250 更新零件供应商FLAG状态为0 -->
+	<update id="updateFlagOfLingjgys">
+	   <![CDATA[
+	   		update ${dbSchemalzbc}ckx_lingjgys set flag=0 where flag=1 
+	   	]]>
+	</update>
+
+	<!-- 1310 运输物理点 -->
+	<select id="yunswldQuery" parameterClass="java.util.Map"
+		resultClass="java.util.HashMap" remapResults="true">
+		<![CDATA[
+		$head$ 
+		select tt.*,ROWNUM RN from ( 
+     		select wuldbh,
+		       wuldmc,
+		       wuldlx,
+		       shunxh,
+		       quy,
+		       creator,
+		       create_time,
+		       editor,
+		       edit_time,
+		       biaos 
+		  from ${dbSchemalzbc}ckx_yunswld where 1=1 
+		$middle$
+		order by WULDBH       	
+		) tt where 1=1   
+		$foot$
+   		]]>
+	</select>
+
+	<!-- 1360 工作时间 -->
+	<select id="gongzsjQuery" parameterClass="java.util.Map"
+		resultClass="java.util.HashMap" remapResults="true">
+		<![CDATA[
+		$head$ 
+		select tt.*,ROWNUM RN from ( 
+     		select bianzh,
+		       xingqxh,
+		       xuh,
+		       kaissj,
+		       jiezsj,
+		       ban,
+		       tiaozsj,
+		       creator,
+		       create_time,
+		       editor,
+		       edit_time,
+		       biaos 
+		  from ${dbSchemalzbc}ckx_calendar_team where 1=1  
+		$middle$
+		order by BIANZH, XINGQXH, XUH        	
+		) tt where 1=1   
+		$foot$
+   		]]>
+	</select>
+
+	<!-- 1370 工作时间编组 -->
+	<select id="gongzsjbzQuery" parameterClass="java.util.Map"
+		resultClass="java.util.HashMap" remapResults="true">
+		<![CDATA[
+		$head$ 
+		select tt.*,ROWNUM RN from ( 
+     		select usercenter,
+		       appobj,
+		       bianzh,
+		       rilbc,
+		       beiz,
+		       biaos,
+		       weilbzh,
+		       shengxsj,
+		       creator,
+		       create_time,
+		       editor,
+		       edit_time 
+		  from ${dbSchemalzbc}ckx_calendar_group where 1=1 
+	    ]]>
+		<dynamic>
+			<isNotEmpty prepend=" AND " property="usercenter"><![CDATA[ usercenter  in ($usercenter$) ]]></isNotEmpty>
+		</dynamic>
+	    <![CDATA[	
+	    $middle$
+		order by USERCENTER, APPOBJ        	
+		) tt where 1=1  	  
+		$foot$
+   		]]>
+	</select>
+
+	<!-- 1450 变更记录 -->
+	<select id="biangjlQuery" parameterClass="java.util.Map"
+		resultClass="java.util.HashMap" remapResults="true">
+		<![CDATA[
+		$head$ 
+		select tt.*,ROWNUM RN from (
+     		select usercenter,
+			       lingjbh,
+			       xianbh,
+			       yuanbh,
+			       bianglx,
+			       shifsy,
+			       creator,
+			       create_time,
+			       '2410' as editor,
+			       sysdate as edit_time 
+			  from ${dbSchemalzbc}ckx_biangjlb where 1=1 
+      ]]>
+		<dynamic>
+			<isNotEmpty prepend=" AND " property="usercenter"><![CDATA[ usercenter  in ($usercenter$) ]]></isNotEmpty>
+		</dynamic>
+      <![CDATA[  
+      	$middle$
+		order by usercenter, lingjbh,xianbh, edit_time        	
+		) tt where 1=1  			  
+		$foot$
+   		]]>
+	</select>
+
+	<!-- 1450 变更记录 xhd -->
+	<select id="mosQueryByxhd" parameterClass="java.util.Map"
+		resultClass="java.util.HashMap">
+		<![CDATA[select  mos  from ${dbSchemalzbc}ckx_wullj where usercenter = #usercenter# and lingjbh=#lingjbh# and fenpqh = substr(#xianbh#,0,5) and mos is not null and rownum<=1]]>
+	</select>
+
+	<!-- 1450 变更记录 MUDD -->
+	<select id="mosQueryByMudd" parameterClass="java.util.Map"
+		resultClass="java.util.HashMap">
+		<![CDATA[select  waibms  from ${dbSchemalzbc}ckx_wullj where usercenter = #usercenter# and lingjbh=#lingjbh# and  mudd = #xianbh# and waibms is not null and rownum<=1]]>
+	</select>
+
+	<!-- 1450 变更记录 xianbck -->
+	<select id="mosQueryByXianbck" parameterClass="java.util.Map"
+		resultClass="java.util.HashMap">
+		<![CDATA[select  mos2  from ${dbSchemalzbc}ckx_wullj where usercenter = #usercenter# and lingjbh=#lingjbh# and  xianbck = #xianbh#  and mos2 is not null and rownum<=1]]>
+	</select>
+
+	<!-- 1290 调拨申请 -->
+	<select id="diaobsqQuery" parameterClass="java.util.Map"
+		resultClass="java.util.HashMap" remapResults="true">
+		<![CDATA[
+		$head$ 
+		select tt.*,ROWNUM RN from (
+     		select usercenter,
+		       diaobsqdh,
+		       to_char(diaobsqsj,'yyyy-MM-dd HH24:MI:SS') as diaobsqsj,
+		       banc,
+		       huijkm,
+		       chengbzx,
+		       beiz,
+		       zhuangt,
+		       creator,
+		       create_time,
+		       editor,
+		       edit_time,
+		       active 
+		  from ${dbSchemalzbc}xqjs_diaobsq where 1=1 and zhuangt='30'
+		  and edit_time >= (SELECT to_date(to_char(B.LASTCPLTIME-1/(24*60),'yyyy-mm-dd HH24:mi:ss') ,'yyyy-mm-dd HH24:mi:ss') FROM ${dbSchemalzbc}IN_ZIDB B WHERE B.INBH='1290') 
+          and edit_time < (SELECT to_date(to_char(B.Yunxkssj-1/(24*60),'yyyy-mm-dd HH24:mi:ss') ,'yyyy-mm-dd HH24:mi:ss') FROM ${dbSchemalzbc}IN_ZIDB B WHERE B.INBH='1290')  
+      ]]>
+		<dynamic>
+			<isNotEmpty prepend=" AND " property="usercenter"><![CDATA[ usercenter  in ($usercenter$) ]]></isNotEmpty>
+		</dynamic>
+      <![CDATA[  
+		order by USERCENTER, DIAOBSQDH         	
+		) tt where 1=1  		  
+		$foot$
+   		]]>
+	</select>
+
+	<!-- 1300 调拨明细 -->
+	<select id="diaobmxQuery" parameterClass="java.util.Map"
+		resultClass="java.util.HashMap" remapResults="true">
+		<![CDATA[
+		$head$ 
+		select tt.*,ROWNUM RN from (
+     		select xuh,
+			       usercenter,
+			       cangkbh,
+			       zickbh,
+			       diaobdh,
+			       to_char(shengxsj,'yyyy-MM-dd HH24:MI:SS') as shengxsj,
+			       diaobsqdh,
+			       lingjbh,
+			       lux,
+			       kucsl,
+			       shenbsl,
+			       shipsl,
+			       zhixsl,
+			       zhongzsl,
+			       shifdbz,
+			       shifdcjf,
+			       zhuangt,
+			       active 
+			  from ${dbSchemalzbc}xqjs_diaobmx where 1=1 and zhuangt='30'
+			  and edit_time >= (SELECT to_date(to_char(B.LASTCPLTIME-1/(24*60),'yyyy-mm-dd HH24:mi:ss') ,'yyyy-mm-dd HH24:mi:ss') FROM ${dbSchemalzbc}IN_ZIDB B WHERE B.INBH='1300') 
+              and edit_time < (SELECT to_date(to_char(B.Yunxkssj-1/(24*60),'yyyy-mm-dd HH24:mi:ss') ,'yyyy-mm-dd HH24:mi:ss') FROM ${dbSchemalzbc}IN_ZIDB B WHERE B.INBH='1300') 
+      ]]>
+		<dynamic>
+			<isNotEmpty prepend=" AND " property="usercenter"><![CDATA[ usercenter  in ($usercenter$) ]]></isNotEmpty>
+		</dynamic>
+      <![CDATA[  
+		order by USERCENTER, CANGKBH, DIAOBSQDH, LINGJBH, LUX          	
+		) tt where 1=1        		  
+		$foot$
+   		]]>
+	</select>
+
+	<!-- 1100 看板循环规模 -->
+	<select id="kanbxhgmQuery" parameterClass="java.util.Map"
+		resultClass="java.util.HashMap" remapResults="true">
+		<![CDATA[
+		$head$ 
+		select tt.*,ROWNUM RN from ( 
+     		select xunhbm,
+				       usercenter,
+				       lingjbh,
+				       gonghms,
+				       xiaohd,
+				       cangkdm,
+				       dinghck,
+				       lujdm,
+				       umlx,
+				       uclx,
+				       umljsl,
+				       umzucgs,
+				       ucrl,
+				       cmj,
+				       cjmax,
+				       dangqxhgm,
+				       jisxhgm,
+				       xiafxhgm,
+				       shifzdfs,
+				       zuidyhl,
+				       shengxzt,
+				       dongjjdzt,
+				       leix,
+				       creator,
+				       to_char(create_time,'yyyy-MM-dd HH24:MI:SS.ff') as create_time,
+				       to_char(jissj,'yyyy-MM-dd HH24:MI:SS.ff') as jissj,
+				       weihr,
+				       to_char(weihsj,'yyyy-MM-dd HH24:MI:SS.ff') as weihsj,
+				       gongysbh,
+				       jihydm,
+				       shifyjsyhl,
+				       chanx,
+				       kehd,
+				       xianbyhlx,
+				       yancsxbz,
+				       jianglms 
+				  from ${dbSchemalzbc}xqjs_kanbxhgm where 1=1 and shengxzt in ('1','2') 
+		]]>
+		<dynamic>
+			<isNotEmpty prepend=" AND " property="usercenter"><![CDATA[ usercenter  in ($usercenter$) ]]></isNotEmpty>
+		</dynamic>
+		<![CDATA[	
+        $middle$
+		order by XUNHBM           	
+		) tt where 1=1   						  
+		$foot$
+   		]]>
+	</select>
+
+	<!-- 1630 车型平台 -->
+	<select id="chexptQuery" parameterClass="java.util.Map"
+		resultClass="java.util.HashMap" remapResults="true">
+		<![CDATA[
+		$head$ 
+		select tt.*,ROWNUM RN from ( 
+     		select usercenter, chejbhzz, shengcxbhzz, chejbhhz, shengcxbhhz, 
+			 			 shengcptbh, lcdv  from ${dbSchemalzbc}ckx_chexpt
+						 WHERE  1=1 
+      ]]>
+		<dynamic>
+			<isNotEmpty prepend=" AND " property="usercenter"><![CDATA[ usercenter  in ($usercenter$) ]]></isNotEmpty>
+		</dynamic>
+      <![CDATA[  
+        $middle$
+		order by USERCENTER, CHEJBHZZ, SHENGCXBHZZ, LCDV            	
+		) tt where 1=1        
+		$foot$
+   		]]>
+	</select>
+
+	<!-- 1710 生产平台 -->
+	<select id="shengcptQuery" parameterClass="java.util.Map"
+		resultClass="java.util.HashMap" remapResults="true">
+		<![CDATA[
+		$head$ 
+		select tt.*,ROWNUM RN from ( 
+     		select usercenter, shengcxbh, shengcptbh, shengcjp, weilscjp,
+		 to_char(qiehsj,'yyyy-MM-dd HH24:MI:SS') as qiehsj, biaos  from ${dbSchemalzbc}ckx_shengcpt where 1=1 
+      ]]>
+		<dynamic>
+			<isNotEmpty prepend=" AND " property="usercenter"><![CDATA[ usercenter  in ($usercenter$) ]]></isNotEmpty>
+		</dynamic>
+      <![CDATA[  	
+        $middle$
+		order by USERCENTER, SHENGCXBH, SHENGCPTBH            	
+		) tt where 1=1        	 
+		$foot$
+   		]]>
+	</select>
+
+	<!-- modify by yz 2015-12-12 增加分装线号字段 -->
+	<!-- 1680 分配区 -->
+	<select id="fenpqQuery" parameterClass="java.util.Map"
+		resultClass="java.util.HashMap" remapResults="true">
+		<![CDATA[
+		$head$ 
+		select tt.*,ROWNUM RN from ( 
+     		select usercenter, shengcxbh, fenpqh, fenpqmc, biaos, wulgyyz, fenzxh  
+     		from ${dbSchemalzbc}ckx_fenpq where 1=1 
+      ]]>
+		<dynamic>
+			<isNotEmpty prepend=" AND " property="usercenter"><![CDATA[ usercenter  in ($usercenter$) ]]></isNotEmpty>
+		</dynamic>
+      <![CDATA[  
+        $middle$
+		order by USERCENTER, FENPQH            	
+		) tt where 1=1       		
+		$foot$
+   		]]>
+	</select>
+
+	<!-- 1640 仓库参考系 -->
+	<select id="cangkQuery" parameterClass="java.util.Map"
+		resultClass="java.util.HashMap" remapResults="true">
+		<![CDATA[
+		$head$ 
+		select tt.*,ROWNUM RN from ( 
+     		select usercenter, cangkbh, zhantlx, cangklx, daoctqq, rongqcbh, biaos, 
+		wulgyyz, anqkctsmrz, zuidkctsmrz,xiehztbz,chukms,gongc,xianh  from ${dbSchemalzbc}ckx_cangk where 1=1 
+      ]]>
+		<dynamic>
+			<isNotEmpty prepend=" AND " property="usercenter"><![CDATA[ usercenter  in ($usercenter$) ]]></isNotEmpty>
+		</dynamic>
+      <![CDATA[  	
+        $middle$
+		order by USERCENTER, CANGKBH             	
+		) tt where 1=1   	
+		$foot$
+   		]]>
+	</select>
+
+	<!-- 1650 子仓库 -->
+	<select id="zickQuery" parameterClass="java.util.Map"
+		resultClass="java.util.HashMap" remapResults="true">
+		<![CDATA[
+		$head$ 
+		select tt.*,ROWNUM RN from ( 
+     		select usercenter, cangkbh, zickbh, guanlyzbh, zhantbh, biaos  from ${dbSchemalzbc}ckx_zick where 1=1 
+      ]]>
+		<dynamic>
+			<isNotEmpty prepend=" AND " property="usercenter"><![CDATA[ usercenter  in ($usercenter$) ]]></isNotEmpty>
+		</dynamic>
+      <![CDATA[  
+        $middle$
+		order by USERCENTER, CANGKBH, ZICKBH               	
+		) tt where 1=1       
+		$foot$
+   		]]>
+	</select>
+
+	<!-- 1670 车间 -->
+	<select id="chejQuery" parameterClass="java.util.Map"
+		resultClass="java.util.HashMap" remapResults="true">
+		<![CDATA[
+		$head$ 
+		select tt.*,ROWNUM RN from ( 
+     		select usercenter, chejbm, chejmc, beiz  from ${dbSchemalzbc}ckx_chej where 1=1 
+      ]]>
+		<dynamic>
+			<isNotEmpty prepend=" AND " property="usercenter"><![CDATA[ usercenter  in ($usercenter$) ]]></isNotEmpty>
+		</dynamic>
+      <![CDATA[   
+        $middle$
+		order by USERCENTER, CHEJBM                	
+		) tt where 1=1     		
+		$foot$
+   		]]>
+	</select>
+
+	<!-- 1690 卸货站台 -->
+	<select id="xiehztQuery" parameterClass="java.util.Map"
+		resultClass="java.util.HashMap" remapResults="true">
+		<![CDATA[
+		$head$ 
+		select tt.*,ROWNUM RN from ( 
+     		select usercenter, xiehztbh, xiehztmc, yunxtqdhsj, shjgsj, gongcbm, cangkbh, 
+		tongsjdcs, chulsj, biaos, xiehztbzh  from ${dbSchemalzbc}ckx_xiehzt where 1=1 
+      ]]>
+		<dynamic>
+			<isNotEmpty prepend=" AND " property="usercenter"><![CDATA[ usercenter  in ($usercenter$) ]]></isNotEmpty>
+		</dynamic>
+      <![CDATA[  
+        $middle$
+		order by XIEHZTBH                 	
+		) tt where 1=1  		
+		$foot$
+   		]]>
+	</select>
+
+	<!-- 1700 资源初始化表 -->
+	<select id="chushzybQuery" parameterClass="java.util.Map"
+		resultClass="java.util.HashMap" remapResults="true">
+		<![CDATA[
+		$head$ 
+		select tt.*,ROWNUM RN from ( 
+     		select usercenter, lingjbh, shengcxbh, xiaohdbh,  xianbkc, 
+		liush   from ${dbSchemalzbc}xqjs_chushzyb where 1=1 
+      ]]>
+		<dynamic>
+			<isNotEmpty prepend=" AND " property="usercenter"><![CDATA[ usercenter  in ($usercenter$) ]]></isNotEmpty>
+		</dynamic>
+      <![CDATA[  
+        $middle$
+		order by USERCENTER, LINGJBH, SHENGCXBH, XIAOHDBH                  	
+		) tt where 1=1        		
+		$foot$
+   		]]>
+	</select>
+
+	<!-- 1800 中心日历 -->
+	<select id="zhongxrlQuery" parameterClass="java.util.Map"
+		resultClass="java.util.HashMap" remapResults="true">
+		<![CDATA[
+		$head$ 
+		select tt.*,ROWNUM RN from ( 
+     		select USERCENTER,
+					       RIQ,
+					       XINGQ,
+					       NIANZQ,
+					       ZHOUX,
+					       NIANZX,
+					       XIS,
+					       SHIFJFR,
+					       SHIFGZR,
+					       BIAOS 
+					  from ${dbSchemalzbc}CKX_CALENDAR_CENTER where 1=1 
+      ]]>
+		<dynamic>
+			<isNotEmpty prepend=" AND " property="usercenter"><![CDATA[ usercenter  in ($usercenter$) ]]></isNotEmpty>
+		</dynamic>
+      <![CDATA[  	
+        $middle$
+		order by USERCENTER,RIQ                   	
+		) tt where 1=1  				  
+		$foot$
+   		]]>
+	</select>
+
+	<!-- id="1920" caption="工业周期" -->
+	<select id="gongyzqQuery" parameterClass="java.util.Map"
+		resultClass="java.util.HashMap" remapResults="true">
+		<![CDATA[
+		$head$ 
+		select tt.*,ROWNUM RN from ( 
+			select GONGYZQ,KAISSJ,JIESSJ  from ${dbSchemalzbc}CKX_CALENDAR_GONGYZQ where 1=1 
+      ]]>
+      <![CDATA[  	
+        $middle$
+		order by GONGYZQ                    	
+		) tt where 1=1  	 
+		$foot$
+   		]]>
+	</select>
+
+	<!-- 1750 外部物流详细 -->
+	<!-- xss-0011509 -->
+	<select id="waibwlxxQuery" parameterClass="java.util.Map"
+		resultClass="java.util.HashMap" remapResults="true">
+		<![CDATA[
+		$head$ 
+		select tt.*,ROWNUM RN from ( 
+     		select lujbh, xuh, wuldbh, wuldmc, shifjk, guanjdbs, 
+		jihdhsysj, gcbh, yunsms, beihzq, yunssj, shengxbs, 
+		TO_CHAR(shengxrq, 'YYYY-MM-DD HH24:MI:SS') shengxrq,
+		 yaohlzkbs, usercenter,shifqhbs  from ${dbSchemalzbc}ckx_waibwlxx where 1=1 
+      ]]>
+		<dynamic>
+			<isNotEmpty prepend=" AND " property="usercenter"><![CDATA[ usercenter  in ($usercenter$) ]]></isNotEmpty>
+		</dynamic>
+      <![CDATA[  	
+        $middle$
+		order by USERCENTER,LUJBH, XUH                      	
+		) tt where 1=1  	 
+		$foot$
+   		]]>
+	</select>
+
+	<!-- 1810 零件供应商临时包装 -->
+	<select id="lingjgyslsbzQuery" parameterClass="java.util.Map"
+		resultClass="java.util.HashMap" remapResults="true">
+		<![CDATA[
+		$head$ 
+		select tt.*,ROWNUM RN from (  
+     		SELECT USERCENTER,GONGYSBH,LINGJBH,XUH,
+							SHENGXSJ,SHIXSJ,UCBZLX,UCRL,UABZLX,
+							UAUCGS,GAIB,NEIC 
+						FROM ${dbSchemalzbc}CKX_LINGJGYSLSBZ  WHERE 1=1 
+      ]]>
+		<dynamic>
+			<isNotEmpty prepend=" AND " property="usercenter"><![CDATA[ usercenter  in ($usercenter$) ]]></isNotEmpty>
+		</dynamic>
+      <![CDATA[  
+        $middle$
+		order by USERCENTER, GONGYSBH, LINGJBH, XUH                       	
+		) tt where 1=1        						
+		$foot$
+   		]]>
+	</select>
+
+	<!-- id="1820" caption="模式切换记录" -->
+	<select id="maosqhjlQuery" parameterClass="java.util.Map"
+		resultClass="java.util.HashMap" remapResults="true">
+		<![CDATA[
+		$head$ 
+		select tt.*,ROWNUM RN from ( 
+     		select LIUSH,USERCENTER,XUNHBM,YUANXHBM,
+       								LINGJBH,CANGKBH,XIAOHD,MUDDLX,
+       								MOS,YUANMS,SHIFKBQH,ZHUANGT 
+  				FROM ${dbSchemalzbc}CKX_MSQHB
+			 		WHERE  SHIFKBQH <>2 
+      ]]>
+		<dynamic>
+			<isNotEmpty prepend=" AND " property="usercenter"><![CDATA[ usercenter  in ($usercenter$) ]]></isNotEmpty>
+		</dynamic>
+      <![CDATA[  
+        $middle$
+		order by USERCENTER ,LIUSH                        	
+		) tt where 1=1    			 		
+		$foot$
+   		]]>
+	</select>
+
+	<!-- id="1470" caption="零件信息" -->
+	<select id="lingjxxQuery" parameterClass="java.util.Map"
+		resultClass="java.util.HashMap" remapResults="true">
+		<![CDATA[
+		$head$ 
+		select tt.*,ROWNUM RN from ( 
+     		select '' as filler,usercenter,lingjbh,danw,jihy,biaos,zhongwmc,fawmc  from ${dbSchemalzbc}ckx_lingj where 1=1 
+      ]]>
+		<dynamic>
+			<isNotEmpty prepend=" AND " property="usercenter"><![CDATA[ usercenter  in ($usercenter$) ]]></isNotEmpty>
+		</dynamic>
+      <![CDATA[  
+        $middle$
+		order by USERCENTER, LINGJBH                         	
+		) tt where 1=1      		
+		$foot$
+   		]]>
+	</select>
+
+	<!-- id="1480" caption="供应商信息" -->
+	<select id="gongysxxQuery" parameterClass="java.util.Map"
+		resultClass="java.util.HashMap" remapResults="true">
+		<![CDATA[
+		$head$ 
+		select tt.*,ROWNUM RN from ( 
+     		SELECT USERCENTER C1,
+					       GCBH C2,
+					       ' ' C3,
+					       SUBSTR(GONGSMC, 0, 35) AS C4,
+					       ' ' C5,
+					       SUBSTR(DIZ, 0, 65) AS C6,
+					       ' ' C7,
+					       ' ' C8 
+					  FROM ${dbSchemalzbc}CKX_GONGYS where 1=1 
+      ]]>
+		<dynamic>
+			<isNotEmpty prepend=" AND " property="usercenter"><![CDATA[ usercenter  in ($usercenter$) ]]></isNotEmpty>
+		</dynamic>
+      <![CDATA[  
+        $middle$
+		order by USERCENTER ,GCBH                             	
+		) tt where 1=1     					  
+		$foot$
+   		]]>
+	</select>
+
+	<!-- id="1490" caption="零件供应商信息" 去掉and usercenter='UL' ,ucrl by hzg 2014.3.3 -->
+	<select id="lingjgysxxQuery" parameterClass="java.util.Map"
+		resultClass="java.util.HashMap" remapResults="true">
+		<![CDATA[
+		$head$ 
+		select tt.*,ROWNUM RN from ( 
+     		select usercenter,
+                    lingjbh,
+                    gongysbh,
+                    gongyfe*100 gongyfe,
+                    '' as filer, 
+                    uabzlx,
+                    replace(replace(to_char(uaucgs,'99999.999'),'.',''),' ','0') as uaucgs,
+                    ucbzlx,
+                    lpad(to_char(ucrl)||'000',9, 0) as ucrl
+                    from ${dbSchemalzbc}ckx_lingjgys where 1=1 
+      ]]>
+		<dynamic>
+			<isNotEmpty prepend=" AND " property="usercenter"><![CDATA[ usercenter  in ($usercenter$) ]]></isNotEmpty>
+		</dynamic>
+      <![CDATA[      
+        $middle$
+		order by USERCENTER, LINGJBH, GONGYSBH                             	
+		) tt where 1=1                       
+		$foot$
+   		]]>
+	</select>
+
+	<!-- id="1500" caption="生产日历" -->
+	<select id="shengcrlQuery" parameterClass="java.util.Map"
+		resultClass="java.util.HashMap" remapResults="true">
+		<![CDATA[
+		$head$ 
+		select tt.*,ROWNUM RN from ( 
+	     select t.usercenter as usercenter,
+	        NVL(replace(t.riq,'-',''),'') as riq,
+	        NVL(t.xingq,'') as xingq,
+	        NVL(t.shifgzr,'') as shifgzr,
+	        to_char(sysdate,'yyyyMM') as gzyf,
+	        NVL(substr(t.nianzx, -2),'') as nianzx,
+	        NVL(t.nianzq || t.zhoux,'') as gyzqzs,
+	        '10' as gyxs,
+	        NVL(y.appobj,'') as appobj 
+	        from ${dbSchemalzbc}ckx_calendar_version t, ${dbSchemalzbc}ckx_calendar_group y where t.usercenter=y.usercenter and t.banc=y.rilbc 
+		$middle$
+		order by t.USERCENTER,t.BANC,t.RIQ,y.appobj                             	
+		) tt where 1=1 
+		$foot$
+   		]]>
+	</select>
+
+	<!-- id="1510" caption="周期订单" -->
+	<select id="zhouqddQuery" parameterClass="java.util.Map"
+		resultClass="java.util.HashMap" remapResults="true">
+		<![CDATA[
+		$head$ 
+		select tt.*,ROWNUM RN from ( 
+	    select Dingdsxsj,usercenter,lingjbh,gongysdm,p0sl,p1sl,p2sl,p3sl,p0fyzqxh,
+		       leix,uasl,uabzucsl,uabzucrl,uabzuclx,uabzl,cangkdm,dingdh,dingdhTemp,chullx,
+		       '' as filer, danw   from
+			(select to_char(t.DINGDZZSJ, 'yyyyMMddHHmmss') as Dingdsxsj,
+			       t.usercenter as usercenter,t.lingjbh,t.gongysdm,
+			       replace(replace(to_char(t.p0sl, '99999999'), '.', ''), ' ', '0') as p0sl,
+			       replace(replace(to_char(t.p1sl, '99999999'), '.', ''), ' ', '0') as p1sl,
+			       replace(replace(to_char(t.p2sl, '99999999'), '.', ''), ' ', '0') as p2sl,
+			       replace(replace(to_char(t.p3sl, '99999999'), '.', ''), ' ', '0') as p3sl,
+			       to_number(t.id) vid,
+			       t.p0fyzqxh,
+			       t.p0fyzqxh yaohqsrq,
+			       t.p0fyzqxh yaohjsrq,
+			       'F' as leix,
+			       replace(replace(to_char(t.uabzucsl * t.uabzucrl, '99999999'),'.',''),' ','0') as uasl,
+			       replace(replace(to_char(t.uabzucsl, '99999999'), '.', ''), ' ', '0') as uabzucsl,
+			       replace(replace(to_char(t.uabzucrl, '99999999'), '.', ''), ' ', '0') as uabzucrl,
+			       t.uabzuclx as uabzuclx,
+			       t.uabzlx as uabzl,
+			       t.cangkdm as cangkdm,
+			       substr(d.dingdh, 2) as dingdh,
+			       t.dingdh as dingdhTemp,
+			       substr(d.chullx, -1) as chullx,
+			       '' as filer,
+			       t.danw danw,
+			       0 a
+			  from ${dbSchemalzbc}xqjs_dingd d, ${dbSchemalzbc}xqjs_dingdlj t
+			 where d.dingdh = t.dingdh
+			   and d.chullx in ('PP', 'NP', 'PS', 'NS', 'PJ')
+			   and (d.dingdlx = '0' or d.dingdlx = '9')
+			  and d.dingdzt = '4' and (d.shifyjsyhl='1' or d.shifyjsyhl='2') 
+			 order by vid, a) y where 1=1
+		$middle$                       	
+		) tt where 1=1 	 
+		$foot$
+   		]]>
+	</select>
+
+	<select id="queryGongyzq" parameterClass="java.util.Map"
+		resultClass="java.util.HashMap">
+		<![CDATA[
+		SELECT usercenter||nianzq IDH, MinRiq, MaxRiq FROM ( select usercenter,nianzq,min(riq) MinRiq,max(riq) MaxRiq
+                           from ${dbSchemalzbc}ckx_calendar_center group by usercenter, nianzq )
+   		]]>
+	</select>
+
+	<select id="queryGongyzxu" parameterClass="java.util.Map"
+		resultClass="java.util.HashMap">
+		<![CDATA[
+		SELECT usercenter||nianzx IDH, MinRiq, MaxRiq FROM ( select usercenter,nianzx,min(t.riq) MinRiq,max(t.riq) MaxRiq
+			                     from ${dbSchemalzbc}ckx_calendar_center t group by usercenter, nianzx )  
+   		]]>
+	</select>
+
+	<!-- id="1520" caption="预告delfor输出接口" MODIFY:hzg 2014.5.23 输出beiz状态F的数据 -->
+	<select id="yugdelforscjkQuery" parameterClass="java.util.Map"
+		resultClass="java.util.HashMap" remapResults="true">
+		<![CDATA[
+		$head$ 
+		select tt.*,ROWNUM RN from (
+	     select 'SERVXX'||rpad(m.usercenter,35,' ')||rpad(' ',4,' ')||
+							       rpad(' ',14,' ')||rpad(nvl(m.gongysdm,' '),35,' ')||'    '||rpad(' ',14,' ')||
+							       '00'||to_char(sysdate,'yymmddHH24MI')||'      '||'   '||'   '||'  '||'      '||
+							       '   '||'Y' as A,
+							       'DT0900'||'0000001101       '||'34 '||to_char(sysdate,'yyyymmddHH24MI')||'  '|| 
+							      (select to_char(t.qsrq,'yyyymmddHH24MI')||'  '||to_char(t.jsrq,'yyyymmddHH24MI')||'  ' from 
+							        (select min(m.yaohqsrq) qsrq,max(m.Yaohjsrq) jsrq,m.usercenter,m.gongysdm,m.dingdh,m.lingjbh from ${dbSchemalzbc}XQJS_DINGDMX m
+							            inner join ${dbSchemalzbc}Xqjs_Dingd d on d.dingdh = m.dingdh
+							            and d.dingdlx='1' and d.dingdzt = '4' and d.beiz = 'F' and d.shifyjsyhl='2'
+							          group by m.usercenter,m.gongysdm,m.dingdh,m.lingjbh) t
+							          where m.usercenter = t.usercenter
+							            and m.gongysdm = t.gongysdm
+							            and m.dingdh = t.dingdh
+							            and m.lingjbh =t.lingjbh) ||'   ' as B,
+							        'DC1800'||rpad('0002542065479',20,' ')||rpad(5,3,' ')||rpad('78001H',17,' ')||rpad(nvl(m.gongysdm,' '),10,' ') as c,
+							        'DC0100'||rpad('0060653931709',20,' ')||rpad(5,3,' ') as D,
+							        'DC0500'||rpad(nvl(
+							        ( SELECT G.YOUB FROM ${dbSchemalzbc}CKX_GONGYS G WHERE G.USERCENTER=M.USERCENTER AND G.GCBH=M.GONGYSDM AND ROWNUM=1)
+							        ,' '),20,' ')||rpad(5,3,' ') as E,
+							        'DA0900'||rpad(m.lingjbh,35,' ')||rpad('DPCA',17,' ')||rpad('3',3,' ') as F,       
+									'DA0100'||rpad(' ',35,' ')||rpad(nvl(
+									(SELECT upper(L.Fawmc) fawmc FROM ${dbSchemalzbc}CKX_LINGJ L WHERE L.USERCENTER=M.USERCENTER AND L.LINGJBH=M.LINGJBH AND ROWNUM=1)
+									,' '),35,' ') as G,
+							        'DG0605' JLLX7,
+							        to_char(m.yaohqsrq,'yyyymmddHH24MI') JFKSRQ,
+							        to_char(m.Yaohjsrq+1-1/24/60/60,'yyyymmddHH24MI') JFJSRQ,
+							        '+'||replace(replace(to_char(m.shul, '9999999999999.999'), '.', ''), ' ', '0') JFSL,
+							        m.danw JFSLDW,
+							        '113' JFYYDM,
+							         'DH0200'||rpad(nvl(
+							         ( SELECT L.ANJMLXHD FROM ${dbSchemalzbc}CKX_LINGJ L WHERE L.USERCENTER=M.USERCENTER AND L.LINGJBH=M.LINGJBH AND ROWNUM=1)
+							         ,' '),17,' ') as H,'' as J,
+							        m.usercenter usercenter,m.lingjbh lingjbh, m.dingdh DDH,m.gongysdm
+							  from ${dbSchemalzbc}XQJS_DINGDMX m
+							  inner join ${dbSchemalzbc}Xqjs_Dingd d on d.dingdh = m.dingdh
+							  and d.dingdlx='1' and d.dingdzt = '4'  and d.beiz = 'F' and d.shifyjsyhl='2'  
+				          order by H,m.usercenter,m.gongysdm,m.lingjbh,m.yaohqsrq 
+					) tt where 1=1 
+		$foot$
+   		]]>
+	</select>
+
+	<!-- 1520 查询出空结果集，按件目录消耗点为空时只输出一个空文件 hzg 2014.3.31 -->
+	<select id="emptyOutputOf1520" parameterClass="java.util.Map"
+		resultClass="java.util.HashMap" remapResults="true">
+		<![CDATA[
+		$head$ 
+			select * from ${dbSchemalzbc}xqjs_dingd d where d.dingdh='1520'  
+	     $foot$
+		]]>
+	</select>
+
+
+	<!-- 1520 查询按件目录消耗点 hzg 2014.3.31 -->
+	<select id="queryAnjmlxhdOfckxLingj" parameterClass="java.util.Map"
+		resultClass="java.lang.String">
+		<![CDATA[
+			select w.anjmlxhd from ${dbSchemalzbc}ckx_lingj w where w.usercenter=#usercenter# and w.lingjbh=#lingjbh#
+		]]>
+	</select>
+
+	<!-- 1520 查询按件目录消耗点数量 hzg 2014.5.23 -->
+	<select id="queryAnjmlxhdOfckxLingjCountIsNull" parameterClass="java.util.Map"
+		resultClass="java.lang.String">
+		<![CDATA[   
+		select count(1) cnt from (                        
+			  select 1  from  ${dbSchemalzbc}XQJS_DINGDMX m
+							  inner join  ${dbSchemalzbc}Xqjs_Dingd d on d.dingdh = m.dingdh
+							    and d.dingdlx='1' and d.dingdzt = '4' and d.beiz='F' and d.shifyjsyhl='2' 
+                                    inner join ${dbSchemalzbc}ckx_lingj w  
+                                       on w.usercenter=m.usercenter  and w.lingjbh=m.lingjbh  and w.anjmlxhd is null  
+                                       group by  w.usercenter,w.lingjbh  )                                
+		]]>
+	</select>
+
+	<!-- 1520 查询按件目录消耗点数量 hzg 2014.5.23 -->
+	<select id="queryAnjmlxhdOfckxLingjValues" parameterClass="java.util.Map"
+		resultClass="java.util.HashMap">
+		<![CDATA[
+			 select   w.usercenter,w.lingjbh  from  ${dbSchemalzbc}XQJS_DINGDMX m
+							inner join  ${dbSchemalzbc}Xqjs_Dingd d on d.dingdh = m.dingdh
+							  and d.dingdlx='1' and d.dingdzt = '4' and d.beiz='F' and d.shifyjsyhl='2' 
+                                 inner join ${dbSchemalzbc}ckx_lingj w  on w.usercenter=m.usercenter 
+                                    and w.lingjbh=m.lingjbh  and w.anjmlxhd is null  group by  w.usercenter,w.lingjbh  
+
+		]]>
+	</select>
+
+	<!-- 1520 查询delfor seq号 gswang 2014.12.10 -->
+	<select id="queryDelforDT0900Seq" resultClass="java.lang.String">
+		<![CDATA[
+			select replace(to_char(XQJS_DELFOROUT_SEQ.nextval, '999999999'), ' ', '0') from dual
+		]]>
+	</select>
+
+	<!-- id="1530" caption="预批量零件需求" |xss-0012049-->
+	<select id="yuplljxxQuery" parameterClass="java.util.Map"
+		resultClass="java.util.HashMap" remapResults="true">
+		<![CDATA[
+		$head$ 
+		select tt.*,ROWNUM RN from ( 
+	     select t.USERCENTER as USERCENTER,
+					       t.LINGJBH as LINGJBH,
+					       t.XUQKSRQ as XUQKSRQ,
+					       t.XUQJSRQ as XUQJSRQ,
+					       t.CHANX as CHANX,
+					       replace(replace(to_char(t.XUQSL, '999999999'), '.', ''),
+					               ' ',
+					               '0') as XUQSL,
+					       t.ZHIZLX as ZHIZLX,
+					       t.XUQBC,t.id  
+					  from ${dbSchemalzbc}xqjs_maoxqmx t
+					  left join ${dbSchemalzbc}ckx_lingj y on t.USERCENTER = y.usercenter
+					                       and t.LINGJBH = y.lingjbh and y.biaos != '1'
+					
+					  join ${dbSchemalzbc}xqjs_maoxq q on q.xuqbc = t.xuqbc
+					 where 1=1
+					   and q.xuqly = 'DIP'
+					   and q.XUQCFSJ >= (SELECT to_date(to_char(B.LASTCPLTIME,'yyyy-mm-dd HH24:mi:ss') ,'yyyy-mm-dd HH24:mi:ss') FROM ${dbSchemalzbc}IN_ZIDB B WHERE B.INBH='1530') 
+                  	   AND q.XUQCFSJ < (SELECT to_date(to_char(B.Yunxkssj,'yyyy-mm-dd HH24:mi:ss') ,'yyyy-mm-dd HH24:mi:ss') FROM ${dbSchemalzbc}IN_ZIDB B WHERE B.INBH='1530')
+		$middle$ 
+		order by t.id                              	
+		) tt where 1=1 			       
+		$foot$
+   		]]>
+	</select>
+
+	<!-- id="1540" caption="资源文件" |lc-0012890 2016-09-21 -->
+	<select id="ziyuanwjQuery" parameterClass="java.util.Map"
+		resultClass="java.util.HashMap" remapResults="true">
+		<![CDATA[
+		$head$ 
+		select tt.*,ROWNUM RN from ( 
+	    select t.lingjbh as lingjbh,
+             '' as filler,
+             t.usercenter as usercenter,
+             t.cangkdm as cangkdm,
+             (case when nvl((t.dingdlj - t.jiaoflj),'0') >= 0
+		        then lpad(nvl((t.dingdlj - t.jiaoflj),0),10,'0')
+		          else '-'||lpad((t.jiaoflj-t.dingdlj),9,'0') end)  as zysl,
+             to_char(t.ziyhqrq, 'yyyyMMdd') as scsj,
+             t.gongysdm as gongysdm,
+             replace(replace(to_char(t.jiaoflj,'999999999.999999'),'.',''),' ','0') as jiaoflj,
+             replace(replace(to_char(t.dingdlj,'999999999.999999'),'.',''),' ','0') as dingdlj,
+             replace(to_char(t.kucsl,'99999999'),'.','') as kucsl,
+             replace(replace(to_char(t.anqkc,'99999999'),'.',''),' ','0') as aqkc,
+             replace(replace(to_char(t.xttzz,'999999999.999999'),'.',''),' ','0') as xttzz,'' as gonghlx ,t.id 
+             from ${dbSchemalzbc}xqjs_ziykzb t 
+             where to_char(t.ziyhqrq,'yyyy-MM-dd')=to_char(sysdate,'yyyy-MM-dd')
+             and exists (select 1 from ${dbSchemalzbc}ckx_cangk y where t.usercenter=y.usercenter 
+                            and t.cangkdm=y.cangkbh and y.cangklx not in ('2','4'))
+        $middle$ 
+		order by t.id                              	
+		) tt where 1=1 	     
+		$foot$
+   		]]>
+	</select>
+
+	<!-- id="1550" caption="供货路线" -->
+	<select id="gonghlxQuery" parameterClass="java.util.Map"
+		resultClass="java.util.HashMap" remapResults="true">
+		<![CDATA[
+		$head$ 
+		select tt.*,ROWNUM RN from ( 
+	    	select usercenter,'' as shengcxbh,gcbh,gonghlx,'' as filler  from ${dbSchemalzbc}ckx_gongys where leix='1' or leix='2' or leix='3' 
+      ]]>
+		<dynamic>
+			<isNotEmpty prepend=" AND " property="usercenter"><![CDATA[ usercenter  in ($usercenter$) ]]></isNotEmpty>
+		</dynamic>
+      <![CDATA[  
+        $middle$ 
+		order by USERCENTER ,GCBH                              	
+		) tt where 1=1 		    	
+		$foot$
+   		]]>
+	</select>
+
+	<!-- id="1560" caption="需拆分消耗点零件" ，将ckx_lingjxhd_s对应的原消耗点也传到pds hzg 2014.4.3， 
+		加group by 分组 2014.4.9 ; union all改为union ，因此去掉group by ，增加新零件xinljbh输出 hzg 
+		2014.11.5 -->
+	<select id="xucfxhdljQuery" parameterClass="java.util.Map"
+		resultClass="java.util.HashMap" remapResults="true">
+		<![CDATA[
+		$head$ 
+		select tt.*,ROWNUM RN from (
+		  select * from ( 
+		    select shengcxbh,lingjbh,xiaohdbh from (
+	    	   select substr(shengcxbh,1,3) as shengcxbh,lingjbh,xiaohdbh  from ${dbSchemalzbc}ckx_lingjxhd where biaos='1'
+	    	   and (pdsbz ='1' or pdsbz ='2' or pdsbz ='3') order  by USERCENTER, LINGJBH, XIAOHDBH  )a
+	    	union  
+		    select shengcxbh,lingjbh,xiaohdbh from (
+			   select substr(t.shengcxbh,1,3) as shengcxbh,t1.lingjbh,t1.yuanxhd as xiaohdbh  from ${dbSchemalzbc}ckx_lingjxhd_s t1 
+			   inner join ${dbSchemalzbc}ckx_lingjxhd  t on t.usercenter=t1.usercenter and t.lingjbh=t1.lingjbh and t.xiaohdbh =t1.xiaohd
+ 			where t1.biaos='1' order  by t1.USERCENTER, t1.LINGJBH, t1.XIAOHD  )b 
+ 			union
+ 			 select shengcxbh,lingjbh,xiaohdbh from (
+          select substr(t.shengcxbh,1,3) as shengcxbh,t1.xinljbh as lingjbh,t1.xiaohd as xiaohdbh from ${dbSchemalzbc}ckx_lingjxhd_s  t1 
+           inner join ${dbSchemalzbc}ckx_lingjxhd  t on t.usercenter=t1.usercenter and t.lingjbh=t1.xinljbh and t.xiaohdbh =t1.xiaohd
+        )c  
+ 			 ) z                       	
+		) tt where 1=1 		    	 
+		$foot$
+   		]]>
+	</select>
+
+	<!-- id="1560" caption="需拆分消耗点零件" ，将结束日期小于当天的记录失效掉 hzg 2014.4.3 -->
+	<update id="updateBiaosOfLingjxhd_s">
+   		<![CDATA[
+   			update ${dbSchemalzbc}ckx_lingjxhd_s t1 set t1.biaos='2' where t1.biaos='1' and t1.jiesr <to_date(to_char(sysdate,'yyyy-MM-dd'),'yyyy-MM-dd') 
+   		]]>
+	</update>
+
+	<!-- id="1860" caption="零件消耗点_s(原消耗点备份表)" hzg 2014.4.3 修改，增加biao=2的状态 14.5.12 -->
+	<select id="queryLingjxhd_s" parameterClass="java.util.Map"
+		resultClass="java.util.HashMap" remapResults="true">
+		<![CDATA[
+		$head$ 
+		select tt.*,ROWNUM RN from (
+		 	select t1.usercenter,t1.lingjbh,t1.xiaohd,t1.yuanxhd,t1.biaos,
+		 		to_char(t1.shengxr,'yyyy-MM-dd') shengxr,to_char(t1.jiesr,'yyyy-MM-dd') jiesr,xinljbh 
+		 	       from ${dbSchemalzbc}ckx_lingjxhd_s t1 where (t1.biaos='1' or  t1.biaos='2' )              	
+		) tt where 1=1 		    	 
+		$foot$
+   		]]>
+	</select>
+
+
+	<!-- id="1570" caption="循环对产线" -->
+	<select id="xunhuancxQuery" parameterClass="java.util.Map"
+		resultClass="java.util.HashMap" remapResults="true">
+		<![CDATA[
+		$head$ 
+		select tt.*,ROWNUM RN from (
+	    	select 'CLI' as cli,usercenter,fenpqh,'0'||substr(shengcxbh,5) AS shengcxbh  from ${dbSchemalzbc}ckx_fenpq where 1=1  
+      ]]>
+		<dynamic>
+			<isNotEmpty prepend=" AND " property="usercenter"><![CDATA[ usercenter  in ($usercenter$) ]]></isNotEmpty>
+		</dynamic>
+      <![CDATA[  
+        $middle$ 
+		order BY USERCENTER, FENPQH                                	
+		) tt where 1=1 		    	
+		$foot$
+   		]]>
+	</select>
+
+	<!-- id="1580" caption="包装参考系" -->
+	<select id="baozckxQuery" parameterClass="java.util.Map"
+		resultClass="java.util.HashMap" remapResults="true">
+		<![CDATA[
+		$head$ 
+		select tt.*,ROWNUM RN from (
+	    	select 'EMBALC' EMBALC,
+		             baozlx as baozlx,
+                     baozmc,
+                     lpad(changd, 4, '0') as changd,
+                     lpad(kuand, 4, '0') as kuand,
+                     lpad(gaod, 4, '0') as gaod,
+                     substr(to_char(changd * kuand * gaod),1,6) as tiji 
+                     from ${dbSchemalzbc}ckx_baoz where 1=1 
+        $middle$ 
+		order by BAOZLX                                  	
+		) tt where 1=1              
+		$foot$
+   		]]>
+	</select>
+
+	<!-- id="1720" caption="要货令deject" ,hzg 添加t.yaohlzt=01 ,排序只按用户中心和要货令号排 ，按beiz2状态取数据 
+		2014.5.23 -->
+	<select id="yaohldejectQuery" parameterClass="java.util.Map"
+		resultClass="java.util.HashMap" remapResults="true">
+		<![CDATA[
+		$head$ 
+			select temp.* from ( select lpad(rownum, 5, '0') JLLX,p.*,ROWNUM RN from (SELECT 
+						       '000000' SCHMD,
+						       y.usercenter FSQDM,
+						       '    ' FSQHGM,
+						       '              ' FSQDZ,
+						       Y.GONGYSDM JSQDM,
+						       '    ' JSQHGM,
+						       '             ' JSQDZ,
+						       '00' FYSCSJ,
+						       '000000' FYNYR,
+						       '0000' FYSJ,
+						       '      ' XXLX,
+						       '   ' XXBB,
+						       '   ' FBXX,
+						       '  ' YZDLC,
+						       '      ' LHXXDM,
+						       '   ' XXJSR,
+						       'Y' CALDELBS,
+						       
+						       '00000000000000000' XXH,
+						       '36' XXDM,
+						       to_char(sysdate, 'yyyymmddHH24MI') RQSJ,
+						       
+						       Y.YOUB LJJSRDM,
+						       '10 ' JSRDMFZDLC,
+						       
+						       Y.CHUANZ SYRDM,
+						       '5  ' FYRDMFZDLC,
+						       
+						       Y.CHUANZ XSSDM,
+						       '5' XSSFZDLC,
+						       '78001H' SXSZM,
+						       
+						       '3' SCSX,
+						       
+						       '+'||replace(replace(to_char(Y.UCRL, '999999999.999'), '.', ''), ' ', '0') UCLJSL,
+						       Y.DANW UCLJSLDW,
+						       lpad(Y.UCGS,6,'0') YZBZSL,
+						       
+						       Y.UCXH UCLX,
+						       '92' FZDLC,
+						       '1' BZJB,
+						       
+						       Y.BAOZXH UMLX,
+						       '92' FZDLC2,
+						       '3' BZJB2,
+						       
+						       Y.LINGJBH GMSLJH,
+						       Y.DINGDH  DDH,
+						       
+						       Y.CHEJ||Y.Cangkbh XHD,
+						       
+						       Y.ZICKBH SHD,       
+						       '+'||replace(replace(to_char(Y.YAOHSL, '9999999999999.999'), '.', ''), ' ', '0')  XJFSL,
+						       Y.DANW XJFSLDW,
+			                   '              ' JFRQ,
+			                   to_char(Y.FAYSJ,'YYYYMMDD')||'0000' ZZJFRQ,
+			                   to_char(Y.FAYSJ,'YYYYMMDD')||'2359' ZWJFRQ,
+						       Y.YAOHLH ZLHKH,
+						       '  ' FYRSAFFIRDM,
+						       '  ' GMSDWBDM,
+						       '   ' FILLER
+						  FROM (SELECT t.USERCENTER,
+						               t.YAOHLH,
+						               t.GONGYSDM,
+						               t.FAYSJ,
+						               t.JIAOFJ,
+						               t.ZUIZSJ,
+						               t.ZUIWSJ,
+						               t.LINGJBH,
+						               t.DANW,
+						               t.YAOHSL,
+						               t.BAOZXH,
+						               t.USXH,
+						               t.UCXH,
+						               t.UCRL,
+						               t.UCGS,
+						               t.Cangkbh,
+                           			   t.zickbh,
+                           			   t.chej,
+						               t.DINGDH,
+						               t1.YOUB,
+                                       t1.CHUANZ,
+						               sysdate,
+						               '0'
+						          FROM ${dbSchemalzbc}CK_YAOHL t
+						          Inner join ${dbSchemalzbc}XQJS_DINGD y on y.DINGDH = t.DINGDH
+						                                and (y.DINGDLX = '1' or y.DINGDLX = '4')
+						                                and y.beiz = 'F' and y.dingdzt='4'
+						                                and y.SHIFYJSYHL = '2'
+						                        and t.yaohlzt='01'
+						         Inner JOIN ${dbSchemalzbc}CKX_GONGYS T1 ON T1.GCBH = T.GONGYSDM and T.USERCENTER=T1.USERCENTER 
+						          WHERE t.beiz1 = 'F' 
+						        ) y ORDER BY FSQDM,JSQDM,XHD,SHD,DDH,GMSLJH,ZWJFRQ) p 
+			) temp where 1=1     						        
+		$foot$
+   		]]>
+	</select>
+
+
+	<!-- 1720 执行前将订单dingdzt状态改为F，防止并发，在写数据时有新的状态为4的订单进来，执行完更新时把没有写的数据也更新为5 -->
+	<update id="updateDingdOfDingdzt">
+	<![CDATA[
+	     update ${dbSchemalzbc}xqjs_dingd d set d.beiz ='F' where (d.DINGDLX = '1' or d.DINGDLX = '4')
+						                                and d.DINGDZT = '4' and d.SHIFYJSYHL = '2'
+	]]>
+	</update>
+
+
+	<!-- 1720 执行前将要货令beiz1状态改为F -->
+	<update id="updateYaohlOfBeiz1ToF">
+	<![CDATA[
+	     update ${dbSchemalzbc}ck_yaohl y set y.beiz1='F' where beiz1 is null and  y.yaohlzt='01' and 
+	                                               exists(select 1 from ${dbSchemalzbc}XQJS_DINGD d
+	                                                      where y.DINGDH = d.DINGDH and  (d.DINGDLX = '1' or d.DINGDLX = '4')
+	                                                       and d.dingdzt='4' and beiz='F' and d.SHIFYJSYHL = '2')
+	]]>
+	</update>
+
+	<!-- 1720运行完成后，将beiz1状态改为T -->
+	<update id="updateYaohlOfBeiz1ToT">
+	<![CDATA[
+	     update ${dbSchemalzbc}ck_yaohl y set y.beiz1='T' where  y.beiz1='F' 
+	]]>
+	</update>
+
+
+
+	<!-- 周期订单更新订单状态 -->
+	<update id="zhouQddDataUpdate" parameterClass="java.util.Map">
+	<![CDATA[
+	update ${dbSchemalzbc}Xqjs_Dingd d set d.dingdzt = '5' where 
+        d.chullx in ('PP', 'NP', 'PS', 'NS', 'PJ', 'NJ')
+         and (d.dingdlx = '0' or d.dingdlx = '9')
+      and d.dingdzt = '4' and (d.shifyjsyhl='1' or d.shifyjsyhl='2') 
+	]]>
+	</update>
+
+	<!-- 1100 看板循环规模更新状态 -->
+	<update id="kanbxhgmDataUpdate" parameterClass="java.util.Map">
+	<![CDATA[
+	update ${dbSchemalzbc}xqjs_kanbxhgm t set t.dangqxhgm=t.xiafxhgm,t.SHENGXZT = '0',t.editor='1100',t.edit_time=sysdate where t.SHENGXZT = '1'
+	]]>
+	</update>
+	<!-- 1100 看板循环规模失效后当前下发循环规模置为空 -->
+	<update id="kanbxhgmDataShix" parameterClass="java.util.Map">
+	<![CDATA[
+	update ${dbSchemalzbc}xqjs_kanbxhgm t set t.dangqxhgm='',t.editor='1100',t.edit_time=sysdate where t.SHENGXZT = '2' and t.dangqxhgm is not null
+	]]>
+	</update>
+	<!-- 1520 预告delfor输出接口 更新订单状态 -->
+	<update id="DdmxDataUpdate">
+	<![CDATA[
+	update ${dbSchemalzbc}Xqjs_Dingd d set d.dingdzt = '5',d.beiz = 'T', d.dingdfssj=sysdate where (d.dingdlx='1' or d.dingdlx='4') 
+	                                                           and d.dingdzt = '4' and d.beiz = 'F' and d.shifyjsyhl='2'
+	]]>
+	</update>
+
+
+	<!-- 1520 预告delfor输出接口 更新订单明细状态 -->
+	<update id="DdmxDataMxUpdate">
+	<![CDATA[
+	update ${dbSchemalzbc}Xqjs_Dingdmx d set d.zhuangt = '5' where d.dingdh in ( select ddh.dingdh from ${dbSchemalzbc}Xqjs_Dingd ddh 
+	                                   where (ddh.dingdlx='1' or ddh.dingdlx='4') and ddh.dingdzt = '4' and ddh.beiz = 'F'  and ddh.shifyjsyhl='2')
+	]]>
+	</update>
+
+	<!-- 1840 合并时间-详细 -->
+	<select id="hebingtimeQuery" parameterClass="java.util.Map"
+		resultClass="java.util.HashMap" remapResults="true">
+		<![CDATA[
+		$head$
+		select tt.*,ROWNUM RN from (
+		SELECT USERCENTER,CHANXCK,HEBTIMEH
+				FROM ${dbSchemalzbc}CKX_CALENDAR_HEBTIME_INFO
+			 WHERE  1=1	   
+		]]>
+		<![CDATA[
+         $middle$      
+		 order by USERCENTER, CHANXCK,HEBTIMEH  
+		 ) tt where 1=1 	 
+		$foot$
+		]]>
+	</select>
+
+	<!-- 1850 工作时间模板 -->
+	<select id="gongzsjmbhbQuery" parameterClass="java.util.Map"
+		resultClass="java.util.HashMap" remapResults="true">
+		<![CDATA[
+		$head$
+		select tt.*,ROWNUM RN from (
+		SELECT HEBTIMEH,
+				to_char(GONGZR,'yyyy-MM-dd') as GONGZR,
+				XIAOHSJ,
+				to_char(JUEDSK,'yyyy-MM-dd HH24:MI:SS') as JUEDSK
+				FROM ${dbSchemalzbc}CKX_GONGZSJMB
+			 WHERE  1=1	   
+		]]>
+		<![CDATA[
+         $middle$      
+		 order by HEBTIMEH, GONGZR, XIAOHSJ  
+		 ) tt where 1=1 	 
+		$foot$
+		]]>
+	</select>
+
+	<!-- 1940 按需零件的使用车间及提前期 -->
+	<select id="AnxlingjchejtiqqQuery" parameterClass="java.util.Map"
+		resultClass="java.util.HashMap" remapResults="true">
+		<![CDATA[
+		$head$
+		select tt.*,ROWNUM RN from (
+			select dd.usercenter||'|'||dd.lingjbh||'|'||dd.dinghcj||'|'||dd.waibms||'|'||dd.tqq DATA from (
+				select distinct w.usercenter,w.lingjbh,l.dinghcj,w.waibms,ceil(nvl(w.beihzq, 0)+nvl(w.yunszq, 0)) tqq from 
+				${dbSchemalzbc}ckx_wullj  w inner join ${dbSchemalzbc}ckx_lingj l on w.usercenter = l.usercenter and w.lingjbh = l.lingjbh  
+				order by w.usercenter,w.lingjbh,l.dinghcj,w.waibms )  dd
+		]]>
+		<![CDATA[
+		 ) tt where 1=1 	 
+		$foot$
+		]]>
+	</select>
+
+	<!-- 1521 SAP接口 kd订单发送时间 -->
+	<select id="delforFassjQuery" parameterClass="java.util.Map"
+		resultClass="java.util.HashMap" remapResults="true">
+		<![CDATA[
+		$head$
+		select tt.*,ROWNUM RN from (
+			select d.dingdh dingdh, TO_CHAR(sysdate,'YYYYMMDDHH24MISS') shij from ${dbSchemalzbc}xqjs_dingd d 
+			where (d.DINGDLX = '1' or d.DINGDLX = '4') and d.dingdzt = '4'  and d.beiz = 'F' and d.shifyjsyhl='2' 
+		]]>
+		<![CDATA[
+		 ) tt where 1=1 	 
+		$foot$
+		]]>
+	</select>
+
+	<!-- 1465 订单（排产） |xss-0012049-->
+	<select id="dingdxcsyPcQuery" parameterClass="java.util.Map"
+		resultClass="java.util.HashMap" remapResults="true">
+		<![CDATA[
+		$head$ 
+		select tt.*,ROWNUM RN from ( 
+     		SELECT 
+			D.USERCENTER, JISZQ, DINGDH, HETH, 
+			DINGDLX, GONGYSDM, GONGYSLX, 
+			CHULLX, DINGDZT, DINGDSXCZR, 
+			DINGDSXSJ, DINGDFSSJ, SHIFFSGYS, 
+			BEIZ, DINGDJSSJ, DINGDNR, ZIYHQRQ, 
+			FAHZQ, MAOXQBC, JISLX, SHIFZFSYHL, 
+			SHIFYJSYHL,  ACTIVE  
+			FROM ${dbSchemalzbc}XQJS_DINGD d  , ${dbSchemalzbc}ckx_gongys g 
+			 WHERE  d.USERCENTER = g.USERCENTER and d.GONGYSDM = g.gcbh and g.leix = '1'
+			  and DINGDZT in ('4','5') and d.dingdlx in ('0','3') 
+        AND D.EDIT_TIME >= (SELECT to_date(to_char(B.LASTCPLTIME,'yyyy-mm-dd HH24:mi:ss') ,'yyyy-mm-dd HH24:mi:ss') FROM ${dbSchemalzbc}IN_ZIDB B WHERE B.INBH='1465') 
+				  			 AND D.EDIT_TIME < (SELECT to_date(to_char(B.Yunxkssj,'yyyy-mm-dd HH24:mi:ss') ,'yyyy-mm-dd HH24:mi:ss')   FROM ${dbSchemalzbc}IN_ZIDB B WHERE B.INBH='1465')
+		order by DINGDH        	
+		) tt where 1=1 	      
+		$foot$
+   		]]>
+	</select>
+
+	<!-- 1235 订单明细（排产） |xss-0012049-->
+	<select id="dingdmxsyPcQuery" parameterClass="java.util.Map"
+		resultClass="java.util.HashMap" remapResults="true">
+		<![CDATA[
+		$head$ 
+		select tt.*,ROWNUM RN from (
+     		SELECT    ID,
+						X.DINGDH,
+                       LINGJBH,
+                       X.USERCENTER,
+                       X.GONGYSDM,
+                       X.GONGYSLX,
+                       TO_CHAR(YAOHQSRQ, 'YYYY-MM-DD HH24:MI:SS') AS YAOHQSRQ,
+                       TO_CHAR(YAOHJSRQ, 'YYYY-MM-DD HH24:MI:SS') AS YAOHJSRQ,
+                       CANGKDM,
+                       XIEHZT,
+                       FAHD,
+                       DINGHCJ,
+                       SHUL,
+                       DANW,
+                       UABZLX,
+                       UABZUCLX,
+                       UABZUCSL,
+                       UABZUCRL,
+                       TO_CHAR(FAYRQ, 'YYYY-MM-DD HH24:MI:SS') AS FAYRQ,
+                       TO_CHAR(JIAOFRQ, 'YYYY-MM-DD HH24:MI:SS') AS JIAOFRQ,
+                       ZHUANGT,
+                       YUGSFQZ,
+                       X.LEIX,
+                       LUJDM,
+                       JIHYZ,
+                       ZUIHWHR,
+                       TO_CHAR(ZUIHWHSJ, 'YYYY-MM-DD HH24:MI:SS') AS ZUIHWHSJ,
+                       JISSL,
+                       X.GONGHLX,
+                       YIJFL,
+                       YIZZL,
+                       YAOHLGSZL,
+                       YAOHLGSYJF,
+                       YAOHLGSYZZ,
+                       YIJFLDDMX,
+                       YIZZLDDMX,
+                       TO_CHAR(SHID, 'YYYY-MM-DD HH24:MI:SS') AS SHID,
+                       TO_CHAR(ZUIZDHSJ, 'YYYY-MM-DD HH24:MI:SS') AS ZUIZDHSJ,
+                       TO_CHAR(ZUIWDHSJ, 'YYYY-MM-DD HH24:MI:SS') AS ZUIWDHSJ,
+                       TO_CHAR(XIAOHSJ, 'YYYY-MM-DD HH24:MI:SS') AS XIAOHSJ,
+                       XIAOHCBHSJ,
+                       XIAOHCSXSJ,
+                       XIEHD,
+                       XIANBYHLX,
+                       USBAOZLX,
+                       USBAOZRL,
+                       XIAOHCH,
+                       XIAOHCCXH,
+                       CHANX,
+                       XIAOHD,
+                       FENPXH,
+                       X.ACTIVE,
+                       KANBXHBM,
+                       TANGC,
+                       PAICZT,
+                       X.GCBH,
+                       BEIHSJ2,
+                       LINGJMC,
+                       X.GONGSMC,
+                       X.NEIBYHZX,
+                       PCKAISSJ,
+                       PCJIESSJ,
+                       PCEDITOR,
+                       PCEDIT_TIME 
+							  FROM ${dbSchemalzbc}XQJS_DINGD D
+							  inner JOIN ${dbSchemalzbc}XQJS_DINGDMX X ON D.DINGDH = X.DINGDH
+							                   AND D.USERCENTER = X.USERCENTER
+							  inner join  ${dbSchemalzbc}ckx_gongys g  ON 
+							  d.USERCENTER = g.USERCENTER and d.GONGYSDM = g.gcbh              
+							 WHERE D.DINGDZT in('4','5')
+							   AND d.dingdlx in ('0','3') 
+							   and g.leix = '1'  
+							   AND d.EDIT_TIME BETWEEN
+							       (SELECT to_date(to_char(B.LASTCPLTIME,'yyyy-mm-dd HH24:mi:ss') ,'yyyy-mm-dd HH24:mi:ss') FROM ${dbSchemalzbc}IN_ZIDB B WHERE B.INBH = '1235') AND
+							       SYSDATE 
+		$middle$ 
+		ORDER BY X.ID 
+         ) tt where 1=1 
+		$foot$
+   		]]>
+	</select>
+
+	<!-- id="1900" caption="焊装大线参考系(输出)" -->
+	<select id="hanzdxckxQuery" parameterClass="java.util.Map"
+		resultClass="java.util.HashMap" remapResults="true">
+		<![CDATA[
+		$head$ 
+		select tt.*,ROWNUM RN from ( 
+     		select usercenter,
+     		       daxxh,
+     		       paicfbq,
+     		       chaifts,
+     		       beiz,
+     		       biaos
+     		  from ${dbSchemalzbc}ckx_dax where 1=1 
+     		  order by usercenter,daxxh     		
+		) tt where 1=1 	      
+		$foot$
+   		]]>
+	</select>
+
+	<!-- id="1901" caption="焊装分装线参考系(输出)" -->
+	<select id="hanzfzxckxQuery" parameterClass="java.util.Map"
+		resultClass="java.util.HashMap" remapResults="true">
+		<![CDATA[
+		$head$ 
+		select tt.*,ROWNUM RN from ( 
+		    select usercenter,
+     		       fenzxh,
+     		       daxxh,
+     		       xiaohdbh,
+     		       fenzxddxxlzcs,
+     		       fenzxxs,
+     		       beijwxpxfs,
+     		       biaos
+     		  from ${dbSchemalzbc}ckx_fenzx where 1=1  
+		order by usercenter,fenzxh,daxxh        	
+		) tt where 1=1  	  
+		$foot$
+   		]]>
+	</select>
+
+	<!-- id="1904" caption="单位换算参考系(输出)" -->
+	<select id="danwhsckxQuery" parameterClass="java.util.Map"
+		resultClass="java.util.HashMap" remapResults="true">
+		<![CDATA[
+		$head$ 
+		select tt.*,ROWNUM RN from (
+			select usercenter, 
+			       beihdw, 
+			       mubdw,
+			       huansbl 
+			  from ${dbSchemalzbc}ckx_danwhs
+		  order by usercenter,beihdw,mubdw
+		) tt where 1=1 			
+		$foot$
+   		]]>
+	</select>
+
+	<!-- 1902 分装线排产数量 yz -->
+	<select id="fenzxpcslQuery" parameterClass="java.util.Map"
+		resultClass="java.util.HashMap" remapResults="true">
+		<![CDATA[
+		$head$ 
+		select tt.*,ROWNUM RN from ( 
+     		select USERCENTER,
+    			   DAXXH,
+    			   FENZXH,
+    			   TO_CHAR(RIQ,'YYYYMMDD') AS RIQ,
+    			   JIHSXL,
+    			   JIHXXL,
+    			   BEIZ
+		  from ${dbSchemalzbc}ckx_fenzxpcsl where 1=1 
+		order by USERCENTER,DAXXH,FENZXH,RIQ       	
+		) tt where 1=1  	  
+		$foot$
+   		]]>
+	</select>
+
+	<!-- 1903 焊装离线点参考系 yz -->
+	<select id="lixdQuery" parameterClass="java.util.Map"
+		resultClass="java.util.HashMap" remapResults="true">
+		<![CDATA[
+		$head$ 
+		select tt.*,ROWNUM RN from ( 
+     		select USERCENTER,
+    			   XIANH,
+    			   LIXD,
+    			   LEIX,
+    			   DUIYXHD,
+    			   BIAOS
+		  from ${dbSchemalzbc}ckx_lixd where 1=1
+		order by USERCENTER,XIANH,LIXD       	
+		) tt where 1=1  	  
+		$foot$
+   		]]>
+	</select>
+
+	<!-- id="1660" caption="PPL(输出)" |xss-0012049-->
+	<select id="pplQuery" parameterClass="java.util.Map"
+		resultClass="java.util.HashMap" remapResults="true">
+		<![CDATA[
+		$head$ 
+		select tt.*,ROWNUM RN from ( 
+     		select a.pplbc,a.jisnf,to_char(a.jissj,'yyyyMMddHH24MISS') as jissj,b.usercenter,b.lingjbh,b.lingjdw,
+     		       b.zhizlx,b.dinghcj,b.gongysdm,b.p0xqzq,b.p0sl,b.p1sl,b.p2sl,b.p3sl,b.p4sl,b.p5sl,b.p6sl,b.p7sl,b.p8sl,
+     		       b.p9sl,b.p10sl,b.p11sl,'' as p12sl,'' as p13sl,'' as p14sl,'' as p15sl,'' as p16sl,'' as p17sl,'' as p18sl,
+     		       '' as p19sl,'' as p20sl,'' as p21sl,'' as p22sl,'' as p23sl,'' as p24sl,'' as p25sl,'' as p26sl,'' as p27sl,
+     		       '' as p28sl,'' as p29sl,'' as p30sl,'' as p31sl,'' as p32sl,'' as p33sl,'' as p34sl,'' as p35sl,b.lingjmc
+     		  from ${dbSchemalzbc}xqjs_niandyg a join ${dbSchemalzbc}xqjs_niandygmx b on a.pplbc=b.pplbc 
+     		 where a.ppllx='IL' and a.zhuangt='1'
+     		   and a.edit_time >= (select to_date(to_char(t.LASTCPLTIME,'yyyy-mm-dd HH24:mi:ss') ,'yyyy-mm-dd HH24:mi:ss')  from ${dbSchemalzbc}in_zidb t where t.inbh = '1660')
+               and a.edit_time < (select to_date(to_char(t.Yunxkssj,'yyyy-mm-dd HH24:mi:ss') ,'yyyy-mm-dd HH24:mi:ss')   from ${dbSchemalzbc}in_zidb t where t.inbh = '1660') 
+        $middle$
+		order by b.pplbc,b.id                         	
+		) tt where 1=1      		
+		$foot$
+   		]]>
+	</select>
+
+	<!-- 1960 物料主数据清单(输出) -->
+	<select id="wulzsjqdQuery" resultClass="java.util.HashMap"
+		remapResults="true">
+		<![CDATA[
+		$head$ 
+		select tt.*,ROWNUM RN from ( select 
+		          distinct(nvl(b.lingjbh,' ')) LINGJBH,
+		          nvl(b.zhongwmc,' ') LINGJMC,
+		          '3100' GCDM, 
+		          nvl(b.danw,' ') DANW, 
+		          nvl(a.gongysbh,' ') GONGYSBH,
+		          nvl(c.gongsmc,' ') GONGYSMC,
+		          nvl(a.waibms,' ') WLMS,
+		          nvl(d.ucrl,0) ZXBZSL,
+		          nvl(a.xianbck,' ') LGPRO,
+		          nvl(a.xianbck,' ') LGFSB
+	        from ${dbSchemalzbc}ckx_wullj a,${dbSchemalzbc}ckx_lingj b ,${dbSchemalzbc}ckx_gongys c,${dbSchemalzbc}ckx_lingjgys d
+	        where  a.usercenter=c.usercenter
+	        and a.gongysbh=c.gcbh
+	        and a.usercenter=d.usercenter
+	        and a.lingjbh=d.lingjbh
+	        and a.gongysbh=d.gongysbh
+	        and a.usercenter=b.usercenter
+	        and a.lingjbh=b.lingjbh
+	      	AND a.shengcxbh like 'UL_L2' 
+	      	order by LINGJBH,GONGYSBH,LGPRO,LGFSB               	
+		) tt where 1=1  		
+		$foot$
+   		]]>
+	</select>
+
+	<!-- 1970 供应商参考系 yz  只传UL的数据给DFPV -->
+	<select id="ckx_gongysQuery" parameterClass="java.util.Map"
+		resultClass="java.util.HashMap" remapResults="true">
+		<![CDATA[
+		$head$ 
+		select tt.*,ROWNUM RN from ( 
+     		select GCBH,
+    			   GONGSMC from ${dbSchemalzbc}ckx_gongys where USERCENTER='UL'
+		order by GCBH, USERCENTER       	
+		) tt where 1=1  	  
+		$foot$
+   		]]>
+	</select>
+	
+	<!-- id="1437" caption="参考系小火车(输出)" add by lc 2016-2-18 -->
+	<select id="ckx_xiaohcQuery" parameterClass="java.util.Map"
+		resultClass="java.util.HashMap" remapResults="true">
+		<![CDATA[
+		$head$ 
+		select tt.*,ROWNUM RN from ( 
+     		SELECT USERCENTER,
+			       SHENGCXBH,
+			       XIAOHCBH,
+			       XIAOHCMC,
+			       BIAOS,
+			       PIANYCWS,
+			       XUNHCSS,
+			       BEIHTQCSS,
+			       SHANGXTQCSS,
+			       JIANGLCSSXR,
+			       JIANGLPYCWS,
+			       JIANGLXHCSS,
+			       JIANGLBHTQCSS,
+			       JIANGLSXTQCSS
+			  FROM ${dbSchemalzbc}CKX_XIAOHC WHERE 1=1
+	      ORDER BY XIAOHCBH,USERCENTER,SHENGCXBH       	
+		) tt where 1=1  	  
+		$foot$
+   		]]>
+	</select>
+	
+	
+	<!-- id="1906" 毛需求对比发送  -->
+	<select id="MaoxqDuiBiQuery"  resultClass="java.util.HashMap" remapResults="true">
+		<![CDATA[
+		$head$ 
+		select tt.*,ROWNUM RN from ( 
+				select 
+				b.USERCENTER as USERCENTER,
+				b.LINGJBH as LINGJBH,
+				b.LINGJMC as LINGJMC,
+				b.GONGYSBH as GONGYSBH,
+				b.GONGYSMC as GONGYSMC,
+				b.GCBH as GCBH,
+				b.CHENGYSMC as GCMC,
+				b.ZHIZLX as LUX,
+				b.DANW as DANW,
+				b.CHANX as CHANX,
+				b.P0L as PP0sl ,
+				b.P0R as  P0sl,
+				b.P0CE as P0ce,  
+				b.P1L as PP1sl ,
+				b.P1R as  P1sl,
+				b.P1CE as P1ce,  
+				b.P2L as PP2sl ,
+				b.P2R as  P2sl,
+				b.P2CE as P2ce,  
+				b.P3L as PP3sl ,
+				b.P3R as  P3sl,
+				b.P3CE as P3ce, 
+				b.P4L as PP4sl,
+                b.P4R as P4sl,
+                b.P4CE as P4ce,
+                '' as PP5sl,
+                '' as P5sl,
+                '' as P5ce,
+                '' as PP6sl,
+                '' as P6sl,
+                '' as P6ce,
+                '' as PP7sl,
+                '' as P7sl,
+                '' as P7ce,
+                '' PP8sl,
+                '' as P8sl,
+                '' as P8ce,
+                '' as PP9sl,
+                '' as P9sl,
+                '' as P9ce,
+                '' as PP10sl,
+                '' as P10sl,
+                '' as P10ce,
+                '' as PP11sl,
+                '' as P11sl,
+                '' as P11ce, 
+				'1' as leix ,
+				b.CREATOR as  CREATOR,
+				b.CREATE_TIME as CREATE_TIME  
+				from ${dbSchemalzbc}XQJS_MAOXQBJ a ,${dbSchemalzbc}XQJS_MAOXQBJMX b 
+				where  a.XUQBC1 = b.XUQBC1 
+				and a.XUQBC2 = b.XUQBC2
+				and a.JIZ = b.JIZ
+				and a.BJFS = b.BJFS
+				and a.ZHUANGT = b.ZHUANGT
+				and a.ZHUANGT = '0' 
+			union  
+				select 
+			   n.USERCENTER as USERCENTER,
+			   n.LINGJBH as LINGJBH,
+               n.LINGJMC as LINGJMC,
+               n.GONGYSBH as GONGYSBH,
+               n.GONGYSMC as GONGYSMC,
+               n.GCBH as GCBH,
+               n.CHENGYSMC as GCMC,
+               n.ZHIZLX as LUX,
+               n.DANW as DANW,
+               '' as CHANX,
+               n.P1L as PP0sl,
+               n.P1R  as P0sl, 
+               n.P1ce as P0ce,
+               n.P2L as PP1sl,
+               n.P2R as P1sl,
+               n.p2CE as P1ce,
+               n.P3L as PP2sl,
+               n.P3R as P2sl, 
+               n.P3CE as P3ce,
+               n.P4L as PP4sl,
+               n.P4R as P4sl,
+               n.P4CE as P4ce,
+               n.P5L as PP5sl,
+               n.P5R as P5sl,
+               n.P5CE as P5ce,
+               n.P6L as PP6sl,
+               n.P6R as P6sl,
+               n.P6CE as P6ce,
+               n.P7L as PP7sl,
+               n.P7R as P7sl,
+               n.P7CE as P7ce,
+               n.P8L as PP8sl,
+               n.P8R as P8sl,
+               n.P8CE as P8ce,
+               n.P9L as PP9sl,
+               n.P9R as P9sl,
+               n.P9CE as P9ce,
+               n.P10L as PP10sl,
+               n.P10R as P10sl,
+               n.P10CE as P10ce,
+               n.P11L as PP11sl,
+               n.P11R as P11sl,
+               n.P11CE as P11ce,
+               n.P12L as PP11sl,
+               n.P12R as P11sl,
+               n.P12CE as P11ce,
+               '2' as leix,
+			   n.CREATOR as  CREATOR,
+			   n.CREATE_TIME as CREATE_TIME 
+			   from ${dbSchemalzbc}XQJS_MAOXQBJ_PPL m ,${dbSchemalzbc}XQJS_MAOXQBJMX_PPL n 
+			   where m.XUQBC1 = n.XUQBC1 
+			   and m.XUQBC2 = n.XUQBC2
+			   and m.JIZ = n.JIZ 
+			   and m.ZHUANGT = n.ZHUANGT
+			   and m.ZHUANGT='0' 
+		order by usercenter ,lingjbh, lux, chanx, leix, gongysbh, CREATE_TIME	                   	
+		) tt 
+		 where 1=1   
+		$foot$  	 
+		
+   		]]>
+	</select>
+	
+	<!-- 更新周期毛需求对比结果状态 -->
+	<update id="updatePPMaoxqDuibi">
+	   <![CDATA[
+	   		update ${dbSchemalzbc}XQJS_MAOXQBJ set ZHUANGT='1' where ZHUANGT='0' 
+	   	]]>
+	</update>
+	
+		<!-- 更新周期毛需求对比结果状态 -->
+	<update id="updatePPMaoxqDuibi_Mx">
+	   <![CDATA[
+	   		update ${dbSchemalzbc}XQJS_MAOXQBJMX set ZHUANGT='1' where ZHUANGT='0' 
+	   	]]>
+	</update>
+	
+	<!-- 更新周期毛需求对比结果状态 -->
+	<update id="updatePPLMaoxqDuibi">
+	   <![CDATA[
+	   		update ${dbSchemalzbc}XQJS_MAOXQBJ_PPL set ZHUANGT='1' where ZHUANGT='0' 
+	   	]]>
+	</update>
+	
+	<!-- 更新周期毛需求对比结果状态 -->
+	<update id="updatePPLMaoxqDuibi_Mx">
+	   <![CDATA[
+	   		update ${dbSchemalzbc}XQJS_MAOXQBJMX_PPL set ZHUANGT='1' where ZHUANGT='0' 
+	   	]]>
+	</update>
+	
+	<!-- 1990 更改状态从未发送改为发送中 -->
+	<update id="updateyunsfyzdBegin">
+   		<![CDATA[
+   			update ${dbSchemalzbc}ck_yunsfyhz t set t.faszt = 1 where t.shenhzt = 4 and t.faszt = 0
+   		]]>
+	</update>
+	
+	<!-- id="1990" caption="运输费用主单输出" -->
+	<select id="ysfyzdQuery" parameterClass="java.util.Map"
+		resultClass="java.util.HashMap" remapResults="true">
+		<![CDATA[
+		$head$ 
+		select tt.*,ROWNUM RN from ( 
+     		select t.usercenter,
+                   t.chengysdm,
+                   yf.danjh,
+                   replace(replace(max(yf.banch),'第',''),'版','') banch,
+                   sum(t.xinysfy + t.xinfkfy + t.xintpfy + t.xintpfkfy + t.xinlxfy + t.xinjjfy) yunszfy,
+                   sum(t.xinysfy) yunsfy,
+                   sum(t.xinfkfy) fankfy,
+                   sum(t.xintpfy) tuopfy,
+                   sum(t.xintpfkfy) tuopfkfy,
+                   sum(t.xinlxfy) lingxfy,
+                   sum(t.xinjjfy) jinjfy,
+                   max(yf.yusr) yusr,
+                   to_char(max(yf.yus_time), 'yyyy-MM-dd') yus_time,
+                   max(yf.chusr) chusr,
+                   to_char(max(yf.chus_time), 'yyyy-MM-dd') chus_time,
+                   max(yf.zhongsr) zhongsr,
+                   to_char(max(yf.zhongs_time), 'yyyy-MM-dd') zhongs_time,
+                   max(yf.jinjjdjh) jinjjdjh,
+                   to_char(max(yf.shenhkssj), 'yyyy-MM-dd') shenhkssj,
+                   to_char(max(yf.shenhjssj), 'yyyy-MM-dd') shenhjssj
+              from ${dbSchemalzbc}ck_rukmx t
+              join ${dbSchemalzbc}ck_yunsfyhz yf
+                on t.usercenter = yf.usercenter
+               and (t.danjh = yf.danjh or t.danjh = yf.jinjjdjh)
+             where yf.faszt = 1
+               and t.chengysdm != 'DEFAULT'
+               and t.danjh is not null
+             group by t.usercenter, t.chengysdm, yf.danjh
+             order by t.usercenter, t.chengysdm, yf.danjh                     	
+		) tt where 1=1      		
+		$foot$
+   		]]>
+	</select>
+	
+	<!-- 1990 更改状态从发送中改为已发送 -->
+	<update id="updateyunsfyzdEnd">
+   		<![CDATA[
+   			update ${dbSchemalzbc}ck_yunsfyhz t set t.faszt = 2 where t.faszt = 1
+   		]]>
+	</update>
+
+</sqlMap>
+

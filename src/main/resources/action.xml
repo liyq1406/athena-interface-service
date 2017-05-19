@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<toft>
+<!--	<include>com/test/wh/action.xml-->
+<!--	</include>-->
+	<param name="objectFactory"
+		value="com.toft.mvc.proxy.supports.SDCContainerObjectFactory" />
+	<param name="module" value="true" />
+	
+	<param name="logHandler" value="logHandler" />
+</toft>

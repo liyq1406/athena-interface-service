@@ -1,0 +1,12 @@
+<components namespace="jk">
+	<component class="com.toft.core3.biz.module.ModuleConfig">
+	
+		<property name="sqlMaps">
+			<list>
+				<value>sqlmap-config.xml</value>
+			</list>
+		</property>
+	</component>
+	
+</components>
+

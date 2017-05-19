@@ -1,0 +1,4754 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<!-- ibatis数据库操作配置文件 -->
+<sqlMap namespace="outPut">
+   <!-- id="2910" caption="同步集配零件" -->
+   <select id="tongbjpljQuery" parameterClass="java.util.Map"  resultClass="java.util.HashMap" remapResults="true">
+		<![CDATA[
+		$head$
+		select tt.*,ROWNUM RN from (  
+			SELECT USERCENTER || ',' || LINGJBH || ',' || SHENGCXBH || ',' || NCLASS || ',' ||
+		        NVALUE || ',' || LINGJMC || ',' || PEISLX || ',' || ',' || ','|| ','|| ',' AS DATA 
+		 		FROM ${dbSchemalzxc}CKX_TONGBJPLJ
+			 WHERE  1=1	
+		$middle$   
+		order by USERCENTER, LINGJBH, SHENGCXBH, NCLASS      	
+		) tt where 1=1	    
+		$foot$
+		]]>
+   </select> 
+   
+      <!-- id="2930" caption="同步配送" -->
+   <select id="tongbpsQuery" parameterClass="java.util.Map"  resultClass="java.util.HashMap" remapResults="true">
+		<![CDATA[
+		$head$
+		select tt.*,ROWNUM RN from (  
+			SELECT USERCENTER || ',' || PEISLX || ',' || ZUICDDCWS || ',' || BAOZSL || ',' ||
+		       PEISLXMC || ','|| ',' || ',' ||','|| BEIZ ||','||','||','||',' AS DATA    
+		 		FROM ${dbSchemalzxc}CKX_PEISLB 
+			 WHERE  1=1	  
+		$middle$ 
+		order by USERCENTER, PEISLX        	
+		) tt where 1=1			  
+		$foot$
+		]]>
+   </select> 
+   
+   <!-- id="2530" caption="过点毛需求 2532" -->
+   <select id="guodmxqQuery" parameterClass="java.util.Map"  resultClass="java.util.HashMap" remapResults="true">
+		<![CDATA[
+		$head$
+		select tt.*,ROWNUM RN from (  
+		SELECT USERCENTER||','||SCXH||','||AZPOSVEH||','||LJH||','||SL  AS  DATA   FROM ${dbSchemalzxc}TB0010 where 1=1 
+		$middle$ 
+		order by USERCENTER, SCXH , AZPOSVEH ,LJH ,SL            	
+		) tt where 1=1	
+		$foot$
+		]]>
+   </select> 
+   
+   <!-- id="2730" caption="审核后发货通知(输出)" -->
+   <select id="shenhhfhtzQuery" parameterClass="java.util.Map"  resultClass="java.util.HashMap" remapResults="true">
+		<![CDATA[
+		$head$
+		select tt.*,ROWNUM RN from (  
+			select  x.usercenter USERCENTER,
+		       t.JFDH JFDH,to_char(to_date(t.jf_date,'yyyy-MM-dd HH24:mi:ss'),'yyyyMMddHH24miss') as JF_DATE,
+              			   to_char(to_date(t.FYYJDD_DATE,'yyyy-MM-dd HH24:Mi:ss'),'yyyyMMddHH24miss') as FYYJDD_DATE,t.CYSDM CYSDM,
+		       to_char(t1.FYSL) as FYSL,
+		       t1.JLDW JLDW,t1.BZLX BZLX,
+		       t1.LJH LJH,t1.DDH DDH,t1.LYGJ LYGJ,
+		       t2.UA UA,t2.UALX UALX,t2.UC UC,
+		       t2.UCLX UCLX,t2.UCLJSL UCLJSL,t2.UALJSL UALJSL,
+		       '' DANW,t2.YHL YHL,t2.PZH PZH,
+		       '' JUANH,t2.GGPH GGPH,t2.CHANGD CHANGD,
+		       t2.KUAND KUAND,t2.GAOD GAOD 
+		  from ${dbSchemalzxc}in_efi_fhtz_fyztxx t, 
+		       ${dbSchemalzxc}in_efi_fhtz_fymx t1, 
+		       ${dbSchemalzxc}in_efi_fhtz_bzdyxx t2,${dbSchemalzxc}xqjs_dingd x
+		 where t.jfdh = t1.jfdh
+		   and t1.jfdh = t2.jfdh
+		   and t1.xuh = t2.xuh and x.dingdh = t1.ddh
+		   and x.dingdlx = '9'  
+		$middle$ 
+		order by X.USERCENTER, t2.XUH, t2.JFDH, t2.UA               	
+		) tt where 1=1	    
+		$foot$
+		]]>
+   </select> 
+   
+      <!-- id="2120" caption="库存快照" -->
+      <insert id="insertKuckz_1" parameterClass="java.lang.String">
+      <![CDATA[
+		insert into ${dbSchemalzxc}ck_kuckz
+	  (ck_kuckz.liush,
+	   ck_kuckz.usercenter,
+	   ck_kuckz.cangkbh,
+	   ck_kuckz.lingjbh,
+	   ck_kuckz.danw,
+	   ck_kuckz.lingjsl,
+	   ck_kuckz.dingdzzlj,
+	   ck_kuckz.anqkcts,
+	   ck_kuckz.anqkc,
+	   ck_kuckz.kucsj,
+	   ck_kuckz.kuaizlx,
+	   ck_kuckz.dingdlj,
+	   ck_kuckz.jiaoflj,
+	   ck_kuckz.xittzz,
+	   ck_kuckz.jistzz)
+	  (select  KUCKZ_SEQNO.NEXTVAL  as liush,
+	          t.usercenter,
+	          t.cangkbh,
+	          t.lingjbh,
+	          t.danw,
+	          t.lingjsl,
+	          t.dingdzzzl,
+	          t.anqkcts,
+	          t.anqkc,
+	          t.kucsj,
+	          t.kuaizlx,
+	          t.dingdbdzl,
+	          t.yijfzl,
+	          t.xittzz,
+	          t.jistzz
+	     from (select t1.usercenter,
+	                  t1.cangkbh,
+	                  t1.lingjbh,
+	                  t1.danw,
+	                  nvl(sum(t1.lingjsl), 0) as lingjsl,
+	                  ckx_lingjck.dingdzzzl,
+	                  ckx_lingjck.anqkcts,
+	                  ckx_lingjck.anqkcsl as anqkc,
+	                  to_date(to_char(sysdate,'yyyy-mm-dd'), 'YYYY-MM-DD') as kucsj,
+	                  '1' as kuaizlx,
+	                  ckx_lingjck.dingdbdzl,
+	                  ckx_lingjck.yijfzl,
+	                  ckx_lingjck.xittzz,
+	                  ckx_lingjck.jistzz
+	             from ${dbSchemalzxc}ck_usbq t1, ${dbSchemalzxc}ckx_lingjck
+	            where t1.cangkbh = ckx_lingjck.cangkbh
+	              and t1.lingjbh = ckx_lingjck.lingjbh
+	              and t1.usercenter = ckx_lingjck.usercenter
+	              and exists
+	                  (select t3.baozzt || t3.zhuangtsx
+	                     from ${dbSchemalzxc}ckx_kuckzzyszb t3
+	                    where t3.usercenter = t1.usercenter
+	                      and t3.shengxbs = '1' and t1.baozzt||t1.zhuangtsx= t3.baozzt||t3.zhuangtsx and  t1.usercenter=#usercenter#)
+	              and t1.usercenter=#usercenter#
+	              and t1.lingjsl >0 
+	            group by t1.usercenter,
+	                     t1.cangkbh,
+	                     t1.lingjbh,
+	                     t1.danw,
+	                     ckx_lingjck.dingdzzzl,
+	                     ckx_lingjck.anqkcts,
+	                     ckx_lingjck.anqkcsl,
+	                     ckx_lingjck.dingdbdzl,
+	                     ckx_lingjck.yijfzl,
+	                     ckx_lingjck.xittzz,
+	                     ckx_lingjck.jistzz) t)
+		]]>
+      </insert>
+      
+        <insert id="insertKuckz_2" parameterClass="java.lang.String">
+      <![CDATA[
+		insert into ${dbSchemalzxc}ck_kuckz
+	    (ck_kuckz.liush,
+	     ck_kuckz.usercenter,
+	     ck_kuckz.cangkbh,
+	     ck_kuckz.lingjbh,
+	     ck_kuckz.danw,
+	     ck_kuckz.lingjsl,
+	     ck_kuckz.dingdzzlj,
+	     ck_kuckz.anqkcts,
+	     ck_kuckz.anqkc,
+	     ck_kuckz.kucsj,
+	     ck_kuckz.kuaizlx,
+	     ck_kuckz.dingdlj,
+	     ck_kuckz.jiaoflj,
+	     ck_kuckz.xittzz,
+	     ck_kuckz.jistzz)
+	   (select  KUCKZ_SEQNO.NEXTVAL  as liush,
+		       t.usercenter,
+		       t.cangkbh,
+		       t.lingjbh,
+		       t.danw,
+		       NVL(t.lingjsl, 0),
+		       t.dingdzzzl,
+		       t.anqkcts,
+		       t.anqkcsl as anqkc,
+		       to_date(to_char(sysdate,'yyyy-mm-dd'), 'YYYY-MM-DD') as kucsj,
+		       '1' as kuaizlx,
+		       t.dingdbdzl,
+		       t.yijfzl,
+		       t.xittzz,
+		       t.jistzz
+		  from (select a.c_component_code as lingjbh,
+		               a.c_maf_code as cangkbh,
+		               a.c_unit as danw,
+		               a.c_user_center as usercenter,
+		               sum(a.n_maf_num) as lingjsl,
+		               ckx_lingjck.dingdbdzl,
+		               ckx_lingjck.anqkcts,
+		               ckx_lingjck.anqkcsl,
+		               ckx_lingjck.dingdzzzl,
+		               ckx_lingjck.yijfzl,
+		               ckx_lingjck.xittzz,
+		               ckx_lingjck.jistzz
+		          from ${dbSchemalzxc}ck_wzkc a,
+		         ${dbSchemalzxc}ckx_lingjck where a.c_maf_code = ckx_lingjck.cangkbh(+)
+		                               and a.c_component_code = ckx_lingjck.lingjbh(+)
+		                               and a.c_user_center = ckx_lingjck.usercenter(+)
+		         and a.c_user_center is not null 
+		         and ckx_lingjck.usercenter=#usercenter#
+		         group by a.c_component_code,
+		                  a.c_maf_code,
+		                  a.c_unit,
+		                  a.c_user_center,
+		                  ckx_lingjck.dingdbdzl,
+		                  ckx_lingjck.anqkcts,
+		                  ckx_lingjck.anqkcsl,
+		                  ckx_lingjck.dingdzzzl,
+		                  ckx_lingjck.yijfzl,
+		                  ckx_lingjck.xittzz,
+		                  ckx_lingjck.jistzz) t )
+		]]>
+      </insert>
+      
+      
+     <insert id="insertKuckzALL_1" parameterClass="java.lang.String">
+      <![CDATA[
+		 insert into ${dbSchemalzxc}ck_kuckz
+        (ck_kuckz.liush,
+         ck_kuckz.usercenter,
+         ck_kuckz.cangkbh,
+         ck_kuckz.lingjbh,
+         ck_kuckz.danw,
+         ck_kuckz.lingjsl,
+         ck_kuckz.dingdzzlj,
+         ck_kuckz.anqkcts,
+         ck_kuckz.anqkc,
+         ck_kuckz.kucsj,
+         ck_kuckz.kuaizlx,
+         ck_kuckz.dingdlj,
+         ck_kuckz.jiaoflj,
+         ck_kuckz.xittzz,
+         ck_kuckz.jistzz)
+        (select KUCKZ_SEQNO.NEXTVAL  as liush,
+                t.usercenter,
+                t.cangkbh,
+                t.lingjbh,
+                t.danw,
+                t.lingjsl,
+                t.dingdzzzl,
+                t.anqkcts,
+                t.anqkc,
+                t.kucsj,
+                t.kuaizlx,
+                t.dingdbdzl,
+                t.yijfzl,
+                t.xittzz,
+                t.jistzz
+           from (select t1.usercenter,
+                        t1.cangkbh,
+                        t1.lingjbh,
+                        t1.danw,
+                        nvl(sum(t1.lingjsl), 0) as lingjsl,
+                        ckx_lingjck.dingdzzzl,
+                        ckx_lingjck.anqkcts,
+                        ckx_lingjck.anqkcsl as anqkc,
+                       to_date(to_char(sysdate,'yyyy-mm-dd'), 'YYYY-MM-DD') as kucsj,
+                        '1' as kuaizlx,
+                        ckx_lingjck.dingdbdzl,
+                        ckx_lingjck.yijfzl,
+                        ckx_lingjck.xittzz,
+                        ckx_lingjck.jistzz
+                   from ${dbSchemalzxc}ck_usbq t1, ${dbSchemalzxc}ckx_lingjck
+                  where t1.cangkbh = ckx_lingjck.cangkbh
+                    and t1.lingjbh = ckx_lingjck.lingjbh
+                    and t1.usercenter = ckx_lingjck.usercenter
+                    and t1.usercenter=#usercenter#
+                    and t1.lingjsl >0 
+                  group by t1.usercenter,
+                           t1.cangkbh,
+                           t1.lingjbh,
+                           t1.danw,
+                           ckx_lingjck.dingdzzzl,
+                           ckx_lingjck.anqkcts,
+                           ckx_lingjck.anqkcsl,
+                           ckx_lingjck.dingdbdzl,
+                           ckx_lingjck.yijfzl,
+                           ckx_lingjck.xittzz,
+                           ckx_lingjck.jistzz) t)
+		]]>
+      </insert>  
+      
+      <insert id="insertKuckzALL_2" parameterClass="java.lang.String">
+      <![CDATA[
+		 insert into ${dbSchemalzxc}ck_kuckz
+		         (ck_kuckz.liush,
+		          ck_kuckz.usercenter,
+		          ck_kuckz.cangkbh,
+		          ck_kuckz.lingjbh,
+		          ck_kuckz.danw,
+		          ck_kuckz.lingjsl,
+		          ck_kuckz.dingdzzlj,
+		          ck_kuckz.anqkcts,
+		          ck_kuckz.anqkc,
+		          ck_kuckz.kucsj,
+		          ck_kuckz.kuaizlx,
+		          ck_kuckz.dingdlj,
+		          ck_kuckz.jiaoflj,
+		          ck_kuckz.xittzz,
+		          ck_kuckz.jistzz)
+		        (
+       select KUCKZ_SEQNO.NEXTVAL  as liush,
+		            ckx_lingjck.usercenter,
+		            ckx_lingjck.cangkbh,
+		            ckx_lingjck.lingjbh,
+		            '' as danw,
+		            0 as lingjsl,
+		            ckx_lingjck.dingdzzzl,
+		            ckx_lingjck.anqkcts,
+		            ckx_lingjck.anqkcsl as anqkc,
+		            to_date(to_char(sysdate,'yyyy-mm-dd'), 'YYYY-MM-DD') as kucsj,
+		            '1' as kuaizlx,
+		            ckx_lingjck.dingdbdzl,
+		            ckx_lingjck.yijfzl,
+		            ckx_lingjck.xittzz,
+		            ckx_lingjck.jistzz
+		       from ${dbSchemalzxc}ckx_lingjck
+		      where not exists
+		      (Select 1
+		               from ${dbSchemalzxc}ck_kuckz
+		              where ck_kuckz.lingjbh = ckx_lingjck.lingjbh
+		                and ck_kuckz.cangkbh = ckx_lingjck.cangkbh
+		                and ck_kuckz.usercenter = ckx_lingjck.usercenter
+		                and ck_kuckz.kucsj =to_date(to_char(sysdate,'yyyy-mm-dd'), 'YYYY-MM-DD'))
+					)
+		]]>
+      </insert>  
+   
+    <select id="queryCountKckzsz" parameterClass="java.lang.String"  resultClass="java.lang.String" >
+		<![CDATA[
+			select count(usercenter) c from ${dbSchemalzxc}ckx_kuckzzyszb where  shengxbs = '1' and usercenter=#usercenter#
+		]]>
+   </select> 
+   
+     <select id="usbqDisdinctQuery" parameterClass="java.util.Map"  resultClass="java.util.HashMap" >
+		<![CDATA[
+			select distinct usercenter from ${dbSchemalzxc}ck_usbq 
+		]]>
+   </select> 
+     
+      <!--  id="2120" caption="库存快照" ,改为区分用户中心输出 hzg 2014.3.22 -->
+   <select id="kuckzQuery" parameterClass="java.util.Map"  resultClass="java.util.HashMap" remapResults="true">
+		<![CDATA[
+		$head$
+		select tt.*,ROWNUM RN from (  
+			select liush, usercenter, cangkbh, lingjbh, danw, lingjsl, dingdzzlj, anqkcts, anqkc, 
+            to_char(kucsj,'yyyy-MM-dd') kucsj,
+            kuaizlx,dingdlj,jiaoflj,xittzz,jistzz  from ${dbSchemalzxc}ck_kuckz where 1=1  
+       ]]>
+       	<dynamic>
+			<isNotEmpty prepend=" AND " property="usercenter"><![CDATA[ usercenter  in ($usercenter$) ]]></isNotEmpty>
+		</dynamic>
+		<![CDATA[ 
+        $middle$
+		order by LIUSH      	
+		) tt where 1=1 	    
+		$foot$
+		]]>
+   </select> 
+   
+   <delete id="deleteKuckz">
+		<![CDATA[
+			truncate table ${dbSchemalzxc}ck_kuckz 
+		]]>
+  </delete>
+
+ <!-- id="2130" caption="异常申报（零件消耗表）删除库存快照中间表 " -->
+   <delete id="deleteKuckzZBC">
+		<![CDATA[
+			DELETE FROM ${dbSchemalzxc}ck_kuckz_zbc  z where z.create_time<to_date(to_char(sysdate,'yyyy-mm-dd'),'yyyy-mm-dd')
+		]]>
+  </delete>
+
+<!-- id="2130" caption="异常申报（零件消耗表）将库存快照表数据插入库存快照中间表 " -->
+<insert id="insertKuckzToZBC" parameterClass="java.lang.String">
+      <![CDATA[
+		insert into  ${dbSchemalzxc}ck_kuckz_zbc
+      (liush,
+       usercenter,
+       cangkbh,
+       lingjbh,
+       danw,
+       lingjsl,
+       dingdzzlj,
+       anqkcts,
+	     anqkc,
+	     kucsj,
+	     kuaizlx,
+	     dingdlj,
+	     jiaoflj,
+	     xittzz,
+	     jistzz,
+       CREATE_TIME) 
+select liush,
+       usercenter,
+       cangkbh,
+       lingjbh,
+       danw,
+       lingjsl,
+       dingdzzlj,
+       anqkcts,
+	     anqkc,
+	     kucsj,
+	     kuaizlx,
+	     dingdlj,
+	     jiaoflj,
+	     xittzz,
+	     jistzz,
+       sysdate from    ${dbSchemalzxc}ck_kuckz     
+		]]>
+      </insert>
+   
+   <!-- id="2130" caption="异常申报（零件消耗表）" |xss-0012049-->
+   <!--2130接口的运行时间取2000的运行时间和上次运行时间 -->
+   <select id="yicsblingjxhQuery" parameterClass="java.util.Map"  resultClass="java.util.HashMap" remapResults="true">
+		<![CDATA[
+		$head$
+		select tt.*,ROWNUM RN from (  
+			SELECT T3.USERCENTER,
+			       T3.XIAOHD,
+			       T3.LINGJBH,
+			       T3.DAOHL,
+			       T3.YICXHL,
+			       T3.JILRQ,
+			       '1' AS FLAG 
+			  from (select t1.usercenter,
+			               substr(t1.xiaohd, 0, 9) as XIAOHD,
+			               t1.lingjbh,
+			               t1.daohl as daohl,
+			               t1.yicxhl as yicxhl,
+			               t1.jilrq as jilrq
+			          from ${dbSchemalzxc}CK_LINGJXHB t1
+			         where 
+			         	t1.jilrq >= (SELECT to_date(to_char(B.LASTCPLTIME,'yyyy-mm-dd HH24:mi:ss') ,'yyyy-mm-dd HH24:mi:ss') FROM ${dbSchemalzxc}IN_ZIDB B WHERE B.INBH='2000') 
+                  		AND t1.jilrq < (SELECT to_date(to_char(B.Yunxkssj,'yyyy-mm-dd HH24:mi:ss') ,'yyyy-mm-dd HH24:mi:ss') FROM ${dbSchemalzxc}IN_ZIDB B WHERE B.INBH='2000') 
+
+			        union all
+			        select t2.usercenter,
+			               substr(t2.shengbd, 0, 9) as XIAOHD,
+			               t2.lingjbh,
+			               0 as daohl,
+			               t2.caozsl as yicxhl,
+			               t2.caozsj as jilrq
+			          from ${dbSchemalzxc}CK_YICSBCZ t2
+			         WHERE 
+			                t2.CAOZSJ >= (SELECT to_date(to_char(B.LASTCPLTIME,'yyyy-mm-dd HH24:mi:ss') ,'yyyy-mm-dd HH24:mi:ss') FROM ${dbSchemalzxc}IN_ZIDB B WHERE B.INBH='2000') 
+                  			AND t2.CAOZSJ < (SELECT to_date(to_char(B.Yunxkssj,'yyyy-mm-dd HH24:mi:ss') ,'yyyy-mm-dd HH24:mi:ss') FROM ${dbSchemalzxc}IN_ZIDB B WHERE B.INBH='2000') 
+			               ) T3 where 1=1			          
+		$middle$ 
+		order by USERCENTER,XIAOHD,LINGJBH,JILRQ         	
+		) tt where 1=1 		               		          
+		$foot$
+		]]>
+   </select> 
+
+   <!-- id="2280" caption="集装箱（TC）" -->
+   <select id="jizxtcQuery" parameterClass="java.util.Map"  resultClass="java.util.HashMap" remapResults="true">
+		<![CDATA[
+		$head$
+		select tt.*,ROWNUM RN from (  
+			SELECT 
+			 ID, TCNO, UTNO,  
+		     to_char(QIYSJ,'yyyy-MM-dd Hh24:Mi') as QIYSJ,
+		     QIYD, MUDD,LUJDM, DINGHCJ, 
+			 to_char(YUJDDSJ,'yyyy-MM-dd Hh24:Mi') as YUJDDSJ, 
+			 ZUISWLD, 
+			 to_char(DAODWLDSJ,'yyyy-MM-dd Hh24:Mi') as DAODWLDSJ,
+             to_char(ZUIXYJDDSJ,'yyyy-MM-dd Hh24:Mi') as ZUIXYJDDSJ, 
+             to_char(LAXZDDDSJ,'yyyy-MM-dd Hh24:Mi') as LAXZDDDSJ, 
+             to_char(KAIXZDSJ,'yyyy-MM-dd Hh24:Mi') as KAIXZDSJ, 
+             TCZT,PAP_SHEET_ID,PAP_BOX_ID,KDYS_SHEET_ID ,XIANGX,to_char(GUANXSJ,'yyyy-MM-dd Hh24:Mi') as GUANXSJ
+             FROM ${dbSchemalzxc}XQJS_TC where 1=1 
+        $middle$ 
+		order by ID, TCNO           	
+		) tt where 1=1 		     
+		$foot$
+		]]>
+   </select> 
+
+   <!-- id="2350" caption="内部要货令(输出到执行层2，准备层)"-->
+   <select id="neibyhlOutTwoQuery" parameterClass="java.util.Map"  resultClass="java.util.HashMap" remapResults="true">
+		<![CDATA[
+		$head$
+		select tt.*,ROWNUM RN from ( 
+			SELECT YAOHLH, USERCENTER, XUNHBM, KANBKH, 
+			to_char(JIAOFJ,'yyyy-MM-dd Hh24:Mi:ss') as JIAOFJ, 
+			to_char(ZUIZSJ,'yyyy-MM-dd Hh24:Mi:ss') as ZUIZSJ, 
+			to_char(ZUIWSJ,'yyyy-MM-dd Hh24:Mi:ss') as ZUIWSJ, 
+			LINGJBH, LINGJMC, DANW, YAOHSL, BAOZXH,USXH, 
+			to_char(FAYSJ,'yyyy-MM-dd Hh24:Mi:ss') as FAYSJ, 
+			to_char(BEIHSJ,'yyyy-MM-dd Hh24:Mi:ss') as BEIHSJ, 
+			to_char(SHANGXSJ,'yyyy-MM-dd Hh24:Mi:ss') as SHANGXSJ, 
+			CANGKBH, ZICKBH, XIEHD, MUDD, 
+			MUDDLX, YAOHLZT, DINGDH, SHENGBR, 
+			YAOHLSL, JIAOFLX, JIAOFZL, DAIJFSL, 
+			YAOHLLX, YAOHLLB, TONGBLSHQJ, BEIZ, 
+			XIAOHCH, TANGC, CHEX, CENG, SHIFGJ, 
+			SHIFSCBHD, SHIFDYUC, GONGYSDM, GONGYSMC,
+			CHEJ, SHANGXFS, CHANX, KEH, PEISLB, SHIFLSK, 
+			to_char(YAOHLSCSJ,'yyyy-MM-dd Hh24:Mi:ss') as YAOHLSCSJ, 
+			SHIFPZ, SUODPZ, PEIZLSSL, 
+			to_char(SHIJFYSJ,'yyyy-MM-dd Hh24:Mi:ss') as SHIJFYSJ,
+			DINGDMXID,
+			yuanyhlh,chansyy ,zhongzyy ,xinmdd ,beiz1 ,beiz2 ,beiz3,beiz4,beiz5,beiz6,beiz7 
+			 FROM ${dbSchemalzxc}CK_YAONBHL WHERE YAOHLLB='05' and YAOHLZT='01'    
+		$middle$ 
+		order by USERCENTER,YAOHLH               	
+		) tt where 1=1 		
+		$foot$
+		]]>
+   </select> 
+
+   <!-- id="2360" caption="到货通知单" ，修改 ， 区分用户中心输出  hzg 2014.3.21 ,增加zhuangt=1 hzg 2014.5.26-->
+   <select id="daohtzdQuery" parameterClass="java.util.Map"  resultClass="java.util.HashMap" remapResults="true">
+		<![CDATA[
+		$head$ 
+		select tt.*,ROWNUM RN from ( 
+			select usercenter, uth, 
+				 to_char(utscsj,'yyyy-MM-dd HH24:MI:SS') utscsj, 
+				 blh, xiehzt, tch, cangkbh,
+					 chengysdm, chengysmc, fayzsl, zhuangt,
+					 to_char(yujddsj,'yyyy-MM-dd HH24:MI:SS') yujddsj, 
+					 to_char(blscsj,'yyyy-MM-dd HH24:MI:SS') blscsj, 
+				 dayzt, fayzmzdw, yuanuth, yuanblh, 
+				 to_char(yanssj,'yyyy-MM-dd HH24:MI:SS') yanssj, 
+				 shiftb, jiufqjzxh  from ${dbSchemalzxc}ck_daohtzd where  (zhuangt ='2' or zhuangt ='1')  
+		]]>
+       	<dynamic>
+			<isNotEmpty prepend=" AND " property="usercenter"><![CDATA[ usercenter  in ($usercenter$) ]]></isNotEmpty>
+		</dynamic>
+		<![CDATA[
+		$middle$ 
+		order by USERCENTER, UTH                 	
+		) tt where 1=1 			 
+		$foot$
+		]]>
+   </select> 
+
+   <!-- id="2370" caption="UA标签"-->
+   <select id="uabiaoqQuery" parameterClass="java.util.Map"  resultClass="java.util.HashMap" remapResults="true">
+		<![CDATA[
+		$head$
+		select tt.*,ROWNUM RN from ( 
+			select usercenter, uth, uah, ulh, blh, elh, gongysdm, gongysmc, gongyslx, 
+			pich, uaxh, uarl, ucxh, ucgs,uchl, lingjbh, lingjmc, cangkbh, zickbh, danw, lingjsl, baozzt, 
+			zhuangtsx,to_char(chuangjrq,'yyyy-MM-dd HH24:MI:SS') chuangjrq,to_char(shixrq,'yyyy-MM-dd HH24:MI:SS') shixrq,
+			chanx, jingz, maoz, to_char(daysj, 'yyyy-MM-dd HH24:MI:SS') daysj,beiz, yicm, yanssl, yansts, yikbs,
+ 			gaibzbs, yaohlh, dingdh, caozy, yansy,to_char( ruksj,'yyyy-MM-dd HH24:MI:SS')  ruksj, jihydm, kajthbs, kanthbs, 
+ 			xuh, wulgz,muxh  from ${dbSchemalzxc}ck_uabq where 1=1  
+ 		$middle$ 
+		order by USERCENTER, UTH, UAH                  	
+		) tt where 1=1 			
+		$foot$
+		]]>
+   </select> 
+   
+   
+      <!-- id="2380" caption="外部要货令"-->
+   <select id="waibyhlQuery" parameterClass="java.util.Map"  resultClass="java.util.HashMap" remapResults="true">
+		<![CDATA[
+		$head$
+		select tt.*,ROWNUM RN from ( 
+			select yaohlh, usercenter, xunhbm, kanbkh, 
+				to_char(jiaofj,'yyyy-MM-dd HH24:MI:SS') jiaofj, 
+				to_char(zuizsj,'yyyy-MM-dd HH24:MI:SS') zuizsj, 
+				to_char(zuiwsj,'yyyy-MM-dd HH24:MI:SS') zuiwsj,  
+				lingjbh, lingjmc, danw, yaohsl, baozxh, usxh, ucxh, ucrl, ucgs, fahd, 
+				to_char(faysj,'yyyy-MM-dd HH24:MI:SS') faysj, 
+				to_char(shangxsj,'yyyy-MM-dd HH24:MI:SS') shangxsj, 
+				xiehd, xinxhd, cangkbh, zickbh, mudd, xinmdd, muddlx, yaohlzt, 
+				dingdh, dingdmxid, shengbr, yaohlsl, yaohllx, tongblshqj, tiaohbs, beiz, 
+				gongysdm, gongysmc, chej, shnagxfs, chanx, keh, peislb, jiaofzl, daijfsl, fifo, shiflsk, 
+				to_char(yaohlscsj,'yyyy-MM-dd HH24:MI:SS') yaohlscsj, 
+				to_char(xiughyjjfsj,'yyyy-MM-dd HH24:MI:SS') xiughyjjfsj, 
+				jiaofzt, 
+				to_char(shijfysj,'yyyy-MM-dd HH24:MI:SS') shijfysj, 
+				peizlssl, chengysdm, chengysmc, shifpz,
+				to_char(laxzdddsj,'yyyy-MM-dd HH24:MI:SS') laxzdddsj,
+				yuanyhlh,chansyy ,zhongzyy ,beiz1 ,beiz2 ,beiz3,beiz4,beiz5,beiz6,beiz7 
+				from ${dbSchemalzxc}ck_yaohl_zbc where 1=1   
+		order by USERCENTER, YAOHLH                     	
+		) tt where 1=1 					
+		$foot$
+		]]>
+   </select> 
+
+     <!-- id="2380" caption="外部要货令"-gswang  2014-10-30 -->
+   <delete id="deleteWaibyhlZBCBegin" parameterClass="java.util.Map" >
+		<![CDATA[
+			truncate table ${dbSchemalzxc}ck_yaohl_zbc
+		]]>
+  </delete> 
+
+    <!-- id="2380" caption="外部要货令"-gswang  2014-10-30 -->
+   <insert id="insertWaibyhlZBCBegin" parameterClass="java.util.Map">
+		<![CDATA[
+		insert into ${dbSchemalzxc}ck_yaohl_zbc ( 
+		YAOHLH, USERCENTER, XUNHBM, KANBKH, JIAOFJ, ZUIZSJ, ZUIWSJ, LINGJBH, LINGJMC, DANW, YAOHSL, BAOZXH, USXH, UCXH, UCRL, UCGS, FAHD, FAYSJ, SHANGXSJ, XIEHD, XINXHD, CANGKBH, ZICKBH, MUDD, XINMDD, MUDDLX, YAOHLZT, DINGDH, DINGDMXID, SHENGBR, YAOHLSL, YAOHLLX, TONGBLSHQJ, TIAOHBS, BEIZ, GONGYSDM, GONGYSMC, CHEJ, SHNAGXFS, CHANX, KEH, PEISLB, JIAOFZL, DAIJFSL, FIFO, SHIFLSK, YAOHLSCSJ, XIUGHYJJFSJ, JIAOFZT, SHIJFYSJ, CREATOR, CREATE_TIME, EDITOR, EDIT_TIME, PEIZLSSL, CHENGYSDM, CHENGYSMC, SHIFPZ, LAXZDDDSJ, YUANYHLH, CHANSYY, ZHONGZYY, BEIZ1, BEIZ2, BEIZ3, BEIZ4, BEIZ5, BEIZ6, BEIZ7
+		)
+		select  
+		YAOHLH, USERCENTER, XUNHBM, KANBKH, JIAOFJ, ZUIZSJ, ZUIWSJ, LINGJBH, LINGJMC, DANW, YAOHSL, BAOZXH, USXH, UCXH, UCRL, UCGS, FAHD, FAYSJ, SHANGXSJ, XIEHD, XINXHD, CANGKBH, ZICKBH, MUDD, XINMDD, MUDDLX, YAOHLZT, DINGDH, DINGDMXID, SHENGBR, YAOHLSL, YAOHLLX, TONGBLSHQJ, TIAOHBS, BEIZ, GONGYSDM, GONGYSMC, CHEJ, SHNAGXFS, CHANX, KEH, PEISLB, JIAOFZL, DAIJFSL, FIFO, SHIFLSK, YAOHLSCSJ, XIUGHYJJFSJ, JIAOFZT, SHIJFYSJ, CREATOR, CREATE_TIME, EDITOR, EDIT_TIME, PEIZLSSL, CHENGYSDM, CHENGYSMC, SHIFPZ, LAXZDDDSJ, YUANYHLH, CHANSYY, ZHONGZYY, BEIZ1, BEIZ2, BEIZ3, BEIZ4, BEIZ5, BEIZ6, BEIZ7
+		from ${dbSchemalzxc}ck_yaohl y where 
+		y.EDIT_TIME >= (SELECT B.LASTCPLTIME FROM ${dbSchemalzxc}IN_ZIDB B WHERE B.INBH='2380') 
+        AND y.EDIT_TIME < (SELECT B.Yunxkssj FROM ${dbSchemalzxc}IN_ZIDB B WHERE B.INBH='2380') 
+		]]>
+	</insert>
+	
+      <!-- id="2570" caption="内部要货令(准备层)"-->
+   <select id="neibyhloutOneQuery" parameterClass="java.util.Map"  resultClass="java.util.HashMap" remapResults="true">
+		<![CDATA[
+		$head$
+		select tt.*,ROWNUM RN from ( 
+			SELECT 
+			YAOHLH, USERCENTER, XUNHBM, KANBKH, 
+			to_char(JIAOFJ,'yyyy-MM-dd Hh24:Mi:ss') as JIAOFJ, 
+			to_char(ZUIZSJ,'yyyy-MM-dd Hh24:Mi:ss') as ZUIZSJ, 
+			to_char(ZUIWSJ,'yyyy-MM-dd Hh24:Mi:ss') as ZUIWSJ, 
+			LINGJBH, LINGJMC, DANW, YAOHSL, BAOZXH, USXH, 
+			to_char(FAYSJ,'yyyy-MM-dd Hh24:Mi:ss') as FAYSJ, 
+			to_char(BEIHSJ,'yyyy-MM-dd Hh24:Mi:ss') as BEIHSJ, 
+			to_char(SHANGXSJ,'yyyy-MM-dd Hh24:Mi:ss') as SHANGXSJ, 
+			CANGKBH, ZICKBH, XIEHD,MUDD, 
+			MUDDLX, YAOHLZT, DINGDH, SHENGBR, 
+			YAOHLSL, JIAOFLX, JIAOFZL, DAIJFSL, 
+			YAOHLLX, YAOHLLB, TONGBLSHQJ, BEIZ, 
+			XIAOHCH, TANGC, CHEX, CENG, SHIFGJ, 
+			SHIFSCBHD, SHIFDYUC, GONGYSDM, GONGYSMC,
+			CHEJ, SHANGXFS, CHANX, KEH, PEISLB, SHIFLSK, 
+			to_char(YAOHLSCSJ,'yyyy-MM-dd Hh24:Mi:ss') as YAOHLSCSJ, 
+			SHIFPZ, SUODPZ, PEIZLSSL, 
+			to_char(SHIJFYSJ,'yyyy-MM-dd Hh24:Mi:ss') as SHIJFYSJ,
+			DINGDMXID,
+			YUANYHLH,CHANSYY ,ZHONGZYY ,XINMDD ,BEIZ1 ,BEIZ2 ,BEIZ3,BEIZ4,BEIZ5,BEIZ6,BEIZ7 
+			 FROM ${dbSchemalzxc}CK_YAONBHL_ZBC WHERE 1=1 
+		order by USERCENTER, YAOHLH                      	
+		) tt where 1=1 				
+		$foot$
+		]]>
+   </select> 
+
+     <!-- id="2570" caption="内部要货令(准备层)" gswang  2014-10-30  -->
+   <delete id="deleteNeibyhlZBCBegin" parameterClass="java.util.Map" >
+		<![CDATA[
+			truncate table ${dbSchemalzxc}ck_yaonbhl_zbc
+		]]>
+  </delete> 
+
+      <!-- id="2570" caption="内部要货令(准备层)" gswang  2014-10-30 -->
+   <insert id="insertNeibyhlZBCBegin" parameterClass="java.util.Map">
+		<![CDATA[
+		insert into ${dbSchemalzxc}ck_yaonbhl_zbc ( 
+		YAOHLH, USERCENTER, XUNHBM, KANBKH, JIAOFJ, ZUIZSJ, ZUIWSJ, LINGJBH, LINGJMC, DANW, YAOHSL, BAOZXH, USXH, FAYSJ, BEIHSJ, SHANGXSJ, CANGKBH, ZICKBH, XIEHD, MUDD, MUDDLX, YAOHLZT, DINGDH, SHENGBR, YAOHLSL, JIAOFLX, JIAOFZL, DAIJFSL, YAOHLLX, YAOHLLB, TONGBLSHQJ, BEIZ, XIAOHCH, TANGC, CHEX, CENG, SHIFGJ, SHIFSCBHD, SHIFDYUC, GONGYSDM, GONGYSMC, CHEJ, SHANGXFS, CHANX, KEH, PEISLB, SHIFLSK, YAOHLSCSJ, SHIFPZ, SUODPZ, CREATOR, CREATE_TIME, EDITOR, EDIT_TIME, PEIZLSSL, SHIJFYSJ, DINGDMXID, YUDUSH, YUDSL, YUANYHLH, CHANSYY, ZHONGZYY, XINMDD, BEIZ1, BEIZ2, BEIZ3, BEIZ4, BEIZ5, BEIZ6, BEIZ7
+		)
+		select  
+		YAOHLH, USERCENTER, XUNHBM, KANBKH, JIAOFJ, ZUIZSJ, ZUIWSJ, LINGJBH, LINGJMC, DANW, YAOHSL, BAOZXH, USXH, FAYSJ, BEIHSJ, SHANGXSJ, CANGKBH, ZICKBH, XIEHD, MUDD, MUDDLX, YAOHLZT, DINGDH, SHENGBR, YAOHLSL, JIAOFLX, JIAOFZL, DAIJFSL, YAOHLLX, YAOHLLB, TONGBLSHQJ, BEIZ, XIAOHCH, TANGC, CHEX, CENG, SHIFGJ, SHIFSCBHD, SHIFDYUC, GONGYSDM, GONGYSMC, CHEJ, SHANGXFS, CHANX, KEH, PEISLB, SHIFLSK, YAOHLSCSJ, SHIFPZ, SUODPZ, CREATOR, CREATE_TIME, EDITOR, EDIT_TIME, PEIZLSSL, SHIJFYSJ, DINGDMXID, YUDUSH, YUDSL, YUANYHLH, CHANSYY, ZHONGZYY, XINMDD, BEIZ1, BEIZ2, BEIZ3, BEIZ4, BEIZ5, BEIZ6, BEIZ7
+		from ${dbSchemalzxc}ck_yaonbhl y where 
+		y.EDIT_TIME >= (SELECT B.LASTCPLTIME FROM ${dbSchemalzxc}IN_ZIDB B WHERE B.INBH='2570') 
+        AND y.EDIT_TIME < (SELECT B.Yunxkssj FROM ${dbSchemalzxc}IN_ZIDB B WHERE B.INBH='2570')
+		]]>
+   </insert> 
+   
+    <!-- id="2670" caption="外部要货令(输出到执行层1) hzg 2013-5-28"  增加要货令状态01条件 ,增量输出提前一分钟 2014.3.21-->
+   <select id="waibyhloutOneQuery" parameterClass="java.util.Map"  resultClass="java.util.HashMap" remapResults="true">
+		<![CDATA[
+		$head$ 
+		select tt.*,ROWNUM RN from ( 
+			SELECT YAOHLH, T1.NEIBYHZX AS USERCENTER, XUNHBM, KANBKH, 
+		      TO_CHAR(JIAOFJ,'YYYY-MM-DD HH24:MI:SS') AS JIAOFJ, 
+		      TO_CHAR(ZUIZSJ,'YYYY-MM-DD HH24:MI:SS') AS ZUIZSJ, 
+		      TO_CHAR(ZUIWSJ,'YYYY-MM-DD HH24:MI:SS') AS ZUIWSJ, 
+		      LINGJBH, LINGJMC, DANW, YAOHSL, BAOZXH, USXH, 
+		      TO_CHAR(FAYSJ,'YYYY-MM-DD HH24:MI:SS') AS FAYSJ, 
+		      '' AS BEIHSJ, 
+		      TO_CHAR(SHANGXSJ,'YYYY-MM-DD HH24:MI:SS') AS SHANGXSJ, 
+		      T1.NEIBGYS_CANGKBH AS CANGKBH, ZICKBH, XIEHD,MUDD, 
+		      '4' AS MUDDLX, '01' AS YAOHLZT, DINGDH, SHENGBR, 
+		      '0' AS YAOHLSL, '0' AS JIAOFLX, JIAOFZL, DAIJFSL, 
+		      YAOHLLX, '' AS YAOHLLB, TONGBLSHQJ, BEIZ, 
+		      '' AS XIAOHCH, '' AS TANGC, '' AS CHEX, '' AS CENG, '' AS SHIFGJ, 
+		      '1' AS SHIFSCBHD, '1' AS SHIFDYUC, GONGYSDM, GONGYSMC,
+		      CHEJ, SHNAGXFS as SHANGXFS, CHANX, KEH, PEISLB, SHIFLSK, 
+		      TO_CHAR(YAOHLSCSJ,'YYYY-MM-DD HH24:MI:SS') AS YAOHLSCSJ, 
+		      '9' AS SHIFPZ, ''AS SUODPZ, PEIZLSSL, 
+		      TO_CHAR(SHIJFYSJ,'YYYY-MM-DD HH24:MI:SS') AS SHIJFYSJ,DINGDMXID,
+		      yuanyhlh,chansyy ,zhongzyy ,xinmdd ,beiz1 ,beiz2 ,T.USERCENTER beiz3,beiz4,beiz5,beiz6,beiz7 
+		    FROM ${dbSchemalzxc}CK_YAOHL T, ${dbSchemalzxc}CKX_GONGYS T1
+		      WHERE T.USERCENTER = T1.USERCENTER
+		      AND T.GONGYSDM = T1.GCBH
+		      AND T1.LEIX = '1' AND T.YAOHLZT='01'  and t.yaohllx <> 'SY' and (nvl(t.shiflsk,'0')='0' or nvl(t.shifpz,'0') = '1') 
+		      and t.beiz2 = '0' 
+		]]>
+       	<dynamic>
+			<isNotEmpty prepend=" AND " property="usercenter"><![CDATA[ T1.NEIBYHZX  in ($usercenter$) ]]></isNotEmpty>
+		</dynamic>
+		<![CDATA[
+ 		$middle$ 
+		order by YAOHLH                     	
+		) tt where 1=1 			
+		$foot$
+		]]>
+   </select> 
+
+      <!-- id="2670" caption="内部要货令"-->
+   <update id="updateyaohltoneibbegin" parameterClass="java.util.Map" >
+		<![CDATA[
+			update ${dbSchemalzxc}ck_yaohl t set t.beiz2 = '0' 
+			where  exists (select 1
+			from  ${dbSchemalzxc}ckx_gongys b
+			where t.usercenter=b.usercenter and t.gongysdm = b.gcbh and b.leix = '1'
+			) and  t.yaohlzt = '01'  and t.yaohllx <> 'SY'   and (nvl(t.shiflsk,'0')='0' or nvl(t.shifpz,'0') = '1') 
+			and t.beiz2 is null
+		]]>
+   </update>   
+
+      <!-- id="2670" caption="内部要货令"-->
+   <update id="updateyaohltoneibEnd" parameterClass="java.util.Map" >
+		<![CDATA[
+			update ${dbSchemalzxc}ck_yaohl t set t.beiz2 = '1', t.edit_time = sysdate ,t.editor = '2670' 
+			where  exists (select 1
+			from  ${dbSchemalzxc}ckx_gongys b
+			where t.usercenter=b.usercenter and t.gongysdm = b.gcbh and b.leix = '1'
+			) and  t.yaohlzt = '01'  and t.yaohllx <> 'SY' and (nvl(t.shiflsk,'0')='0' or nvl(t.shifpz,'0') = '1')   
+				  and t.beiz2 = '0'
+		]]>
+   </update> 
+
+    <!-- id="2440" caption="成品库存快照"-->
+   <select id="chenpkckzQuery" parameterClass="java.util.Map"  resultClass="java.util.HashMap" remapResults="true">
+		<![CDATA[
+		$head$
+		select tt.*,ROWNUM RN from ( 
+		select temp.*  from (
+			SELECT    'IMA' IMA,
+						       US.CANGKBH || US.ZICKBH CKBH,
+						       US.CHANX ZZCJDM,
+						       US.LINGJBH,
+						       BHD.KEH,
+						       REPLACE(REPLACE(TO_CHAR(SUM(NVL(MX.BEIHSL, 0.000)), '999999999'),
+						                       '.',
+						                       ''),
+						               ' ',
+						               '0') BEIHSL,
+						       '         ' KC,
+						       '  ' GLDY,
+						       '  ' FILLER 
+						  FROM ${dbSchemalzxc}CK_BEIHDMX MX
+						  JOIN ${dbSchemalzxc}CK_USBQ US
+						    ON MX.USERCENTER = US.USERCENTER
+						   AND US.USH = MX.USH
+						  JOIN ${dbSchemalzxc}CK_BEIHD BHD
+						    ON BHD.USERCENTER = MX.USERCENTER
+						   AND BHD.BEIHDH = MX.BEIHDH
+						  JOIN ${dbSchemalzxc}CKX_CANGK CK  ON CK.CANGKBH=MX.CANGKBH
+						   AND CK.USERCENTER=MX.USERCENTER AND (CK.CANGKLX=3 OR  CK.CANGKLX=4)
+						 WHERE (MX.BIAOS = 0 OR MX.BIAOS = 1)
+						 GROUP BY US.CANGKBH || US.ZICKBH, US.CHANX, US.LINGJBH, BHD.KEH
+						UNION
+						SELECT 'IMA' IMA,
+						       US.CANGKBH || US.ZICKBH CKBH,
+						       US.CHANX ZZCJDM,
+						       US.LINGJBH,
+						       '' KEH,
+						       REPLACE(REPLACE(TO_CHAR(SUM(NVL(US.KEYLJSL, 0.000)), '999999999'),
+						                       '.',
+						                       ''),
+						               ' ',
+						               '0') BEIHSL,
+						       REPLACE(REPLACE(TO_CHAR(SUM(NVL(US.LINGJSL - NVL(US.KEYLJSL, 0.000),
+						                                       0.000)),
+						                               '999999999'),
+						                       '.',
+						                       ''),
+						               ' ',
+						               '0') KC,
+						       'UN' GLDY,
+						       '  ' FILLER
+						  FROM ${dbSchemalzxc}CK_BEIHDMX MX
+						  JOIN ${dbSchemalzxc}CK_USBQ US
+						    ON MX.USERCENTER = US.USERCENTER
+						   AND US.USH = MX.USH
+						  JOIN ${dbSchemalzxc}CKX_CANGK CK  ON CK.CANGKBH=MX.CANGKBH
+						   AND CK.USERCENTER=MX.USERCENTER AND (CK.CANGKLX=3 OR  CK.CANGKLX=4)
+						 WHERE (US.BAOZZT = 4 OR US.BAOZZT = 6)
+						 GROUP BY US.CANGKBH || US.ZICKBH, US.CHANX, US.LINGJBH
+						 ) temp  where 1=1 
+		$middle$ 
+		order by temp.CKBH, temp.ZZCJDM,temp.LINGJBH                        	
+		) tt where 1=1 						 
+		$foot$
+		]]>
+   </select> 
+
+      <!-- id="2450" caption="零件库存快照"-->
+   <select id="lingjkckzQuery" parameterClass="java.util.Map"  resultClass="java.util.HashMap" remapResults="true">
+		<![CDATA[
+		$head$
+			select temp.*, rownum RN from (
+			SELECT    'FLUX' FLUX,
+						       TO_CHAR(SYSDATE, 'YYYYMMDDHH24MISS') CSRQ,
+						       US.USERCENTER,
+						       ' ' KZ,
+						       US.LINGJBH,
+						       US.GONGYSDM,
+						       ' ' FILLER,
+						       '+' ||'' SYMBOL,
+						       '+000000000' GDSZ1,
+						       US.DANW,
+						       US.CANGKBH || US.ZICKBH CKBH,
+						        '4' GDSZ2,
+						       REPLACE(TO_CHAR(SUM(NVL(US.LINGJSL,0)), '99999999.999'),' ','0') LINGJSL
+						  FROM ${dbSchemalzxc}CK_USBQ US
+						  JOIN ${dbSchemalzxc}CKX_CANGK CK  ON CK.CANGKBH=US.CANGKBH
+						   AND CK.USERCENTER=US.USERCENTER AND us.baozzt is not null
+						 GROUP BY US.USERCENTER, LINGJBH, GONGYSDM, DANW, US.CANGKBH || US.ZICKBH 
+						 order by USERCENTER, LINGJBH, GONGYSDM, DANW, CKBH  
+			) temp  where 1=1 	
+		$middle$			 
+		$foot$
+		]]>
+   </select> 
+
+
+  <!-- id="2830" caption="保税库仓库流水账   A01"; 正常入库 add hzg 2013.12.19 |0012049-->
+   <select id="shouhrkQuery" parameterClass="java.util.Map"  resultClass="java.util.HashMap" remapResults="true">
+		<![CDATA[
+		$head$
+		 select temp.*, rownum RN from (
+		     SELECT * FROM (
+              SELECT  'A01'||','C1,
+               MX.USERCENTER ||',' C2,
+                ',' C3,
+                ',' C4,
+               MX.Elh ||',' C5,
+               MX.CANGKBH ||',' C6,
+               MX.ZICKBH ||',' C7,
+               ',' C8,
+               ',' C9,
+               ',' C10,
+               ',' C11,
+               ',' C12,
+               ',' C13,
+               ',' C14,
+               ',' C15,
+               ',' C16,
+               MX.LINGJBH ||','C17,
+               MX.DANW  ||',' C18,
+               REPLACE(TO_CHAR(MX.LINGJSL, '99999999.999'), ' ', '0')||',' C19,
+               MX.GONGYSDM ||',' C20,
+               MX.EDITOR ||',' C21,
+               TO_CHAR(MX.RUKSJ, 'YYYYMMDDHH24MISS') C22
+                FROM ${dbSchemalzxc}CK_RUKMX MX
+                JOIN ${dbSchemalzxc}CKX_WAIBWL W ON  MX.USERCENTER = W.USERCENTER 
+                     AND MX.GONGYSDM = W.GONGYSBH AND MX.CANGKBH = W.MUDD
+                JOIN ${dbSchemalzxc}CKX_LINGJ L ON MX.USERCENTER=L.USERCENTER AND MX.LINGJBH=L.LINGJBH
+                WHERE L.ZHIZLX in('97X','97W')   
+                  AND  MX.EDIT_TIME >= (SELECT to_date(to_char(B.LASTCPLTIME,'yyyy-mm-dd HH24:mi:ss') ,'yyyy-mm-dd HH24:mi:ss') FROM ${dbSchemalzxc}IN_ZIDB B WHERE B.INBH='2830') 
+				  	 AND  MX.EDIT_TIME < (SELECT to_date(to_char(B.Yunxkssj,'yyyy-mm-dd HH24:mi:ss') ,'yyyy-mm-dd HH24:mi:ss')  FROM ${dbSchemalzxc}IN_ZIDB B WHERE B.INBH='2830')
+                
+            ORDER BY C22 )T )
+             temp  where 1=1 
+	       $middle$   				    
+		 $foot$
+		]]>
+   </select> 
+
+
+ <!-- id="2831" caption="保税库仓库流水帐   A35"; 出库 add hzg 2013.12.19 |xss-0012049-->
+   <select id="chukQuery" parameterClass="java.util.Map"  resultClass="java.util.HashMap" remapResults="true">
+		<![CDATA[
+		$head$
+			select temp.* ,rownum RN from (
+			  SELECT 'A35'||',' C1,
+                     MX.USERCENTER ||',' C2,
+                     MX.UCH ||','C3,
+                     MX.USH ||','C4,
+                     MX.ELH ||','C5,
+                     MX.CANGKBH ||','C6,
+                     MX.ZICKBH ||','C7,
+                     MX.KUWBH ||','C8,
+                     MX.USXH ||','C9,
+                     MX.USRL ||','C10,
+                     MX.UCXH ||','C11,
+                     MX.UCRL ||','C12,
+                     MX.UCGS ||','C13,
+                     MX.UAH ||','C14,
+                     MX.UAXH ||','C15,
+                     MX.UARL ||','C16,
+                     MX.LINGJBH ||','C17,
+                     MX.DANW ||','C18,
+                     REPLACE(TO_CHAR(MX.Lingjsl, '99999999.999') , ' ', '0') ||','C19,
+                     MX.GONGYSDM ||','C20,
+                     MX.EDITOR ||','C21,
+                     TO_CHAR(MX.CHUKRQ, 'YYYYMMDDHH24MISS') C22
+                   FROM CK_UCBQ MX 
+                    JOIN ${dbSchemalzxc}CKX_WAIBWL W ON  MX.USERCENTER = W.USERCENTER 
+                      AND MX.GONGYSDM = W.GONGYSBH AND MX.CANGKBH = W.MUDD     
+                    JOIN ${dbSchemalzxc}CKX_LINGJ L ON MX.USERCENTER=L.USERCENTER AND MX.LINGJBH=L.LINGJBH        
+               WHERE substr(MX.Fahtzdh,1,3) in('A35','A36') AND L.ZHIZLX in('97X','97W')
+                AND  MX.EDIT_TIME >= (SELECT to_date(to_char(B.LASTCPLTIME,'yyyy-mm-dd HH24:mi:ss') ,'yyyy-mm-dd HH24:mi:ss')  FROM ${dbSchemalzxc}IN_ZIDB B WHERE B.INBH='2830') 
+				  	 AND  MX.EDIT_TIME < (SELECT to_date(to_char(B.Yunxkssj,'yyyy-mm-dd HH24:mi:ss') ,'yyyy-mm-dd HH24:mi:ss')   FROM ${dbSchemalzxc}IN_ZIDB B WHERE B.INBH='2830')
+                     
+                     ORDER BY C22
+            ) temp where 1=1 	
+        $middle$   				        
+		$foot$
+		]]>
+   </select> 
+
+	<!-- id="2832" caption="保税库仓库流水帐 A70" 库间移库 hzg 2013.12.19   |xss-0012049-->
+   <select id="neibyikQuery" parameterClass="java.util.Map"  resultClass="java.util.HashMap" remapResults="true">
+		<![CDATA[
+		$head$
+		select temp.* ,rownum RN from (
+			  SELECT 'A70' ||','C1,
+                     MX.USERCENTER ||','C2,
+                     MX.UCH ||','C3,
+                     MX.USH ||','C4,
+                     MX.ELH ||','C5,
+                     MX.CANGKBH ||','C6,
+                     MX.ZICKBH ||','C7,
+                     MX.KUWBH ||','C8,
+                     MX.USXH ||','C9,
+                     MX.USRL ||','C10,
+                     MX.UCXH ||','C11,
+                     MX.UCRL ||','C12,
+                     MX.UCGS ||','C13,
+                     MX.UAH ||','C14,
+                     MX.UAXH ||','C15,
+                     MX.UARL ||','C16,
+                     MX.LINGJBH  ||','C17,
+                     MX.DANW  ||','C18,
+                     REPLACE(TO_CHAR(MX.Lingjsl, '99999999.999') , ' ', '0')||','C19,
+                     MX.GONGYSDM ||','C20,
+                     MX.EDITOR ||','C21,
+                     TO_CHAR(MX.CHUKRQ, 'YYYYMMDDHH24MISS') C22
+                   FROM ${dbSchemalzxc}CK_UCBQ MX 
+                    JOIN ${dbSchemalzxc}CKX_WAIBWL W ON  MX.USERCENTER = W.USERCENTER 
+                      AND MX.GONGYSDM = W.GONGYSBH AND MX.CANGKBH = W.MUDD     
+                    JOIN ${dbSchemalzxc}CKX_LINGJ L ON MX.USERCENTER=L.USERCENTER AND MX.LINGJBH=L.LINGJBH        
+               WHERE substr(MX.Fahtzdh,1,3)='A70' AND L.ZHIZLX in('97X','97W')
+                AND MX.EDIT_TIME >= (SELECT to_date(to_char(B.LASTCPLTIME,'yyyy-mm-dd HH24:mi:ss') ,'yyyy-mm-dd HH24:mi:ss') FROM ${dbSchemalzxc}IN_ZIDB B WHERE B.INBH='2830') 
+				  	 AND  MX.EDIT_TIME < (SELECT to_date(to_char(B.Yunxkssj,'yyyy-mm-dd HH24:mi:ss') ,'yyyy-mm-dd HH24:mi:ss')   FROM ${dbSchemalzxc}IN_ZIDB B WHERE B.INBH='2830')
+				  	    ORDER BY C22       
+            ) temp where 1=1 	      
+        $middle$   				    
+		$foot$
+		]]>
+   </select> 
+
+	<!-- id="2833" caption="保税库仓库流水帐 N36" 库内移库 hzg 2013.12.19   |xss-0012049-->
+   <select id="kujyikQuery" parameterClass="java.util.Map"  resultClass="java.util.HashMap" remapResults="true">
+		<![CDATA[
+		$head$
+		select temp.* ,rownum RN from (
+			 SELECT  'N36' ||','C1,
+                     MX.USERCENTER ||','C2,
+                     ',' C3,
+                     MX.USH ||','C4,
+                     ',' C5,
+                     MX.CANGKBH ||','C6,
+                     MX.ZICKBH ||','C7,
+                     MX.KUWBH ||','C8,
+                      ',' C9,
+                      ',' C10,
+                      ',' C11,
+                      ',' C12,
+                      ',' C13,
+                      ',' C14,
+                      ',' C15,
+                      ',' C16,
+                     MX.LINGJBH ||','C17,
+                     MX.DANW ||','C18,
+                     REPLACE(TO_CHAR(MX.Lingjsl, '99999999.999') , ' ', '0')||','C19,
+                     MX.GONGYSDM ||',' C20,
+                     MX.EDITOR ||','C21,
+                     TO_CHAR(MX.Caozsj, 'YYYYMMDDHH24MISS') C22
+                   FROM ${dbSchemalzxc}CK_YIK MX 
+                    JOIN ${dbSchemalzxc}CKX_WAIBWL W ON  MX.USERCENTER = W.USERCENTER 
+                      AND MX.CANGKBH = W.MUDD     
+                    JOIN ${dbSchemalzxc}CKX_LINGJ L ON MX.USERCENTER=L.USERCENTER AND MX.LINGJBH=L.LINGJBH        
+               WHERE CAOZM='N36' AND L.ZHIZLX in('97X','97W')
+                AND MX.EDIT_TIME >= (SELECT to_date(to_char(B.LASTCPLTIME,'yyyy-mm-dd HH24:mi:ss') ,'yyyy-mm-dd HH24:mi:ss')  FROM ${dbSchemalzxc}IN_ZIDB B WHERE B.INBH='2830') 
+				  	 AND  MX.EDIT_TIME < (SELECT to_date(to_char(B.Yunxkssj,'yyyy-mm-dd HH24:mi:ss') ,'yyyy-mm-dd HH24:mi:ss')   FROM ${dbSchemalzxc}IN_ZIDB B WHERE B.INBH='2830')
+                      ORDER BY C22
+            ) temp where 1=1 	      
+        $middle$   				    
+		$foot$
+		]]>
+   </select> 
+   
+   
+<!-- by panrui 2013-07-01 16:10  2840 保税库 发货通知  ;TC号不为空 hzg 2014.2.19 -->
+	 <select id="mdanFahtzQuery" parameterClass="java.util.Map"  resultClass="java.util.HashMap" remapResults="true">
+		<![CDATA[
+		$head$
+		SELECT USERCENTER||','||UTH||','||TO_CHAR(UTSCSJ,'yyyy-MM-dd HH24:mi:ss')||','||
+			             BLH||','||TCH||','||TO_CHAR(BLSCSJ,'yyyy-MM-dd HH24:mi:ss')||','||YUANSUTH||','||YUANSBLH AS DATA,rownum RN
+ 						 FROM ${dbSchemalzxc}CK_DAOHTZD WHERE TCH IS NOT NULL	      
+        $middle$   				    
+		$foot$
+		]]>
+   </select> 
+		
+<!-- by panrui 2013-07-01 16:10  2850 保税库 发货通知明细 ;EL号不为空 hzg 2014.2.19  -->
+	 <select id="mdanFahtzmxQuery" parameterClass="java.util.Map"  resultClass="java.util.HashMap" remapResults="true">
+		<![CDATA[
+		$head$
+		SELECT USERCENTER||','||UTH||','||UAH||','||ULH||','||BLH||','||ELH||','||GONGYSDM||','||LINGJBH||','||
+		CANGKBH||','||ZICKBH||','||DANW||','||LINGJSL AS DATA ,rownum RN from ${dbSchemalzxc}CK_UABQ WHERE ELH IS NOT NULL      
+        $middle$   				    
+		$foot$
+		]]>
+   </select> 		
+   	
+
+
+      <!-- id="2460" caption="仓库流水账   A01,A01S,A03";mantis:8757 增加原blh字段C38 ;mantis:9353 原BLH改为原始BLH hzg 14.3.7 ;0011467 xss|0012049-->
+   <select id="kuclszQuery" parameterClass="java.util.Map"  resultClass="java.util.HashMap" remapResults="true">
+		<![CDATA[
+		$head$
+			select temp.*, rownum RN from (
+  				SELECT * FROM (
+			        SELECT CASE MX.RUKLX
+				         WHEN '1' THEN
+				          'A01'
+				         WHEN '2' THEN
+				         'A01'
+				         WHEN '4' THEN
+				          'A01'
+				         WHEN '3' THEN
+				          'A03'
+				       END C1,
+				       CASE MX.RUKLX
+				         WHEN '4' THEN
+				          'S'
+				         ELSE
+				          ' '
+				       END C2,
+				       '   ' C3,
+				       '  ' C4,
+				       MX.LINGJBH C5,
+				       1 C6,
+				       MX.GONGYSDM C7,
+				       '+'||' ' C8,
+				       MX.DANW C9,
+				       SUBSTR(MX.BLH,LENGTH(MX.BLH)-9,LENGTH(MX.BLH)) C10,
+				       TO_CHAR(MX.RUKSJ, 'YYYYMMDD') C11,
+				       MX.CHENGYSDM C12,
+				      substr(d.yuansblh,1,10) C38,
+				       'N' C13,
+				       'S' C14,
+				       MX.CANGKBH C15,
+				       ' ' C16,
+				       ' ' C17,
+				       'N' C18,
+				       ' ' C19,
+				       ' ' C20,
+				       MX.PICH C21,
+				       MX.DINGDH C22,
+				      case L.lingjsx when 'K' then '1' else '4' end C23,
+				       MX.CANGKBH || MX.ZICKBH C24,
+				       CASE MX.GONGYSLX
+				         WHEN '1' THEN
+				          '1'
+				         ELSE
+				          ' '
+				       END C25,
+				       MX.USERCENTER C26,
+				       TO_CHAR(MX.RUKSJ, 'YYYYMMDD') C27,
+				       TO_CHAR(MX.RUKSJ, 'HH24MI') C28,
+				       MX.CANGKGLYZ C29,
+				       MX.EDITOR C30,
+				       MX.UTH C31,
+				       TO_CHAR(MX.BLSCSJ, 'YYYYMMDD') C32,
+				       MX.ELH C33,
+				       CASE MX.RUKLX WHEN '3' THEN ' ' ELSE  MX.CHANX END C34,
+				       ' ' C35,
+				       TO_CHAR(MX.EDIT_TIME, 'YYYYMMDD') C36,
+				       REPLACE(TO_CHAR(MX.LINGJSL, '9999999.999'),
+                       ' ',
+                       '0') C37
+				  FROM ${dbSchemalzxc}CK_RUKMX MX
+				  JOIN ${dbSchemalzxc}CKX_CANGK CK ON CK.USERCENTER = MX.USERCENTER
+                   AND CK.CANGKBH = MX.CANGKBH
+                   AND CK.CANGKLX != 4
+                 JOIN ${dbSchemalzxc}CKX_LINGJ L ON MX.USERCENTER=L.USERCENTER AND MX.LINGJBH=L.LINGJBH
+			  left join ${dbSchemalzxc}ck_daohtzd d on mx.usercenter=d.usercenter and mx.blh=d.blh and mx.uth=d.uth
+				 WHERE MX.EDIT_TIME >= (SELECT to_date(to_char(B.LASTCPLTIME,'yyyy-mm-dd HH24:mi:ss') ,'yyyy-mm-dd HH24:mi:ss') FROM ${dbSchemalzxc}IN_ZIDB B WHERE B.INBH='2460') 
+				          AND MX.EDIT_TIME < (SELECT to_date(to_char(B.Yunxkssj,'yyyy-mm-dd HH24:mi:ss') ,'yyyy-mm-dd HH24:mi:ss') FROM ${dbSchemalzxc}IN_ZIDB B WHERE B.INBH='2460') 
+				    ORDER BY C27,C28 )T
+		UNION ALL
+ 				SELECT * FROM (
+				select 'A01'C1,'S'C2,
+               '   ' C3,
+               '  ' C4,
+               T1.LINGJBH C5,
+               1 C6,
+               T2.GONGYSDM C7,
+               '+'||' ' C8,
+               T2.DANW C9,
+               T2.BLH C10,
+               TO_CHAR(T2.RUKRQ, 'YYYYMMDD') C11,
+               T2.CHENGYSDM C12,
+               substr(d.yuansblh,1,10) C38,
+               'N' C13,
+               'S' C14,
+               T2.CANGKBH C15,
+               ' ' C16,
+               ' ' C17,
+               'N' C18,
+               ' ' C19,
+               ' ' C20,
+               T2.PICH C21,
+               ' ' C22,
+               ' ' C23,
+               T1.CANGKBH || T1.ZICKBH C24,
+               CASE T2.GONGYSLX
+                 WHEN '1' THEN
+                  '1'
+                 ELSE
+                  ' '
+               END C25,
+               T2.USERCENTER C26,
+               TO_CHAR(T2.RUKRQ, 'YYYYMMDD') C27,
+               TO_CHAR(T2.RUKRQ, 'HH24MI') C28,
+               T2.CANGKGLYZ C29,
+               ' ' C30,
+               T2.UTH C31,
+               ' ' C32,
+               T2.ELH C33,
+               CASE T2.RUKLX WHEN '3' THEN ' ' ELSE  T2.CHANX END C34,
+               ' ' C35,
+               TO_CHAR(T1.EDIT_TIME, 'YYYYMMDD') C36,
+               REPLACE(TO_CHAR(T1.LINGJSL, '9999999.999'),
+                       ' ',
+                       '0') C37
+		  from ${dbSchemalzxc}ck_chengptxb t1,${dbSchemalzxc}ck_usbq t2 
+		  left join ${dbSchemalzxc}ck_daohtzd d  on t2.usercenter=d.usercenter and t2.uth=d.uth and t2.blh=d.blh  
+		  where t1.usercenter=t2.usercenter and t1.ush=t2.ush and t1.zhuangt in ('2','3') 
+		  AND  T1.EDIT_TIME >= (SELECT to_date(to_char(B.LASTCPLTIME,'yyyy-mm-dd HH24:mi:ss') ,'yyyy-mm-dd HH24:mi:ss') FROM ${dbSchemalzxc}IN_ZIDB B WHERE B.INBH='2460') 
+				  AND T1.EDIT_TIME < (SELECT to_date(to_char(B.Yunxkssj,'yyyy-mm-dd HH24:mi:ss') ,'yyyy-mm-dd HH24:mi:ss') FROM ${dbSchemalzxc}IN_ZIDB B WHERE B.INBH='2460') 
+		    ORDER BY C27,C28 ) Q 		    
+	 UNION ALL
+       		select * from (
+              SELECT 'A03' C1,
+               'S'   C2,
+               '   ' C3,
+               '  '  C4,
+               MX.LINGJBH C5,
+               1 C6,
+               MX.GONGYSDM C7,
+               '+'||' ' C8,
+               MX.DANW C9,
+               SUBSTR(MX.BLH,LENGTH(MX.BLH)-9,LENGTH(MX.BLH)) C10,
+               TO_CHAR(MX.RUKSJ, 'YYYYMMDD') C11,
+               MX.CHENGYSDM C12,
+              substr(d.yuansblh,1,10) C38,
+               'N' C13,
+               'S' C14,
+               MX.CANGKBH C15,
+               ' ' C16,
+               ' ' C17,
+               'N' C18,
+               ' ' C19,
+               ' ' C20,
+               MX.PICH C21,
+               MX.DINGDH C22,
+              case L.lingjsx when 'K' then '1' else '4' end C23,
+               MX.CANGKBH || MX.ZICKBH C24,
+               CASE MX.GONGYSLX
+                 WHEN '1' THEN
+                  '1'
+                 ELSE
+                  ' '
+               END C25,
+               MX.USERCENTER C26,
+               TO_CHAR(MX.RUKSJ, 'YYYYMMDD') C27,
+               TO_CHAR(MX.RUKSJ, 'HH24MI') C28,
+               MX.CANGKGLYZ C29,
+               MX.EDITOR C30,
+               MX.UTH C31,
+               TO_CHAR(MX.BLSCSJ, 'YYYYMMDD') C32,
+               MX.ELH C33,
+               CASE MX.RUKLX WHEN '3' THEN ' ' ELSE  MX.CHANX END C34,
+               ' ' C35,
+               TO_CHAR(MX.EDIT_TIME, 'YYYYMMDD') C36,
+               REPLACE(TO_CHAR(MX.LINGJSL, '9999999.999'),
+                       ' ',
+                       '0') C37
+          FROM ${dbSchemalzxc}CK_RUKMX MX
+          JOIN ${dbSchemalzxc}CKX_CANGK CK ON CK.USERCENTER = MX.USERCENTER
+                   AND CK.CANGKBH = MX.CANGKBH
+                   AND CK.CANGKLX != 4
+                 JOIN CKX_LINGJ L ON MX.USERCENTER=L.USERCENTER AND MX.LINGJBH=L.LINGJBH
+        left join ${dbSchemalzxc}ck_daohtzd d on mx.usercenter=d.usercenter and mx.blh=d.blh and mx.uth=d.uth
+        WHERE  MX.Ruklx = '5' 
+                 and MX.EDIT_TIME >= (SELECT to_date(to_char(B.LASTCPLTIME,'yyyy-mm-dd HH24:mi:ss') ,'yyyy-mm-dd HH24:mi:ss') FROM ${dbSchemalzxc}IN_ZIDB B WHERE B.INBH='2460') 
+                 AND MX.EDIT_TIME < (SELECT to_date(to_char(B.Yunxkssj,'yyyy-mm-dd HH24:mi:ss') ,'yyyy-mm-dd HH24:mi:ss') FROM ${dbSchemalzxc}IN_ZIDB B WHERE B.INBH='2460') 
+            ORDER BY C27,C28 )S
+		  ) temp  where 1=1 
+        $middle$   				    
+		$foot$
+		]]>
+   </select> 
+
+      <!-- id="2461" caption="仓库流水账     A08,A08S,A10" 2460_CKLSZ_FX ; modify D1.DANJLX = 2 AND (D1.ZHUANGT = 1 OR D1.ZHUANGT = 9 hzg 2014.7.7 |lastmodified by 杨志  2015-11-25 for 0010459 |xss-0012049-->
+   <select id="cangklszQuery" parameterClass="java.util.Map"  resultClass="java.util.HashMap" remapResults="true">
+		<![CDATA[
+		$head$
+			select temp.* ,rownum RN from (
+	select * from (
+									SELECT    C1,
+			    C2,
+			    ' ' C3,
+			    ' ' C4,
+			    T.LINGJBH C5,
+			    '1' C6,
+			    T.GONGYSDM C7,
+			     '+'||' ' C8,
+			    T.DANW C9,
+			    SUBSTR(T.BLH,LENGTH(T.BLH)-9,LENGTH(T.BLH)) C10,
+			    TO_CHAR(T.SHENGCSJ, 'YYYYMMDD') C11,
+			    T.BEIZ C12,
+			    'N' C13,
+			    'S' C14,
+			    T.CANGKBH C15,
+			    ' ' C16,
+			    ' ' C17,
+			    'N' C18,
+			    ' ' C19,
+			    ' ' C20,
+			    ' ' C21,
+			    ' ' C22,
+			    ' ' C23,
+			    T.CANGKBH || T.ZICKBH C24,
+			    ' ' C25,
+			    T.USERCENTER C26,
+			    TO_CHAR(T.SHENGCSJ, 'YYYYMMDD') C27,
+			    TO_CHAR(T.SHENGCSJ, 'HH24MI') C28,
+			    T.CANGKGLYZ C29,
+			    T.EDITOR C30,
+			    ' ' C31,
+			    ' ' C32,
+			    T.ELH C33,
+			    ' ' C34,
+			    ' ' C35,
+			    TO_CHAR(T.EDIT_TIME, 'YYYYMMDD') C36,
+			    REPLACE(TO_CHAR(T.FANXSL, '9999999.999'),
+			    ' ',
+			    '0') C37,
+			     T.yuany  C38
+			   FROM (SELECT CASE D1.DANJLX
+			   WHEN '2' THEN
+			   'A08'
+			   END C1,
+			   CASE D1.ZHUANGT
+			   WHEN '9' THEN
+			   'S'
+			   ELSE ' '
+			   END C2,
+			   D1.*,
+			   x.yuany as YUANY
+			   FROM ${dbSchemalzxc}CK_FANXD_LS D1,
+			   ${dbSchemalzxc}ck_zhijbgd x WHERE x.usercenter=D1.usercenter and x.ZHIJJJBGDH=D1.rkpjh
+			   AND ((D1.DANJLX = 2 AND (D1.ZHUANGT = 1 OR D1.ZHUANGT = 9) ) )
+			   AND  D1.EDIT_TIME >= (SELECT to_date(to_char(B.LASTCPLTIME,'yyyy-mm-dd HH24:mi:ss') ,'yyyy-mm-dd HH24:mi:ss')  FROM ${dbSchemalzxc}IN_ZIDB B WHERE B.INBH='2460') 
+			   AND  D1.EDIT_TIME < (SELECT to_date(to_char(B.Yunxkssj,'yyyy-mm-dd HH24:mi:ss') ,'yyyy-mm-dd HH24:mi:ss') FROM ${dbSchemalzxc}IN_ZIDB B WHERE B.INBH='2460')) T
+			   JOIN ${dbSchemalzxc}CKX_CANGK CK ON CK.USERCENTER = T.USERCENTER
+			                AND CK.CANGKBH = T.CANGKBH 
+			                AND CK.CANGKLX != 4
+			    union all  
+			    (
+			    SELECT    C1,
+			    C2,
+			    ' ' C3,
+			    ' ' C4,
+			    T.LINGJBH C5,
+			    '1' C6,
+			    T.GONGYSDM C7,
+			     '+'||' ' C8,
+			    T.DANW C9,
+			    SUBSTR(T.BLH,LENGTH(T.BLH)-9,LENGTH(T.BLH)) C10,
+			    TO_CHAR(T.SHENGCSJ, 'YYYYMMDD') C11,
+			    T.BEIZ C12,
+			    'N' C13,
+			    'S' C14,
+			    T.CANGKBH C15,
+			    ' ' C16,
+			    ' ' C17,
+			    'N' C18,
+			    ' ' C19,
+			    ' ' C20,
+			    ' ' C21,
+			    ' ' C22,
+			    ' ' C23,
+			    T.CANGKBH || T.ZICKBH C24,
+			    ' ' C25,
+			    T.USERCENTER C26,
+			    TO_CHAR(T.SHENGCSJ, 'YYYYMMDD') C27,
+			    TO_CHAR(T.SHENGCSJ, 'HH24MI') C28,
+			    T.CANGKGLYZ C29,
+			    T.EDITOR C30,
+			    ' ' C31,
+			    ' ' C32,
+			    T.ELH C33,
+			    ' ' C34,
+			    ' ' C35,
+			    TO_CHAR(T.EDIT_TIME, 'YYYYMMDD') C36,
+			    REPLACE(TO_CHAR(T.FANXSL, '9999999.999'),
+			    ' ',
+			    '0') C37,
+			    T.yuany  C38
+			   FROM (SELECT CASE D1.DANJLX
+			   WHEN '2' THEN
+			   'A08'
+			   END C1,
+			   CASE D1.ZHUANGT
+			   WHEN '9' THEN
+			   'S'
+			   ELSE ' '
+			   END C2,
+			   D1.*,
+			   x.yuany as YUANY
+			   FROM ${dbSchemalzxc}CK_FANXD_LS D1 ,
+			   ${dbSchemalzxc}ck_yicsb x WHERE x.usercenter=D1.usercenter and x.xiaohdh=D1.rkpjh
+			   AND ((D1.DANJLX = 2 AND (D1.ZHUANGT = 1 OR D1.ZHUANGT = 9) ) )
+			   AND  D1.EDIT_TIME >= (SELECT to_date(to_char(B.LASTCPLTIME,'yyyy-mm-dd HH24:mi:ss') ,'yyyy-mm-dd HH24:mi:ss') FROM ${dbSchemalzxc}IN_ZIDB B WHERE B.INBH='2460') 
+			   AND  D1.EDIT_TIME < (SELECT to_date(to_char(B.Yunxkssj,'yyyy-mm-dd HH24:mi:ss') ,'yyyy-mm-dd HH24:mi:ss') FROM ${dbSchemalzxc}IN_ZIDB B WHERE B.INBH='2460')) T
+			    JOIN ${dbSchemalzxc}CKX_CANGK CK ON CK.USERCENTER = T.USERCENTER
+			                AND CK.CANGKBH = T.CANGKBH 
+			                AND CK.CANGKLX != 4
+			      )
+			      ORDER BY C27,C28 
+			)T 
+			union all 
+			  select * from (
+			    SELECT    C1,
+			                         C2,
+			                         ' ' C3,
+			                         ' ' C4,
+			                         T.LINGJBH C5,
+			                         '1' C6,
+			                         T.GONGYSDM C7,
+			                         '+'||' ' C8,
+			                         T.DANW C9,
+			                         SUBSTR(T.BLH,LENGTH(T.BLH)-9,LENGTH(T.BLH)) C10,
+			                         TO_CHAR(T.SHENGCSJ, 'YYYYMMDD') C11,
+			                         T.BEIZ C12,
+			                         'N' C13,
+			                         'S' C14,
+			                         T.CANGKBH C15,
+			                         ' ' C16,
+			                         ' ' C17,
+			                         'N' C18,
+			                         ' ' C19,
+			                         ' ' C20,
+			                         ' ' C21,
+			                         ' ' C22,
+			                         ' ' C23,
+			                         T.CANGKBH || T.ZICKBH C24,
+			                         ' ' C25,
+			                         T.USERCENTER C26,
+			                         TO_CHAR(T.SHENGCSJ, 'YYYYMMDD') C27,
+			                         TO_CHAR(T.SHENGCSJ, 'HH24MI') C28,
+			                         T.CANGKGLYZ C29,
+			                         T.EDITOR C30,
+			                         ' ' C31,
+			                         ' ' C32,
+			                         T.ELH C33,
+			                         ' ' C34,
+			                         ' ' C35,
+			                         TO_CHAR(T.EDIT_TIME, 'YYYYMMDD') C36,
+			                         REPLACE(TO_CHAR(T.FANXSL, '9999999.999'),
+			                                 ' ',
+			                                 '0') C37,
+			                         ' ' C38
+			                    FROM (SELECT CASE D1.DANJLX
+			                                   WHEN '1' THEN
+			                                    'A10'
+			                                 END C1,
+			                                 CASE D1.ZHUANGT
+			                                   WHEN '9' THEN
+			                                    'S'
+			                                   ELSE ' '
+			                                 END C2,
+			                                 D1.*
+			                            FROM ${dbSchemalzxc}CK_FANXD D1
+			                           WHERE ((D1.DANJLX = 1 AND D1.ZHUANGT = 1 ))
+			                                  AND  D1.EDIT_TIME >= (SELECT to_date(to_char(B.LASTCPLTIME,'yyyy-mm-dd HH24:mi:ss') ,'yyyy-mm-dd HH24:mi:ss') FROM ${dbSchemalzxc}IN_ZIDB B WHERE B.INBH='2460') 
+			                            AND  D1.EDIT_TIME < (SELECT to_date(to_char(B.Yunxkssj,'yyyy-mm-dd HH24:mi:ss') ,'yyyy-mm-dd HH24:mi:ss') FROM ${dbSchemalzxc}IN_ZIDB B WHERE B.INBH='2460') ) T
+			               JOIN ${dbSchemalzxc}CKX_CANGK CK ON CK.USERCENTER = T.USERCENTER
+			                       AND CK.CANGKBH = T.CANGKBH 
+			                       AND CK.CANGKLX != 4
+			                   WHERE T.EDIT_TIME >= (SELECT to_date(to_char(B.LASTCPLTIME,'yyyy-mm-dd HH24:mi:ss') ,'yyyy-mm-dd HH24:mi:ss') FROM ${dbSchemalzxc}IN_ZIDB B WHERE B.INBH='2460') 
+			                        AND T.EDIT_TIME < (SELECT to_date(to_char(B.Yunxkssj,'yyyy-mm-dd HH24:mi:ss') ,'yyyy-mm-dd HH24:mi:ss') FROM ${dbSchemalzxc}IN_ZIDB B WHERE B.INBH='2460') 
+			                   ORDER BY C27,C28 
+			)Q
+			          ) temp where 1=1  		         
+		$foot$
+		]]>
+   </select> 
+
+      <!-- id="2462" caption="仓库流水帐A25,A25S"  纠纷单 2460_CKLSZ_JF ,edit_time改为create_time hzg 2014.5.16|modified by xss for 0010459|modified by xss for 0010767|xss-0012049 -->
+   <select id="cangklszjfQuery" parameterClass="java.util.Map"  resultClass="java.util.HashMap" remapResults="true">
+		<![CDATA[
+		$head$
+		select temp.* ,rownum RN from (	
+			SELECT    C1,
+                     C2,
+                     '' C3,
+                     '' C4,
+                     C5,
+                     '1' C6,
+                     C7,
+                     C8,
+                     T.DANW C9,
+                     SUBSTR(T.BLH,LENGTH(T.BLH)-9,LENGTH(T.BLH)) C10,
+                     TO_CHAR(T.JIUFSJ, 'YYYYMMDD') C11,
+                     T.SUOPDH C12,
+                     'N' C13,
+                     'S' C14,
+                     T.CANGKBH C15,
+                     ' ' C16,
+                     ' ' C17,
+                     'N' C18,
+                     ' ' C19,
+                     ' ' C20,
+                     T.PICH C21,
+                     ' ' C22,
+                     ' ' C23,
+                     T.CANGKBH || T.ZICKBH C24,
+                     ' ' C25,
+                     T.USERCENTER C26,
+                     TO_CHAR(T.JIUFSJ, 'YYYYMMDD') C27,
+                     TO_CHAR(T.JIUFSJ, 'HH24MI') C28,
+                     T.CANGKGLYZ C29,
+                     T.EDITOR C30,
+                     T.UTH C31,
+                     ' ' C32,
+                     C33,
+                     ' ' C34,
+                     ' ' C35,
+                     TO_CHAR(T.EDIT_TIME, 'YYYYMMDD') C36,
+                      C37
+                FROM (
+                      
+                      SELECT 'A25' C1,
+                              '' C2,
+                              D2.*,
+                              D2.LINGJBH C5,
+                              D2.GONGYSDM C7,
+                              CASE
+                                WHEN D2.SHIJKCSL >= D2.LILKCSL THEN
+                                 '+'
+                                ELSE
+                                 '-'
+                              END||' ' AS C8,
+                              D2.Elh C33,
+                              REPLACE(REPLACE(TO_CHAR(D2.SHIJKCSL - D2.LILKCSL,
+                                                              '9999999.999'),
+                                                      
+                                              ' ',
+                                              '0'),
+                                      '-',
+                                      '0') C37
+                        FROM ${dbSchemalzxc}CK_JIUFD D2
+                       WHERE D2.ZHUANGT = 1
+                         AND D2.SHIJKCSL != D2.LILKCSL
+                      UNION ALL
+                      SELECT 'A25' C1,
+                             '' C2,
+                             D3.*,
+                             D3.SHIJLJBH C5,
+                             D3.SHIJGYSBH C7,
+                             '+'||' 'AS C8,
+                             D3.Beiz C33,
+                             REPLACE(TO_CHAR(D3.SHIJLJSL, '9999999.999'),
+                                     ' ',
+                                     '0') C37
+                        FROM ${dbSchemalzxc}CK_JIUFD D3
+                       WHERE D3.ZHUANGT = 1
+                         AND D3.SHIJLJBH IS NOT NULL
+                      UNION ALL
+                      SELECT 'A25' C1,
+                             'S' C2,
+                             D2.*,
+                             D2.LINGJBH C5,
+                             D2.GONGYSDM C7,
+                             CASE
+                               WHEN D2.SHIJKCSL >= D2.LILKCSL THEN
+                                '+'
+                               ELSE
+                                '-'
+                             END ||' ' AS C8,
+                             D2.ELH C33,
+                             REPLACE(REPLACE(TO_CHAR(D2.SHIJKCSL- D2.LILKCSL,
+                                                             '9999999.999'),
+                                                     
+                                             ' ',
+                                             '0'),
+                                     '-',
+                                     '0') C37
+                      
+                        FROM ${dbSchemalzxc}CK_JIUFD D2
+                       WHERE D2.ZHUANGT = 2
+                         AND D2.SHIJKCSL != D2.LILKCSL
+                      UNION ALL
+                      SELECT 'A25' C1,
+                             'S' C2,
+                             D3.*,
+                             D3.SHIJLJBH C5,
+                             D3.SHIJGYSBH C7,
+                             '+'||' 'AS C8,
+                             D3.BEIZ C33,
+                             REPLACE(TO_CHAR(D3.SHIJLJSL, '9999999.999'),
+                                     ' ',
+                                     '0') C37
+                        FROM ${dbSchemalzxc}CK_JIUFD D3
+                       WHERE D3.ZHUANGT = 2
+                         AND D3.SHIJLJBH IS NOT NULL) T
+           JOIN ${dbSchemalzxc}CKX_CANGK CK ON CK.USERCENTER = T.USERCENTER
+                   AND CK.CANGKBH = T.CANGKBH 
+                   AND CK.CANGKLX != 4
+               WHERE T.CREATE_TIME >= (SELECT to_date(to_char(B.LASTCPLTIME,'yyyy-mm-dd HH24:mi:ss') ,'yyyy-mm-dd HH24:mi:ss')  FROM ${dbSchemalzxc}IN_ZIDB B WHERE B.INBH='2460') 
+                    AND T.CREATE_TIME < (SELECT to_date(to_char(B.Yunxkssj,'yyyy-mm-dd HH24:mi:ss') ,'yyyy-mm-dd HH24:mi:ss') FROM ${dbSchemalzxc}IN_ZIDB B WHERE B.INBH='2460') 
+                 ORDER BY C27,C28
+				) temp where 1=1 		
+        $middle$   				    		       
+		$foot$
+		]]>
+   </select> 
+
+<!-- id="2463" caption="仓库流水帐   A35"  2460_CKLSZ_BH_A35 备货单-->
+   <select id="cangklszbhdQuery" parameterClass="java.util.Map"  resultClass="java.util.HashMap" remapResults="true">
+		<![CDATA[
+		$head$
+			select temp.* ,rownum RN from (
+			SELECT    substr(MX.Fahtzdh,1,3) C1,
+                     ' ' C2,
+                     ' ' C3,
+                     ' ' C4,
+                     MX.LINGJBH C5,
+                     ' ' C6,
+                     MX.GONGYSDM C7,
+                     '+'||' '  C8,
+                     MX.DANW C9,
+                     substr(MX.Fahtzdh,4) C10,
+                     ' ' C11,
+                     ' ' C12,
+                     MX.MUDD C13,
+                     ' ' C15,
+                     MX.PICH C16,
+                     ' ' C17,
+                     ' ' C18,
+                     MX.CANGKBH || MX.ZICKBH C19,
+                     '' C20,
+                     MX.USERCENTER C21,
+                     TO_CHAR(MX.Chukrq, 'YYYYMMDD') C22,
+                     TO_CHAR(MX.Chukrq, 'HH24MI') C23,
+                     '' C24,
+                     MX.EDITOR C25,
+                     ' ' C26,
+                     ' ' C27,
+                     MX.ELH C28,
+                     MX.UCH C29,
+                     ' ' C30,
+                     TO_CHAR(MX.EDIT_TIME, 'YYYYMMDD') C31,
+                     REPLACE(TO_CHAR(MX.Lingjsl, '9999999.999') , ' ', '0') C33 
+                FROM ${dbSchemalzxc}CK_UCBQ MX                
+               WHERE substr(MX.Fahtzdh,1,3) = 'A35'
+                 		AND  MX.EDIT_TIME >= (SELECT B.LASTCPLTIME FROM ${dbSchemalzxc}IN_ZIDB B WHERE B.INBH='2460') 
+				  					AND MX.EDIT_TIME < (SELECT B.Yunxkssj FROM ${dbSchemalzxc}IN_ZIDB B WHERE B.INBH='2460') 
+                 		 ORDER BY C22,C23 
+            ) temp where 1=1 	
+        $middle$   				        
+		$foot$
+		]]>
+   </select> 
+
+	<!-- id="2464" caption="仓库流水帐-备货单 A36"  备货单 2460_CKLSZ_BH_A36 -->
+   <select id="cangklszbhdtsQuery" parameterClass="java.util.Map"  resultClass="java.util.HashMap" remapResults="true">
+		<![CDATA[
+		$head$
+		select temp.* ,rownum RN from (
+			SELECT    substr(MX.Fahtzdh,1,3) C1,
+							       ' ' C2,
+							       ' ' C3,
+							       ' ' C4,
+							       MX.LINGJBH C5,
+							       '1' C6,
+							       MX.GONGYSDM C7,
+							       '+'||' '  C8,
+							       MX.DANW C9,
+							       substr(MX.Fahtzdh,4) C10,
+							       ' ' C11,
+							       ' ' C12,
+							       TO_CHAR(MX.CHUKRQ, 'YYYYMMDD') C13,
+							       ' ' C14,
+							       ' ' C15,
+							       ' ' C16,
+							       MX.PICH C17,
+							       ' ' C18,
+							       ' ' C19,
+							       MX.CANGKBH || MX.ZICKBH C20,
+							       ' ' C21,
+							       MX.USERCENTER C22,
+							       TO_CHAR(MX.CHUKRQ, 'YYYYMMDD') C23,
+							       TO_CHAR(MX.CHUKRQ, 'HH24MI') C24,
+							       ' ' C25,
+							       MX.EDITOR C26,
+							       ' ' C27,
+							       ' ' C28,
+							       MX.ELH C29,
+                     MX.cheph C30,
+                     ' ' C31,
+                     TO_CHAR(MX.EDIT_TIME, 'YYYYMMDD') C32,
+                     REPLACE(TO_CHAR(MX.Lingjsl, '9999999.999'), ' ', '0') C34
+                 FROM ${dbSchemalzxc}CK_UCBQ MX                
+               WHERE substr(MX.Fahtzdh,1,3) = 'A36'
+                 AND  MX.EDIT_TIME >= (SELECT B.LASTCPLTIME FROM ${dbSchemalzxc}IN_ZIDB B WHERE B.INBH='2460') 
+				  					AND MX.EDIT_TIME < (SELECT B.Yunxkssj FROM ${dbSchemalzxc}IN_ZIDB B WHERE B.INBH='2460') 
+                     ORDER BY C23,C24
+            ) temp where 1=1 	      
+        $middle$   				    
+		$foot$
+		]]>
+   </select> 
+
+	<!-- id="2465" caption="仓库流水帐-正常退库 A38"  正常退库 "2460_CKLSZ_ZCTK_A38" ; mantis:10336 del AND K.TUIKLB = 1  hzg 2014.7.7 |xss-0012049-->
+   <select id="cangklszzctkQuery" parameterClass="java.util.Map"  resultClass="java.util.HashMap" remapResults="true">
+		<![CDATA[
+		$head$
+		select temp.* ,rownum RN from (
+			SELECT    'A38' C1,
+		       ' ' C2,
+		       ' ' C3,
+		       ' ' C4,
+		       K.LINGJBH C5,
+		       ' ' C6,
+		       K.GONGYSDM C7,
+		       '+'||' '  C8,
+		       K.DANW C9,
+		       K.ZHANGH C10,
+		       ' ' C11,
+		       ' ' C12,
+		       K.KEH C13,
+		       ' ' C15,
+		       K.PICH C16,
+		       ' ' C17,
+		       ' ' C18,
+		       K.CANGKBH || K.ZICKBH C19,
+		       ' ' C20,
+		       K.USERCENTER C21,
+		       TO_CHAR(K.CAOZSJ, 'YYYYMMDD') C22,
+		       TO_CHAR(K.CAOZSJ, 'HH24MI') C23,
+		       '' C24,
+                  K.EDITOR C25,
+                  ' ' C26,
+                  ' ' C27,
+                  K.ELH C28,
+                  ' ' C29,
+                  ' ' C30,
+                  TO_CHAR(K.EDIT_TIME, 'YYYYMMDD') C31,
+		       REPLACE(TO_CHAR(K.LINGJSL, '9999999.999'), ' ', '0') C33
+		  FROM ${dbSchemalzxc}CK_ZHENGCTK K
+		 WHERE K.CAOZM = 'A35'
+		   AND K.ZHUANGT = 2
+		   AND K.EDIT_TIME >= (SELECT to_date(to_char(B.LASTCPLTIME,'yyyy-mm-dd HH24:mi:ss') ,'yyyy-mm-dd HH24:mi:ss')  FROM ${dbSchemalzxc}IN_ZIDB B WHERE B.INBH='2460') 
+			   AND K.EDIT_TIME < (SELECT to_date(to_char(B.Yunxkssj,'yyyy-mm-dd HH24:mi:ss') ,'yyyy-mm-dd HH24:mi:ss')  FROM ${dbSchemalzxc}IN_ZIDB B WHERE B.INBH='2460') 
+		   		 ORDER BY C22,C23
+			) temp where 1=1 		    
+        $middle$   				    
+		$foot$
+		]]>
+   </select> 
+   
+   <!-- id="2466" caption="仓库流水帐-正常退库 A39"  正常退库 "2460_CKLSZ_ZCTK_A39" ; del AND K.TUIKLB = 1 , del AND CK.CANGKLX != 3 AND CK.CANGKLX != 4  hzg 2014.7.8|xss-0012049-->
+   <select id="cangklszzctktnQuery" parameterClass="java.util.Map"  resultClass="java.util.HashMap" remapResults="true">
+		<![CDATA[
+		$head$
+		select temp.* ,rownum RN from (
+			SELECT    'A39' C1,
+				       ' ' C2,
+				       ' ' C3,
+				       ' ' C4,
+				       K.LINGJBH C5,
+				       '1' C6,
+				       K.GONGYSDM C7,
+				       '+'||' '  C8,
+					   K.DANW C9,
+				       K.ZHANGH C10,
+				       ' ' C11,
+				       ' ' C12,
+				       TO_CHAR(K.CAOZSJ, 'YYYYMMDD') C13,
+				       ' ' C14,
+				       ' ' C15,
+				       ' ' C16,
+				       K.PICH C17,
+				       ' ' C18,
+				       ' ' C19,
+				       K.CANGKBH || K.ZICKBH C20,
+				       ' ' C21,
+				       K.USERCENTER C22,
+				       TO_CHAR(K.CAOZSJ, 'YYYYMMDD') C23,
+				       TO_CHAR(K.CAOZSJ, 'HH24MI') C24,
+				       ' ' C25,
+				       K.EDITOR C26,
+				       ' ' C27,
+				       ' ' C28,
+				       K.ELH C29,
+				       ' ' C30,
+				       ' ' C31,
+				       TO_CHAR(K.EDIT_TIME, 'YYYYMMDD') C32,
+				       REPLACE(TO_CHAR(K.LINGJSL, '9999999.999') , ' ', '0') C34
+				  FROM ${dbSchemalzxc}CK_ZHENGCTK K
+				  JOIN ${dbSchemalzxc}CKX_CANGK CK ON CK.USERCENTER = K.USERCENTER
+	                   AND CK.CANGKBH = K.CANGKBH
+				 WHERE K.CAOZM = 'A36'
+				   AND K.ZHUANGT = 2
+				   AND K.EDIT_TIME >= (SELECT to_date(to_char(B.LASTCPLTIME,'yyyy-mm-dd HH24:mi:ss') ,'yyyy-mm-dd HH24:mi:ss') FROM ${dbSchemalzxc}IN_ZIDB B WHERE B.INBH='2460') 
+				  		   AND K.EDIT_TIME < (SELECT to_date(to_char(B.Yunxkssj,'yyyy-mm-dd HH24:mi:ss') ,'yyyy-mm-dd HH24:mi:ss')  FROM ${dbSchemalzxc}IN_ZIDB B WHERE B.INBH='2460')
+				   	ORDER BY C23,C24
+			) temp where 1=1 		   
+        $middle$   				        
+		$foot$
+		]]>
+   </select> 
+
+
+   <!-- id="2700" caption="成品库发货通知" xss-0011879|xss-0012049|lc 2016-1-18|0013632:CHEP直接输出  lc 2017-4-20 -->
+   <select id="chenpkfhtzQuery" parameterClass="java.util.Map" resultClass="java.util.HashMap" remapResults="true">
+		<![CDATA[
+		$head$
+		select tt.*,ROWNUM RN from (
+			SELECT * FROM (
+			SELECT C1,
+               C2,
+               C3,
+               (select  to_char(min(y.zuiwsj),'YYYYMMDDHH24MISS') from ${dbSchemalzxc}ck_yaonbhl y where y.yaohlh in (select b.yaohlbh from ${dbSchemalzxc}fj_zhuangcmy b where b.zhuangcdh =T2.c1) )  C4,
+               C5,
+               C6,
+               C7,
+               C8,
+               C9,
+               C10,
+               C11,
+               ROWNUM C12,
+               '+' ||
+               REPLACE(TO_CHAR(T3.LINGJSL, '999999999.999'), ' ', '0') C13,
+               B.DANW C14,
+               B.SHANGXLX C15,
+               T2.LINGJBH C16,
+               L.DINGDH C17,
+               '' C18,
+               T2.UAKH C19,
+               B.UAXH C20,
+               B.UCH C21,
+               B.UCXH C22,
+               LPAD(TO_CHAR(B.UCRL)||'.000',10,0) C23,
+               REPLACE(TO_CHAR(T2.LINGJSL, '99999.999'), ' ', '0') C24,
+               L.YAOHLH C25,
+               B.PICH C26,
+               '' C27,
+               '' C28,
+               '' C32,
+               '' C33,
+               '' C34,
+               L.GONGYSDM C29,
+               '' C30,
+               '' C31,
+               L.BEIZ3 AS  USERCENTER
+          FROM (SELECT T.Zhuangcdh C1,
+                       t.peizdh,    
+                       to_char(T.EDIT_TIME, 'yyyyMMddHH24miss') C2,
+                       ' ' C3,
+                       '' C4,
+                       T.YUNSSBM C5,
+                       ' ' C6,
+                       T1.XIEHD C7,
+                       T.EDITOR C8,
+                       T.CHEP   C9,
+                       1 C10,
+                       0 C11,
+                       T1.UAKH,
+                       T.USERCENTER,
+                       T1.YAOHLBH,
+                       T1.LINGJBH,
+                       T1.USKH,
+                       T1.LINGJSL
+                  FROM ${dbSchemalzxc}FJ_ZHUANGCFY T
+                  JOIN ${dbSchemalzxc}FJ_ZHUANGCMY T1
+                    ON T1.ZHUANGCDH = T.ZHUANGCDH) T2
+          JOIN ${dbSchemalzxc}CK_UCBQ B
+            ON T2.USERCENTER = B.USERCENTER
+           AND T2.USKH = B.USH
+           AND T2.UAKH = B.UCH
+         INNER JOIN (SELECT YHL.*
+                      FROM ${dbSchemalzxc}CK_YAONBHL YHL
+                     INNER JOIN ${dbSchemalzxc}CKX_KEHB KH
+                        ON YHL.KEH = KH.KEHBH
+                     WHERE KH.KEHXZ = '0') L
+            ON L.USERCENTER = T2.USERCENTER
+           AND T2.YAOHLBH = L.YAOHLH
+          JOIN (SELECT F.Zhuangcdh, Y.LINGJBH, SUM(Y.LINGJSL) LINGJSL
+                 FROM ${dbSchemalzxc}FJ_ZHUANGCFY F
+                 JOIN ${dbSchemalzxc}FJ_ZHUANGCMY Y
+                   ON Y.ZHUANGCDH = F.ZHUANGCDH
+                WHERE  F.EDIT_TIME >= (SELECT to_date(to_char(B.LASTCPLTIME-1/(24*60),'yyyy-mm-dd HH24:mi:ss') ,'yyyy-mm-dd HH24:mi:ss')  FROM ${dbSchemalzxc}IN_ZIDB B WHERE B.INBH='2700') 
+                       AND F.EDIT_TIME < (SELECT to_date(to_char(B.Yunxkssj-1/(24*60),'yyyy-mm-dd HH24:mi:ss') ,'yyyy-mm-dd HH24:mi:ss')  FROM ${dbSchemalzxc}IN_ZIDB B WHERE B.INBH='2700') 
+                GROUP BY F.Zhuangcdh, Y.LINGJBH) T3
+            ON T3.Zhuangcdh = T2.c1
+           AND T2.LINGJBH = T3.LINGJBH
+        order by C21,usercenter)
+        UNION ALL
+            SELECT * FROM (
+            SELECT C1,
+                   C2,
+                   C3,
+                   C4,
+                   C5,
+                   C6,
+                   C7,
+                   C8,
+                   C9,
+                   C10,
+                   C11,
+                   ROWNUM C12,
+                   '+'||REPLACE(TO_CHAR(T3.LINGJSL,'999999999.999'),' ','0') C13,
+                   B.DANW C14,
+                   B.SHANGXLX C15,
+                   T2.LINGJBH C16,
+                   '' C17,
+                   '' C18,
+                   T2.USKH C19,
+                   B.UAXH C20,
+                   B.UCH C21,
+                   B.UCXH C22,
+                   LPAD(TO_CHAR(B.UCRL)||'.000',10,0) C23,
+                   REPLACE(TO_CHAR(T2.LINGJSL,'99999.999'),' ','0') C24,
+                   T2.USKH C25,
+                   B.PICH C26,
+                   '' C27,
+                   '' C28,
+                   '' C32,
+                   '' C33,
+                   '' C34,
+                   '' C29,
+                   '' C30,
+                   '' C31,
+                   T2.USERCENTER
+              FROM (SELECT T.ZHUANGCDH C1,
+                           T.PEIZDH,    
+                           to_char(T.EDIT_TIME,'yyyyMMddHH24miss') C2,
+                           '' C3,
+                           '' C4,
+                           T.YUNSSBM C5,
+                           '' C6,
+                           T1.XIEHD C7,
+                           T.EDITOR C8,
+                           T.JIHCX C9,
+                           1 C10,
+                           0 C11,
+                           T1.UAKH,
+                           T.USERCENTER,
+                           T1.YAOHLBH,
+                           T1.LINGJBH,
+                           T1.USKH,
+                           T1.LINGJSL
+                      FROM ${dbSchemalzxc}FJ_ZHUANGCFY T
+                      JOIN ${dbSchemalzxc}FJ_ZHUANGCMY T1
+                        ON T1.ZHUANGCDH = T.ZHUANGCDH
+                       AND T.JIHCX='YK') T2
+                      JOIN ${dbSchemalzxc}CK_UCBQ B
+                        ON T2.USERCENTER = B.USERCENTER
+                       AND T2.USKH = B.USH
+                       AND T2.UAKH = B.UCH
+                     JOIN (SELECT F.ZHUANGCDH,Y.LINGJBH,SUM(Y.LINGJSL) LINGJSL
+                             FROM ${dbSchemalzxc}FJ_ZHUANGCFY F
+                             JOIN ${dbSchemalzxc}FJ_ZHUANGCMY Y
+                               ON Y.ZHUANGCDH = F.ZHUANGCDH
+                              AND F.JIHCX='YK'
+                            WHERE F.EDIT_TIME >= (SELECT to_date(to_char(B.LASTCPLTIME-1/(24*60),'yyyy-mm-dd HH24:mi:ss'),'yyyy-mm-dd HH24:mi:ss') FROM ${dbSchemalzxc}IN_ZIDB B WHERE B.INBH='2700') 
+                              AND F.EDIT_TIME < (SELECT to_date(to_char(B.Yunxkssj-1/(24*60),'yyyy-mm-dd HH24:mi:ss'),'yyyy-mm-dd HH24:mi:ss') FROM ${dbSchemalzxc}IN_ZIDB B WHERE B.INBH='2700') 
+                         GROUP BY F.ZHUANGCDH,Y.LINGJBH) T3
+                       ON T3.ZHUANGCDH = T2.C1
+                      AND T3.LINGJBH = T2.LINGJBH
+		         order by C21,usercenter)    
+		) tt where 1=1 	
+		]]>
+       	<dynamic>
+			<isNotEmpty prepend=" AND " property="usercenter"><![CDATA[ usercenter  in ($usercenter$) ]]></isNotEmpty>
+		</dynamic>
+		<![CDATA[		
+        $middle$   				    	   
+		$foot$
+		]]>
+   </select> 
+   
+       <!-- id="2467" caption="仓库流水帐-盘点差异A53" "2460_CKLSZ_ZCTK_A53"-->
+   <select id="cangklszpdcyQuery" parameterClass="java.util.Map"  resultClass="java.util.HashMap" remapResults="true">
+		<![CDATA[
+		$head$
+		select temp.* ,rownum RN from (
+						SELECT    'A53' C1,
+							       '' C2,
+							       '' C3,
+							       '' C4,
+							       Y.LINGJBH C5,
+							       '' C6,
+							       Y.GONGYSDM C7,
+				    			   CASE
+				                         WHEN Y.YUANUSSL is null THEN
+				                         '+'
+				                         WHEN  Y.SHIJUSSL >=Y.YUANUSSL  THEN
+				                         '+'
+				                         ELSE
+				                         '-'
+				                         END||' ' AS C8, 						       
+							       L.DANW C9,
+							       ' ' C10,
+							       ' ' C11,
+							       ' ' C12,
+							       ' ' C13,
+							       ' ' C14,
+							       ' ' C15,
+							       Y.CHANX C16,
+							       ' ' C17,
+							       ' ' C18,
+							       Y.PICH C19,
+							       ' ' C20,
+							       ' ' C21,
+							       Y.CANGKBH || Y.ZICKBH C22,
+							       ' ' C23,
+							       Y.USERCENTER C24,
+							       TO_CHAR(Y.WEIHSJ, 'YYYYMMDD') C25,
+							       TO_CHAR(Y.WEIHSJ, 'HH24MI') C26,
+							       Y.CANGKGLYZ C27,
+							       Y.PANDR C28,
+							       Y.UTH C29,
+							       ' ' C30,
+							       Y.ELH C31,
+							       ' ' C32,
+							       TO_CHAR(Y.WEIHSJ, 'YYYYMMDD') C33,
+							       REPLACE(REPLACE(TO_CHAR(nvl(Y.SHIJUSSL, '0')    - nvl(Y.YUANUSSL, '0'),
+							                                '9999999.999'),
+							                                        
+							                                ' ',
+							                                '0'),
+							                        '-',
+							                        '0') C34
+							  FROM ${dbSchemalzxc}CK_PANDCY Y
+							  JOIN ${dbSchemalzxc}CKX_LINGJ L
+                			  ON Y.USERCENTER = L.USERCENTER AND Y.LINGJBH = L.LINGJBH
+							 WHERE Y.WEIHSJ >= (SELECT B.LASTCPLTIME FROM ${dbSchemalzxc}IN_ZIDB B WHERE B.INBH='2460') 
+				  		   			AND Y.WEIHSJ < (SELECT B.Yunxkssj FROM ${dbSchemalzxc}IN_ZIDB B WHERE B.INBH='2460')  
+					ORDER BY C25,C26 	 	
+			) temp where 1=1			
+        $middle$   				    		       
+		$foot$
+		]]>
+   </select> 
+   
+   <!-- id="2468" caption="仓库流水帐-移库 A70" "2460_CKLSZ_YKMX_A70" | modified by xss.20140829 for 0010384|xss-0012049-->
+   <select id="cangklszyikQuery" parameterClass="java.util.Map"  resultClass="java.util.HashMap" remapResults="true">
+		<![CDATA[
+		$head$
+		select temp.* ,rownum RN from (
+			SELECT * FROM (
+      SELECT    substr(MX.Fahtzdh,1,3) C1,
+                     ' ' C2,
+                     ' ' C3,
+                     ' ' C4,
+                     MX.LINGJBH C5,
+                     ' ' C6,
+                     MX.GONGYSDM C7,
+                     '+'||' '  C8,
+                     MX.DANW C9,
+                     substr(MX.Fahtzdh,4) C10,
+                     ' ' C11,
+                     ' ' C12,
+                     MX.MUDD C13,
+                     ' ' C15,
+                     MX.PICH C16,
+                     ' ' C17,
+                     ' ' C18,
+                     MX.CANGKBH || MX.ZICKBH C19,
+                     '' C20,
+                     MX.USERCENTER C21,
+                     TO_CHAR(MX.Chukrq, 'YYYYMMDD') C22,
+                     TO_CHAR(MX.Chukrq, 'HH24MI') C23,
+                     '' C24,
+                     MX.EDITOR C25,
+                     ' ' C26,
+                     ' ' C27,
+                     MX.ELH C28,
+                     ' ' C29,
+                     ' ' C30,
+                     TO_CHAR(MX.EDIT_TIME, 'YYYYMMDD') C31,
+                     REPLACE(TO_CHAR(MX.Lingjsl, '9999999.999') , ' ', '0') C33
+                FROM ${dbSchemalzxc}CK_UCBQ MX                
+               WHERE substr(MX.Fahtzdh,1,3) = 'A70'
+                 AND MX.EDIT_TIME  >= (SELECT to_date(to_char(B.LASTCPLTIME,'yyyy-mm-dd HH24:mi:ss') ,'yyyy-mm-dd HH24:mi:ss') FROM ${dbSchemalzxc}IN_ZIDB B WHERE B.INBH='2460') 
+                AND MX.EDIT_TIME < (SELECT to_date(to_char(B.Yunxkssj,'yyyy-mm-dd HH24:mi:ss') ,'yyyy-mm-dd HH24:mi:ss')   FROM ${dbSchemalzxc}IN_ZIDB B WHERE B.INBH='2460')  
+                 ORDER BY C22,C23)M
+               Union all
+ SELECT * FROM (
+               SELECT    'A70' C1,
+                     ' ' C2,
+                     ' ' C3,
+                     ' ' C4,
+                     t.LINGJBH C5,
+                     ' ' C6,
+                     t.GONGYSDM C7,
+                     '+'||' '  C8,
+                    t.DANW C9,
+                    t.keh C10,
+                     ' ' C11,
+                     ' ' C12,
+                     t.keh C13,
+                     ' ' C15,
+                     t.PICH C16,
+                     ' ' C17,
+                     ' ' C18,
+                    t.CANGKBH || t.ZICKBH C19,
+                     '' C20,
+                     t.USERCENTER C21,
+                     TO_CHAR(t.caozsj, 'YYYYMMDD') C22,
+                     TO_CHAR(t.caozsj, 'HH24MI') C23,
+                     '' C24,
+                     t.EDITOR C25,
+                     ' ' C26,
+                     ' ' C27,
+                    t.ELH C28,
+                     ' ' C29,
+                     ' ' C30,
+                     TO_CHAR(t.EDIT_TIME, 'YYYYMMDD') C31,
+                     REPLACE(TO_CHAR(t.Lingjsl, '9999999.999') , ' ', '0') C33
+                FROM ${dbSchemalzxc}ck_zhengctk t                
+               WHERE t.caozm= 'A70'
+               and t.zhuangt='2'
+                 AND t.EDIT_TIME  >= (SELECT to_date(to_char(B.LASTCPLTIME,'yyyy-mm-dd HH24:mi:ss') ,'yyyy-mm-dd HH24:mi:ss') FROM ${dbSchemalzxc}IN_ZIDB B WHERE B.INBH='2460') 
+                AND t.EDIT_TIME < (SELECT to_date(to_char(B.Yunxkssj,'yyyy-mm-dd HH24:mi:ss') ,'yyyy-mm-dd HH24:mi:ss')   FROM ${dbSchemalzxc}IN_ZIDB B WHERE B.INBH='2460')  
+                  ORDER BY C22,C23 )N                  
+            ) temp where 1=1 	       
+        $middle$   				    
+		$foot$
+		]]>
+   </select> 
+   
+   
+   
+      <!-- id="2469" caption="仓库流水账     A11 A11S" modified by xss for 0010680 |xss-0012049-->
+   <select id="baofeiQuery" parameterClass="java.util.Map"  resultClass="java.util.HashMap" remapResults="true">
+		<![CDATA[
+		$head$
+			select temp.* ,rownum RN from (	
+			  select * from (  	
+				select * from (
+								select 'A11' C1,
+						       case t.zhuangt
+						         when '1' then
+						          ''
+						         when '0' then
+						          'S'
+						       end C2,
+						       '' C3,
+						       '' C4,
+						       t.lingjbh C5,
+						       '1' C6,
+						       t1.zerztdm C7,
+						       '+'||' ' C8,
+						       t.danw C9,
+						       t.yiclx C10,
+						       TO_CHAR(T.Create_Time, 'YYYYMMDD') C11,
+						       t.wuld C12,
+						       'N' C13,
+						       'S' C14,
+						       t.cangkbh C15,
+						       ' ' C16,
+						       ' ' C17,
+						       'N' C18,
+						       ' ' C19,
+						       ' ' C20,
+						       t.baofdh C21,
+						       ' ' C22,
+						       ' ' C23,
+						       T.CANGKBH || T.ZICKBH C24,
+						       ' ' C25,
+						       T.USERCENTER C26,
+						       TO_CHAR(T.Create_Time, 'YYYYMMDD') C27,
+						       TO_CHAR(T.Create_Time, 'HH24MI') C28,
+						       '' C29,
+						       T.EDITOR C30,
+						       ' ' C31,
+						       ' ' C32,
+						       T.Elh C33,
+						       ' ' C34,
+						       ' ' C35,
+						       TO_CHAR(T.Create_Time, 'YYYYMMDD') C36,
+						       REPLACE(TO_CHAR(T.querxhsl, '9999999.999'),
+						               ' ',
+						               '0') C37，
+						       t.edit_time
+						  from ${dbSchemalzxc}ck_xiaohd_ls t
+						  join ${dbSchemalzxc}ck_yicsb t1
+						    on t1.usercenter = t.usercenter
+						   and t1.xiaohdh = trim(t.baofdh)
+						where (t.zhuangt = '0' or t.zhuangt = '1')
+						   AND t.EDIT_TIME  >= (SELECT to_date(to_char(B.LASTCPLTIME,'yyyy-mm-dd HH24:mi:ss') ,'yyyy-mm-dd HH24:mi:ss')  FROM ${dbSchemalzxc}IN_ZIDB B WHERE B.INBH='2460') 
+						    AND t.EDIT_TIME < (SELECT to_date(to_char(B.Yunxkssj,'yyyy-mm-dd HH24:mi:ss') ,'yyyy-mm-dd HH24:mi:ss') FROM ${dbSchemalzxc}IN_ZIDB B WHERE B.INBH='2460') 
+    )M 
+union
+	select * from (	
+			select 'A11' C1,
+		       case t.zhuangt
+		         when '1' then
+		          ''
+		         when '0' then
+		          'S'
+		       end C2,
+		       '' C3,
+		       '' C4,
+		       t.lingjbh C5,
+		       '1' C6,
+		       t1.zerztdm C7,
+		       '+'||' ' C8,
+		       t.danw C9,
+		      t.yiclx C10,
+		       TO_CHAR(T.Create_Time, 'YYYYMMDD') C11,
+		       t.wuld C12,
+		       'N' C13,
+		       'S' C14,
+		       t.cangkbh C15,
+		       ' ' C16,
+		       ' ' C17,
+		       'N' C18,
+		       ' ' C19,
+		       ' ' C20,
+		       t.baofdh C21,
+		       ' ' C22,
+		       ' ' C23,
+		       T.CANGKBH || T.ZICKBH C24,
+		       ' ' C25,
+		       T.USERCENTER C26,
+		       TO_CHAR(T.Create_Time, 'YYYYMMDD') C27,
+		       TO_CHAR(T.Create_Time, 'HH24MI') C28,
+		       '' C29,
+		       T.EDITOR C30,
+		       ' ' C31,
+		       ' ' C32,
+		       T.Elh C33,
+		       ' ' C34,
+		       ' ' C35,
+		       TO_CHAR(T.Create_Time, 'YYYYMMDD') C36,
+		       REPLACE(TO_CHAR(T.QUERXHSL, '9999999.999'),
+		               ' ',
+		               '0') C37，
+		       t.edit_time
+		  from ${dbSchemalzxc}ck_xiaohd_ls t
+		  join ${dbSchemalzxc}ck_zhijbgd t1
+		    on t1.usercenter = t.usercenter
+		   and t1.zhijjjbgdh = trim(t.baofdh)
+		where (t.zhuangt = '0' or t.zhuangt = '1')
+		AND t.EDIT_TIME  >= (SELECT to_date(to_char(B.LASTCPLTIME,'yyyy-mm-dd HH24:mi:ss') ,'yyyy-mm-dd HH24:mi:ss') FROM ${dbSchemalzxc}IN_ZIDB B WHERE B.INBH='2460')  
+		AND t.EDIT_TIME < (SELECT to_date(to_char(B.Yunxkssj,'yyyy-mm-dd HH24:mi:ss') ,'yyyy-mm-dd HH24:mi:ss') FROM ${dbSchemalzxc}IN_ZIDB B WHERE B.INBH='2460')  
+ 		)N
+ 	)T order by T.edit_time  
+			) temp where 1=1	       
+      $middle$   				    
+		  $foot$
+		]]>
+   </select> 
+   
+    <!-- id="2470" caption="成品库流水账" |xss-0012049-->
+   <select id="chenpklszQuery" parameterClass="java.util.Map"  resultClass="java.util.HashMap" remapResults="true">
+		<![CDATA[
+		$head$
+		select temp.*,rownum RN from (
+			SELECT    'AVX' AVX,
+						       TO_CHAR(SYSDATE, 'YYYYMMDDHH24MISS') CSRQ,
+						       US.CANGKBH || US.ZICKBH YSXX,
+						       BHD.KEH SHXX,
+						       BHD.CHANX ZZSCJDM,
+						       MX.LINGJBH XSSLJDM,
+						       MX.DANW GLDYDM,
+						       '+' SLBJ,
+						       REPLACE(REPLACE(TO_CHAR(MX.SHIFSL, '99999.999'), '.', ''), ' ', '0') SHIFSL,
+						       US.USH,
+						       '0000054011' EVTIMPUT,
+						       BHD.KEH,
+						       '      ' JSJYKH,
+						       '          ' AFFAIRE,
+						       ' ' PJLX,
+						       ' ' MXLJ,
+						       'F' KEHLX,
+						       '  ' BB,
+						       TO_CHAR(ROWNUM) JLHH,
+						       TO_CHAR(ROWNUM-1) SYGJLHH,
+						       MX.DINGDH DDH,
+						       REPLACE(REPLACE(TO_CHAR(  NVL(MX.SHIFSL * LJ.LINGJZL, 0), '9999.999') ,'.', ''),' ','0')MAOZ,  
+						       LJKEH.KEHLJH,
+						       'N' KEHDMKC,
+						       '+' ZLBJ,
+						       REPLACE(REPLACE(TO_CHAR(NVL(LJ.LINGJZL, 0), '99999.999'), '.', ''),
+						               ' ',
+						               '0') LINGJZL,
+						       '         ' ETIUMP,
+						       '   ' ZZX,
+						       '          ' TSLJ 
+						  FROM ${dbSchemalzxc}CK_BEIHDMX MX 
+						  JOIN ${dbSchemalzxc}CK_BEIHD BHD 
+						    ON MX.USERCENTER = BHD.USERCENTER 
+						   AND MX.BEIHDH = BHD.BEIHDH 
+						  JOIN ${dbSchemalzxc}CK_USBQ US 
+						    ON US.USH = MX.USH 
+						   AND US.USERCENTER = MX.USERCENTER 
+						  JOIN ${dbSchemalzxc}CKX_LINGJ LJ 
+						    ON LJ.USERCENTER = MX.USERCENTER 
+						   AND LJ.LINGJBH = MX.LINGJBH 
+						  LEFT JOIN ${dbSchemalzxc}CKX_LINGJKH LJKEH  
+						    ON LJKEH.USERCENTER = MX.USERCENTER 
+						   AND MX.LINGJBH = LJKEH.LINGJBH 
+						  JOIN ${dbSchemalzxc}CKX_CANGK CK  ON CK.CANGKBH=MX.CANGKBH
+						   AND CK.USERCENTER=MX.USERCENTER AND (CK.CANGKLX=3 OR  CK.CANGKLX=4) 
+						 WHERE (MX.BIAOS = 2 OR MX.BIAOS = 3) 
+						   AND LJ.BIAOS = 1
+						   AND  MX.EDIT_TIME >= (SELECT to_date(to_char(B.LASTCPLTIME,'yyyy-mm-dd HH24:mi:ss') ,'yyyy-mm-dd HH24:mi:ss')  FROM ${dbSchemalzxc}IN_ZIDB B WHERE B.INBH='2470') 
+                  			AND MX.EDIT_TIME < (SELECT to_date(to_char(B.Yunxkssj,'yyyy-mm-dd HH24:mi:ss') ,'yyyy-mm-dd HH24:mi:ss') FROM ${dbSchemalzxc}IN_ZIDB B WHERE B.INBH='2470') 
+		$middle$			   
+		ORDER BY USH  	
+		) temp where 1=1 			   
+						   
+		$foot$
+		]]>
+   </select> 
+   
+   <!-- id="2490" caption="入库反馈"-->
+   <select id="rukfkQuery" parameterClass="java.util.Map"  resultClass="java.util.HashMap" remapResults="true">
+		<![CDATA[
+		$head$
+			select temp.*,rownum RN from (select YAOHLH, '0' ||replace(replace(to_char(yanssl, '99999999.999'), '.', ''), ' ', '0') as YANSSL,
+		    to_char(RUKSJ, 'yyyyMMddHH24miss') as RUKSJ,DANW,lingjbh LJH,substr(blh,0,1) TBBS,EDIT_TIME from ${dbSchemalzxc}ck_uabq where baozzt = '5' order by YAOHLH) temp where 1=1 
+		 $middle$     
+		$foot$
+		]]>
+   </select> 
+   
+      <!-- id="2500" caption="发货通知信息"|xss-0012049-->
+   <select id="fahtzxxQuery" parameterClass="java.util.Map"  resultClass="java.util.HashMap" remapResults="true">
+		<![CDATA[
+		$head$
+		select temp.*,rownum RN from (
+			SELECT T4.jfdh jfdh,T4.tch tch,T4.um um,T4.lingjh lingjh, '+' || REPLACE(TO_CHAR(sum(lingjsl), '99999999.99'), ' ', '0')  as lingjsl FROM
+					(SELECT jfdh, T2.D04A001 AS tch, um, lingjh, lingjsl
+					  FROM ${dbSchemalzxc}IN_EDI_FHTZ_FYXX T2
+					  JOIN (SELECT Z.T01A001 JFDH, Z.A04A002 LINGJH, T1.LINGJSL, T1.B04A001 UM
+					          FROM ${dbSchemalzxc}IN_EDI_FHTZ_FYMX Z
+					          JOIN (
+					               SELECT T.B04A001,
+					                       T.T01A001,
+					                       T.XUH,
+					                       REPLACE(TO_CHAR(SUM(T.B05AB02), '99999999.99'), ' ', '0') LINGJSL
+					                 FROM ${dbSchemalzxc}IN_EDI_FHTZ_BZXX T
+					                GROUP BY B04A001, T01A001, T.XUH) T1 ON T1.XUH = Z.XUH
+					                                                    AND Z.T01A001 = T1.T01A001) T3 ON T3.JFDH = T2.T01A001
+					 where 
+					       t2.cj_date >= (SELECT to_date(to_char(B.LASTCPLTIME,'yyyy-mm-dd HH24:mi:ss') ,'yyyy-mm-dd HH24:mi:ss') FROM ${dbSchemalzxc}IN_ZIDB B WHERE B.INBH='2500') 
+                           AND t2.cj_date < (SELECT to_date(to_char(B.Yunxkssj,'yyyy-mm-dd HH24:mi:ss') ,'yyyy-mm-dd HH24:mi:ss')  FROM ${dbSchemalzxc}IN_ZIDB B WHERE B.INBH='2500') 
+					       ) T4 WHERE 1=1 GROUP BY T4.jfdh,T4.tch,T4.um,T4.lingjh order by T4.jfdh, T4.tch, T4.um, T4.lingjh
+		) temp where 1=1 		
+		$foot$
+		]]>
+   </select>
+   
+      <!-- id="2550" caption="订单"-->
+   <select id="dingdoutQuery" parameterClass="java.util.Map"  resultClass="java.util.HashMap" remapResults="true">
+		<![CDATA[
+		$head$
+		select tt.*,ROWNUM RN from (
+			SELECT 
+			USERCENTER, JISZQ, DINGDH, HETH, 
+			DINGDLX, GONGYSDM, GONGYSLX, 
+			CHULLX, DINGDZT, DINGDSXCZR, 
+			DINGDSXSJ, DINGDFSSJ, SHIFFSGYS, 
+			BEIZ, DINGDJSSJ, DINGDNR, ZIYHQRQ, 
+			FAHZQ, MAOXQBC, JISLX, SHIFZFSYHL, 
+			SHIFYJSYHL,  ACTIVE  
+			FROM ${dbSchemalzxc}XQJS_DINGD WHERE DINGDZT='4' and SHIFYJSYHL='1'   
+		$middle$
+		 order by DINGDH     
+		 ) tt where 1=1 				
+		$foot$
+		]]>
+   </select>
+   
+       <!-- id="2510" caption="GEVP发货通知" |xss-0012049-->
+   <select id="gevpfhtzQuery" parameterClass="java.util.Map"  resultClass="java.util.HashMap" remapResults="true">
+		<![CDATA[
+		$head$
+		select temp.*,rownum RN from (
+			SELECT rpad(T2.FHTZH,10,' ')||','||rpad(T2.SCSJ,14,' ')||','||rpad(T2.FSSJ,16,' ')||','||rpad(T2.DDSJ,16,' ')||','||
+					       rpad(T2.CHENYS,17,' ')||','||rpad(nvl(T2.GONGYS,' '),10,' ')||','||rpad(T2.XIEHD,15,' ')||','||rpad(T2.KACH,10,' ')||','||
+					       rpad(L.BEIZ3,2,' ')||','||rpad(T2.LINGJH,10,' ')||','||rpad(T2.LINGJMC,40,' ')||','||rpad(T2.LINGJSL,9,' ')||','||
+					       rpad(T2.YAOHLH,22,' ')||','||rpad(B.UCXH,6,' ')||',' ||
+					       rpad(replace(to_char(B.UCGS, '999999999'), ' ', ''),9,' ')||','||
+					       rpad(replace(to_char(B.UCRL, '999999.99'), ' ', ''),9,' ')||','||
+					       rpad(' ',10,' ')||',' AS DATA
+		  			FROM (SELECT T.PEIZDH,
+		               T.Zhuangcdh FHTZH,
+		               to_char(T.EDIT_TIME, 'yyyyMMddHHmiss') SCSJ,
+                   	   to_char(coalesce(PZ.FAYSJ, T.Create_Time), 'yyyyMMddHHmiss') FSSJ,
+                       to_char( coalesce(PZ.DAOCSJ,  T.Create_Time), 'yyyyMMddHHmiss') DDSJ,
+		               T.YUNSSBM CHENYS,
+		               T.GONGYSBM GONGYS,
+		               T1.XIEHD XIEHD,
+		               T.CHEP KACH,
+		               T1.UAKH,
+		               T.USERCENTER usercenter,
+		               T1.YAOHLBH YAOHLH,
+		               T1.LINGJBH LINGJH,
+		               T1.LINGJMC LINGJMC,
+		               replace(to_char(T1.LINGJSL, '999999.99'), ' ', '') as lingjsl,
+		               T1.USKH,
+		               T.EDIT_TIME
+		          FROM ${dbSchemalzxc}FJ_ZHUANGCFY T
+		          JOIN ${dbSchemalzxc}FJ_ZHUANGCMY T1 ON T1.ZHUANGCDH = T.ZHUANGCDH
+		         LEFT JOIN ${dbSchemalzxc}FJ_PEIZD PZ ON T.PEIZDH = PZ.PEIZDH order by T.USERCENTER,T.Zhuangcdh,T1.UAKH) T2
+		 INNER JOIN ${dbSchemalzxc}CK_UCBQ B ON T2.USERCENTER = B.USERCENTER
+		                              AND T2.USKH = B.USH 
+		                              AND T2.UAKH = B.UCH
+		 INNER JOIN (SELECT YHL.*
+		               FROM ${dbSchemalzxc}CK_YAONBHL YHL
+		              INNER JOIN ${dbSchemalzxc}CKX_KEHB KH ON YHL.KEH = KH.KEHBH
+		              WHERE KH.KEHXZ = '1') L ON L.USERCENTER = T2.USERCENTER
+		                                     AND T2.YAOHLH = L.YAOHLH
+		   WHERE  T2.EDIT_TIME >= (SELECT to_date(to_char(B.LASTCPLTIME,'yyyy-mm-dd HH24:mi:ss') ,'yyyy-mm-dd HH24:mi:ss') FROM ${dbSchemalzxc}IN_ZIDB B WHERE B.INBH='2510') 
+                  AND T2.EDIT_TIME < (SELECT to_date(to_char(B.Yunxkssj,'yyyy-mm-dd HH24:mi:ss') ,'yyyy-mm-dd HH24:mi:ss') FROM ${dbSchemalzxc}IN_ZIDB B WHERE B.INBH='2510')  
+         ) temp where 1=1 	                                        
+		$foot$
+		]]>
+   </select>  
+   
+      <!-- id="2520" caption="EFI要货令" modify hzg add exists()过滤掉dindlx为1和P的记录 2014.6.6  |modified by xss.20140829 for 0010355|xss-0011509|xss-0011589|更换取物流路径方式2015-9-18|-->
+   <select id="efiyaohlQuery" parameterClass="java.util.Map"  resultClass="java.util.HashMap" remapResults="true">
+		<![CDATA[
+		$head$
+		select tt.*,ROWNUM RN from (
+			select 
+                (case upper(substr(t.yaohlh,length(t.yaohlh)))
+                      when 'P' then substr(t.yaohlh,0,length(t.yaohlh)-1)
+                      else t.yaohlh end
+                ) as yaohlh,
+                   t.usercenter as usercenter,
+                   to_char(t.jiaofj, 'yyyymmddhh24miss') as jiaofj,
+                   to_char(t.zuizsj, 'yyyymmddhh24miss') as zuizsj,
+                   to_char(t.zuiwsj, 'yyyymmddhh24miss') as zuiwsj,
+                   t.lingjbh as tlingjbh,
+                   nvl(z.gcbh,t.chengysdm) as cysbh,
+                   t.danw as tdanw,
+                   lpad(to_char(t.yaohsl)||'000',9,0) as yaohsl,
+                   t.baozxh as baozxh,
+                   lpad(to_char(t.usxh)||'000',9,0) as usxh,
+                   t.ucxh as ucxh,
+                   lpad(to_char(t.ucrl)||'000',9, 0) as ucrl,
+                   t.ucgs as ucgs,
+                   to_char(t.faysj, 'yyyymmddhh24miss') as faysj,
+                   t.xiehd as xiehd,
+                   t.mudd as mudd,
+                   t.dingdh as dingdh,
+                   t.yaohllx as yaohllx,
+                   t.tongblshqj as tongblshqj,
+                   t.chej as chej,
+                   t.shnagxfs as shnagxfs,
+                   t.chanx as chanx,
+                   t1.gongcbm as gongcbm,
+                   t.peislb as peislb,
+                   to_char(t.yaohlscsj, 'yyyymmddhh24miss') as yaohlscsj,
+                   '' as lingjxh,
+                   '' as zhengclsh,
+                   to_char(t.shangxsj, 'yyyymmddhh24miss') as zhengcsxsj,
+                   '' as weiz,
+                       nvl(t.lingjbh,'') as ylingjbh,
+                       nvl(t.gongysdm,'') as gongysdm,
+                   decode(t.cangkbh,null,'   ',t.cangkbh)||
+                          decode(t.zickbh,null,'   ',t.zickbh)||t.beiz  as gongysmc,
+                          lpad(to_char(t.yaohsl)||'000',9,0) as lingjsl,
+                   t.danw as ydanw,
+                   substr(to_char(z.xuh),length(to_char(z.xuh))-1,2) as wuldbh,
+                   z.shifjk as shifjk,
+                   '' jh,
+                   to_char(t.create_time, 'yyyymmddhh24miss') cjdate,
+                   t.chengysdm zhgongysdm ,
+                   '' as shifqhbs,  
+                   t.beiz as beiz,       
+                   t.quancbqh as quancbqh,
+                   t.xiaohd as xiaohd,
+                   t.xiaohcbh as xiaohcbh,
+                   t.tangc as tangc,
+                   t.shifht as shifht,
+                   t.xiangd as xiangd,
+                   to_char(t.gongzr, 'yyyymmddhh24miss') as gongzr,
+                   t.xianbck as xianbck,
+                   t.xianbckkw as xianbckkw,
+                   t.changh as changbiao,
+                   '' as beiz8                      
+                   from ${dbSchemalzxc}ck_yaohl t 
+              left join ${dbSchemalzxc}ck_daowldsj z on t.yaohlh = z.yaohlh
+                                and t.usercenter = z.usercenter
+              left join ${dbSchemalzxc}ckx_xiehzt t1 on t.xiehd = t1.xiehztbh                
+             where t.yaohlzt = '01' and (nvl(t.shiflsk,'0')='0' or nvl(t.shifpz,'0') = '1') and t.yaohllx <> 'SY'  
+                and t.beiz3 = '0' and not exists(select 1 from ${dbSchemalzxc}xqjs_dingd d where t.usercenter=d.usercenter and d.dingdh=t.dingdh and d.DINGDLX in( '1','P' )  )
+          order by t.usercenter, t.YAOHLH	
+		 ) tt where 1=1 		  				    		
+		$foot$
+		]]>
+   </select>   
+
+      <!-- id="2520" caption="EFI要货令"-->
+   <update id="updateefiyaohlbegin" parameterClass="java.util.Map" >
+		<![CDATA[
+			update ${dbSchemalzxc}ck_yaohl t set t.beiz3 = '0' 
+				 where yaohlzt = '01' and (nvl(t.shiflsk,'0')='0' or nvl(t.shifpz,'0') = '1')   and yaohllx <> 'SY'  
+				  and t.beiz3 is null 
+		]]>
+   </update>   
+
+      <!-- id="2520" caption="EFI要货令"-->
+   <update id="updateefiyaohlEnd" parameterClass="java.util.Map" >
+		<![CDATA[
+			update ${dbSchemalzxc}ck_yaohl t set t.beiz3 = '1', t.edit_time = sysdate ,t.editor = '2520'
+				 where yaohlzt = '01' and (nvl(t.shiflsk,'0')='0' or nvl(t.shifpz,'0') = '1')   and yaohllx <> 'SY'  
+				  and t.beiz3 = '0'
+		]]>
+   </update>  
+
+      <!-- id="2540" caption="总成排产"-->
+   <select id="zongcpcQuery" parameterClass="java.util.Map"  resultClass="java.util.HashMap" remapResults="true">
+		<![CDATA[
+		$head$
+		select tt.*,ROWNUM RN from ( 
+			select zzzx,
+       			lingjbh,
+      			 yxbh,
+      			 ddrq,
+      			 '' as filler,
+      			replace(to_char(shul, '99999999'),' ','0') as shul,
+       			zfbj,
+     		    hgbm,
+       			xianh,
+       			lyxt,
+       			usercenter,
+       			'' as filtern 
+ 				from ${dbSchemalzxc}in_zcpc where 1=1 
+ 		$middle$
+		 order by LINGJBH, DDRQ, XIANH, LYXT   
+		 ) tt where 1=1 		
+		$foot$
+		]]>
+   </select>   
+   
+    <!-- id="2540" caption="删除Nup接口表数据 " 0012285-->
+   <delete id="deleteZCPC">
+	<![CDATA[			
+		delete from ${dbSchemalzxc}IN_ZCPC WHERE CJ_DATE <= (sysdate-30*18)
+	]]>
+  </delete>
+
+
+ <!-- id="2001" caption="零件消耗点上次完成时间输出" hzg 2013-7-25-->
+   <select id="zidb2740Lastcpltime" parameterClass="java.util.Map"  resultClass="java.util.HashMap" remapResults="true">
+		<![CDATA[
+		$head$ 
+		select tt.*,ROWNUM RN from ( 
+			select   to_char(LASTCPLTIME,'yyyy-mm-dd hh:mi:ss') as LASTCPLTIME,${anxDingdh} as DINGDH,${anxUsercenter} as USERCENTER   
+ 				from ${dbSchemalzxc}in_zidb where INBH='2740'  
+ 		$middle$
+		 order by INBH      
+		 ) tt where 1=1 		
+		$foot$
+		]]>
+   </select>   
+
+
+      <!-- id="2740" caption="零件消耗点输出"-->
+   <select id="lingjxhdscQuery" parameterClass="java.util.Map"  resultClass="java.util.HashMap" remapResults="true">
+		<![CDATA[
+		$head$
+		select tt.*,ROWNUM RN from ( 
+			SELECT 
+			USERCENTER, LINGJBH, XIAOHDBH, WULBH, 
+			FENPQBH, SHENGCXBH, PEISLXBH, QIANHCBS, 
+			JIPBZWZ, SHENGXR, JIESR, GUANLYBH, 
+			TIQJSXHBL, XIAOHBL, GONGYSBH, SHUNXGLBZ, 
+			ZIDFHBZ, XIANBYHLX, YANCSXBZ, BEIHDBZ, 
+			XIAOHCBH, XIAOHCCXBH, YUANXHDBH, ANQKCTS, 
+			ANQKCS, XIANBLLKC, YIFYHLZL, JIAOFZL, XITTZZ,
+			 PDSBZ, BIAOS, ZHONGZZL,  ZUH ,GONGYBS 
+			 FROM ${dbSchemalzxc}CKX_LINGJXHD
+			 WHERE  1=1  and biaos!='2' and creator='2090' 
+		$middle$
+		 order by USERCENTER, LINGJBH, XIAOHDBH   
+		 ) tt where 1=1 			 
+		$foot$
+		]]>
+   </select>  
+
+      <!-- id="2790" caption="零件仓库设置输出"-->
+   <select id="lingjckszscQuery" parameterClass="java.util.Map"  resultClass="java.util.HashMap" remapResults="true">
+		<![CDATA[
+		$head$ 
+		select tt.*,ROWNUM RN from ( 
+			select usercenter, lingjbh, cangkbh, zickbh, yuanckbh, xiehztbh,
+						 anqkcts, anqkcsl, zuidkcts, zuidkcsl, dingdbdzl, dingdzzzl, yijfzl, xittzz, 
+						 danqkbh, danqkw, zuidsx, zuixxx, jistzz, 
+						 zuixqdl, shifxlh, beiykbh, 
+						 dingzkw, usbzlx, usbzrl, uclx, ucrl, fifo, 
+						 zidfhbz, zuh  from ${dbSchemalzxc}ckx_lingjck where 1=1  
+		$middle$
+		 order by USERCENTER, CANGKBH  ,LINGJBH    
+		 ) tt where 1=1 				 
+		$foot$
+		]]>
+   </select>  
+
+    <!-- id="2790" caption="更新要货令表达交付流水表"-->
+   <update id="updateBiaosOfYaohlbdjf" parameterClass="java.util.Map" >
+		<![CDATA[
+			UPDATE  ${dbSchemalzxc}CK_YAOHLBDJF_L L  SET L.BIAOS = '1' WHERE LENGTH(L.WULDBH) = #LEIX# AND L.BIAOS IS NULL 
+		]]>
+   </update>  
+
+    <!-- id="2790" caption="查询零件仓库汇总"-->
+   <select id="lingjckHzQuery" parameterClass="java.util.Map"  resultClass="java.util.HashMap" remapResults="true">
+		<![CDATA[
+			select L.USERCENTER,L.LINGJBH,L.WULDBH,SUM(coalesce(L.DINGDBDZL, 0)) DINGDBDZL,SUM(coalesce(L.DINGDZZZL, 0)) DINGDZZZL,
+			SUM(coalesce(L.YIJFZL, 0)) YIJFZL from ${dbSchemalzxc}CK_YAOHLBDJF_L L 
+			WHERE  LENGTH(L.WULDBH) = #LEIX# AND BIAOS = '1'  GROUP BY L.USERCENTER,L.LINGJBH,L.WULDBH 
+		]]>
+   </select>  
+
+    <!-- id="2790" caption="备份要货令表达交付流水表标识为2的仓库数据"-->
+   <insert id="insertYaohlbdjfToH" parameterClass="java.util.Map" >
+		<![CDATA[
+			INSERT INTO ${dbSchemalzxc}CK_YAOHLBDJF_H (USERCENTER,LINGJBH,WULDBH,YIFYHLZL,JIAOFZL,ZHONGZZL,DINGDBDZL,DINGDZZZL,YIJFZL,CREATE_TIME,BEIZ,CREATOR,CURRENT_TIME) 
+			select USERCENTER,LINGJBH,WULDBH,YIFYHLZL,JIAOFZL,ZHONGZZL,DINGDBDZL,DINGDZZZL,YIJFZL,CREATE_TIME,BEIZ,CREATOR,to_char(sysdate,'yyyy-mm-dd hh24:mi:ss') from ${dbSchemalzxc}CK_YAOHLBDJF_L  L 
+			where LENGTH(L.WULDBH) = #LEIX# AND L.BIAOS ='2' 
+		]]>
+   </insert>  
+
+    <!-- id="2790" caption="删除要货令表达交付标识为2的"-->
+   <delete id="deleteYaohlbdjf" parameterClass="java.util.Map" >
+		<![CDATA[
+			delete from ${dbSchemalzxc}CK_YAOHLBDJF_L L WHERE LENGTH(L.WULDBH) = #LEIX# AND L.BIAOS ='2'
+		]]>
+  </delete>   
+
+    <!-- id="2740" caption="查询零件消耗点汇总"-->
+   <select id="lingjxhdHzQuery" parameterClass="java.util.Map"  resultClass="java.util.HashMap" remapResults="true">
+		<![CDATA[
+			select L.USERCENTER,L.LINGJBH,L.WULDBH,SUM(coalesce(L.YIFYHLZL, 0)) YIFYHLZL,SUM(coalesce(L.JIAOFZL, 0)) JIAOFZL,
+			SUM(coalesce(L.ZHONGZZL, 0)) ZHONGZZL from ${dbSchemalzxc}CK_YAOHLBDJF_L L 
+			WHERE  LENGTH(L.WULDBH) = #LEIX# AND BIAOS = '1'  GROUP BY L.USERCENTER,L.LINGJBH,L.WULDBH 
+		]]>
+   </select>  
+   
+	<!-- id="2530" caption="过点毛需求  插入到"-->
+	<insert id="insertSPPVTB" parameterClass="java.util.Map">
+	<![CDATA[
+	  INSERT INTO ${dbSchemalzxc}TB0010 (USERCENTER, SCXH, AZPOSVEH, LJH, SL)
+	  SELECT A.USERCENTER,A.SCXH, A.AZPOSVEH, B.PRODUCT AS LJH, SUM(B.SL) AS SL 
+	  FROM ${dbSchemalzxc}TB0010A A,${dbSchemalzxc}TB0010B B WHERE A.WHOF = B.WHOF GROUP BY A.USERCENTER, A.SCXH, A.AZPOSVEH, B.PRODUCT
+	]]>
+	</insert>
+	
+	<!-- id="2640" caption="仓库-成品库库存快照" db->txt  hzg 2013-8-20 add |modified by xss for 0010578-->
+   <select id="cangkcpkkckzQuery" parameterClass="java.util.Map"  resultClass="java.util.HashMap" remapResults="true">
+		<![CDATA[
+		$head$
+			 SELECT s.*,rownum RN FROM (
+			   SELECT distinct C.USERCENTER||',' USERCENTER,
+			    C.CANGKBH||','CANGKBH,
+			    C.CHANX||',' CHANX,
+			   	C.LINGJBH||',' LINGJBH,
+        		C.LINGJMC||',' LINGJMC,
+			  	C.KUCSL||',' KUCSL,
+			  	TO_CHAR(CJ_DATE,'yyyy-MM-dd hh24:mi:ss') CJ_DATE FROM 
+			  ${dbSchemalzxc}CK_CHENGPKKCKZ C where c.kucsl!=0 ORDER BY
+			  USERCENTER,CANGKBH,CHANX,LINGJBH) s where 1=1 
+		$middle$ 	  
+		$foot$
+		]]>
+   </select>  
+   <!-- id="2641" caption="仓库-成品库库存快照" db->db  hzg 2013-8-20 add -->
+   <select id="cangkcpkkckzQueryAll" parameterClass="java.util.Map"  resultClass="java.util.HashMap" remapResults="true">
+		<![CDATA[
+		$head$
+	 SELECT s.*,rownum RN FROM (
+	  SELECT C.USERCENTER,C.CANGKBH,U.LINGJBH,max(U.LINGJMC) LINGJMC,U.CHANX,SUM(U.LINGJSL) LINGJSL, TO_CHAR(SYSDATE,'yyyy-MM-dd hh24:mi:ss') cj_date FROM 
+	  (SELECT USERCENTER,CANGKBH,CANGKLX FROM ${dbSchemalzxc}CKX_CANGK WHERE CANGKLX='3') C
+	  LEFT JOIN ${dbSchemalzxc}CK_USBQ U  ON C.USERCENTER=U.USERCENTER AND C.CANGKBH=U.CANGKBH 
+	  GROUP BY C.USERCENTER,C.CANGKBH,U.CHANX,U.LINGJBH ORDER BY C.USERCENTER,C.CANGKBH,U.CHANX,U.LINGJBH ) s where 1=1 
+		 $middle$ 
+		 $foot$
+		]]>
+   </select>  
+      <!-- 执行前删除前一天的数据  -->
+   <delete id="deleteCpkkckz">
+		<![CDATA[
+		truncate table ${dbSchemalzxc}CK_CHENGPKKCKZ 
+		]]>
+  </delete>   
+  
+  <!-- id="2660" caption="KD件在途物理点信息(输出)" hzg 2013-10-22 add |xss-0012049 |lc-0012783 -->
+  <select id="jizxglOfKdysQuery" parameterClass="java.util.Map"  resultClass="java.util.HashMap" remapResults="true">
+		<![CDATA[
+		$head$
+ 		 SELECT s.*,rownum RN FROM (
+           select case c.zhuangt when '1' then to_char(c.zhongxsbsj,'yyyyMMddhh24miss') when '2' then to_char(c.kongxsbsj,'yyyyMMddhh24miss') when '3' then to_char(c.fanxsbsj,'yyyyMMddhh24miss') end sbsj,
+           '' as xiangx, ''as huowjz,'' as chuanm,''as chuanc,'' as muxs,
+           c.zhuangt,c.jizxh,c.wuld, x.kdys_sheet_id as sheetid,x.mudd,x.id from ${dbSchemalzxc}CK_JIZXGL c
+           inner join ${dbSchemalzxc}xqjs_tc x on c.jizxh=x.tcno  and (c.zhuangt =1 or c.zhuangt=2 or c.zhuangt=3) and c.edit_time is not null
+           and c.EDIT_TIME >= (SELECT to_date(to_char(B.LASTCPLTIME,'yyyy-mm-dd HH24:mi:ss') ,'yyyy-mm-dd HH24:mi:ss') FROM ${dbSchemalzxc}IN_ZIDB B WHERE B.INBH='2660') 
+				  	 AND  c.EDIT_TIME < (SELECT to_date(to_char(B.Yunxkssj,'yyyy-mm-dd HH24:mi:ss') ,'yyyy-mm-dd HH24:mi:ss')   FROM ${dbSchemalzxc}IN_ZIDB B WHERE B.INBH='2660')    
+                 order by x.id) s where 1=1 	
+        $middle$          
+		$foot$
+		]]>
+   </select>  
+   
+   
+   
+<!-- id="2680" caption="容器收发总账"  modified by xss for 0010679-->
+   <select id="RongQTaiZQuery" parameterClass="java.util.Map"  resultClass="java.util.HashMap" remapResults="true">
+		<![CDATA[
+		$head$
+		select temp.* ,rownum RN from (
+			select k.usercenter C1,
+		       k.gongysdm C2,
+		       k.wuld C3,
+		       k.rongqlb C4,
+		       TO_CHAR(sysdate, 'YYYY-MM-DD') C5,
+		       TO_CHAR(sysdate, 'hh24:mi:ss') C6,
+		       sum(k.rongqsl) C7
+		  from (select t.usercenter, t.gongysdm, t.wuld, t.rongqlb, t.rongqsl
+		          from ${dbSchemalzxc}ck_rongqzz t
+		        union all
+		        select t2.UserCenter,
+		               t2.GONGYSDM,
+		               t2.WULD,
+		               t2.RONGQLB,
+		               sum(t2.RONGQSL)
+		          from ${dbSchemalzxc}ck_rongqzz_l t2
+		         group by t2.usercenter, t2.gongysdm, t2.wuld, t2.rongqlb
+		        having sum(t2.RONGQSL) <> 0) k
+		 group by k.usercenter, k.gongysdm, k.wuld, k.rongqlb					
+            ) temp where 1=1 	
+        $middle$   				        
+		$foot$
+		]]>
+   </select> 
+   
+   <!-- id="2690" caption="容器收发流水账"   modified by xss for 0010679|0010495|xss-0012049-->
+   <select id="RongQLiuSQuery" parameterClass="java.util.Map"  resultClass="java.util.HashMap" remapResults="true">
+		<![CDATA[
+		$head$
+			select temp.* ,rownum RN from (
+			select * from ( 
+				 select t1.UserCenter C1,
+					       t1.GONGYSDM C2,
+					       case t1.CAOZM
+					         when 'R01' then
+					           t1.diaorwld
+					         when 'R03' then
+					           t1.diaorwld
+					         when 'R91' then
+					          t1.diaorwld
+					         when 'R08' then
+					          t1.wuld
+					         when 'R18' then
+					           t1.wuld
+					         when 'R10' then
+					          t1.wuld
+					         when 'R08S' then
+					           t1.wuld
+					         when 'R18S' then
+					           t1.wuld
+					         when 'R01S' then
+					           t1.diaorwld
+					         when 'R91S' then
+					           t1.diaorwld
+					       end C3,
+					       SUBSTR(t1.RONGQXH, 0, 5) C4,
+					       t1.tch C5,
+					       TO_CHAR(T1.JIESRQ, 'YYYY-MM-DD') C6,
+					       TO_CHAR(T1.JIESRQ, 'hh24:mi:ss') C7,
+					       case t1.CAOZM
+					         when 'R01' then
+					          '01'
+					         when 'R03' then
+					          '01'
+					         when 'R91' then
+					          '01'
+					         when 'R08' then
+					          '02'
+					         when 'R18' then
+					          '02'
+					         when 'R10' then
+					          '02'
+					         when 'R08S' then
+					          '03'
+					         when 'R18S' then
+					          '03'
+					         when 'R01S' then
+					          '04'
+					         when 'R91S' then
+					          '04'
+					       end C8,
+					       t1.JSFHDH C9,
+					       t1.RONGQSL C10,
+					       t1.edit_time
+					  from ${dbSchemalzxc}ck_rongqzwls t1
+					 where t1.CAOZM in ('R01',
+					                    'R03',
+					                    'R91',
+					                    'R08',
+					                    'R18',
+					                    'R10',
+					                    'R08S',
+					                    'R18S',
+					                    'R01S',
+					                    'R91S')					
+		AND t1.JIESRQ  >= (SELECT to_date(to_char(B.LASTCPLTIME,'yyyy-mm-dd HH24:mi:ss') ,'yyyy-mm-dd HH24:mi:ss') FROM ${dbSchemalzxc}IN_ZIDB B WHERE B.INBH='2690') 
+		AND t1.JIESRQ < (SELECT to_date(to_char(B.Yunxkssj,'yyyy-mm-dd HH24:mi:ss') ,'yyyy-mm-dd HH24:mi:ss')  FROM ${dbSchemalzxc}IN_ZIDB B WHERE B.INBH='2690')  		
+          )T order by T.edit_time 
+           ) temp where 1=1 	
+        $middle$   				        
+		$foot$
+		]]>
+   </select> 
+   
+   <!-- id="2880" caption="仓库-零件供应商"  -->
+   <select id="ckLingjGys" parameterClass="java.util.Map"  resultClass="java.util.HashMap" remapResults="true">
+		<![CDATA[
+		$head$
+		select temp.* ,rownum RN from (
+			select 
+			   a.usercenter,
+			   a.lingjbh,
+			   a.gongysdm,
+			   a.biaodsl,
+			   a.edit_time ,
+			   '1880' as creator,
+			   sysdate as create_time　
+			from ${dbSchemalzxc}CK_LINGJGYS a	where  1=1
+				]]>
+       	<dynamic>
+			<isNotEmpty prepend=" AND " property="usercenter"><![CDATA[ a.usercenter  in ($usercenter$) ]]></isNotEmpty>
+		</dynamic>
+	<![CDATA[ 
+		 $middle$   
+            ) temp where 1=1 			        
+		$foot$
+		]]>
+   </select> 
+   
+   	<!-- xss-0011639 2890接口 caption="生产线零件(PROG)" |xss-0012322-->
+      <select id="ShengcxljQuery" parameterClass="java.util.Map"  resultClass="java.util.HashMap" remapResults="true">
+		<![CDATA[
+		$head$ 
+		select tt.*,ROWNUM RN from ( 
+     		select m.USERCENTER, m.LINGJBH, m.SHENGCXBH, n.CHULTS
+ 			 		from ${dbSchemalzxc}ckx_shengcx_lingj m, ${dbSchemalzxc}ckx_shengcx n
+ 						where m.usercenter = n.usercenter
+  				 		and m.shengcxbh = n.shengcxbh
+      ]]>
+      <dynamic>
+        <isNotEmpty prepend=" AND " property="usercenter"><![CDATA[ m.usercenter  in ($usercenter$) ]]></isNotEmpty>
+      </dynamic>
+      <![CDATA[  	
+        $middle$
+		order by USERCENTER, LINGJBH, SHENGCXBH                     	
+		) tt where 1=1  	 
+		$foot$
+   		]]>
+   </select>
+   
+   <!-- yz 2900接口 caption="产线零件参考系"-->
+      <select id="Ckx_shengcx_lingjQuery" parameterClass="java.util.Map"  resultClass="java.util.HashMap" remapResults="true">
+		<![CDATA[
+		$head$ 
+		select tt.*,ROWNUM RN from ( 
+     		select  USERCENTER,SHENGCXBH,LINGJBH,ZHIZLX,SHENGCBL,SHENGCJP,SHIFQYJJPL,JINGJPL,
+     		YOUXBC,CANGKBH,ZHUXFX,LINGJLX
+     		  from ${dbSchemalzxc}ckx_shengcx_lingj where 1=1 
+		order by USERCENTER,LINGJBH,SHENGCXBH                   	
+		) tt where 1=1  	 
+		$foot$
+   		]]>
+   </select>
+   
+    <!-- 2111生产线，创建日期：20151212，创建人：程思远 -->
+   <select id="shengcxToDDBHQuery" parameterClass="java.util.Map"  resultClass="java.util.HashMap" remapResults="true">
+		<![CDATA[
+		$head$
+		select tt.*,ROWNUM RN from (  
+     		SELECT 
+				USERCENTER, 
+				SHENGCXBH, 
+				CHANXZBH, 			
+			 	SHENGCJP, 
+			 	WEILSCJP, 
+			 	QIEHSJ,
+			 	CHULTS, 
+			 	BIAOS, 
+			 	CPSHENGCJP, 
+			 	FLAG,
+			 	ANQKCTSMRZ,
+			 	CHEWS,
+			 	KONGCSS 
+			 FROM ${dbSchemalzxc}CKX_SHENGCX
+			 WHERE  1=1  
+		]]>
+       	<dynamic>
+			<isNotEmpty prepend=" AND " property="usercenter"><![CDATA[ usercenter  in ($usercenter$) ]]></isNotEmpty>
+		</dynamic>
+		<![CDATA[	
+		$middle$ 
+		order by USERCENTER, SHENGCXBH       	
+		) tt where 1=1 	 			  
+		$foot$
+   		]]>
+   </select> 
+   
+   
+   
+ 
+    <!-- 2460 批量写中间表in_cklsz -->
+   <!-- (1) 入库明细 A01,A01S,A03  modified by 杨志  2016-3-2 增加DPFV的-->
+    <insert id="insertKuclszQuery">
+    <![CDATA[ 
+   		INSERT INTO ${dbSchemalzxc}IN_CKLSZ(C1,C2,C3,C4,C5,C6,C7,C8,C9,C10,C11,C12,C38,C13,C14,C15,C16,C17,C18,C19,C20,
+   			C21,C22,C23,C24,C25,C26,C27,C28,C29,C30,C31,C32,C33,C34,C35,C36,C37)
+  				SELECT * FROM (
+			        SELECT CASE MX.RUKLX
+				         WHEN '1' THEN
+				          'A01'
+				         WHEN '2' THEN
+				         'A01'
+				         WHEN '4' THEN
+				          'A01'
+				         WHEN '3' THEN
+				          'A03'
+				       END C1,
+				       CASE MX.RUKLX
+				         WHEN '4' THEN
+				          'S'
+				         ELSE
+				          ' '
+				       END C2,
+				       '   ' C3,
+				       '  ' C4,
+				       MX.LINGJBH C5,
+				       1 C6,
+				       MX.GONGYSDM C7,
+				       '+'||' ' C8,
+				       MX.DANW C9,
+				       SUBSTR(MX.BLH,LENGTH(MX.BLH)-9,LENGTH(MX.BLH)) C10,
+				       TO_CHAR(MX.RUKSJ, 'YYYYMMDD') C11,
+				       MX.CHENGYSDM C12,
+				      substr(d.yuansblh,1,10) C38,
+				       'N' C13,
+				       'S' C14,
+				       MX.CANGKBH C15,
+				       ' ' C16,
+				       ' ' C17,
+				       'N' C18,
+				       ' ' C19,
+				       ' ' C20,
+				       MX.PICH C21,
+				       MX.DINGDH C22,
+				      case L.lingjsx when 'K' then '1' else '4' end C23,
+				       MX.CANGKBH || MX.ZICKBH C24,
+				       CASE MX.GONGYSLX
+				         WHEN '1' THEN
+				          '1'
+				         ELSE
+				          ' '
+				       END C25,
+				       MX.USERCENTER C26,
+				       TO_CHAR(MX.RUKSJ, 'YYYYMMDD') C27,
+				       TO_CHAR(MX.RUKSJ, 'HH24MI') C28,
+				       MX.CANGKGLYZ C29,
+				       MX.EDITOR C30,
+				       MX.UTH C31,
+				       TO_CHAR(MX.BLSCSJ, 'YYYYMMDD') C32,
+				       MX.ELH C33,
+				       CASE MX.RUKLX WHEN '3' THEN ' ' ELSE  MX.CHANX END C34,
+				       ' ' C35,
+				       TO_CHAR(MX.EDIT_TIME, 'YYYYMMDD') C36,
+				       REPLACE(TO_CHAR(MX.LINGJSL, '9999999.999'),
+                       ' ',
+                       '0') C37
+				  FROM ${dbSchemalzxc}CK_RUKMX MX
+				  JOIN ${dbSchemalzxc}CKX_CANGK CK ON CK.USERCENTER = MX.USERCENTER
+                   AND CK.CANGKBH = MX.CANGKBH
+                   AND CK.CANGKLX != 4
+                 JOIN ${dbSchemalzxc}CKX_LINGJ L ON MX.USERCENTER=L.USERCENTER AND MX.LINGJBH=L.LINGJBH
+			  left join ${dbSchemalzxc}ck_daohtzd d on mx.usercenter=d.usercenter and mx.blh=d.blh and mx.uth=d.uth
+				 WHERE MX.EDIT_TIME >= (SELECT B.LASTCPLTIME-1/(24*60) FROM ${dbSchemalzxc}IN_ZIDB B WHERE B.INBH='2460') 
+				          AND MX.EDIT_TIME < (SELECT B.Yunxkssj-1/(24*60) FROM ${dbSchemalzxc}IN_ZIDB B WHERE B.INBH='2460')
+				    )T
+		UNION ALL
+ 				SELECT * FROM (
+				select 'A01'C1,'S'C2,
+               '   ' C3,
+               '  ' C4,
+               T1.LINGJBH C5,
+               1 C6,
+               T2.GONGYSDM C7,
+               '+'||' ' C8,
+               T2.DANW C9,
+               T2.BLH C10,
+               TO_CHAR(T2.RUKRQ, 'YYYYMMDD') C11,
+               T2.CHENGYSDM C12,
+               substr(d.yuansblh,1,10) C38,
+               'N' C13,
+               'S' C14,
+               T2.CANGKBH C15,
+               ' ' C16,
+               ' ' C17,
+               'N' C18,
+               ' ' C19,
+               ' ' C20,
+               T2.PICH C21,
+               ' ' C22,
+               ' ' C23,
+               T1.CANGKBH || T1.ZICKBH C24,
+               CASE T2.GONGYSLX
+                 WHEN '1' THEN
+                  '1'
+                 ELSE
+                  ' '
+               END C25,
+               T2.USERCENTER C26,
+               TO_CHAR(T2.RUKRQ, 'YYYYMMDD') C27,
+               TO_CHAR(T2.RUKRQ, 'HH24MI') C28,
+               T2.CANGKGLYZ C29,
+               ' ' C30,
+               T2.UTH C31,
+               ' ' C32,
+               T2.ELH C33,
+               CASE T2.RUKLX WHEN '3' THEN ' ' ELSE  T2.CHANX END C34,
+               ' ' C35,
+               TO_CHAR(T1.EDIT_TIME, 'YYYYMMDD') C36,
+               REPLACE(TO_CHAR(T1.LINGJSL, '9999999.999'),
+                       ' ',
+                       '0') C37
+		  from ${dbSchemalzxc}ck_chengptxb t1,${dbSchemalzxc}ck_usbq t2 
+		  left join ${dbSchemalzxc}ck_daohtzd d  on t2.usercenter=d.usercenter and t2.uth=d.uth and t2.blh=d.blh  
+		  where t1.usercenter=t2.usercenter and t1.ush=t2.ush and t1.zhuangt in ('2','3') 
+		  AND  T1.EDIT_TIME >= (SELECT B.LASTCPLTIME-1/(24*60) FROM ${dbSchemalzxc}IN_ZIDB B WHERE B.INBH='2460') 
+				  AND T1.EDIT_TIME < (SELECT B.Yunxkssj-1/(24*60) FROM ${dbSchemalzxc}IN_ZIDB B WHERE B.INBH='2460') 
+		    ) Q 		    
+	 UNION ALL
+       		select * from (
+              SELECT 'A03' C1,
+               'S'   C2,
+               '   ' C3,
+               '  '  C4,
+               MX.LINGJBH C5,
+               1 C6,
+               MX.GONGYSDM C7,
+               '+'||' ' C8,
+               MX.DANW C9,
+               SUBSTR(MX.BLH,LENGTH(MX.BLH)-9,LENGTH(MX.BLH)) C10,
+               TO_CHAR(MX.RUKSJ, 'YYYYMMDD') C11,
+               MX.CHENGYSDM C12,
+              substr(d.yuansblh,1,10) C38,
+               'N' C13,
+               'S' C14,
+               MX.CANGKBH C15,
+               ' ' C16,
+               ' ' C17,
+               'N' C18,
+               ' ' C19,
+               ' ' C20,
+               MX.PICH C21,
+               MX.DINGDH C22,
+              case L.lingjsx when 'K' then '1' else '4' end C23,
+               MX.CANGKBH || MX.ZICKBH C24,
+               CASE MX.GONGYSLX
+                 WHEN '1' THEN
+                  '1'
+                 ELSE
+                  ' '
+               END C25,
+               MX.USERCENTER C26,
+               TO_CHAR(MX.RUKSJ, 'YYYYMMDD') C27,
+               TO_CHAR(MX.RUKSJ, 'HH24MI') C28,
+               MX.CANGKGLYZ C29,
+               MX.EDITOR C30,
+               MX.UTH C31,
+               TO_CHAR(MX.BLSCSJ, 'YYYYMMDD') C32,
+               MX.ELH C33,
+               CASE MX.RUKLX WHEN '3' THEN ' ' ELSE  MX.CHANX END C34,
+               ' ' C35,
+               TO_CHAR(MX.EDIT_TIME, 'YYYYMMDD') C36,
+               REPLACE(TO_CHAR(MX.LINGJSL, '9999999.999'),
+                       ' ',
+                       '0') C37
+          FROM ${dbSchemalzxc}CK_RUKMX MX
+          JOIN ${dbSchemalzxc}CKX_CANGK CK ON CK.USERCENTER = MX.USERCENTER
+                   AND CK.CANGKBH = MX.CANGKBH
+                   AND CK.CANGKLX != 4
+                 JOIN CKX_LINGJ L ON MX.USERCENTER=L.USERCENTER AND MX.LINGJBH=L.LINGJBH
+        left join ${dbSchemalzxc}ck_daohtzd d on mx.usercenter=d.usercenter and mx.blh=d.blh and mx.uth=d.uth
+        WHERE  MX.Ruklx = '5' 
+                 and MX.EDIT_TIME >= (SELECT B.LASTCPLTIME-1/(24*60) FROM ${dbSchemalzxc}IN_ZIDB B WHERE B.INBH='2460') 
+                 AND MX.EDIT_TIME < (SELECT B.Yunxkssj-1/(24*60) FROM ${dbSchemalzxc}IN_ZIDB B WHERE B.INBH='2460') 
+             )S
+         UNION ALL
+  select * from (
+   SELECT 'A01' C1,
+               MX.CHEXBS C2,
+               '   ' C3,
+               '  ' C4,
+               MX.LINGJBH C5,
+               1 C6,
+               MX.GONGYSDM C7,
+               '+' || ' ' C8,
+               MX.DANW C9,
+               MX.BLH C10,
+               TO_CHAR(MX.JIAOFRQ, 'YYYYMMDD') C11,
+               ' ' C12,
+               ' ' C38,             
+               'N' C13,
+               'S' C14,
+               MX.CANGK C15,
+               ' ' C16,
+               ' ' C17,
+               'N' C18,
+               ' ' C19,
+               ' ' C20,
+               MX.PINGZH C21,
+               ' ' C22,
+               ' ' C23,
+               MX.CANGKZCK C24,
+               ' ' C25,
+               MX.USERCENTER C26,
+               TO_CHAR(MX.CREATE_TIME, 'YYYYMMDD') C27,
+               TO_CHAR(MX.CREATE_TIME, 'HH24MI') C28,
+               ' ' C29,
+               MX.EDITOR C30,
+               ' ' C31,
+               TO_CHAR(MX.OPER_TIME, 'YYYYMMDD') C32,
+               ' ' C33,
+               ' ' C34,
+               ' ' C35,
+               TO_CHAR(MX.EDIT_TIME, 'YYYYMMDD') C36,
+               REPLACE(TO_CHAR(MX.LINGJSL, '9999999.999'),
+                       ' ',
+                       '0') C37              
+          FROM ${dbSchemalzxc}in_dfpv_liusz MX
+         WHERE MX.EDIT_TIME >= (SELECT B.LASTCPLTIME-1/(24*60) FROM ${dbSchemalzxc}IN_ZIDB B WHERE B.INBH='2460') 
+                  AND MX.EDIT_TIME < (SELECT B.Yunxkssj-1/(24*60) FROM ${dbSchemalzxc}IN_ZIDB B WHERE B.INBH='2460') 
+                  AND MX.FLAG1 = '2'  AND MX.CAOZM = 'A01') P    
+     ]]>
+   </insert>
+   
+   
+   <!-- (2) 入库返修 A08,A08S,A10 ; modified by 杨志  2015-11-25 for 0010459,增加x.yuany as YUANY 增加DPFV的  -->
+   <insert id="insertCangklszQuery">
+    <![CDATA[ 
+   	INSERT INTO ${dbSchemalzxc}IN_CKLSZ(C1,C2,C3,C4,C5,C6,C7,C8,C9,C10,C11,C12,C13,C14,C15,C16,C17,C18,C19,C20,
+   			C21,C22,C23,C24,C25,C26,C27,C28,C29,C30,C31,C32,C33,C34,C35,C36,C37,C38) 
+	select * from (
+		SELECT  C1,
+			    C2,
+			    ' ' C3,
+			    ' ' C4,
+			    T.LINGJBH C5,
+			    '1' C6,
+			    T.GONGYSDM C7,
+			     '+'||' ' C8,
+			    T.DANW C9,
+			    SUBSTR(T.BLH,LENGTH(T.BLH)-9,LENGTH(T.BLH)) C10,
+			    TO_CHAR(T.SHENGCSJ, 'YYYYMMDD') C11,
+			    T.BEIZ C12,
+			    'N' C13,
+			    'S' C14,
+			    T.CANGKBH C15,
+			    ' ' C16,
+			    ' ' C17,
+			    'N' C18,
+			    ' ' C19,
+			    ' ' C20,
+			    ' ' C21,
+			    ' ' C22,
+			    ' ' C23,
+			    T.CANGKBH || T.ZICKBH C24,
+			    ' ' C25,
+			    T.USERCENTER C26,
+			    TO_CHAR(T.SHENGCSJ, 'YYYYMMDD') C27,
+			    TO_CHAR(T.SHENGCSJ, 'HH24MI') C28,
+			    T.CANGKGLYZ C29,
+			    T.EDITOR C30,
+			    ' ' C31,
+			    ' ' C32,
+			    T.ELH C33,
+			    ' ' C34,
+			    ' ' C35,
+			    TO_CHAR(T.EDIT_TIME, 'YYYYMMDD') C36,
+			    REPLACE(TO_CHAR(T.FANXSL, '9999999.999'),
+			    ' ',
+			    '0') C37,
+			     T.yuany  C38
+			   FROM (SELECT CASE D1.DANJLX
+			   WHEN '2' THEN
+			   'A08'
+			   END C1,
+			   CASE D1.ZHUANGT
+			   WHEN '9' THEN
+			   'S'
+			   ELSE ' '
+			   END C2,
+			   D1.*,
+			   x.yuany as YUANY
+			   FROM ${dbSchemalzxc}CK_FANXD_LS D1,
+			   ${dbSchemalzxc}ck_zhijbgd x WHERE x.usercenter=D1.usercenter and x.ZHIJJJBGDH=D1.rkpjh
+			   AND ((D1.DANJLX = 2 AND (D1.ZHUANGT = 1 OR D1.ZHUANGT = 9) ) )
+			   AND  D1.EDIT_TIME >= (SELECT B.LASTCPLTIME FROM ${dbSchemalzxc}IN_ZIDB B WHERE B.INBH='2460') 
+			   AND  D1.EDIT_TIME < (SELECT B.Yunxkssj FROM ${dbSchemalzxc}IN_ZIDB B WHERE B.INBH='2460')) T
+			   JOIN ${dbSchemalzxc}CKX_CANGK CK ON CK.USERCENTER = T.USERCENTER
+			                AND CK.CANGKBH = T.CANGKBH 
+			                AND CK.CANGKLX != 4
+	  		union all  
+			    (
+			    SELECT    C1,
+			    C2,
+			    ' ' C3,
+			    ' ' C4,
+			    T.LINGJBH C5,
+			    '1' C6,
+			    T.GONGYSDM C7,
+			     '+'||' ' C8,
+			    T.DANW C9,
+			    SUBSTR(T.BLH,LENGTH(T.BLH)-9,LENGTH(T.BLH)) C10,
+			    TO_CHAR(T.SHENGCSJ, 'YYYYMMDD') C11,
+			    T.BEIZ C12,
+			    'N' C13,
+			    'S' C14,
+			    T.CANGKBH C15,
+			    ' ' C16,
+			    ' ' C17,
+			    'N' C18,
+			    ' ' C19,
+			    ' ' C20,
+			    ' ' C21,
+			    ' ' C22,
+			    ' ' C23,
+			    T.CANGKBH || T.ZICKBH C24,
+			    ' ' C25,
+			    T.USERCENTER C26,
+			    TO_CHAR(T.SHENGCSJ, 'YYYYMMDD') C27,
+			    TO_CHAR(T.SHENGCSJ, 'HH24MI') C28,
+			    T.CANGKGLYZ C29,
+			    T.EDITOR C30,
+			    ' ' C31,
+			    ' ' C32,
+			    T.ELH C33,
+			    ' ' C34,
+			    ' ' C35,
+			    TO_CHAR(T.EDIT_TIME, 'YYYYMMDD') C36,
+			    REPLACE(TO_CHAR(T.FANXSL, '9999999.999'),
+			    ' ',
+			    '0') C37,
+			    T.yuany  C38
+			   FROM (SELECT CASE D1.DANJLX
+			   WHEN '2' THEN
+			   'A08'
+			   END C1,
+			   CASE D1.ZHUANGT
+			   WHEN '9' THEN
+			   'S'
+			   ELSE ' '
+			   END C2,
+			   D1.*,
+			   x.yuany as YUANY
+			   FROM ${dbSchemalzxc}CK_FANXD_LS D1 ,
+			   ${dbSchemalzxc}ck_yicsb x WHERE x.usercenter=D1.usercenter and x.xiaohdh=D1.rkpjh
+			   AND ((D1.DANJLX = 2 AND (D1.ZHUANGT = 1 OR D1.ZHUANGT = 9) ) )
+			   AND  D1.EDIT_TIME >= (SELECT B.LASTCPLTIME FROM ${dbSchemalzxc}IN_ZIDB B WHERE B.INBH='2460') 
+			   AND  D1.EDIT_TIME < (SELECT B.Yunxkssj FROM ${dbSchemalzxc}IN_ZIDB B WHERE B.INBH='2460')) T
+			    JOIN ${dbSchemalzxc}CKX_CANGK CK ON CK.USERCENTER = T.USERCENTER
+			                AND CK.CANGKBH = T.CANGKBH  AND CK.CANGKLX != 4)
+			)T 
+		UNION ALL 
+			  select * from (
+			    SELECT    C1,
+			                         C2,
+			                         ' ' C3,
+			                         ' ' C4,
+			                         T.LINGJBH C5,
+			                         '1' C6,
+			                         T.GONGYSDM C7,
+			                         '+'||' ' C8,
+			                         T.DANW C9,
+			                         SUBSTR(T.BLH,LENGTH(T.BLH)-9,LENGTH(T.BLH)) C10,
+			                         TO_CHAR(T.SHENGCSJ, 'YYYYMMDD') C11,
+			                         T.BEIZ C12,
+			                         'N' C13,
+			                         'S' C14,
+			                         T.CANGKBH C15,
+			                         ' ' C16,
+			                         ' ' C17,
+			                         'N' C18,
+			                         ' ' C19,
+			                         ' ' C20,
+			                         ' ' C21,
+			                         ' ' C22,
+			                         ' ' C23,
+			                         T.CANGKBH || T.ZICKBH C24,
+			                         ' ' C25,
+			                         T.USERCENTER C26,
+			                         TO_CHAR(T.SHENGCSJ, 'YYYYMMDD') C27,
+			                         TO_CHAR(T.SHENGCSJ, 'HH24MI') C28,
+			                         T.CANGKGLYZ C29,
+			                         T.EDITOR C30,
+			                         ' ' C31,
+			                         ' ' C32,
+			                         T.ELH C33,
+			                         ' ' C34,
+			                         ' ' C35,
+			                         TO_CHAR(T.EDIT_TIME, 'YYYYMMDD') C36,
+			                         REPLACE(TO_CHAR(T.FANXSL, '9999999.999'),
+			                                 ' ',
+			                                 '0') C37,
+			                         ' ' C38
+			                    FROM (SELECT CASE D1.DANJLX
+			                                   WHEN '1' THEN
+			                                    'A10'
+			                                 END C1,
+			                                 CASE D1.ZHUANGT
+			                                   WHEN '9' THEN
+			                                    'S'
+			                                   ELSE ' '
+			                                 END C2,
+			                                 D1.*
+			                            FROM ${dbSchemalzxc}CK_FANXD D1
+			                           WHERE ((D1.DANJLX = 1 AND D1.ZHUANGT = 1 ))
+			                                  AND  D1.EDIT_TIME >= (SELECT B.LASTCPLTIME FROM ${dbSchemalzxc}IN_ZIDB B WHERE B.INBH='2460') 
+			                            AND  D1.EDIT_TIME < (SELECT B.Yunxkssj FROM ${dbSchemalzxc}IN_ZIDB B WHERE B.INBH='2460') ) T
+			               JOIN ${dbSchemalzxc}CKX_CANGK CK ON CK.USERCENTER = T.USERCENTER
+			                       AND CK.CANGKBH = T.CANGKBH 
+			                       AND CK.CANGKLX != 4
+			                   WHERE T.EDIT_TIME >= (SELECT B.LASTCPLTIME FROM ${dbSchemalzxc}IN_ZIDB B WHERE B.INBH='2460') 
+			                        AND T.EDIT_TIME < (SELECT B.Yunxkssj FROM ${dbSchemalzxc}IN_ZIDB B WHERE B.INBH='2460') 
+			)Q
+			UNION ALL
+  select * from (
+   SELECT 'A08' C1,
+               MX.CHEXBS C2,
+               ' ' C3,
+               ' ' C4,
+               MX.LINGJBH C5,
+               '1' C6,
+               MX.GONGYSDM C7,
+               '+' || ' ' C8,
+               MX.DANW C9,
+               MX.BLH C10,
+               TO_CHAR(MX.JIAOFRQ, 'YYYYMMDD') C11,
+               ' ' C12,             
+               'N' C13,
+               'S' C14,
+               MX.CANGK C15,
+               ' ' C16,
+               ' ' C17,
+               'N' C18,
+               ' ' C19,
+               ' ' C20,
+               ' ' C21,
+               ' ' C22,
+               ' ' C23,
+               MX.CANGKZCK C24,
+               ' ' C25,
+               MX.USERCENTER C26,
+               TO_CHAR(MX.CREATE_TIME, 'YYYYMMDD') C27,
+               TO_CHAR(MX.CREATE_TIME, 'HH24MI') C28,
+               ' ' C29,
+               MX.EDITOR C30,
+               ' ' C31,
+               ' ' C32,
+               ' ' C33,
+               ' ' C34,
+               ' ' C35,
+               TO_CHAR(MX.EDIT_TIME, 'YYYYMMDD') C36,
+               REPLACE(TO_CHAR(MX.LINGJSL, '9999999.999'),
+                       ' ',
+                       '0') C37,
+               ' ' C38                             
+          FROM ${dbSchemalzxc}in_dfpv_liusz MX
+         WHERE MX.EDIT_TIME >= (SELECT B.LASTCPLTIME FROM ${dbSchemalzxc}IN_ZIDB B WHERE B.INBH='2460') 
+                  AND MX.EDIT_TIME < (SELECT B.Yunxkssj FROM ${dbSchemalzxc}IN_ZIDB B WHERE B.INBH='2460') 
+                  AND MX.FLAG1 = '2'  AND MX.CAOZM = 'A08') P
+		]]>
+									 
+   </insert>
+   
+   
+    <!-- (3) 纠纷单A25,A25S  -->
+   <insert id="insertCangklszjfQuery">
+   		<![CDATA[ 
+   			INSERT INTO ${dbSchemalzxc}IN_CKLSZ(C1,C2,C3,C4,C5,C6,C7,C8,C9,C10,C11,C12,C13,C14,C15,C16,C17,C18,C19,C20,
+   			C21,C22,C23,C24,C25,C26,C27,C28,C29,C30,C31,C32,C33,C34,C35,C36,C37) 
+			SELECT    C1,
+                     C2,
+                     '' C3,
+                     '' C4,
+                     C5,
+                     '1' C6,
+                     C7,
+                     C8,
+                     T.DANW C9,
+                     SUBSTR(T.BLH,LENGTH(T.BLH)-9,LENGTH(T.BLH)) C10,
+                     TO_CHAR(T.JIUFSJ, 'YYYYMMDD') C11,
+                     T.SUOPDH C12,
+                     'N' C13,
+                     'S' C14,
+                     T.CANGKBH C15,
+                     ' ' C16,
+                     ' ' C17,
+                     'N' C18,
+                     ' ' C19,
+                     ' ' C20,
+                     T.PICH C21,
+                     ' ' C22,
+                     ' ' C23,
+                     T.CANGKBH || T.ZICKBH C24,
+                     ' ' C25,
+                     T.USERCENTER C26,
+                     TO_CHAR(T.JIUFSJ, 'YYYYMMDD') C27,
+                     TO_CHAR(T.JIUFSJ, 'HH24MI') C28,
+                     T.CANGKGLYZ C29,
+                     T.EDITOR C30,
+                     T.UTH C31,
+                     ' ' C32,
+                     C33,
+                     ' ' C34,
+                     ' ' C35,
+                     TO_CHAR(T.EDIT_TIME, 'YYYYMMDD') C36,
+                      C37
+                FROM (
+                      SELECT 'A25' C1,
+                              '' C2,
+                              D2.*,
+                              D2.LINGJBH C5,
+                              D2.GONGYSDM C7,
+                              CASE
+                                WHEN D2.SHIJKCSL >= D2.LILKCSL THEN
+                                 '+'
+                                ELSE
+                                 '-'
+                              END||' ' AS C8,
+                              D2.Elh C33,
+                              REPLACE(REPLACE(TO_CHAR(D2.SHIJKCSL - D2.LILKCSL,
+                                                              '9999999.999'),
+                                                      
+                                              ' ',
+                                              '0'),
+                                      '-',
+                                      '0') C37
+                        FROM ${dbSchemalzxc}CK_JIUFD D2
+                       WHERE D2.ZHUANGT = 1
+                         AND D2.SHIJKCSL != D2.LILKCSL
+                      UNION ALL
+                      SELECT 'A25' C1,
+                             '' C2,
+                             D3.*,
+                             D3.SHIJLJBH C5,
+                             D3.SHIJGYSBH C7,
+                             '+'||' 'AS C8,
+                             D3.Beiz C33,
+                             REPLACE(TO_CHAR(D3.SHIJLJSL, '9999999.999'),
+                                     ' ',
+                                     '0') C37
+                        FROM ${dbSchemalzxc}CK_JIUFD D3
+                       WHERE D3.ZHUANGT = 1
+                         AND D3.SHIJLJBH IS NOT NULL
+                      UNION ALL
+                      SELECT 'A25' C1,
+                             'S' C2,
+                             D2.*,
+                             D2.LINGJBH C5,
+                             D2.GONGYSDM C7,
+                             CASE
+                               WHEN D2.SHIJKCSL >= D2.LILKCSL THEN
+                                '+'
+                               ELSE
+                                '-'
+                             END ||' ' AS C8,
+                             D2.ELH C33,
+                             REPLACE(REPLACE(TO_CHAR(D2.SHIJKCSL- D2.LILKCSL,
+                                                             '9999999.999'),
+                                                     
+                                             ' ',
+                                             '0'),
+                                     '-',
+                                     '0') C37
+                      
+                        FROM ${dbSchemalzxc}CK_JIUFD D2
+                       WHERE D2.ZHUANGT = 2
+                         AND D2.SHIJKCSL != D2.LILKCSL
+                      UNION ALL
+                      SELECT 'A25' C1,
+                             'S' C2,
+                             D3.*,
+                             D3.SHIJLJBH C5,
+                             D3.SHIJGYSBH C7,
+                             '+'||' 'AS C8,
+                             D3.BEIZ C33,
+                             REPLACE(TO_CHAR(D3.SHIJLJSL, '9999999.999'),
+                                     ' ',
+                                     '0') C37
+                        FROM ${dbSchemalzxc}CK_JIUFD D3
+                       WHERE D3.ZHUANGT = 2
+                         AND D3.SHIJLJBH IS NOT NULL) T
+           JOIN ${dbSchemalzxc}CKX_CANGK CK ON CK.USERCENTER = T.USERCENTER
+                   AND CK.CANGKBH = T.CANGKBH 
+                   AND CK.CANGKLX != 4
+               WHERE T.CREATE_TIME >= (SELECT B.LASTCPLTIME FROM ${dbSchemalzxc}IN_ZIDB B WHERE B.INBH='2460') 
+                    AND T.CREATE_TIME < (SELECT B.Yunxkssj FROM ${dbSchemalzxc}IN_ZIDB B WHERE B.INBH='2460') 
+   		]]>
+   </insert>
+
+   
+    <!-- (4) 备货出库单A35 modified by 杨志  2016-3-2 增加DPFV的 2016-3-29增加dfpv下线结算 -->
+   <insert id="insertCangklszbhdQuery">
+   		<![CDATA[ 
+   		INSERT INTO ${dbSchemalzxc}IN_CKLSZ(C1,C2,C3,C4,C5,C6,C7,C8,C9,C10,C11,C12,C13,C15,C16,C17,C18,C19,C20,
+   			C21,C22,C23,C24,C25,C26,C27,C28,C29,C30,C31,C33) 
+			SELECT    substr(MX.Fahtzdh,1,3) C1,
+                     ' ' C2,
+                     ' ' C3,
+                     ' ' C4,
+                     MX.LINGJBH C5,
+                     ' ' C6,
+                     MX.GONGYSDM C7,
+                     '+'||' '  C8,
+                     MX.DANW C9,
+                     substr(MX.Fahtzdh,4) C10,
+                     ' ' C11,
+                     ' ' C12,
+                     MX.MUDD C13,
+                     ' ' C15,
+                     MX.PICH C16,
+                     ' ' C17,
+                     ' ' C18,
+                     MX.CANGKBH || MX.ZICKBH C19,
+                     '' C20,
+                     MX.USERCENTER C21,
+                     TO_CHAR(MX.CREATE_TIME, 'YYYYMMDD') C22,
+                     TO_CHAR(MX.CREATE_TIME, 'HH24MI') C23,
+                     '' C24,
+                     MX.EDITOR C25,
+                     ' ' C26,
+                     ' ' C27,
+                     MX.ELH C28,
+                     MX.UCH C29,
+                     ' ' C30,
+                     TO_CHAR(MX.EDIT_TIME, 'YYYYMMDD') C31,
+                     REPLACE(TO_CHAR(MX.Lingjsl, '9999999.999') , ' ', '0') C33 
+                FROM ${dbSchemalzxc}CK_UCBQ MX                
+               WHERE substr(MX.Fahtzdh,1,3) = 'A35'
+                 		AND  MX.EDIT_TIME >= (SELECT B.LASTCPLTIME-1/(24*60) FROM ${dbSchemalzxc}IN_ZIDB B WHERE B.INBH='2460') 
+				  		AND MX.EDIT_TIME < (SELECT B.Yunxkssj-1/(24*60) FROM ${dbSchemalzxc}IN_ZIDB B WHERE B.INBH='2460')
+				UNION ALL
+   SELECT   CASE MX.CAOZF
+           WHEN '+' THEN
+            'A35'
+          WHEN '-' THEN
+            'A38'
+            END C1,
+               MX.CHEXBS C2,
+               ' ' C3,
+               ' ' C4,
+                     MX.LINGJBH C5,
+                     ' ' C6,
+                     MX.GONGYSDM C7,
+                     '+'||' '  C8,
+                     MX.DANW C9,
+                     ' ' C10,
+                     ' ' C11,
+                     ' ' C12,
+                     ' ' C13,
+                     ' ' C15,
+                     MX.PINGZH C16,
+                     ' ' C17,
+                     ' ' C18,
+                     MX.CANGKZCK C19,
+                     '' C20,
+                     MX.USERCENTER C21,
+               TO_CHAR(MX.CREATE_TIME, 'YYYYMMDD') C22,
+               TO_CHAR(MX.CREATE_TIME, 'HH24MI') C23,
+               '' C24,
+               MX.EDITOR C25,
+               ' ' C26,
+               ' ' C27,
+               ' ' C28,
+               ' ' C29,
+               ' ' C30,
+               TO_CHAR(MX.EDIT_TIME, 'YYYYMMDD') C31,
+               REPLACE(REPLACE(TO_CHAR(MX.Lingjsl, '9999999.999') , ' ', '0'),'-','0') C33                
+          FROM ${dbSchemalzxc}in_dfpv_liusz MX
+         WHERE MX.EDIT_TIME >= (SELECT B.LASTCPLTIME-1/(24*60) FROM ${dbSchemalzxc}IN_ZIDB B WHERE B.INBH='2460') 
+                  AND MX.EDIT_TIME < (SELECT B.Yunxkssj-1/(24*60) FROM ${dbSchemalzxc}IN_ZIDB B WHERE B.INBH='2460') 
+                  AND MX.FLAG1 = '2'  AND MX.CAOZM = 'B30'
+              UNION ALL
+               SELECT  CASE WHEN MX.SHUL >= 0  
+				      THEN
+			            'A35'
+			          ELSE
+		                'A38'
+		                  END  C1,
+				        ' ' C2,
+				        ' ' C3,
+				        ' ' C4,
+				        MX.LINGJBH C5,
+				        ' ' C6,
+				        ' ' C7,
+				        '+'||' ' C8,
+		                MX.DANW C9,
+		                ' ' C10,
+		                ' ' C11,
+		                ' ' C12,
+		                ' ' C13,
+		                ' ' C15,
+		                ' ' C16,
+		                ' ' C17,
+		                ' ' C18,
+		                max(m.xianbck) C19,
+		                '' C20,
+		                MX.USERCENTER C21,
+		                TO_CHAR(MX.CREATE_TIME, 'YYYYMMDD') C22,
+		                TO_CHAR(MX.CREATE_TIME, 'HH24MI') C23,
+		                '' C24,
+		                MX.EDITOR C25,
+		                ' ' C26,
+		                ' ' C27,
+		                ' ' C28,
+		                ' ' C29,
+		                ' ' C30,
+		                TO_CHAR(MX.EDIT_TIME, 'YYYYMMDD') C31,
+		                REPLACE(REPLACE(TO_CHAR(MX.SHUL, '9999999.999') , ' ', '0'),'-','0') C33
+		           FROM ${dbSchemalzxc}DDBH_DFPVXXJS MX
+		           LEFT JOIN ${dbSchemalzxc}CKX_WULLJ M
+		             ON MX.USERCENTER = M.USERCENTER
+		            AND MX.LINGJBH = M.LINGJBH
+		            AND M.SHENGCXBH LIKE 'UL_L2'
+		          WHERE MX.EDIT_TIME >= (SELECT B.LASTCPLTIME - 1 / (24 * 60)
+		                                   FROM ${dbSchemalzxc}IN_ZIDB B
+		                                  WHERE B.INBH = '2460')
+		            AND MX.EDIT_TIME < (SELECT B.YUNXKSSJ - 1 / (24 * 60)
+		                                  FROM ${dbSchemalzxc}IN_ZIDB B
+		                                 WHERE B.INBH = '2460')
+		          GROUP BY MX.LINGJBH,
+		                   MX.DANW,
+		                   MX.USERCENTER,
+		                   MX.CREATE_TIME,
+		                   MX.EDITOR,
+		                   MX.EDIT_TIME,
+		                   MX.SHUL   		 
+   		]]>
+   </insert>
+    <!-- (5) 备货出库单A36  | xss-0012338 |增加成本中心20160307|增加blh0012520-->
+   <insert id="insertCangklszbhdtsQuery">
+   		<![CDATA[ 
+   		INSERT INTO ${dbSchemalzxc}IN_CKLSZ(C1,C2,C3,C4,C5,C6,C7,C8,C9,C10,C11,C12,C13,C14,C15,C16,C17,C18,C19,C20,
+         C21,C22,C23,C24,C25,C26,C27,C28,C29,C30,C31,C32,C34) 
+(
+      SELECT    substr(MX.Fahtzdh,1,3) C1,
+                     ' ' C2,
+                     ' ' C3,
+                     ' ' C4,
+                     MX.LINGJBH C5,
+                     '1' C6,
+                     MX.GONGYSDM C7,
+                     '+'||' '  C8,
+                     MX.DANW C9,
+                     substr(MX.Fahtzdh,4) C10,
+                     ' ' C11,
+                     ' ' C12,
+                     TO_CHAR(MX.CHUKRQ, 'YYYYMMDD') C13,
+                     ' ' C14,
+                     ' ' C15,
+                     ' ' C16,
+                     MX.PICH C17,
+                     ' ' C18,
+                     ' ' C19,
+                     MX.CANGKBH || MX.ZICKBH C20,
+                     ' ' C21,
+                     MX.USERCENTER C22,
+                     TO_CHAR(MX.CHUKRQ, 'YYYYMMDD') C23,
+                     TO_CHAR(MX.CHUKRQ, 'HH24MI') C24,
+                     ' ' C25,
+                     MX.EDITOR C26,
+                     ' ' C27,
+                     ' ' C28,
+                     MX.ELH C29,
+                     MX.cheph C30,
+                     ' ' C31,
+                     TO_CHAR(MX.EDIT_TIME, 'YYYYMMDD') C32,
+                     REPLACE(TO_CHAR(MX.Lingjsl, '9999999.999'), ' ', '0') C34
+                 FROM ${dbSchemalzxc}CK_UCBQ MX                
+               WHERE substr(MX.Fahtzdh,1,3) = 'A36'
+                 AND  MX.EDIT_TIME >= (SELECT to_date(to_char(B.LASTCPLTIME,'yyyy-mm-dd HH24:mi:ss'),'yyyy-mm-dd HH24:mi:ss') FROM ${dbSchemalzxc}IN_ZIDB B WHERE B.INBH='2460') 
+          AND MX.EDIT_TIME < (SELECT to_date(to_char(B.Yunxkssj,'yyyy-mm-dd HH24:mi:ss'),'yyyy-mm-dd HH24:mi:ss') FROM ${dbSchemalzxc}IN_ZIDB B WHERE B.INBH='2460') 
+          UNION  ALL     
+              select 'A36' C1,
+                     '' C2,
+                     '' C3,
+                     '' C4,
+                     a.lingjbh C5,
+                     '' C6,
+                     '' C7,
+                     '+'||' ' C8 ,
+                     '' C9,
+                     a.CHENGBZX C10,
+                     '' C11,
+                     '' C12,
+                     '' C13,
+                     '' C14,
+                     '' C15,
+                     '' C16,
+                     '' C17,
+                     '' C18,
+                     '' C19,
+                     a.cangkzck C20,
+                     '' C21,
+                     a.usercenter C22,
+                     TO_CHAR(a.jiaofrq, 'YYYYMMDD') C23,
+                     TO_CHAR(a.jiaofrq, 'HH24MI') C24,
+                     '' C25,
+                     '' C26,
+                     '' C27,
+                     '' C28,
+                     '' C29,
+                     A.BEIZHU1 C30,
+                     ''  C31,
+                     TO_CHAR(a.EDIT_TIME, 'YYYYMMDD') C32,
+                     REPLACE(TO_CHAR(a.lingjsl , '9999999.999'), ' ', '0') C34
+                from ${dbSchemalzxc}DFPV_SHENH_DIAOB A 
+                WHERE  a.usercenter='UL'
+                AND  a.EDIT_TIME >= (SELECT to_date(to_char(B.LASTCPLTIME,'yyyy-mm-dd HH24:mi:ss'),'yyyy-mm-dd HH24:mi:ss') FROM ${dbSchemalzxc}IN_ZIDB B WHERE B.INBH='2460') 
+               AND a.EDIT_TIME < (SELECT to_date(to_char(B.Yunxkssj,'yyyy-mm-dd HH24:mi:ss'),'yyyy-mm-dd HH24:mi:ss') FROM ${dbSchemalzxc}IN_ZIDB B WHERE B.INBH='2460') 
+          ) 	  
+                 
+   		]]>
+   </insert>
+    <!-- (6) 正常退库 A38  -->
+   <insert id="insertCangklszzctkQuery">
+   		<![CDATA[ 
+   		INSERT INTO ${dbSchemalzxc}IN_CKLSZ(C1,C2,C3,C4,C5,C6,C7,C8,C9,C10,C11,C12,C13,C15,C16,C17,C18,C19,C20,
+   			C21,C22,C23,C24,C25,C26,C27,C28,C29,C30,C31,C33) 
+			SELECT    'A38' C1,
+		       ' ' C2,
+		       ' ' C3,
+		       ' ' C4,
+		       K.LINGJBH C5,
+		       ' ' C6,
+		       K.GONGYSDM C7,
+		       '+'||' '  C8,
+		       K.DANW C9,
+		       K.ZHANGH C10,
+		       ' ' C11,
+		       ' ' C12,
+		       K.KEH C13,
+		       ' ' C15,
+		       K.PICH C16,
+		       ' ' C17,
+		       ' ' C18,
+		       K.CANGKBH || K.ZICKBH C19,
+		       ' ' C20,
+		       K.USERCENTER C21,
+		       TO_CHAR(K.CAOZSJ, 'YYYYMMDD') C22,
+		       TO_CHAR(K.CAOZSJ, 'HH24MI') C23,
+		       '' C24,
+                  K.EDITOR C25,
+                  ' ' C26,
+                  ' ' C27,
+                  K.ELH C28,
+                  ' ' C29,
+                  ' ' C30,
+                  TO_CHAR(K.EDIT_TIME, 'YYYYMMDD') C31,
+		       REPLACE(TO_CHAR(K.LINGJSL, '9999999.999'), ' ', '0') C33
+		  FROM ${dbSchemalzxc}CK_ZHENGCTK K
+		 WHERE K.CAOZM = 'A35'
+		   AND K.ZHUANGT = 2
+		   AND K.EDIT_TIME >= (SELECT B.LASTCPLTIME FROM ${dbSchemalzxc}IN_ZIDB B WHERE B.INBH='2460') 
+			   AND K.EDIT_TIME < (SELECT B.Yunxkssj FROM ${dbSchemalzxc}IN_ZIDB B WHERE B.INBH='2460') 		  
+   		]]>
+   </insert>
+   <!-- (7) 正常退库 A39 -->
+   <insert id="insertCangklszzctktnQuery">
+   		<![CDATA[ 
+   		INSERT INTO ${dbSchemalzxc}IN_CKLSZ(C1,C2,C3,C4,C5,C6,C7,C8,C9,C10,C11,C12,C13,C14,C15,C16,C17,C18,C19,C20,
+   			C21,C22,C23,C24,C25,C26,C27,C28,C29,C30,C31,C32,C34) 
+			SELECT    'A39' C1,
+				       ' ' C2,
+				       ' ' C3,
+				       ' ' C4,
+				       K.LINGJBH C5,
+				       '1' C6,
+				       K.GONGYSDM C7,
+				       '+'||' '  C8,
+					   K.DANW C9,
+				       K.ZHANGH C10,
+				       ' ' C11,
+				       ' ' C12,
+				       TO_CHAR(K.CAOZSJ, 'YYYYMMDD') C13,
+				       ' ' C14,
+				       ' ' C15,
+				       ' ' C16,
+				       K.PICH C17,
+				       ' ' C18,
+				       ' ' C19,
+				       K.CANGKBH || K.ZICKBH C20,
+				       ' ' C21,
+				       K.USERCENTER C22,
+				       TO_CHAR(K.CAOZSJ, 'YYYYMMDD') C23,
+				       TO_CHAR(K.CAOZSJ, 'HH24MI') C24,
+				       ' ' C25,
+				       K.EDITOR C26,
+				       ' ' C27,
+				       ' ' C28,
+				       K.ELH C29,
+				       ' ' C30,
+				       ' ' C31,
+				       TO_CHAR(K.EDIT_TIME, 'YYYYMMDD') C32,
+				       REPLACE(TO_CHAR(K.LINGJSL, '9999999.999') , ' ', '0') C34
+				  FROM ${dbSchemalzxc}CK_ZHENGCTK K
+				  JOIN ${dbSchemalzxc}CKX_CANGK CK ON CK.USERCENTER = K.USERCENTER
+	                   AND CK.CANGKBH = K.CANGKBH
+				 WHERE K.CAOZM = 'A36'
+				   AND K.ZHUANGT = 2
+				   AND K.EDIT_TIME >= (SELECT B.LASTCPLTIME FROM ${dbSchemalzxc}IN_ZIDB B WHERE B.INBH='2460') 
+				  		   AND K.EDIT_TIME < (SELECT B.Yunxkssj FROM ${dbSchemalzxc}IN_ZIDB B WHERE B.INBH='2460')
+
+   		]]>
+   </insert>
+    <!-- (8) 盘点差异A53 -->
+   <insert id="insertCangklszpdcyQuery">
+   		<![CDATA[ 
+   		INSERT INTO ${dbSchemalzxc}IN_CKLSZ(C1,C2,C3,C4,C5,C6,C7,C8,C9,C10,C11,C12,C13,C14,C15,C16,C17,C18,C19,C20,
+   			C21,C22,C23,C24,C25,C26,C27,C28,C29,C30,C31,C32,C33,C34) 
+						SELECT    'A53' C1,
+							       '' C2,
+							       '' C3,
+							       '' C4,
+							       Y.LINGJBH C5,
+							       '' C6,
+							       Y.GONGYSDM C7,
+				    			   CASE
+				                         WHEN Y.YUANUSSL is null THEN
+				                         '+'
+				                         WHEN  Y.SHIJUSSL >=Y.YUANUSSL  THEN
+				                         '+'
+				                         ELSE
+				                         '-'
+				                         END||' ' AS C8, 						       
+							       L.DANW C9,
+							       ' ' C10,
+							       ' ' C11,
+							       ' ' C12,
+							       ' ' C13,
+							       ' ' C14,
+							       ' ' C15,
+							       Y.CHANX C16,
+							       ' ' C17,
+							       ' ' C18,
+							       Y.PICH C19,
+							       ' ' C20,
+							       ' ' C21,
+							       Y.CANGKBH || Y.ZICKBH C22,
+							       ' ' C23,
+							       Y.USERCENTER C24,
+							       TO_CHAR(Y.WEIHSJ, 'YYYYMMDD') C25,
+							       TO_CHAR(Y.WEIHSJ, 'HH24MI') C26,
+							       Y.CANGKGLYZ C27,
+							       Y.PANDR C28,
+							       Y.UTH C29,
+							       ' ' C30,
+							       Y.ELH C31,
+							       ' ' C32,
+							       TO_CHAR(Y.WEIHSJ, 'YYYYMMDD') C33,
+							       REPLACE(REPLACE(TO_CHAR(nvl(Y.SHIJUSSL, '0')    - nvl(Y.YUANUSSL, '0'),
+							                                '9999999.999'),
+							                                        
+							                                ' ',
+							                                '0'),
+							                        '-',
+							                        '0') C34
+							  FROM ${dbSchemalzxc}CK_PANDCY Y
+							  JOIN ${dbSchemalzxc}CKX_LINGJ L
+                			  ON Y.USERCENTER = L.USERCENTER AND Y.LINGJBH = L.LINGJBH
+							 WHERE Y.WEIHSJ >= (SELECT B.LASTCPLTIME FROM ${dbSchemalzxc}IN_ZIDB B WHERE B.INBH='2460') 
+				  		   			AND Y.WEIHSJ < (SELECT B.Yunxkssj FROM ${dbSchemalzxc}IN_ZIDB B WHERE B.INBH='2460')  
+					 
+   		]]>
+   </insert>
+    <!-- (9) 移库 A70 modified by 杨志  2016-3-2 增加DPFV的-->
+   <insert id="insertCangklszyikQuery">
+   		<![CDATA[ 
+   			INSERT INTO ${dbSchemalzxc}IN_CKLSZ(C1,C2,C3,C4,C5,C6,C7,C8,C9,C10,C11,C12,C13,C15,C16,C17,C18,C19,C20,
+   			C21,C22,C23,C24,C25,C26,C27,C28,C29,C30,C31,C33) 
+			SELECT * FROM (
+      SELECT    substr(MX.Fahtzdh,1,3) C1,
+                     ' ' C2,
+                     ' ' C3,
+                     ' ' C4,
+                     MX.LINGJBH C5,
+                     ' ' C6,
+                     MX.GONGYSDM C7,
+                     '+'||' '  C8,
+                     MX.DANW C9,
+                     substr(MX.Fahtzdh,4) C10,
+                     ' ' C11,
+                     ' ' C12,
+                     MX.MUDD C13,
+                     ' ' C15,
+                     MX.PICH C16,
+                     ' ' C17,
+                     ' ' C18,
+                     MX.CANGKBH || MX.ZICKBH C19,
+                     '' C20,
+                     MX.USERCENTER C21,
+                     TO_CHAR(MX.Chukrq, 'YYYYMMDD') C22,
+                     TO_CHAR(MX.Chukrq, 'HH24MI') C23,
+                     '' C24,
+                     MX.EDITOR C25,
+                     ' ' C26,
+                     ' ' C27,
+                     MX.ELH C28,
+                     ' ' C29,
+                     ' ' C30,
+                     TO_CHAR(MX.EDIT_TIME, 'YYYYMMDD') C31,
+                     REPLACE(TO_CHAR(MX.Lingjsl, '9999999.999') , ' ', '0') C33
+                FROM ${dbSchemalzxc}CK_UCBQ MX                
+               WHERE substr(MX.Fahtzdh,1,3) = 'A70'
+                 AND MX.EDIT_TIME  >= (SELECT B.LASTCPLTIME FROM ${dbSchemalzxc}IN_ZIDB B WHERE B.INBH='2460') 
+                AND MX.EDIT_TIME < (SELECT B.Yunxkssj FROM ${dbSchemalzxc}IN_ZIDB B WHERE B.INBH='2460')  
+                )M
+               Union all
+ SELECT * FROM (
+               SELECT    'A70' C1,
+                     ' ' C2,
+                     ' ' C3,
+                     ' ' C4,
+                     t.LINGJBH C5,
+                     ' ' C6,
+                     t.GONGYSDM C7,
+                     '+'||' '  C8,
+                    t.DANW C9,
+                    t.keh C10,
+                     ' ' C11,
+                     ' ' C12,
+                     t.keh C13,
+                     ' ' C15,
+                     t.PICH C16,
+                     ' ' C17,
+                     ' ' C18,
+                    t.CANGKBH || t.ZICKBH C19,
+                     '' C20,
+                     t.USERCENTER C21,
+                     TO_CHAR(t.caozsj, 'YYYYMMDD') C22,
+                     TO_CHAR(t.caozsj, 'HH24MI') C23,
+                     '' C24,
+                     t.EDITOR C25,
+                     ' ' C26,
+                     ' ' C27,
+                    t.ELH C28,
+                     ' ' C29,
+                     ' ' C30,
+                     TO_CHAR(t.EDIT_TIME, 'YYYYMMDD') C31,
+                     REPLACE(TO_CHAR(t.Lingjsl, '9999999.999') , ' ', '0') C33
+                FROM ${dbSchemalzxc}ck_zhengctk t                
+               WHERE t.caozm= 'A70'
+               and t.zhuangt='2'
+                 AND t.EDIT_TIME  >= (SELECT B.LASTCPLTIME FROM ${dbSchemalzxc}IN_ZIDB B WHERE B.INBH='2460') 
+                AND t.EDIT_TIME < (SELECT B.Yunxkssj FROM ${dbSchemalzxc}IN_ZIDB B WHERE B.INBH='2460')  
+                )N 
+           UNION ALL
+  select * from (
+   SELECT 'A70' C1,
+               MX.CHEXBS C2,
+                     ' ' C3,
+                     ' ' C4,
+                     MX.LINGJBH C5,
+                     ' ' C6,
+                     MX.GONGYSDM C7,
+                     '+'||' '  C8,
+                    MX.DANW C9,
+                    ' ' C10,
+                     ' ' C11,
+                     ' ' C12,
+                     ' ' C13,
+                     ' ' C15,
+                     MX.PINGZH C16,
+                     ' ' C17,
+                     ' ' C18,
+                    MX.CANGKZCK C19,
+                     '' C20,
+                     MX.USERCENTER C21,
+                     TO_CHAR(MX.CREATE_TIME, 'YYYYMMDD') C22,
+                     TO_CHAR(MX.CREATE_TIME, 'HH24MI') C23,
+                     '' C24,
+               MX.EDITOR C25,
+                     ' ' C26,
+                     ' ' C27,
+                     ' ' C28,
+                     ' ' C29,
+                     ' ' C30,
+               TO_CHAR(MX.EDIT_TIME, 'YYYYMMDD') C31,
+                     REPLACE(TO_CHAR(MX.Lingjsl, '9999999.999') , ' ', '0') C33             
+          FROM ${dbSchemalzxc}in_dfpv_liusz MX
+         WHERE MX.EDIT_TIME >= (SELECT B.LASTCPLTIME FROM ${dbSchemalzxc}IN_ZIDB B WHERE B.INBH='2460') 
+                  AND MX.EDIT_TIME < (SELECT B.Yunxkssj FROM ${dbSchemalzxc}IN_ZIDB B WHERE B.INBH='2460') 
+                  AND MX.FLAG1 = '2'  AND MX.CAOZM = 'A70') P     
+                    
+   		]]>
+   </insert>
+     <!-- (10) 报废 A11 A11S modified by 杨志  2016-3-2 增加DPFV的-->
+   <insert id="insertBaofeiQuery">
+   		<![CDATA[ 
+   		INSERT INTO ${dbSchemalzxc}IN_CKLSZ(C1,C2,C3,C4,C5,C6,C7,C8,C9,C10,C11,C12,C13,C14,C15,C16,C17,C18,C19,C20,
+   			C21,C22,C23,C24,C25,C26,C27,C28,C29,C30,C31,C32,C33,C34,C35,C36,C37) 
+				select * from (
+								select 'A11' C1,
+						       case t.zhuangt
+						         when '1' then
+						          ''
+						         when '0' then
+						          'S'
+						       end C2,
+						       '' C3,
+						       '' C4,
+						       t.lingjbh C5,
+						       '1' C6,
+						       t1.zerztdm C7,
+						       '+'||' ' C8,
+						       t.danw C9,
+						       t.yiclx C10,
+						       TO_CHAR(T.Create_Time, 'YYYYMMDD') C11,
+						       t.wuld C12,
+						       'N' C13,
+						       'S' C14,
+						       t.cangkbh C15,
+						       ' ' C16,
+						       ' ' C17,
+						       'N' C18,
+						       ' ' C19,
+						       ' ' C20,
+						       t.baofdh C21,
+						       ' ' C22,
+						       ' ' C23,
+						       T.CANGKBH || T.ZICKBH C24,
+						       ' ' C25,
+						       T.USERCENTER C26,
+						       TO_CHAR(T.Create_Time, 'YYYYMMDD') C27,
+						       TO_CHAR(T.Create_Time, 'HH24MI') C28,
+						       '' C29,
+						       T.EDITOR C30,
+						       ' ' C31,
+						       ' ' C32,
+						       T.Elh C33,
+						       ' ' C34,
+						       ' ' C35,
+						       TO_CHAR(T.Create_Time, 'YYYYMMDD') C36,
+						       REPLACE(TO_CHAR(T.querxhsl, '9999999.999'),
+						               ' ',
+						               '0') C37
+						  from ${dbSchemalzxc}ck_xiaohd_ls t
+						  join ${dbSchemalzxc}ck_yicsb t1
+						    on t1.usercenter = t.usercenter
+						   and t1.xiaohdh = trim(t.baofdh)
+						where (t.zhuangt = '0' or t.zhuangt = '1')
+						   AND t.EDIT_TIME  >= (SELECT B.LASTCPLTIME FROM ${dbSchemalzxc}IN_ZIDB B WHERE B.INBH='2460') 
+						    AND t.EDIT_TIME < (SELECT B.Yunxkssj FROM ${dbSchemalzxc}IN_ZIDB B WHERE B.INBH='2460') 
+    )M 
+union
+	select * from (	
+			select 'A11' C1,
+		       case t.zhuangt
+		         when '1' then
+		          ''
+		         when '0' then
+		          'S'
+		       end C2,
+		       '' C3,
+		       '' C4,
+		       t.lingjbh C5,
+		       '1' C6,
+		       t1.zerztdm C7,
+		       '+'||' ' C8,
+		       t.danw C9,
+		      t.yiclx C10,
+		       TO_CHAR(T.Create_Time, 'YYYYMMDD') C11,
+		       t.wuld C12,
+		       'N' C13,
+		       'S' C14,
+		       t.cangkbh C15,
+		       ' ' C16,
+		       ' ' C17,
+		       'N' C18,
+		       ' ' C19,
+		       ' ' C20,
+		       t.baofdh C21,
+		       ' ' C22,
+		       ' ' C23,
+		       T.CANGKBH || T.ZICKBH C24,
+		       ' ' C25,
+		       T.USERCENTER C26,
+		       TO_CHAR(T.Create_Time, 'YYYYMMDD') C27,
+		       TO_CHAR(T.Create_Time, 'HH24MI') C28,
+		       '' C29,
+		       T.EDITOR C30,
+		       ' ' C31,
+		       ' ' C32,
+		       T.Elh C33,
+		       ' ' C34,
+		       ' ' C35,
+		       TO_CHAR(T.Create_Time, 'YYYYMMDD') C36,
+		       REPLACE(TO_CHAR(T.QUERXHSL, '9999999.999'),
+		               ' ',
+		               '0') C37
+		  from ${dbSchemalzxc}ck_xiaohd_ls t
+		  join ${dbSchemalzxc}ck_zhijbgd t1
+		    on t1.usercenter = t.usercenter
+		   and t1.zhijjjbgdh = trim(t.baofdh)
+		where (t.zhuangt = '0' or t.zhuangt = '1')
+		AND t.EDIT_TIME  >= (SELECT B.LASTCPLTIME FROM ${dbSchemalzxc}IN_ZIDB B WHERE B.INBH='2460')  
+		AND t.EDIT_TIME < (SELECT B.Yunxkssj FROM ${dbSchemalzxc}IN_ZIDB B WHERE B.INBH='2460')  
+ 		)N
+ 		UNION ALL
+  select * from (
+   SELECT 'A11' C1,
+               MX.CHEXBS C2,
+               '   ' C3,
+               '  ' C4,
+               MX.LINGJBH C5,
+               '1' C6,
+               MX.GONGYSDM C7,
+               '+' || ' ' C8,
+               MX.DANW C9,
+               MX.BLH C10,
+               TO_CHAR(MX.JIAOFRQ, 'YYYYMMDD') C11,
+               ' ' C12,             
+               'N' C13,
+               'S' C14,
+               MX.CANGK C15,
+               ' ' C16,
+               ' ' C17,
+               'N' C18,
+               ' ' C19,
+               ' ' C20,
+               MX.PINGZH C21,
+               ' ' C22,
+               ' ' C23,
+               MX.CANGKZCK C24,
+               ' ' C25,
+               MX.USERCENTER C26,
+               TO_CHAR(MX.CREATE_TIME, 'YYYYMMDD') C27,
+               TO_CHAR(MX.CREATE_TIME, 'HH24MI') C28,
+               ' ' C29,
+               MX.EDITOR C30,
+               ' ' C31,
+               TO_CHAR(MX.OPER_TIME, 'YYYYMMDD') C32,
+               ' ' C33,
+               ' ' C34,
+               ' ' C35,
+               TO_CHAR(MX.EDIT_TIME, 'YYYYMMDD') C36,
+               REPLACE(TO_CHAR(MX.LINGJSL, '9999999.999'),
+                       ' ',
+                       '0') C37              
+          FROM ${dbSchemalzxc}in_dfpv_liusz MX
+         WHERE MX.EDIT_TIME >= (SELECT B.LASTCPLTIME FROM ${dbSchemalzxc}IN_ZIDB B WHERE B.INBH='2460') 
+                  AND MX.EDIT_TIME < (SELECT B.Yunxkssj FROM ${dbSchemalzxc}IN_ZIDB B WHERE B.INBH='2460') 
+                  AND MX.FLAG1 = '2'  AND MX.CAOZM = 'A11') P
+   		]]>
+   </insert>
+    
+   <delete id="deleteInCklsz">
+   	<![CDATA[
+		truncate table ${dbSchemalzxc}in_cklsz
+		]]>
+   </delete>
+    
+    <!-- id="2460" caption="仓库流水账   A01,A01S,A03"; 2461 A08,A08S,A10; 2462 A25,A25S ;  2469 A11,A11S-->
+   <select id="newKuclszQuery" parameterClass="java.util.Map"  resultClass="java.util.HashMap" remapResults="true">
+		<![CDATA[
+		$head$
+			select temp.*, rownum RN from (
+  				SELECT * FROM (select 
+			        C1,C2,C3,C4,C5,C6,C7,C8,C9,C10,C11,C12,C13,C14,C15,C16,C17,C18,C19,C20,
+			        C21,C22,C23,C24,C25,C26,C27,C28,C29,C30,C31,C32,C33,C34,C35,C36,C37,C38
+			        from ${dbSchemalzxc}in_cklsz where  C1 IN('A01','A03','A08','A10','A25','A11')  order by C1,C27,C28,rowid
+			         )T
+		  ) temp  where 1=1 
+        $middle$   				    
+		$foot$
+		]]>
+   </select> 
+  
+  <!-- id="2463" caption="仓库流水账   A35 ;  2465 A38 ; 2468 A70 -->
+   <select id="newCangklszbhdQuery" parameterClass="java.util.Map"  resultClass="java.util.HashMap" remapResults="true">
+		<![CDATA[
+		$head$
+			select temp.*, rownum RN from (
+  				SELECT * FROM (select 
+			        C1,C2,C3,C4,C5,C6,C7,C8,C9,C10,C11,C12,C13,C14,C15,C16,C17,C18,C19,C20,
+			        C21,C22,C23,C24,C25,C26,C27,C28,C29,C30,C31,C32,C33,C34,C35,C36,C37,C38
+			        from ${dbSchemalzxc}in_cklsz where  C1 IN('A35','A38','A70')  order by C1,C22,C23,rowid
+			         )T
+		  ) temp  where 1=1 
+        $middle$   				    
+		$foot$
+		]]>
+   </select> 
+   
+    <!-- id="2464" caption="仓库流水账   A36  ;2466 A39-->
+   <select id="newCangklszbhdtsQuery" parameterClass="java.util.Map"  resultClass="java.util.HashMap" remapResults="true">
+		<![CDATA[
+		$head$
+			select temp.*, rownum RN from (
+  				SELECT * FROM (select 
+			        C1,C2,C3,C4,C5,C6,C7,C8,C9,C10,C11,C12,C13,C14,C15,C16,C17,C18,C19,C20,
+			        C21,C22,C23,C24,C25,C26,C27,C28,C29,C30,C31,C32,C33,C34,C35,C36,C37,C38
+			        from ${dbSchemalzxc}in_cklsz where  C1 IN('A36','A39')  order by C1,C23,C24,rowid
+			         )T
+		  ) temp  where 1=1 
+        $middle$   				    
+		$foot$
+		]]>
+   </select>
+ 
+  <!-- id="2467" caption="仓库流水账  A53 -->
+   <select id="newCangklszpdcyQuery" parameterClass="java.util.Map"  resultClass="java.util.HashMap" remapResults="true">
+		<![CDATA[
+		$head$
+			select temp.*, rownum RN from (
+  				SELECT * FROM (select 
+			        C1,C2,C3,C4,C5,C6,C7,C8,C9,C10,C11,C12,C13,C14,C15,C16,C17,C18,C19,C20,
+			        C21,C22,C23,C24,C25,C26,C27,C28,C29,C30,C31,C32,C33,C34,C35,C36,C37,C38
+			        from ${dbSchemalzxc}in_cklsz where  C1 ='A53'  order by C1,C25,C26,rowid
+			         )T
+		  ) temp  where 1=1 
+        $middle$   				    
+		$foot$
+		]]>
+   </select>
+   
+   <!-- yz 2940接口 caption="入库明细" 2015-12-14 |xss-0012049-->
+      <select id="ck_rukmxQuery" parameterClass="java.util.Map"  resultClass="java.util.HashMap" remapResults="true">
+		<![CDATA[
+		$head$ 
+		select tt.*,ROWNUM RN from (
+		select * from ( 
+     		 select  USERCENTER, RUKLSH, UTH, BLH, 
+         to_char(BLSCSJ,'yyyy-MM-dd HH24:MI:SS') AS BLSCSJ, 
+         LINGJBH, LINGJMC, LINGJSL, DANW, CHANX, GONGYSDM, 
+         GONGYSMC, GONGYSLX, CHENGYSDM, CHENGYSMC, FAYZMZDW, 
+         DINGDH, USH, ULH, ELH, PICH, BAOZXH, CANGKBH, ZICKBH, KUWBH, 
+         to_char(RUKSJ,'yyyy-MM-dd HH24:MI:SS') AS RUKSJ, 
+         CANGKGLYZ, RUKLX, UAH, 
+         to_char(PSASJ,'yyyy-MM-dd HH24:MI:SS') AS PSASJ, 
+         BEIZ1, BEIZ2, '' CHEXBS, '' CAOZF 
+           from ${dbSchemalzxc}ck_rukmx where RUKLX='2' and EDIT_TIME >= (SELECT to_date(to_char(B.LASTCPLTIME,'yyyy-mm-dd HH24:mi:ss') ,'yyyy-mm-dd HH24:mi:ss') FROM 
+           		 ${dbSchemalzxc}IN_ZIDB B WHERE B.INBH='2940') 
+                 AND EDIT_TIME < (SELECT to_date(to_char(B.Yunxkssj,'yyyy-mm-dd HH24:mi:ss') ,'yyyy-mm-dd HH24:mi:ss')   FROM ${dbSchemalzxc}IN_ZIDB B WHERE B.INBH='2940')
+    union all 
+        select USERCENTER, LIUSH AS RUKLSH,'' AS UTH, '' AS BLH,
+        '' AS BLSCSJ, LINGJBH, LINGJMC, LINGJSL, 
+        '' AS DANW, KEH AS CHANX, '' AS GONGYSDM, '' AS GONGYSMC, 
+        '' AS GONGYSLX, '' AS CHENGYSDM, '' AS CHENGYSMC, '' AS FAYZMZDW, 
+        '' AS DINGDH, '' AS USH, '' AS ULH, '' AS ELH, '' AS PICH, '' AS BAOZXH, 
+        '' AS CHANGKBH, ZICKBH, '' AS KUWBH, to_char(CREATE_TIME,'yyyy-MM-dd HH24:MI:SS') AS RUKSJ, 
+        '' AS CHANGKGLYZ, '' AS RUKLX, '' AS UAH, '' AS PSASJ, '' AS BEIZ1, '' AS BEIZ2, 'S' CHEXBS, '-' CAOZF 
+          from ${dbSchemalzxc}ck_chengptxb where ZHUANGT = '2' and EDIT_TIME >= (SELECT to_date(to_char(B.LASTCPLTIME,'yyyy-mm-dd HH24:mi:ss') ,'yyyy-mm-dd HH24:mi:ss') FROM 
+           		 ${dbSchemalzxc}IN_ZIDB B WHERE B.INBH='2940') 
+                 AND EDIT_TIME < (SELECT to_date(to_char(B.Yunxkssj,'yyyy-mm-dd HH24:mi:ss') ,'yyyy-mm-dd HH24:mi:ss')  FROM ${dbSchemalzxc}IN_ZIDB B WHERE B.INBH='2940')
+        )         
+                 order by USERCENTER, RUKLSH         	
+		) tt where 1=1
+		$foot$
+   		]]>
+   </select> 
+   
+   <!-- 2940将执行层CK_YUPLKJ表FLAG值为0的数据的FLAG值改为1  CSY 2016-06-21 -->
+   <update id="updateYPLKJ0to1">
+   		UPDATE ${dbSchemalzxc}CK_YUPLKJ C SET C.FLAG = '1' WHERE C.FLAG = '0'
+   </update>
+   
+   <!-- 2940查询出执行层CK_YUPLKJ表FLAG值为1的数据  CSY 2016-06-21 -->
+   <select id="queryYPLKJfromZXC" parameterClass="java.lang.String" resultClass="java.util.HashMap" remapResults="true">
+   		SELECT C.USERCENTER,
+		       C.CHANX,
+		       C.DINGDH,
+		       C.LINGJBH,
+		       C.XIAOHXS,
+		       C.BEIZ1,
+		       C.BEIZ2,
+		       C.BEIZ3,
+		       C.BEIZ4,
+		       C.BEIZ5,
+		       C.BEIZ6,
+		       $INTERFACEID$ INTERFACEID
+		  FROM ${dbSchemalzxc}CK_YUPLKJ C
+		 WHERE C.FLAG = '1'
+   </select>
+   
+   <!-- 2940查询出的数据插入到DDBH层的DDBH_YUPLKJ表，FLAG值默认为0  CSY 2016-06-21 -->
+   <insert id="insertDDBHYUPLKJ" parameterClass="list"> 
+    INSERT ALL
+    <iterate conjunction=" "> 
+      INTO ${dbSchemalddbh}DDBH_YUPLKJ
+      (USERCENTER,CHANX,DINGDH,LINGJBH,XIAOHXS,FLAG,CREATOR,CREATE_TIME,EDITOR,EDIT_TIME,BEIZ1,BEIZ2,BEIZ3,BEIZ4,BEIZ5,BEIZ6)
+      values 
+      ( 
+        #list[].USERCENTER#, 
+        #list[].CHANX#, 
+        #list[].DINGDH#, 
+        #list[].LINGJBH#,
+        #list[].XIAOHXS#, 
+        '0',
+        #list[].INTERFACEID#, 
+        SYSDATE,
+        #list[].INTERFACEID#, 
+        SYSDATE,
+        #list[].BEIZ1#, 
+        #list[].BEIZ2#,
+        #list[].BEIZ3#, 
+        #list[].BEIZ4#,
+        #list[].BEIZ5#, 
+        #list[].BEIZ6#
+      )    
+    </iterate> 
+		SELECT * FROM DUAL
+	</insert>
+   
+   <!-- 2940将执行层CK_YUPLKJ表FLAG值为1的数据的FLAG值改为2  CSY 2016-06-21 -->
+   <update id="updateYPLKJ1to2">
+   		UPDATE ${dbSchemalzxc}CK_YUPLKJ C SET C.FLAG = '2' WHERE C.FLAG = '1'
+   </update>
+   
+   <!-- id="2960" caption="DFPV仓库流水账"   yz 2015-12-26-->
+   <select id="in_dfpv_liuszQuery" parameterClass="java.util.Map"  resultClass="java.util.HashMap" remapResults="true">
+		<![CDATA[
+		$head$
+			select temp.*, rownum RN from (
+  				SELECT USERCENTER, 
+						PINGZH, 
+						PINGZXMH, 
+						CAOZM, 
+						CHEXBS, 
+						CAOZF, 
+						GONGYSDM, 
+						BLH, 
+						CANGK, 
+						CANGKZCK, 
+						MIDCK, 
+						XIAOHD, 
+						LINGJBH, 
+						DANW, 
+						LINGJSL, 
+						to_char(JIAOFRQ,'yyyy-MM-dd HH24:MI:SS') as JIAOFRQ, 
+						LIUSQS, 
+						LIUSJZ, 
+						ZHERZT, 
+						ZHERZTMC, 
+						YICXHLX, 
+						CAIWRQ,
+						CAOZY,
+						to_char(OPER_TIME,'yyyy-MM-dd HH24:MI:SS') as OPER_TIME 
+						FROM ${dbSchemalzxc}in_dfpv_liusz
+						where 1=1
+						$middle$ 
+  					order by PINGZH, PINGZXMH
+		  ) temp  where 1=1 			    
+		$foot$
+		]]>
+   </select>    
+      
+   <!-- id="2990" caption="整车过点（输出）" add by csy 2016-01-11 |xss-0012049-->
+   <select id="zhengcgdQuery" resultClass="java.util.HashMap" remapResults="true">
+		<![CDATA[
+		$head$
+		select tt.*,ROWNUM RN from (
+		  select 
+		         zc.usercenter,
+		         zc.dingdh,
+		         zc.zongzlsh,
+		         zc.hanzsxd,
+		         zc.shengcx,
+		         zc.guodsj,
+		         zc.wuld,
+		         zc.chulzt,
+		         zc.flag,
+		         zc.creator,
+		         zc.create_time,
+		         zc.editor,
+		         zc.edit_time,
+		         zc.beiz1,
+		         zc.beiz2,
+		         zc.beiz3,
+		         zc.beiz4,
+		         zc.beiz5,
+		         zc.beiz6,
+		         zc.beiz7,
+		         zc.beiz,
+		         zc.zhengcxh
+		  from ${dbSchemalzxc}ck_zhengcgd zc
+		  WHERE zc.CREATE_TIME >= (SELECT  to_date(to_char(B.LASTCPLTIME-1/(24*60),'yyyy-mm-dd HH24:mi:ss') ,'yyyy-mm-dd HH24:mi:ss') FROM ${dbSchemalzxc}IN_ZIDB B WHERE B.INBH='2990') 
+		  AND zc.CREATE_TIME < (SELECT to_date(to_char(B.Yunxkssj-1/(24*60),'yyyy-mm-dd HH24:mi:ss') ,'yyyy-mm-dd HH24:mi:ss')   FROM ${dbSchemalzxc}IN_ZIDB B WHERE B.INBH='2990') 
+		  order by zc.USERCENTER,zc.DINGDH,zc.HANZSXD,zc.SHENGCX,zc.GUODSJ,zc.WULD    
+		) tt where 1=1   				    	   
+		$foot$
+		]]>
+   </select> 
+   
+    <!-- id="2602" caption="发货通知单（交货单）"   yz 2015-1-18-->
+   <select id="FahtzdQuery" parameterClass="java.util.Map"  resultClass="java.util.HashMap" remapResults="true">
+		<![CDATA[
+		$head$
+			select temp.*, rownum RN from (
+  				SELECT  blh,
+						gongysdm,
+						dingdh,
+						yjddsj,
+						zhuangt,
+						jiaohsl,
+						gongc,
+						uah,
+						lingjbh,
+						uaxh,
+						ucrl,
+						ucxh,
+						ucgs,
+						danw,
+						changd,
+						kuandu,
+						gaodu,
+						tiji
+						FROM (SELECT a.blh,b.gongysdm,b.yaohlh as dingdh,to_char(a.yujddsj,'yyyy-MM-dd HH24:mi:ss') as yjddsj,'1' as zhuangt,
+						b.lingjsl as jiaohsl,'3100' as gongc,b.uah,b.lingjbh,b.uaxh,b.uchl as ucrl,b.ucxh,
+						b.ucgs,b.danw,b.changd,b.kuand as kuandu,b.gaod as gaodu,b.changd*b.kuand*b.gaod as tiji,a.edit_time,
+						a.usercenter,a.uth
+						FROM ${dbSchemalzxc}ck_daohtzd_dfpv a,${dbSchemalzxc}ck_uabq_dfpv b 
+						WHERE a.usercenter = b.usercenter and a.uth = b.uth and b.beiz1 = '1' and b.zhuangtsx is not null) 
+						where 1=1
+						$middle$ 
+  					order by USERCENTER,UTH,UAH
+		  ) temp  where 1=1 			    
+		$foot$
+		]]>
+   </select> 
+   
+   <!-- id="2602"-->
+   <update id="updateck_uabq_dfpv_1">
+		<![CDATA[
+			update ${dbSchemalzxc}ck_uabq_dfpv t set t.beiz1 = '1' 
+			where t.beiz1 = '0'
+		]]>
+   </update> 
+   
+   <!-- id="2602"-->
+   <update id="updateck_uabq_dfpv_2" parameterClass="java.lang.String">
+		<![CDATA[
+			update ${dbSchemalzxc}ck_uabq_dfpv t set t.beiz1 = '2' 
+			where t.beiz1 = '1' and t.uah = #uah#
+		]]>
+   </update>  
+   
+   <!--2603 将已生效的、已终止但是未完成的、已执行并审核的 调拨申请数据发送的DFPV  -->
+   <select id="dfpvDiaobSqQuery" parameterClass="java.util.Map"  resultClass="java.util.HashMap" remapResults="true">
+		<![CDATA[
+		select temp.* ,rownum RN from (
+		  select a.usercenter    as usercenter,
+                 a.diaobsqdh   as DIAOBSQDH,
+                 to_char(a.DIAOBSQSJ,'yyyy-MM-dd')    as DIAOBSQSJ,
+                 a.BANC        as BANC,
+                 a.HUIJKM      as HUIJKM,
+                 a.CHENGBZX    as CHENGBZX,
+                 a.BEIZ        as BEIZ,
+                 a.ZHUANGT     as ZHUANGT,
+                 c.CANGKBH     as CANGKBH,
+                 c.ZICKBH      as ZICKBH,
+                 to_char(b.YAOHSJ,'yyyy-MM-dd')  as YAOHSJ,
+                 c.LINGJBH     as LINGJBH,
+                 b.LUX         as LUX,
+                 c.KUCSL       as KUCSL,
+                 b.SHENBSL     as SHENBSL,
+                 b.SHIPSL      as SHIPSL,
+                 b.SHIFDBZ     as SHIFDBZ,
+                 b.SHIFDCJF    as SHIFDCJF,
+                 a.CREATOR     as CREATOR,
+                 to_char (a.CREATE_TIME ,'yyyy-MM-dd HH24:mi:ss') as CREATE_TIME,
+                 a.EDITOR      as EDITOR,
+                 to_char (a.EDIT_TIME ,'yyyy-MM-dd HH24:mi:ss') as EDIT_TIME
+           from ${dbSchemalzxc}xqjs_diaobsq a
+           join ${dbSchemalzxc}xqjs_diaobsqmx b
+                on a.usercenter = b.usercenter
+                and a.diaobsqdh = b.diaobsqdh
+           join ${dbSchemalzxc}xqjs_diaobmx c 
+             on  b.usercenter = c.usercenter 
+             and b.diaobsqdh = c.diaobsqdh  
+             and b.lingjbh = c.lingjbh
+             where a.leix='1'  and a.zhuangt ='30' and (a.beiz1 = '0' or a.beiz1 is null) 
+         union     
+         select  m.usercenter    as usercenter,
+                 m.diaobsqdh   as DIAOBSQDH,
+                 to_char(m.DIAOBSQSJ,'yyyy-MM-dd')    as DIAOBSQSJ,
+                 m.BANC        as BANC,
+                 m.HUIJKM      as HUIJKM,
+                 m.CHENGBZX    as CHENGBZX,
+                 m.BEIZ        as BEIZ,
+                 m.ZHUANGT     as ZHUANGT,
+                 n.CANGKBH     as CANGKBH,
+                 n.ZICKBH      as ZICKBH,
+                to_char(mm.YAOHSJ,'yyyy-MM-dd')       as YAOHSJ,
+                 mm.LINGJBH     as LINGJBH,
+                 mm.LUX         as LUX,
+                 n.kucsl         as KUCSL,
+                 mm.SHENBSL     as SHENBSL,
+                 mm.SHIPSL      as SHIPSL,
+                 mm.SHIFDBZ     as SHIFDBZ,
+                 mm.SHIFDCJF    as SHIFDCJF,
+                 m.CREATOR     as CREATOR,
+                 to_char (m.CREATE_TIME ,'yyyy-MM-dd HH24:mi:ss') as CREATE_TIME,
+                 m.EDITOR      as EDITOR,
+                 to_char (m.EDIT_TIME ,'yyyy-MM-dd HH24:mi:ss') as EDIT_TIME
+            from ${dbSchemalzxc}xqjs_diaobsq m
+            join ${dbSchemalzxc}xqjs_diaobsqmx mm
+                 on  m.usercenter  = mm.usercenter
+                 and m.diaobsqdh = mm.diaobsqdh  
+            join ${dbSchemalzxc}xqjs_diaobmx n
+                 on mm.usercenter = n.usercenter
+                 and mm.diaobsqdh = n.diaobsqdh 
+                 and mm.lingjbh = n.lingjbh
+             where m.zhuangt='70' and m.beiz1='0' and m.leix='1'
+            union   
+         select  m.usercenter    as usercenter,
+                 m.diaobsqdh   as DIAOBSQDH,
+                 to_char(m.DIAOBSQSJ,'yyyy-MM-dd')    as DIAOBSQSJ,
+                 m.BANC        as BANC,
+                 m.HUIJKM      as HUIJKM,
+                 m.CHENGBZX    as CHENGBZX,
+                 m.BEIZ        as BEIZ,
+                 m.ZHUANGT     as ZHUANGT,
+                 n.CANGKBH     as CANGKBH,
+                 n.ZICKBH      as ZICKBH,
+                 to_char(mm.YAOHSJ,'yyyy-MM-dd') YAOHSJ ,
+                 mm.LINGJBH     as LINGJBH,
+                 mm.LUX         as LUX,
+                 n.kucsl         as KUCSL,
+                 mm.SHENBSL     as SHENBSL,
+                 mm.SHIPSL      as SHIPSL,
+                 mm.SHIFDBZ     as SHIFDBZ,
+                 mm.SHIFDCJF    as SHIFDCJF,
+                 m.CREATOR     as CREATOR,
+                 to_char (m.CREATE_TIME ,'yyyy-MM-dd HH24:mi:ss') as CREATE_TIME,
+                 m.EDITOR      as EDITOR,
+                 to_char (m.EDIT_TIME ,'yyyy-MM-dd HH24:mi:ss') as EDIT_TIME
+            from ${dbSchemalzxc}xqjs_diaobsq m
+            join ${dbSchemalzxc}xqjs_diaobsqmx mm
+                 on  m.usercenter  = mm.usercenter
+                 and m.diaobsqdh = mm.diaobsqdh  
+            join ${dbSchemalzxc}xqjs_diaobmx n
+                 on mm.usercenter = n.usercenter
+                 and mm.diaobsqdh = n.diaobsqdh 
+                 and mm.lingjbh = n.lingjbh
+             where m.zhuangt='60' and m.beiz1='0' and m.leix='1' 
+			) temp where 1=1 	
+		]]>
+   </select> 
+   
+   <!-- id="2603" 将所有调拨数据打标为发送状态 1 -->
+   <update id="updateDiaobSqZhangt" >
+		<![CDATA[
+              update ${dbSchemalzxc}xqjs_diaobsq a
+                      set a.beiz1 = '1' , a.editor='2603' ,a.edit_time= sysdate
+               where a.leix = '1' and a.zhuangt not in ('00','20','10','30')
+                 and (a.beiz1 = '0' or a.beiz1 is null)
+		]]>
+   </update>
+
+   
+  <update id="updateDiaobSqmxZhangt70" >
+   update ${dbSchemalzxc}xqjs_diaobsqmx b 
+       set  b.editor='2603' ,b.edit_time= sysdate , b.zhuangt = '70'
+   where  exists (Select 1
+          from ${dbSchemalzxc}DFPV_SHENH_DIAOB a
+         where a.usercenter = b.usercenter
+           and b.diaobsqdh = a.beizhu1
+           )
+   and b.zhuangt = '50'
+   </update>
+   
+  <update id="updateDiaobdZhangt70" >
+     update ${dbSchemalzxc}xqjs_diaobmx b 
+       set  b.editor='2603' ,b.edit_time= sysdate , b.zhuangt = '70'
+   where  exists (Select 1
+          from ${dbSchemalzxc}DFPV_SHENH_DIAOB a
+         where a.usercenter = b.usercenter
+           and b.diaobsqdh = a.beizhu1
+           )
+   and b.zhuangt = '50'
+   </update>
+   
+      
+   <!-- id='2603' 将已经完成并且审核确认的调拨数据再次发送给DFPV，更新为最终状态70 -->
+  <update id="updateDiaobSqZhangt70" >
+     update ${dbSchemalzxc}xqjs_diaobsq b 
+       set b.beiz1 = '0' , b.editor='2603' ,b.edit_time= sysdate , b.zhuangt = '70'
+   where  exists (Select 1
+          from ${dbSchemalzxc}DFPV_SHENH_DIAOB a
+         where a.usercenter = b.usercenter
+           and b.diaobsqdh = a.beizhu1
+           )
+   and b.leix = '1'
+   and b.zhuangt = '50'
+   and b.beiz1='1'
+   </update>
+   
+   
+  <!-- id='2603' 将状态为'40-执行中'的数据 改为'50-已执行' -->
+  <update id="updateDiaobSqZhangt50" >
+   update ${dbSchemalzxc}xqjs_diaobsq b 
+   		set  b.editor='2603' ,b.edit_time= sysdate , b.zhuangt = '50'
+   where  exists (Select 1
+          from ${dbSchemalzxc}dfpv_shenh a
+         where a.usercenter = b.usercenter
+           and b.diaobsqdh = a.blh
+           and a.caozm='A36'
+           )
+   and b.leix = '1'
+   and b.zhuangt = '40'
+   and b.beiz1='1'
+   </update>
+   
+  <!-- id='2603' 将状态为'40-执行中'的数据 改为'50-已执行' -->
+  <update id="updateDiaobSqmxZhangt50" >
+        update ${dbSchemalzxc}xqjs_diaobsqmx a
+     set a.zhuangt = '50', a.editor = '2603', a.edit_time = sysdate
+   where a.zhuangt = '40'
+     and a.diaobsqdh in
+         (select b.diaobsqdh
+            from ${dbSchemalzxc}xqjs_diaobsq b
+           where a.diaobsqdh = b.diaobsqdh  
+             and b.leix = '1'
+             and b.usercenter = a.usercenter
+             and b.zhuangt = '50')
+   </update>
+   
+   <!-- id='2603' 将状态为'40-执行中'的数据 改为'50-已执行' -->
+  <update id="updateDiaobdZhangt50" >
+  update ${dbSchemalzxc}xqjs_diaobmx a
+     set a.zhuangt = '50', a.editor = '2603', a.edit_time = sysdate
+   where a.zhuangt = '40'
+     and a.diaobsqdh in
+         (select b.diaobsqdh
+            from ${dbSchemalzxc}xqjs_diaobsq b
+           where a.diaobsqdh = b.diaobsqdh  
+             and b.leix = '1'
+             and b.usercenter = a.usercenter
+             and b.zhuangt = '50') 
+   </update>
+     
+   
+   <!-- id='2603' 将已经发送，但是终止，并且没有流水数据的调拨数据再次发送给DFPV |-->
+   <update id="updateDiaobSqZhangt60" >
+   update ${dbSchemalzxc}xqjs_diaobsq a
+   		set  a.editor='2603' ,a.edit_time= sysdate
+ 	where not exists (Select 1
+          from ${dbSchemalzxc}dfpv_shenh b
+         where a.usercenter = b.usercenter
+           and a.diaobsqdh  = b.blh
+           and b.caozm='A36'
+           )
+   and a.leix = '1'
+   and a.zhuangt = '60'
+   and a.beiz1 = '0'
+   </update>
+   
+     <!-- id='2603' 将'30-已生效'的调拨申请单数据状态改为‘40-执行中’-->
+    <update id="updateDiaobSqZhangt30" >
+	update ${dbSchemalzxc}xqjs_diaobsq a
+   		set a.zhuangt='40' , a.editor = '2603' ,a.edit_time = sysdate 
+   	where a.leix = '1'
+   		and a.zhuangt = '30'
+   		and (a.beiz1='0' or a.beiz1 is null )
+   		and a.diaobsqdh in
+        ( select b.diaobsqdh
+            from ${dbSchemalzxc}xqjs_diaobmx b
+           where a.diaobsqdh = b.diaobsqdh  
+             and b.usercenter = a.usercenter
+             and b.zhuangt = '30' )
+   	</update>
+   	
+   	<!-- id='2603' 将'30-已生效'的调拨申请明细数据状态改为‘40-执行中’-->
+    <update id="updateDiaobSqmxZhangt30" >
+      update ${dbSchemalzxc}xqjs_diaobsqmx a
+     set a.zhuangt = '40', a.editor = '2603', a.edit_time = sysdate
+   where a.zhuangt = '30'
+     and a.diaobsqdh in
+         (select b.diaobsqdh
+            from ${dbSchemalzxc}xqjs_diaobsq b
+           where a.diaobsqdh = b.diaobsqdh  
+             and b.leix = '1'
+             and b.usercenter = a.usercenter
+             and b.zhuangt = '40')
+   	</update>
+   	
+   	<!-- id='2603' 将'30-已生效'的调拨单数据状态改为‘40-执行中’-->
+    <update id="updateDiaobdZhangt30" > 
+  update ${dbSchemalzxc}xqjs_diaobmx a
+     set a.zhuangt = '40', a.editor = '2603', a.edit_time = sysdate
+   where a.zhuangt = '30'
+     and a.diaobsqdh in
+         (select b.diaobsqdh
+            from ${dbSchemalzxc}xqjs_diaobsq b
+           where a.diaobsqdh = b.diaobsqdh  
+             and b.leix = '1'
+             and b.usercenter = a.usercenter
+             and b.zhuangt = '40')
+   	</update> 
+   	
+   	<!-- id='2603' 0012554 查询50状态的调拨明细--> 
+   	 <select id="queryDfpvDiaobmx50" parameterClass="java.util.Map"  resultClass="java.util.HashMap">
+   	 		<![CDATA[
+   	 		select           
+   	 			 a.usercenter  as usercenter,
+                 a.diaobsqdh   as diaobsqdh ,
+                 c.diaobdh     as diaobdh,
+                 c.CANGKBH     as cangkbh,
+                 c.ZICKBH      as zickbh,
+                 c.LINGJBH     as lingjbh,
+                 c.SHIPSL      as shipsl,
+                 c.zhixsl      as zhixsl,
+                 a.EDITOR      as editor,
+                 to_char (a.EDIT_TIME ,'yyyy-MM-dd HH24:mi:ss') as edit_time
+           from ${dbSchemalzxc}xqjs_diaobsq a
+           join ${dbSchemalzxc}xqjs_diaobsqmx b
+                on a.usercenter = b.usercenter
+                and a.diaobsqdh = b.diaobsqdh
+           join ${dbSchemalzxc}xqjs_diaobmx c 
+             on  b.usercenter = c.usercenter 
+             and b.diaobsqdh = c.diaobsqdh  
+             and b.lingjbh = c.lingjbh  
+             where a.leix=#leix#
+              and  c.zhuangt=#zhuangt#
+   	 			
+   	 		]]>
+   </select> 
+   
+   
+   <!-- id='2603' 0012554 根据调拨明细 查询 dfpv_shenh中汇总最新的执行数量--> 
+    <select id="SumDfpvDbZxshul" parameterClass="java.util.Map" resultClass="java.lang.String"> 
+             select nvl ( sum(a.lingjsl),0 )
+               from ${dbSchemalzxc}dfpv_shenh a
+              where  a.usercenter = #usercenter#
+             	and  a.lingjbh = #lingjbh#
+                and  a.blh =  #diaobsqdh#
+                and  a.caozm = 'A36'
+   </select> 
+   
+   
+	  <!-- id='2603' 0012554  更新dbmx中的最新执行数量-->
+	<update id="updateDfpvZxsl" parameterClass="java.util.Map">
+	  update ${dbSchemalzxc}xqjs_diaobmx a
+	   		set a.zhixsl = #SUMSHUL#
+	 where a.usercenter = #USERCENTER#
+	   		and a.diaobdh = #DIAOBDH#
+	   		and a.lingjbh = #LINGJBH# 
+	</update> 
+	  
+<!-- id='2603' 0012554 将差额数据写入异常申报表-->  
+   <insert id="insert_yicsbcz" parameterClass="java.util.Map" >
+	<![CDATA[
+			INSERT INTO ${dbSchemalzxc}ck_yicsbcz
+			  (USERCENTER, LIUSH, LINGJBH, SHENGBD, CAOZLX, CAOZSL, CAOZSJ, FLAG)
+			values
+			  (#USERCENTER#,
+			   substr(#USERCENTER#,2,1)||lpad(${dbSchemalzxc}YCSBCZ_SEQNO.nextval,8,0),
+			   #LINGJBH#,
+			   #SHENGBD#,
+			   #CAOZLX#,
+			   #CHAE#,
+			   sysdate,
+			   #FLAG#
+			   ) 
+	]]>
+   </insert>
+   
+   <!-- id="2945" caption="入库明细(运费)" add by lc 2016-11-10 -->
+   <select id="rukmx_yfQuery" resultClass="java.util.HashMap" remapResults="true">
+		<![CDATA[
+		$head$
+		select tt.*,ROWNUM RN from (
+		    select t.usercenter,
+                   t.lingjbh,
+                   max(t.lingjmc) lingjmc,
+                   sum(decode(t.ruklx, '1', t.lingjsl, '4', 0 - t.lingjsl)) lingjsl,
+                   t.gongysdm,
+                   max(t.gongysmc) gongysmc,
+                   'DEFAULT' chengysdm,
+                   trim(t.beiz4) baozxh,
+                   t.beiz8 baozrl,
+                   to_char(t.ruksj, 'yyyy-mm-dd') ruksj,
+                   sum(decode(t.ruklx, '1', t.beiz7, '4', 0 - t.beiz7)) baozgs,
+                   '1' lingjlx
+              from ${dbSchemalzxc}ck_rukmx t
+             where t.ruklx in ('1', '4')
+               and t.beiz4 is not null
+               and t.beiz8 is not null
+               and t.beiz8 != 0
+               and to_date(to_char(t.create_time, 'yyyy-mm-dd'), 'yyyy-mm-dd') >=
+                   (select to_date(to_char(b.lastcpltime, 'yyyy-mm-dd'), 'yyyy-mm-dd')
+                      from ${dbSchemalzxc}in_zidb b
+                      where b.inbh = '2945')
+               and to_date(to_char(t.create_time, 'yyyy-mm-dd'), 'yyyy-mm-dd') <
+                   (select to_date(to_char(b.yunxkssj, 'yyyy-mm-dd'), 'yyyy-mm-dd')
+                      from ${dbSchemalzxc}in_zidb b
+                     where b.inbh = '2945')
+             group by t.usercenter,
+                      t.lingjbh,
+                      t.gongysdm,
+                      trim(t.beiz4),
+                      t.beiz8,
+                      to_char(t.ruksj, 'yyyy-mm-dd')
+             order by t.usercenter,
+                      t.lingjbh,
+                      t.gongysdm,
+                      trim(t.beiz4),
+                      t.beiz8,
+                      to_char(t.ruksj, 'yyyy-mm-dd')
+		) tt where 1=1   				    	   
+		$foot$
+		]]>
+   </select>  
+       
+</sqlMap>
+

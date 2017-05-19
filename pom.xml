@@ -1,0 +1,1570 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<groupId>com.athena</groupId>
+	<artifactId>athena-interface-service</artifactId>
+	<packaging>war</packaging>
+	<version>4.2.1-SNAPSHOT</version>
+
+	<name>interface</name>
+	<url>http://maven.apache.org</url>
+
+	<repositories>
+		<repository>
+			<id>releases</id>
+			<url>http://10.26.223.54:8081/nexus/content/repositories/releases</url>
+		</repository>
+
+		<repository>
+			<id>snapshots</id>
+			<url>http://10.26.223.54:8081/nexus/content/repositories/snapshots</url>
+		</repository>
+
+		<repository>
+			<id>maven.central</id>
+			<url>http://10.26.223.54:8081/nexus/content/repositories/central</url>
+		</repository>
+
+	</repositories>
+	
+	<!-- add by hzg 2013-11-1 -->
+	<pluginRepositories>
+		<pluginRepository>
+			<id>local-plugin-repositories</id>
+			<url>http://10.26.223.54:8081/nexus/content/repositories/releases</url>
+		</pluginRepository>
+	</pluginRepositories>
+	
+	<!-- 版本库配置scm by hzg 2013-11-1 -->
+	<scm>
+		<connection>scm:svn:https://10.26.223.54:8443/svn/code/athena-interface-service/trunk</connection>
+		<developerConnection>scm:svn:https://10.26.223.54:8443/svn/code/athena-interface-service/trunk</developerConnection>
+		<url>https://10.26.223.54:8443/svn/code/athena-interface-service/trunk</url>
+	</scm>
+	
+	<!-- add by hzg 2013-11-1 -->
+	<distributionManagement>
+		<repository>
+			<id>local-releases</id>
+			<url>http://10.26.223.54:8081/nexus/content/repositories/releases</url>
+		</repository>
+
+		<snapshotRepository>
+			<id>local-snapshot</id>
+			<url>http://10.26.223.54:8081/nexus/content/repositories/snapshots</url>
+		</snapshotRepository>
+	</distributionManagement>
+	
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<junit.version>4.8.2</junit.version>
+		<aspectj.version>1.6.9</aspectj.version>
+		<antlr.version>2.7.6</antlr.version>
+		<weblogic.provided>provided</weblogic.provided>
+		
+		<commons.logging.version>1.1.1</commons.logging.version>
+		<commons.beanutils.version>1.7.0</commons.beanutils.version>
+		<commons.collections.version>3.2.1</commons.collections.version>
+		<commons.dbcp.version>1.3</commons.dbcp.version>
+		<commons.digester.version>1.8</commons.digester.version>
+		<commons.discovery.version>0.4</commons.discovery.version>
+		<commons.email.version>1.2</commons.email.version>
+		<commons.fileupload.version>1.2.2</commons.fileupload.version>
+		<commons.io.version>1.3.2</commons.io.version>
+		<commons.lang.version>2.3</commons.lang.version>
+		<commons.pool.version>1.5.4</commons.pool.version>
+		<commons.chain.version>1.2</commons.chain.version>
+		<commons.codec.version>1.3</commons.codec.version>
+		<commons.el.version>1.0</commons.el.version>
+
+		<standard.version>1.1.2</standard.version>
+		<dom4j.version>1.6.1</dom4j.version>
+		<quartz.version>1.6.5</quartz.version>
+		<log4j.version>1.2.14</log4j.version>
+		<slf4j.version>1.6.0</slf4j.version>
+
+		<chardet.version>1.0</chardet.version>
+		<aopalliance.version>1.0</aopalliance.version>
+		<cpdetector.version>1.0.8</cpdetector.version>
+		<kaptcha.version>2.3</kaptcha.version>
+		<json-lib.version>2.3</json-lib.version>
+		<ehcache.version>2.0.3</ehcache.version>
+		<mysql-connector-java.version>5.0.8</mysql-connector-java.version>
+		<javassist.version>3.14.0-GA</javassist.version>
+		<cglib.version>2.2</cglib.version>
+		<jaxen.version>1.1.1</jaxen.version>
+
+		<tomcat.version>7.0.12</tomcat.version>
+		<toft.version>3.5.2.RELEASE</toft.version>
+		<toft.ui.version>1.0.3</toft.ui.version>
+ 
+		<cxf.version>2.5.2</cxf.version>
+		<athena.version>4.2.0</athena.version>
+		
+		<ZXC_TEST>ZXC_TEST</ZXC_TEST>
+		<ZBC_TEST>ZBC_TEST</ZBC_TEST>
+		<DDBH_TEST>DDBH_TEST</DDBH_TEST>
+		
+		<dbSchemalzbc>ZBC_TEST.</dbSchemalzbc>
+		<dbSchemalzxc>ZXC_TEST.</dbSchemalzxc>
+		<dbSchemalddbh>DDBH_TEST.</dbSchemalddbh>
+
+		<dbs.dbSchemal0>ZBC_TEST.</dbs.dbSchemal0>
+		<dbs.dbSchemal1>ZBC_TEST.</dbs.dbSchemal1>
+		<dbs.dbSchemal2>ZBC_TEST.</dbs.dbSchemal2>
+		<dbs.dbSchemal3>ZBC_TEST.</dbs.dbSchemal3>
+		<dbs.dbSchemal4>ZBC_TEST.</dbs.dbSchemal4>
+		<dbs.dbSchemal5>DDBH_TEST.</dbs.dbSchemal5>
+		<dbs.dbSchemal6>BO.</dbs.dbSchemal6>
+		
+		<interface.name>athena-interface-autosys</interface.name>
+
+	</properties>
+
+	<dependencies>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>${junit.version}</version>
+			<scope>compile</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>commons-logging</groupId>
+			<artifactId>commons-logging</artifactId>
+			<version>${commons.logging.version}</version>
+			<scope>compile</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>commons-beanutils</groupId>
+			<artifactId>commons-beanutils</artifactId>
+			<version>${commons.beanutils.version}</version>
+			<scope>compile</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>commons-collections</groupId>
+			<artifactId>commons-collections</artifactId>
+			<version>${commons.collections.version}</version>
+			<scope>compile</scope>
+		</dependency>
+
+		<!-- <dependency>
+			<groupId>commons-lang</groupId>
+			<artifactId>commons-lang</artifactId>
+			<version>${commons.lang.version}</version>
+			<scope>compile</scope>
+		</dependency> -->
+
+		<dependency>
+			<groupId>commons-chain</groupId>
+			<artifactId>commons-chain</artifactId>
+			<version>${commons.chain.version}</version>
+			<scope>compile</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>commons-codec</groupId>
+			<artifactId>commons-codec</artifactId>
+			<version>${commons.codec.version}</version>
+			<scope>compile</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>commons-el</groupId>
+			<artifactId>commons-el</artifactId>
+			<version>${commons.el.version}</version>
+			<scope>compile</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>commons-dbcp</groupId>
+			<artifactId>commons-dbcp</artifactId>
+			<version>${commons.dbcp.version}</version>
+			<scope>compile</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>commons-digester</groupId>
+			<artifactId>commons-digester</artifactId>
+			<version>${commons.digester.version}</version>
+			<scope>compile</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>commons-httpclient</groupId>
+			<artifactId>commons-httpclient</artifactId>
+			<version>3.0.1</version>
+			<scope>compile</scope>
+		</dependency>
+
+		<!-- sdc -->
+		<dependency>
+			<groupId>com.toft</groupId>
+			<artifactId>toft-core</artifactId>
+			<version>${toft.version}</version>
+			<scope>compile</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>com.toft</groupId>
+			<artifactId>toft-biz</artifactId>
+			<version>${toft.version}</version>
+			<scope>compile</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>com.toft</groupId>
+			<artifactId>toft-context</artifactId>
+			<version>${toft.version}</version>
+			<scope>compile</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>com.toft</groupId>
+			<artifactId>toft-container</artifactId>
+			<version>${toft.version}</version>
+			<scope>compile</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>com.toft</groupId>
+			<artifactId>toft-cache</artifactId>
+			<version>${toft.version}</version>
+			<scope>compile</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>com.toft</groupId>
+			<artifactId>toft-ibatis</artifactId>
+			<version>3.5.3.RELEASE</version>
+			<scope>compile</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>com.toft</groupId>
+			<artifactId>toft-jdbc</artifactId>
+			<version>${toft.version}</version>
+			<scope>compile</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>com.toft</groupId>
+			<artifactId>toft-legacy</artifactId>
+			<version>${toft.version}</version>
+			<scope>compile</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>com.toft</groupId>
+			<artifactId>toft-mvc</artifactId>
+			<version>3.5.3</version>
+			<scope>compile</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>com.toft</groupId>
+			<artifactId>toft-remoting</artifactId>
+			<version>${toft.version}</version>
+			<scope>compile</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>com.toft</groupId>
+			<artifactId>toft-transaction</artifactId>
+			<version>${toft.version}</version>
+			<scope>compile</scope>
+		</dependency>
+
+<!-- 		<dependency>
+			<groupId>com.toft</groupId>
+			<artifactId>toft-ui</artifactId>
+			<version>${toft.ui.version}</version>
+			<scope>compile</scope>
+		</dependency> -->
+
+		<dependency>
+			<groupId>com.toft</groupId>
+			<artifactId>toft-web</artifactId>
+			<version>${toft.version}</version>
+			<scope>compile</scope>
+		</dependency>
+
+		<!-- 序列相关依赖 -->
+		<dependency>
+			<groupId>com.toft</groupId>
+			<artifactId>toft-sequence</artifactId>
+			<version>${toft.version}</version>
+			<scope>compile</scope>
+		</dependency>
+
+		<!-- web打印相关依赖 -->
+		<dependency>
+			<groupId>com.toft</groupId>
+			<artifactId>toft-print-platform</artifactId>
+			<version>${toft.version}</version>
+			<scope>compile</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>com.toft</groupId>
+			<artifactId>toft-print-designer</artifactId>
+			<version>${toft.version}</version>
+			<scope>compile</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>flex.messaging</groupId>
+			<artifactId>flex-messaging-common</artifactId>
+			<version>1.0</version>
+			<scope>compile</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>flex.messaging</groupId>
+			<artifactId>flex-messaging-remoting</artifactId>
+			<version>1.0</version>
+			<scope>compile</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>flex.messaging</groupId>
+			<artifactId>flex-messaging-core</artifactId>
+			<version>1.0</version>
+			<scope>compile</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>flex.messaging</groupId>
+			<artifactId>flex-messaging-opt</artifactId>
+			<version>1.0</version>
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>flex.messaging</groupId>
+			<artifactId>flex-messaging-proxy</artifactId>
+			<version>1.0</version>
+			<scope>compile</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>com.toft</groupId>
+			<artifactId>toft-utils</artifactId>
+			<version>3.5</version>
+			<scope>compile</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>bea.weblogic</groupId>
+			<artifactId>weblogic-jatmi</artifactId>
+			<version>10.3.5</version>
+			<scope>compile</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>net.sf.ehcache</groupId>
+			<artifactId>ehcache-core</artifactId>
+			<version>2.3.0</version>
+			<scope>compile</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+			<version>1.5.11</version>
+			<scope>compile</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-jdk14</artifactId>
+			<version>1.5.11</version>
+			<scope>compile</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>asm</groupId>
+			<artifactId>asm-all</artifactId>
+			<version>3.1</version>
+			<scope>compile</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>aopalliance</groupId>
+			<artifactId>aopalliance</artifactId>
+			<version>1.0</version>
+			<scope>compile</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>javax.activation</groupId>
+			<artifactId>activation</artifactId>
+			<version>1.1.1</version>
+			<scope>compile</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>log4j</groupId>
+			<artifactId>log4j</artifactId>
+			<version>1.2.16</version>
+			<scope>compile</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>com.oracle</groupId>
+			<artifactId>ojdbc6</artifactId>
+			<version>11.2.0.3</version>
+			<scope>compile</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>backport-util-concurrent</groupId>
+			<artifactId>backport-util-concurrent-java12</artifactId>
+			<version>3.1</version>
+			<scope>compile</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>cglib</groupId>
+			<artifactId>cglib-nodep</artifactId>
+			<version>2.2.2</version>
+			<scope>compile</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>jstl</artifactId>
+			<version>1.2</version>
+			<scope>compile</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>net.sourceforge.jexcelapi</groupId>
+			<artifactId>jxl</artifactId>
+			<version>2.6.12</version>
+			<scope>compile</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.freemarker</groupId>
+			<artifactId>freemarker</artifactId>
+			<version>2.3.18</version>
+			<scope>compile</scope>
+		</dependency>
+
+		<!-- <dependency>
+			<groupId>net.sf.json-lib</groupId>
+			<artifactId>json-lib</artifactId>
+			<version>${json-lib.version}</version>
+			<classifier>jdk13</classifier>
+			<scope>compile</scope>
+		</dependency> -->
+
+<!-- DFPV xml文件所需JAR包 -->	
+		<dependency>
+			<groupId>dfpv.com.ibm</groupId>
+			<artifactId>com.ibm.mq.commonservices</artifactId>  
+			<version>1.1.0</version>
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>dfpv.com.ibm</groupId>
+			<artifactId>com.ibm.mq.headers</artifactId>  
+			<version>1.1.0</version>
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>dfpv.com.ibm</groupId>
+			<artifactId>com.ibm.mq</artifactId>  
+			<version>1.1.0</version>
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>dfpv.com.ibm</groupId>
+			<artifactId>com.ibm.mq.jmqi</artifactId>  
+			<version>1.1.0</version>
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>dfpv.com.ibm</groupId>
+			<artifactId>com.ibm.mq.pcf</artifactId>  
+			<version>1.1.0</version>
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>dfpv.com.ibm</groupId>
+			<artifactId>com.ibm.mqjms</artifactId>  
+			<version>1.1.0</version>
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>dfpv.com.ibm</groupId>
+			<artifactId>connector</artifactId>  
+			<version>1.1.0</version>
+			<scope>compile</scope>
+		</dependency>
+
+
+		<!-- 项目包 -->
+		<dependency>
+			<groupId>com.athena</groupId>
+			<artifactId>athena-core</artifactId>
+			<version>${project.version}</version>
+			<scope>compile</scope>
+		</dependency>
+
+		<!-- 引入参考系和需求计算，引入排产发交 用于批量的调用 hzg 2014.1.13 -->
+		 <dependency>
+			<groupId>com.athena</groupId>
+			<artifactId>athena-ckx</artifactId>
+			<version>${project.version}</version>
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.athena</groupId>
+			<artifactId>athena-xqjs</artifactId>
+			<version>${project.version}</version> 
+			<scope>compile</scope>
+		</dependency> 
+		<dependency>
+			<groupId>com.athena</groupId>
+			<artifactId>athena-truck</artifactId>
+			<version>${project.version}</version>
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.athena</groupId>
+			<artifactId>athena-pc</artifactId>
+			<version>${project.version}</version> 
+			<scope>compile</scope>
+		</dependency> 
+		<dependency>
+			<groupId>com.athena</groupId>
+			<artifactId>athena-fj</artifactId>
+			<version>${project.version}</version> 
+			
+			<exclusions>
+				<exclusion>
+		            <groupId>org.apache.cxf</groupId>
+		            <artifactId>cxf-rt-frontend-jaxws</artifactId>
+		        </exclusion>
+		        <exclusion>
+		            <groupId>org.apache.cxf</groupId>
+		            <artifactId>cxf-rt-transports-http</artifactId>
+		        </exclusion>
+		        <exclusion>
+		            <groupId>org.apache.cxf</groupId>
+		            <artifactId>cxf-rt-frontend-simple</artifactId>
+		        </exclusion>
+		        <exclusion>
+		            <groupId>org.apache.cxf</groupId>
+		            <artifactId>cxf-api</artifactId>
+		        </exclusion>
+		        <exclusion>
+		            <groupId>org.apache.cxf</groupId>
+		            <artifactId>cxf-rt-core</artifactId>
+		        </exclusion>
+		        <exclusion>
+		            <groupId>org.apache.cxf</groupId>
+		            <artifactId>cxf-rt-bindings-soap</artifactId>
+		        </exclusion>
+		        <exclusion>
+		            <groupId>org.apache.cxf</groupId>
+		            <artifactId>cxf-common-utilities</artifactId>
+		        </exclusion>
+		        <exclusion>
+		            <groupId>org.apache.ws.commons.schema</groupId>
+		            <artifactId>XmlSchema</artifactId>
+		        </exclusion>
+		         <exclusion>
+		            <groupId>wsdl4j</groupId>
+		            <artifactId>wsdl4j</artifactId>
+		        </exclusion>
+		        <exclusion>
+		            <groupId>org.apache.cxf</groupId>
+		            <artifactId>cxf-rt-databinding-jaxb</artifactId>
+		        </exclusion>
+		        <exclusion>
+		            <groupId>org.apache.cxf</groupId>
+		            <artifactId>cxf-tools-common</artifactId>
+		        </exclusion>
+			</exclusions>
+			<scope>compile</scope>
+		</dependency> 
+
+		<dependency>
+			<groupId>com.oreilly</groupId>
+			<artifactId>cos-servlet</artifactId>
+			<version>1.0</version>
+		</dependency>
+
+		<!-- web 容器相关包 -->
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>servlet-api</artifactId>
+			<version>2.5</version>
+			<scope>provided</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>javax.servlet.jsp</groupId>
+			<artifactId>jsp-api</artifactId>
+			<version>2.1</version>
+			<scope>provided</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.ibatis</groupId>
+			<artifactId>ibatis</artifactId>
+			<version>2.3.0.677</version>
+			<scope>compile</scope>
+		</dependency>
+
+		<!-- CXF 相关包 -->
+		<dependency>
+			<groupId>org.apache.cxf</groupId>
+			<artifactId>cxf-rt-frontend-jaxws</artifactId>
+			<version>${cxf.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.cxf</groupId>
+			<artifactId>cxf-rt-transports-http</artifactId>
+			<version>${cxf.version}</version>
+		</dependency>
+
+		 <!-- hzg add dependency 2012-10-09 
+		reason:java.lang.NoClassDefFoundError: org/codehaus/stax2/XMLOutputFactory2
+		-->
+		<dependency>
+			<groupId>org.codehaus.woodstox</groupId>
+			<artifactId>stax2-api</artifactId>
+			<version>3.1.1</version>
+			<scope>runtime</scope>
+		</dependency>
+
+	<!-- weblogic发布依赖包 hzg 2014.3.13 -->
+		<dependency>
+			<groupId>com.oracle.weblogic</groupId>
+			<artifactId>weblogic-maven-plugin</artifactId>
+			<version>10.3.4</version>
+			<scope>${weblogic.provided}</scope>
+		</dependency>
+
+	</dependencies>
+
+	<build>
+		<finalName>${interface.name}</finalName>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>2.3.2</version>
+				<configuration>
+					<source>1.6</source>
+					<target>1.6</target>
+					<encoding>UTF-8</encoding>
+				</configuration>
+			</plugin>
+
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>tomcat-maven-plugin</artifactId>
+				<version>1.1</version>
+				<configuration>
+					<uriEncoding>UTF-8</uriEncoding>
+					<port>8096</port>
+					<path>/athena-interface-service</path>
+				</configuration>
+			</plugin>
+
+		<!-- 发布weblogic程序配置 hzg 2014.3.13  -->
+			<plugin>
+				<groupId>com.oracle.weblogic</groupId>
+				<artifactId>weblogic-maven-plugin</artifactId>
+				<version>10.3.4</version>
+				<configuration>
+					<adminurl>${weblogic.ip}</adminurl>
+					<user>weblogic</user>
+					<password>weblogic1</password>
+					<targets>${weblogic.targets}</targets>
+					<upload>true</upload>
+					<action>deploy</action>
+					<remote>true</remote>
+					<verbose>true</verbose>
+					<source>${project.build.directory}/${project.build.finalName}.${project.packaging}</source>
+					<name>${project.build.finalName}</name>
+				</configuration>
+			</plugin>
+
+			<!-- <plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>sonar</artifactId>
+				<version>2.8</version>
+				<configuration>
+				</configuration>
+			</plugin> -->
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<version>2.7.2</version>
+				<configuration>
+					<skipTests>true</skipTests>
+				</configuration>
+			</plugin>
+			
+			<!-- 版本发布配置  add by hzg 2013-11-1  -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-release-plugin</artifactId>
+				<version>2.0-beta-7</version>
+				<configuration>
+					<tagBase>https://10.26.223.54:8443/svn/code/athena-interface-service/tags/</tagBase>
+				</configuration>
+			</plugin>
+		</plugins>
+
+		<!-- 目标资源 hzg 2012-8-29 -->
+		<resources>
+			<resource>
+				<directory>src/main/resources</directory>
+				<includes>
+					<include>**/*.*</include>
+				</includes>
+				<filtering>true</filtering>
+			</resource>
+		</resources>
+
+	</build>
+
+	<!-- 替换配置文件 hzg 2012-8-29 -->
+	<profiles>
+		<!-- 测试配置 -->
+		<profile>
+			<id>D_ZXC</id>
+			<properties>
+				<jndi.name1>jdbc/zbc</jndi.name1>
+				<jndi.name2>jdbc/ddbh</jndi.name2>
+				<jndi.name4>jdbc/sppv</jndi.name4>
+				<jndi.name5>jdbc/efi</jndi.name5>
+              
+				<jdbcstart.label />
+				<jdbcend.label />
+				<jndistart.label><![CDATA[<!--]]></jndistart.label>
+				<jndiend.label>--&gt;</jndiend.label>
+				<logLabel>logs</logLabel>
+				<webservice.urlip>10.26.223.39:7001</webservice.urlip>
+				
+				<dbs.dbSchemal0>ZXC_TEST.</dbs.dbSchemal0>
+				<dbs.dbSchemal1>ZXC_TEST.</dbs.dbSchemal1>
+				<dbs.dbSchemal2>ZXC_TEST.</dbs.dbSchemal2>
+				<dbs.dbSchemal3>ZXC_TEST.</dbs.dbSchemal3>
+				<dbs.dbSchemal4>ZXC_TEST.</dbs.dbSchemal4>
+				<dbs.dbSchemal5>DDBH_TEST.</dbs.dbSchemal5>
+				<dbs.dbSchemal6>BO.</dbs.dbSchemal6>
+				
+				<kacTimer.builder>ZXC</kacTimer.builder>
+				<danglf.builder>DFPV</danglf.builder>
+				<inStart.label><![CDATA[<!--]]></inStart.label>
+				<inEnd.label>--&gt;</inEnd.label>
+			</properties>
+		</profile>
+		
+		
+		
+		<profile>
+			<id>T_ZBC</id>
+			<properties>
+				<jndi.name1>jdbc/zbc</jndi.name1>
+				<jndi.name2>jdbc/ddbh</jndi.name2>
+				<jndi.name4>jdbc/sppv</jndi.name4>
+				<jndi.name5>jdbc/efi</jndi.name5>
+
+				<jdbcstart.label><![CDATA[<!--]]></jdbcstart.label>
+				<jdbcend.label>--&gt;</jdbcend.label>
+				<jndistart.label />
+				<jndiend.label />
+				<logLabel>logs</logLabel>
+				<webservice.urlip>10.26.223.39:7001</webservice.urlip>
+				<kacTimer.builder>ZBC</kacTimer.builder>
+				<inStart.label><![CDATA[<!--]]></inStart.label>
+				<inEnd.label>--&gt;</inEnd.label>
+			</properties>
+		</profile>
+		<profile>
+			<id>T_ZXC</id>
+			<properties>
+				<jndi.name1>jdbc/zxc</jndi.name1>
+				<jndi.name2>jdbc/ddbh</jndi.name2>
+				<jndi.name4>jdbc/sppv</jndi.name4>
+				<jndi.name5>jdbc/efi</jndi.name5>
+
+				<jdbcstart.label><![CDATA[<!--]]></jdbcstart.label>
+				<jdbcend.label>--&gt;</jdbcend.label>
+				<jndistart.label />
+				<jndiend.label />
+				<logLabel>logs</logLabel>
+				<webservice.urlip>10.26.223.39:7001</webservice.urlip>
+				
+				<dbs.dbSchemal0>ZXC_TEST.</dbs.dbSchemal0>
+				<dbs.dbSchemal1>ZXC_TEST.</dbs.dbSchemal1>
+				<dbs.dbSchemal2>ZXC_TEST.</dbs.dbSchemal2>
+				<dbs.dbSchemal3>ZXC_TEST.</dbs.dbSchemal3>
+				<dbs.dbSchemal4>ZXC_TEST.</dbs.dbSchemal4>
+				<dbs.dbSchemal5>DDBH_TEST.</dbs.dbSchemal5>
+				<dbs.dbSchemal6>BO.</dbs.dbSchemal6>
+				<kacTimer.builder>ZXC</kacTimer.builder>
+				<inStart.label><![CDATA[<!--]]></inStart.label>
+				<inEnd.label>--&gt;</inEnd.label>
+				
+				<anxDingdh><![CDATA['C1DDD0008']]></anxDingdh>
+				<anxUsercenter><![CDATA['UL']]></anxUsercenter>
+				<dataSource_sppv>4</dataSource_sppv>
+			</properties>
+		</profile>
+
+	 <profile>
+			<id>T_ZBC_73</id>
+			<properties>
+				<weblogic.ip>10.26.223.51:80</weblogic.ip>
+				<weblogic.targets>AdminServer</weblogic.targets>
+				<interface.name>athena-interface-autosys</interface.name>
+				<weblogic.provided />
+
+				<jndi.name1>jdbc/zbc</jndi.name1>
+				<jndi.name2>jdbc/ddbh</jndi.name2>
+				<jndi.name4>jdbc/sppv</jndi.name4>
+				<jndi.name5>jdbc/efi</jndi.name5>
+
+				<jdbcstart.label><![CDATA[<!--]]></jdbcstart.label>
+				<jdbcend.label>--&gt;</jdbcend.label>
+				<jndistart.label />
+				<jndiend.label />
+				<logLabel>logs</logLabel>
+				
+				<dbs.dbSchemal0>ZBC_TEST.</dbs.dbSchemal0>
+				<dbs.dbSchemal1>ZBC_TEST.</dbs.dbSchemal1>
+				<dbs.dbSchemal2>ZBC_TEST.</dbs.dbSchemal2>
+				<dbs.dbSchemal3>ZBC_TEST.</dbs.dbSchemal3>
+				<dbs.dbSchemal4>ZBC_TEST.</dbs.dbSchemal4>
+				<dbs.dbSchemal5>DDBH_TEST.</dbs.dbSchemal5>
+				<dbs.dbSchemal6>BO.</dbs.dbSchemal6>
+				<kacTimer.builder>ZBC</kacTimer.builder>
+				<inStart.label><![CDATA[<!--]]></inStart.label>
+				<inEnd.label>--&gt;</inEnd.label>
+			</properties>
+		</profile>
+
+		<profile>
+			<id>T_ZXC_79</id>
+			<properties>
+				<weblogic.ip>10.26.223.52:80</weblogic.ip>
+				<weblogic.targets>AdminServer</weblogic.targets>
+				<interface.name>athena-interface-autosys</interface.name>
+				<weblogic.provided />
+
+				<jndi.name1>jdbc/zxc</jndi.name1>
+				<jndi.name2>jdbc/ddbh</jndi.name2>
+				<jndi.name4>jdbc/sppv1</jndi.name4>
+				<jndi.name5>jdbc/efi</jndi.name5>
+				<jndi.name6>jdbc/sppv2</jndi.name6>
+				
+				<dbs.dbSchemal0>ZXC_TEST.</dbs.dbSchemal0>
+				<dbs.dbSchemal1>ZXC_TEST.</dbs.dbSchemal1>
+				<dbs.dbSchemal2>ZXC_TEST.</dbs.dbSchemal2>
+				<dbs.dbSchemal3>ZXC_TEST.</dbs.dbSchemal3>
+				<dbs.dbSchemal4>ZXC_TEST.</dbs.dbSchemal4>
+
+				<jdbcstart.label><![CDATA[<!--]]></jdbcstart.label>
+				<jdbcend.label>--&gt;</jdbcend.label>
+				<jndistart.label />
+				<jndiend.label />
+				<logLabel>logs</logLabel>
+				<webservice.urlip>10.26.223.51</webservice.urlip>
+				<kacTimer.builder>ZXC</kacTimer.builder>
+				<danglf.builder>DFPV</danglf.builder>
+				<inStart.label><![CDATA[<!--]]></inStart.label>
+				<inEnd.label>--&gt;</inEnd.label>
+				
+				<anxDingdh><![CDATA['C1DDD0008']]></anxDingdh>
+				<anxUsercenter><![CDATA['UL']]></anxUsercenter>
+				<dataSource_sppv1>4</dataSource_sppv1>
+				<dataSource_sppv2>6</dataSource_sppv2>
+				<jk_station>ATHU3INT</jk_station>
+				
+				<mqManager>PROD_QMGR_001</mqManager>
+				<mqHostName>10.26.193.7</mqHostName>
+				<mqQueueName>Q.DPCA.TO.DFPV</mqQueueName>
+				<mqPort>1814</mqPort>
+			</properties>
+		</profile>
+
+		<!-- 开发配置 -->
+		<profile>
+			<id>D_ALL_ZBC</id>
+			<properties>
+				<jndi.name1>jdbc/zbc</jndi.name1>
+				<jndi.name2>jdbc/ddbh</jndi.name2>
+				<jndi.name4>jdbc/sppv</jndi.name4>
+				<jndi.name5>jdbc/efi</jndi.name5>
+
+				<jdbcstart.label />
+				<jdbcend.label />
+				<jndistart.label><![CDATA[<!--]]></jndistart.label>
+				<jndiend.label>--&gt;</jndiend.label>
+				<logLabel>logs</logLabel>
+				<webservice.urlip>10.26.171.33:8085</webservice.urlip>
+				<kacTimer.builder>ZBC</kacTimer.builder>
+				<inStart.label><![CDATA[<!--]]></inStart.label>
+				<inEnd.label>--&gt;</inEnd.label>
+				
+				
+				<mqManager>PROD_QMGR_001</mqManager>
+				<mqHostName>10.26.193.7</mqHostName>
+				<mqQueueName>Q.DPCA.TO.DFPV</mqQueueName>
+				<mqPort>1814</mqPort>
+			</properties>
+		</profile>
+		
+		<profile>
+			<id>D_ALL_ZXC</id>
+			<properties>
+				<jndi.name1>jdbc/zxc</jndi.name1>
+				<jndi.name2>jdbc/ddbh</jndi.name2>
+				<jndi.name4>jdbc/sppv</jndi.name4>
+				<jndi.name5>jdbc/efi</jndi.name5>
+
+				<jdbcstart.label />
+				<jdbcend.label />
+				<jndistart.label><![CDATA[<!--]]></jndistart.label>
+				<jndiend.label>--&gt;</jndiend.label>
+				<logLabel>logs</logLabel>
+				<webservice.urlip>10.26.171.33:8085</webservice.urlip>
+				
+				<dbs.dbSchemal0>ZXC_TEST.</dbs.dbSchemal0>
+				<dbs.dbSchemal1>ZXC_TEST.</dbs.dbSchemal1>
+				<dbs.dbSchemal2>ZXC_TEST.</dbs.dbSchemal2>
+				<dbs.dbSchemal3>ZXC_TEST.</dbs.dbSchemal3>
+				<dbs.dbSchemal4>ZXC_TEST.</dbs.dbSchemal4>
+				<dbs.dbSchemal5>DDBH_TEST.</dbs.dbSchemal5>
+				<dbs.dbSchemal6>BO.</dbs.dbSchemal6>
+				<kacTimer.builder>ZXC</kacTimer.builder>
+				<inStart.label><![CDATA[<!--]]></inStart.label>
+				<inEnd.label>--&gt;</inEnd.label>
+				
+				<anxDingdh><![CDATA['C1DDD0008']]></anxDingdh>
+				<anxUsercenter><![CDATA['UL']]></anxUsercenter>
+				<dataSource_sppv1>4</dataSource_sppv1>
+				<dataSource_sppv2>6</dataSource_sppv2>
+				
+				<mqManager>PROD_QMGR_001</mqManager>
+				<mqHostName>10.26.193.7</mqHostName>
+				<mqQueueName>Q.DPCA.TO.DFPV</mqQueueName>
+				<mqPort>1814</mqPort>
+			</properties>
+		</profile>
+		
+		<profile>
+			<id>T_ZBC_46</id>
+			<properties>
+				<weblogic.ip>10.26.202.46:7001</weblogic.ip>
+				<weblogic.targets>zbjk01</weblogic.targets>
+				<weblogic.user>test</weblogic.user>
+				<weblogic.password>test1</weblogic.password>
+				<interface.name>athena-interface-autosys</interface.name>
+				<jndi.name1>jdbc/zbc</jndi.name1>
+				<jndi.name2>jdbc/ddbh</jndi.name2>
+				<jndi.name4>jdbc/sppv</jndi.name4>
+				<jndi.name5>jdbc/efi</jndi.name5>
+				<jdbcstart.label><![CDATA[<!--]]></jdbcstart.label>
+				<jdbcend.label>--&gt;</jdbcend.label>
+				<jndistart.label />
+				<jndiend.label />
+				<logLabel>logs</logLabel>
+				<webservice.urlip>10.26.202.47:80</webservice.urlip>
+				
+				<dbs.dbSchemal0>ZBC_TEST.</dbs.dbSchemal0>
+				<dbs.dbSchemal1>ZBC_TEST.</dbs.dbSchemal1>
+				<dbs.dbSchemal2>ZBC_TEST.</dbs.dbSchemal2>
+				<dbs.dbSchemal3>ZBC_TEST.</dbs.dbSchemal3>
+				<dbs.dbSchemal4>ZBC_TEST.</dbs.dbSchemal4>
+				<dbs.dbSchemal5>DDBH_TEST.</dbs.dbSchemal5>
+				<dbs.dbSchemal6>BO.</dbs.dbSchemal6>
+				<kacTimer.builder>ZBC</kacTimer.builder>
+				<inStart.label><![CDATA[<!--]]></inStart.label>
+				<inEnd.label>--&gt;</inEnd.label>
+				
+			</properties>
+		</profile>
+		<profile>
+			<id>T_ZXC_49</id>
+			<properties>
+				<weblogic.ip>10.26.202.49:7001</weblogic.ip>
+				<weblogic.user>weblogic</weblogic.user>
+				<weblogic.password>weblogic1</weblogic.password>
+				<interface.name>athena-interface-autosys</interface.name>
+
+				<jndi.name1>jdbc/zxc</jndi.name1>
+				<jndi.name2>jdbc/ddbh</jndi.name2>
+				<jndi.name4>jdbc/sppv</jndi.name4>
+				<jndi.name5>jdbc/efi</jndi.name5>
+				
+				<dbs.dbSchemal0>ZXC_TEST.</dbs.dbSchemal0>
+				<dbs.dbSchemal1>ZXC_TEST.</dbs.dbSchemal1>
+				<dbs.dbSchemal2>ZXC_TEST.</dbs.dbSchemal2>
+				<dbs.dbSchemal3>ZXC_TEST.</dbs.dbSchemal3>
+				<dbs.dbSchemal4>ZXC_TEST.</dbs.dbSchemal4>
+				<dbs.dbSchemal5>DDBH_TEST.</dbs.dbSchemal5>
+				<dbs.dbSchemal6>BO.</dbs.dbSchemal6>
+				
+				<jdbcstart.label><![CDATA[<!--]]></jdbcstart.label>
+				<jdbcend.label>--&gt;</jdbcend.label>
+				<jndistart.label />
+				<jndiend.label />
+				<logLabel>logs</logLabel>
+				<webservice.urlip>10.26.202.43:80</webservice.urlip>
+				<kacTimer.builder>ZXC</kacTimer.builder>
+				<inStart.label><![CDATA[<!--]]></inStart.label>
+				<inEnd.label>--&gt;</inEnd.label>
+				
+				<anxDingdh><![CDATA['C1DDD0008']]></anxDingdh>
+				<anxUsercenter><![CDATA['UL']]></anxUsercenter>
+				<dataSource_sppv1>4</dataSource_sppv1>
+				<dataSource_sppv2>6</dataSource_sppv2>
+			</properties>
+		</profile>
+		
+
+		<!-- 生产环境打包 -->
+		<profile>
+			<id>S_ZBC</id>
+			<properties>
+				<jndi.name1>jdbc/zbc</jndi.name1>
+				<jndi.name2>jdbc/ddbh</jndi.name2>
+				<jndi.name4>jdbc/sppv</jndi.name4>
+				<jndi.name5>jdbc/efi</jndi.name5>
+
+				<jdbcstart.label><![CDATA[<!--]]></jdbcstart.label>
+				<jdbcend.label>--&gt;</jdbcend.label>
+				<jndistart.label />
+				<jndiend.label />
+				<webservice.urlip>10.26.219.160:8001</webservice.urlip>
+				<interface.name>athena-interface-autosys</interface.name>
+
+				<ZXC_TEST>athzx</ZXC_TEST>
+				<ZBC_TEST>athzb</ZBC_TEST>
+				<DDBH_TEST>athddbh</DDBH_TEST>
+				
+				<dbSchemalzbc>athzb.</dbSchemalzbc>
+				<dbSchemalzxc>athzx.</dbSchemalzxc>
+				<dbSchemalddbh>athddbh.</dbSchemalddbh>
+				
+				<dbs.dbSchemal0>athzb.</dbs.dbSchemal0>
+				<dbs.dbSchemal1>athzb.</dbs.dbSchemal1>
+				<dbs.dbSchemal2>athzb.</dbs.dbSchemal2>
+				<dbs.dbSchemal3>athzb.</dbs.dbSchemal3>
+				<dbs.dbSchemal4>athzb.</dbs.dbSchemal4>
+				<dbs.dbSchemal5>athddbh.</dbs.dbSchemal5>
+				<dbs.dbSchemal6>BO.</dbs.dbSchemal6>
+				<kacTimer.builder>ZBC</kacTimer.builder>
+				<inStart.label><![CDATA[<!--]]></inStart.label>
+				<inEnd.label>--&gt;</inEnd.label>
+				
+				<mqManager>PROD_QMGR_01</mqManager>
+				<mqHostName>10.26.211.39</mqHostName>
+				<mqQueueName>C_ATH3_RAM_IN_BOUND</mqQueueName>
+				<mqPort>20001</mqPort>
+				<logLabel>itflogs</logLabel>
+			</properties>
+		</profile>
+		
+	<!-- 三厂执行层配置 xiah-->		
+		<profile>
+			<id>S_ZXC</id>
+			<properties>
+				<jndi.name1>jdbc/zxc</jndi.name1>
+				<jndi.name2>jdbc/ddbh</jndi.name2>
+				<jndi.name4>jdbc/sppv</jndi.name4>
+				<jndi.name5>jdbc/efi</jndi.name5>
+				<jndi.name6>jdbc/sppvpv</jndi.name6>
+				
+				<jdbcstart.label><![CDATA[<!--]]></jdbcstart.label>
+				<jdbcend.label>--&gt;</jdbcend.label>
+				<jndistart.label />
+				<jndiend.label />
+				<webservice.urlip>10.28.200.12</webservice.urlip>
+
+				<interface.name>athena-interface-autosys</interface.name>
+
+				<ZBC_TEST>athzb</ZBC_TEST>
+				<ZXC_TEST>athzx</ZXC_TEST>
+				<DDBH_TEST>athddbh</DDBH_TEST>
+				
+				<dbSchemalzbc>athzb.</dbSchemalzbc>
+				<dbSchemalzxc>athzx.</dbSchemalzxc>
+				<dbSchemalddbh>athddbh.</dbSchemalddbh>
+				
+				<dbs.dbSchemal0>athzx.</dbs.dbSchemal0>
+				<dbs.dbSchemal1>athzx.</dbs.dbSchemal1>
+				<dbs.dbSchemal2>athzx.</dbs.dbSchemal2>
+				<dbs.dbSchemal3>athzx.</dbs.dbSchemal3>
+				<dbs.dbSchemal4>athzx.</dbs.dbSchemal4>
+				<dbs.dbSchemal5>athddbh.</dbs.dbSchemal5>
+				<dbs.dbSchemal6>BO.</dbs.dbSchemal6>
+				<kacTimer.builder>ZXC</kacTimer.builder>
+				<inStart.label />
+				<inEnd.label />
+				
+				<logLabel>itflogs</logLabel>
+				
+				<mqManager>PROD_QMGR_01</mqManager>
+				<mqHostName>10.26.211.39</mqHostName>
+				<mqQueueName>C_ATH3_RAM_IN_BOUND</mqQueueName>
+				<mqPort>20001</mqPort>
+				
+				<danglf.builder>DFPV</danglf.builder>
+				
+				<anxDingdh><![CDATA['C1DDD0008']]></anxDingdh>
+				<anxUsercenter><![CDATA['UL']]></anxUsercenter>
+				<dataSource_sppv1>4</dataSource_sppv1>
+				<dataSource_sppv2>6</dataSource_sppv2>
+				<jk_station>ATHU3INT</jk_station>
+			</properties>
+		</profile>
+
+	<!-- 一二厂执行层配置 hzg 2013-8-29 -->
+	<profile>
+			<id>S_ZXC_One</id>
+			<properties>
+				<jndi.name1>jdbc/zxc</jndi.name1>
+				<jndi.name2>jdbc/ddbh</jndi.name2>
+				<jndi.name4>jdbc/sppv1</jndi.name4>
+				<jndi.name5>jdbc/efi</jndi.name5>
+				<jndi.name6>jdbc/sppv2</jndi.name6>
+				
+				<jdbcstart.label><![CDATA[<!--]]></jdbcstart.label>
+				<jdbcend.label>--&gt;</jdbcend.label>
+				<jndistart.label />
+				<jndiend.label />
+				<webservice.urlip>10.26.210.186</webservice.urlip>
+
+				<interface.name>athena-interface-autosys</interface.name>
+
+				<ZBC_TEST>athzb</ZBC_TEST>
+				<ZXC_TEST>athzx</ZXC_TEST>
+				<DDBH_TEST>athddbh</DDBH_TEST>
+				
+				<dbSchemalzbc>athzb.</dbSchemalzbc>
+				<dbSchemalzxc>athzx.</dbSchemalzxc>
+				<dbSchemalddbh>athddbh.</dbSchemalddbh>
+				
+				<dbs.dbSchemal0>athzx.</dbs.dbSchemal0>
+				<dbs.dbSchemal1>athzx.</dbs.dbSchemal1>
+				<dbs.dbSchemal2>athzx.</dbs.dbSchemal2>
+				<dbs.dbSchemal3>athzx.</dbs.dbSchemal3>
+				<dbs.dbSchemal4>athzx.</dbs.dbSchemal4>
+				<dbs.dbSchemal5>athddbh.</dbs.dbSchemal5>
+				<dbs.dbSchemal6>BO.</dbs.dbSchemal6>
+				<kacTimer.builder>ZXC</kacTimer.builder>
+				<inStart.label />
+				<inEnd.label />
+				
+				<logLabel>itflogs</logLabel>
+				
+				<anxDingdh><![CDATA['C1DDD0009']]></anxDingdh>
+				<anxUsercenter><![CDATA['UW']]></anxUsercenter>
+				<dataSource_sppv1>4</dataSource_sppv1>
+				<dataSource_sppv2>6</dataSource_sppv2>
+				<jk_station>ATHUWINT</jk_station>
+			</properties>
+		</profile>
+
+<!-- 四厂执行层配置 hzg 2016-1-19 -->
+	<profile>
+			<id>S_ZXC_F</id>
+			<properties>
+				<jndi.name1>jdbc/zxc</jndi.name1>
+				<jndi.name2>jdbc/ddbh</jndi.name2>
+				<jndi.name4>jdbc/sppv</jndi.name4>
+				<jndi.name5>jdbc/efi</jndi.name5>
+				<jndi.name6>jdbc/sppv2</jndi.name6>
+				
+				<jdbcstart.label><![CDATA[<!--]]></jdbcstart.label>
+				<jdbcend.label>--&gt;</jdbcend.label>
+				<jndistart.label />
+				<jndiend.label />
+				<webservice.urlip>10.186.194.25</webservice.urlip>
+
+				<interface.name>athena-interface-autosys</interface.name>
+
+				<ZBC_TEST>athzb</ZBC_TEST>
+				<ZXC_TEST>athzx</ZXC_TEST>
+				<DDBH_TEST>athddbh</DDBH_TEST>
+				
+				<dbSchemalzbc>athzb.</dbSchemalzbc>
+				<dbSchemalzxc>athzx.</dbSchemalzxc>
+				<dbSchemalddbh>athddbh.</dbSchemalddbh>
+				
+				<dbs.dbSchemal0>athzx.</dbs.dbSchemal0>
+				<dbs.dbSchemal1>athzx.</dbs.dbSchemal1>
+				<dbs.dbSchemal2>athzx.</dbs.dbSchemal2>
+				<dbs.dbSchemal3>athzx.</dbs.dbSchemal3>
+				<dbs.dbSchemal4>athzx.</dbs.dbSchemal4>
+				<dbs.dbSchemal5>athddbh.</dbs.dbSchemal5>
+				<dbs.dbSchemal6>BO.</dbs.dbSchemal6>
+				<kacTimer.builder>ZXC</kacTimer.builder>
+				<inStart.label><![CDATA[<!--]]></inStart.label>
+				<inEnd.label>--&gt;</inEnd.label>
+				
+				<logLabel>itflogs</logLabel>
+				
+				<anxDingdh><![CDATA['C1DDD0007']]></anxDingdh>
+				<anxUsercenter><![CDATA['VD']]></anxUsercenter>
+				<dataSource_sppv1>4</dataSource_sppv1>
+				<dataSource_sppv2>6</dataSource_sppv2>
+				<jk_station>ATHVDINT</jk_station>
+			</properties>
+		</profile>
+		
+					
+<!-- 用户测试环境UW执行层配置 hzg 2014-10-8 -->		
+<profile>
+			<id>U_UW_ZXC</id>
+			<properties>
+				<jndi.name1>jdbc/zxc</jndi.name1>
+				<jndi.name2>jdbc/ddbh</jndi.name2>
+				<jndi.name4>jdbc/sppv1</jndi.name4>
+				<jndi.name5>jdbc/efi</jndi.name5>
+				<jndi.name6>jdbc/sppv2</jndi.name6>
+				
+				<jdbcstart.label><![CDATA[<!--]]></jdbcstart.label>
+				<jdbcend.label>--&gt;</jdbcend.label>
+				<jndistart.label />
+				<jndiend.label />
+				<interface.name>athena-interface-autosys</interface.name>
+				
+				<ZBC_TEST>uwyhzxc</ZBC_TEST>
+				<ZXC_TEST>uwyhzxc</ZXC_TEST>
+				<DDBH_TEST>uwyhddbh</DDBH_TEST>
+				
+				<dbSchemalzbc>yhzbc.</dbSchemalzbc>
+				<dbSchemalzxc>uwyhzxc.</dbSchemalzxc>
+				<dbSchemalddbh>uwyhddbh.</dbSchemalddbh>
+				
+				<dbs.dbSchemal0>uwyhzxc.</dbs.dbSchemal0>
+				<dbs.dbSchemal1>uwyhzxc.</dbs.dbSchemal1>
+				<dbs.dbSchemal2>uwyhzxc.</dbs.dbSchemal2>
+				<dbs.dbSchemal3>uwyhzxc.</dbs.dbSchemal3>
+				<dbs.dbSchemal4>uwyhzxc.</dbs.dbSchemal4>
+				<dbs.dbSchemal5>uwyhddbh.</dbs.dbSchemal5>
+				<dbs.dbSchemal6>BO.</dbs.dbSchemal6>
+			
+				
+				<!-- jenkins自动打包配置 hzg 2014.8.21 -->
+				<weblogic.targets>wlst1</weblogic.targets>
+				<weblogic.ip>10.26.202.108:7001</weblogic.ip>
+				<weblogic.provided />
+				<kacTimer.builder>ZXC</kacTimer.builder>
+				<inStart.label />
+				<inEnd.label />
+				<logLabel>itflogs</logLabel>
+				
+				<anxDingdh><![CDATA['C1DDD0009']]></anxDingdh>
+				<anxUsercenter><![CDATA['UW']]></anxUsercenter>
+				<!-- <dataSource_sppv>6</dataSource_sppv> -->
+				<dataSource_sppv1>4</dataSource_sppv1>
+				<dataSource_sppv2>6</dataSource_sppv2>
+				<jk_station>ATHUWINT</jk_station>
+			</properties>
+		</profile>
+		
+			
+		<!-- 用户测试环境UL执行层配置 hzg 2014-10-8 -->		
+		<profile>
+			<id>U_UL_ZXC</id>
+			<properties>
+				<jndi.name1>jdbc/zxc</jndi.name1>
+				<jndi.name2>jdbc/ddbh</jndi.name2>
+				<jndi.name4>jdbc/sppv</jndi.name4>
+				<jndi.name5>jdbc/efi</jndi.name5>
+				<jndi.name6>jdbc/sppvpv</jndi.name6>
+				
+				<jdbcstart.label><![CDATA[<!--]]></jdbcstart.label>
+				<jdbcend.label>--&gt;</jdbcend.label>
+				<jndistart.label />
+				<jndiend.label />
+				
+				<interface.name>athena-interface-autosys</interface.name>
+				
+				<ZBC_TEST>yhzbc</ZBC_TEST>
+				<ZXC_TEST>ulyhzxc</ZXC_TEST>
+				<DDBH_TEST>ulyhddbh</DDBH_TEST>
+				
+				<dbSchemalzbc>yhzbc.</dbSchemalzbc>
+				<dbSchemalzxc>ulyhzxc.</dbSchemalzxc>
+				<dbSchemalddbh>ulyhddbh.</dbSchemalddbh>
+				
+				<dbs.dbSchemal0>ulyhzxc.</dbs.dbSchemal0>
+				<dbs.dbSchemal1>ulyhzxc.</dbs.dbSchemal1>
+				<dbs.dbSchemal2>ulyhzxc.</dbs.dbSchemal2>
+				<dbs.dbSchemal3>ulyhzxc.</dbs.dbSchemal3>
+				<dbs.dbSchemal4>ulyhzxc.</dbs.dbSchemal4>
+				<dbs.dbSchemal5>ulyhddbh.</dbs.dbSchemal5>
+				<dbs.dbSchemal6>BO.</dbs.dbSchemal6>
+			
+				
+				<!-- jenkins自动打包配置 hzg 2014.8.21 -->
+				<weblogic.targets>wlst1</weblogic.targets>
+				<weblogic.ip>10.26.202.170:7001</weblogic.ip>
+				<weblogic.provided />
+				<kacTimer.builder>ZXC</kacTimer.builder>
+				<danglf.builder>DFPV</danglf.builder>
+				<inStart.label />
+				<inEnd.label />
+				<logLabel>itflogs</logLabel>
+				
+				<anxDingdh><![CDATA['C1DDD0009']]></anxDingdh>
+				<anxUsercenter><![CDATA['UL']]></anxUsercenter>
+				<!-- <dataSource_sppv>6</dataSource_sppv> -->
+				<dataSource_sppv1>4</dataSource_sppv1>
+				<dataSource_sppv2>6</dataSource_sppv2>
+				<jk_station>ATHUWINT</jk_station>
+			</properties>
+		</profile>
+		
+	<!-- 用户测试环境准备层配置 hzg 2014-10-8 -->		
+		<profile>
+			<id>YH_ZBC</id>
+			<properties>
+				<jndi.name1>jdbc/zbc</jndi.name1>
+				<jndi.name2>jdbc/ddbh</jndi.name2>
+
+				<jdbcstart.label><![CDATA[<!--]]></jdbcstart.label>
+				<jdbcend.label>--&gt;</jdbcend.label>
+				<jndistart.label />
+				<jndiend.label />
+				<interface.name>athena-interface-autosys</interface.name>
+
+				<ZXC_TEST>yhzbc</ZXC_TEST>
+				<ZBC_TEST>yhzbc</ZBC_TEST>
+				<DDBH_TEST>yhzbc</DDBH_TEST>
+				
+				<dbSchemalzbc>yhzbc.</dbSchemalzbc>
+				<dbSchemalzxc>yhzbc.</dbSchemalzxc>
+				<dbSchemalddbh>yhzbc.</dbSchemalddbh>
+				
+				<dbs.dbSchemal0>yhzbc.</dbs.dbSchemal0>
+				<dbs.dbSchemal1>yhzbc.</dbs.dbSchemal1>
+				<dbs.dbSchemal2>yhzbc.</dbs.dbSchemal2>
+				<dbs.dbSchemal3>yhzbc.</dbs.dbSchemal3>
+				<dbs.dbSchemal4>yhzbc.</dbs.dbSchemal4>
+				<dbs.dbSchemal5>ulyhddbh.</dbs.dbSchemal5>
+				<dbs.dbSchemal6>BO.</dbs.dbSchemal6>
+				<kacTimer.builder>ZBC</kacTimer.builder>
+				<inStart.label><![CDATA[<!--]]></inStart.label>
+				<inEnd.label>--&gt;</inEnd.label>
+				
+				<logLabel>itflogs</logLabel>
+			</properties>
+		</profile>
+
+
+	<!-- 预生产环境 -->		
+		<profile>
+			<id>Y_S_ZXC</id>
+			<properties>
+				<jndi.name1>jdbc/zxc</jndi.name1>
+				<jndi.name2>jdbc/ddbh</jndi.name2>
+				<jndi.name4>jdbc/sppv</jndi.name4>
+				<jndi.name5>jdbc/efi</jndi.name5>
+				<jndi.name6>jdbc/sppvpv</jndi.name6>
+				
+				<jdbcstart.label><![CDATA[<!--]]></jdbcstart.label>
+				<jdbcend.label>--&gt;</jdbcend.label>
+				<jndistart.label />
+				<jndiend.label />
+				<interface.name>athena-interface-autosys</interface.name>
+
+				<ZBC_TEST>athzx</ZBC_TEST>
+				<ZXC_TEST>athzx</ZXC_TEST>
+				<DDBH_TEST>athddbh</DDBH_TEST>
+				
+				<dbSchemalzbc>athzx.</dbSchemalzbc>
+				<dbSchemalzxc>athzx.</dbSchemalzxc>
+				<dbSchemalddbh>athddbh.</dbSchemalddbh>
+				
+				<dbs.dbSchemal0>athzx.</dbs.dbSchemal0>
+				<dbs.dbSchemal1>athzx.</dbs.dbSchemal1>
+				<dbs.dbSchemal2>athzx.</dbs.dbSchemal2>
+				<dbs.dbSchemal3>athzx.</dbs.dbSchemal3>
+				<dbs.dbSchemal4>athzx.</dbs.dbSchemal4>
+				<dbs.dbSchemal5>athddbh.</dbs.dbSchemal5>
+				<dbs.dbSchemal6>BO.</dbs.dbSchemal6>
+				
+				<!-- jenkins自动打包配置 hzg 2014.8.21 -->
+				<weblogic.targets>wlst1</weblogic.targets>
+				<weblogic.ip>10.26.202.232:7001</weblogic.ip>
+				<weblogic.provided />
+				<kacTimer.builder>ZXC</kacTimer.builder>
+				<danglf.builder>DFPV</danglf.builder>
+				<inStart.label><![CDATA[<!--]]></inStart.label>
+				<inEnd.label>--&gt;</inEnd.label>
+				<logLabel>itflogs</logLabel>
+				
+				<mqManager>PROD_QMGR_001</mqManager>
+				<mqHostName>10.26.193.7</mqHostName>
+				<mqQueueName>Q.DPCA.TO.DFPV</mqQueueName>
+				<mqPort>1814</mqPort>
+				
+				<anxDingdh><![CDATA['C1DDD0008']]></anxDingdh>
+				<anxUsercenter><![CDATA['UL']]></anxUsercenter>
+				<!-- <dataSource_sppv>4</dataSource_sppv> -->
+				<dataSource_sppv1>4</dataSource_sppv1>
+				<dataSource_sppv2>6</dataSource_sppv2>
+				<jk_station>ATHU3INT</jk_station>
+			</properties>
+		</profile>
+
+		<profile>
+			<id>Y_ZXC_One</id>
+			<properties>
+				<jndi.name1>jdbc/zxc</jndi.name1>
+				<jndi.name2>jdbc/ddbh</jndi.name2>
+				<jndi.name4>jdbc/sppv1</jndi.name4>
+				<jndi.name5>jdbc/efi</jndi.name5>
+				<jndi.name6>jdbc/sppv2</jndi.name6>
+				
+				<jdbcstart.label><![CDATA[<!--]]></jdbcstart.label>
+				<jdbcend.label>--&gt;</jdbcend.label>
+				<jndistart.label />
+				<jndiend.label />
+				<interface.name>athena-interface-autosys</interface.name>
+				
+				<ZBC_TEST>athzb</ZBC_TEST>
+				<ZXC_TEST>athzx</ZXC_TEST>
+				<DDBH_TEST>athddbh</DDBH_TEST>
+				
+				<dbSchemalzbc>athzb.</dbSchemalzbc>
+				<dbSchemalzxc>athzx.</dbSchemalzxc>
+				<dbSchemalddbh>athddbh.</dbSchemalddbh>
+				
+				<dbs.dbSchemal0>athzx.</dbs.dbSchemal0>
+				<dbs.dbSchemal1>athzx.</dbs.dbSchemal1>
+				<dbs.dbSchemal2>athzx.</dbs.dbSchemal2>
+				<dbs.dbSchemal3>athzx.</dbs.dbSchemal3>
+				<dbs.dbSchemal4>athzx.</dbs.dbSchemal4>
+				<dbs.dbSchemal5>athddbh.</dbs.dbSchemal5>
+				<dbs.dbSchemal6>BO.</dbs.dbSchemal6>
+				
+				<!-- jenkins自动打包配置 hzg 2014.8.21 -->
+				<weblogic.targets>wlst1</weblogic.targets>
+				<weblogic.ip>10.26.202.232:7001</weblogic.ip>
+				<weblogic.provided />
+				<kacTimer.builder>ZXC</kacTimer.builder>
+				<inStart.label><![CDATA[<!--]]></inStart.label>
+				<inEnd.label>--&gt;</inEnd.label>
+				<logLabel>itflogs</logLabel>
+				
+				<anxDingdh><![CDATA['C1DDD0009']]></anxDingdh>
+				<anxUsercenter><![CDATA['UW']]></anxUsercenter>
+				<dataSource_sppv>6</dataSource_sppv>
+				<jk_station>ATHUWINT</jk_station>
+			</properties>
+		</profile>
+
+		<profile>
+			<id>Y_ZXC_Four</id>
+			<properties>
+				<jndi.name1>jdbc/zxc</jndi.name1>
+				<jndi.name2>jdbc/ddbh</jndi.name2>
+				<jndi.name4>jdbc/sppv</jndi.name4>
+				<jndi.name5>jdbc/efi</jndi.name5>
+				<jndi.name6>jdbc/sppv2</jndi.name6>
+				
+				<jdbcstart.label><![CDATA[<!--]]></jdbcstart.label>
+				<jdbcend.label>--&gt;</jdbcend.label>
+				<jndistart.label />
+				<jndiend.label />
+				<interface.name>athena-interface-autosys</interface.name>
+
+				<ZBC_TEST>athzb</ZBC_TEST>
+				<ZXC_TEST>athzx</ZXC_TEST>
+				<DDBH_TEST>ddbh</DDBH_TEST>
+				
+				<dbSchemalzbc>athzb.</dbSchemalzbc>
+				<dbSchemalzxc>athzx.</dbSchemalzxc>
+				<dbSchemalddbh>ddbh.</dbSchemalddbh>
+				
+				<dbs.dbSchemal0>athzx.</dbs.dbSchemal0>
+				<dbs.dbSchemal1>athzx.</dbs.dbSchemal1>
+				<dbs.dbSchemal2>athzx.</dbs.dbSchemal2>
+				<dbs.dbSchemal3>athzx.</dbs.dbSchemal3>
+				<dbs.dbSchemal4>athzx.</dbs.dbSchemal4>
+				<dbs.dbSchemal5>ddbh.</dbs.dbSchemal5>
+				<dbs.dbSchemal6>BO.</dbs.dbSchemal6>
+				
+				<!-- jenkins自动打包配置 hzg 2014.8.21 -->
+				<weblogic.targets>zxjk</weblogic.targets>
+				<weblogic.ip>10.26.221.141:7001</weblogic.ip>
+				<weblogic.provided />
+				<kacTimer.builder>ZXC</kacTimer.builder>
+				<inStart.label><![CDATA[<!--]]></inStart.label>
+				<inEnd.label>--&gt;</inEnd.label>
+				<logLabel>itflogs</logLabel>								
+				
+				<anxDingdh><![CDATA['C1DDD0007']]></anxDingdh>
+				<anxUsercenter><![CDATA['VD']]></anxUsercenter>
+				<!-- <dataSource_sppv>4</dataSource_sppv> -->
+				<dataSource_sppv1>4</dataSource_sppv1>
+				<dataSource_sppv2>6</dataSource_sppv2>
+				<jk_station>ATHVDINT</jk_station>
+			</properties>
+		</profile>
+		
+		<profile>
+			<id>Y_S_ZBC</id>
+			<properties>
+				<jndi.name1>jdbc/zbc</jndi.name1>
+				<jndi.name2>jdbc/ddbh</jndi.name2>
+				<jndi.name4>jdbc/sppv</jndi.name4>
+				<jndi.name5>jdbc/efi</jndi.name5>
+
+				<jdbcstart.label><![CDATA[<!--]]></jdbcstart.label>
+				<jdbcend.label>--&gt;</jdbcend.label>
+				<jndistart.label />
+				<jndiend.label />
+				<webservice.urlip>10.26.202.230:8001</webservice.urlip>
+
+				<interface.name>athena-interface-autosys</interface.name>
+
+				<ZXC_TEST>athzx</ZXC_TEST>
+				<ZBC_TEST>athzb</ZBC_TEST>
+				<DDBH_TEST>athddbh</DDBH_TEST>
+				
+				<dbSchemalzbc>athzb.</dbSchemalzbc>
+				<dbSchemalzxc>athzx.</dbSchemalzxc>
+				<dbSchemalddbh>athddbh.</dbSchemalddbh>
+				
+				<dbs.dbSchemal0>athzb.</dbs.dbSchemal0>
+				<dbs.dbSchemal1>athzb.</dbs.dbSchemal1>
+				<dbs.dbSchemal2>athzb.</dbs.dbSchemal2>
+				<dbs.dbSchemal3>athzb.</dbs.dbSchemal3>
+				<dbs.dbSchemal4>athzb.</dbs.dbSchemal4>
+				<dbs.dbSchemal5>athddbh.</dbs.dbSchemal5>
+				<dbs.dbSchemal6>BO.</dbs.dbSchemal6>
+				<kacTimer.builder>ZBC</kacTimer.builder>
+				<inStart.label><![CDATA[<!--]]></inStart.label>
+				<inEnd.label>--&gt;</inEnd.label>
+				
+				<mqManager>PROD_QMGR_001</mqManager>
+				<mqHostName>10.26.193.7</mqHostName>
+				<mqQueueName>Q.DPCA.TO.DFPV</mqQueueName>
+				<mqPort>1814</mqPort>
+				
+				<logLabel>logs</logLabel>
+			</properties>
+		</profile>
+
+	</profiles>
+</project>

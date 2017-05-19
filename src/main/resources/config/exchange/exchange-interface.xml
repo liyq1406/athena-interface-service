@@ -1,0 +1,1343 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interfaces>
+
+<!-- 准备层接口 --> 
+<!-- 外部输入接口 -->
+	<interface id="1010" name="零件MAF库存" type="in">
+		<order id="1010" name="零件MAF库存" flag="false" istxt="true" />
+	</interface>
+	<interface id="1020" name="订单信息" type="in">
+		<order id="1020" name="订单信息" flag="false" istxt="true" />
+		<order id="1021" name="订单" istxt="false" />
+		<order id="1022" name="订单明细" istxt="false" />
+	</interface>
+	<!-- <interface id="1030" name="调拨申请" type="in">
+		<order id="1031" name="调拨申请" istxt="false" />
+		<order id="1032" name="调拨申请明细" istxt="false" />
+	</interface> -->
+	<interface id="1040" name="零件参考系" type="in">
+		<order id="1040" name="零件参考系" flag="false" istxt="true" />
+		<!-- <order id="1041" name="零件参考系" istxt="false" /> -->
+	</interface>
+	<interface id="1050" name="零件周期毛需求" type="in">
+		<order id="1050" name="零件周期毛需求" flag="false" istxt="true" />
+		<order id="1055" name="零件周期毛需求明细" istxt="false" />
+	</interface>
+	<interface id="1051" name="KD件零件周期毛需求" type="in">
+		<order id="1051" name="KD件零件周期毛需求" flag="false" istxt="true" />
+		<order id="1057" name="KD件毛需求明细" istxt="false" />
+	</interface>
+	<interface id="1052" name="零件日毛需求" type="in">
+		<order id="1052" name="零件日毛需求" flag="false" istxt="true" />
+		<order id="1056" name="零件日毛需求明细" istxt="false" />
+	</interface>
+	
+	<interface id="1053" name="襄阳总成排产NUP" type="in">
+		<order id="1053" name="襄阳总成排产NUP" flag="false" istxt="true" />
+		<order id="1055" name="零件周期毛需求明细" istxt="false" />
+	</interface>
+	
+	<interface id="1060" name="供应商参考系" type="in">
+		<order id="1060" name="供应商参考系" flag="false" istxt="true" />
+		<!-- <order id="1061" name="供应商参考系" istxt="false" /> -->
+	</interface>
+	<interface id="1070" name="零件供应商参考系" type="in">
+		<order id="1070" name="零件供应商参考系" flag="false" istxt="true" />
+<!-- 		<order id="1071" name="零件供应商参考系" istxt="false" /> -->
+	</interface>
+	<interface id="1080" name="消耗点参考系" type="in">
+		<order id="1080" name="消耗点参考系" flag="false" istxt="true" />
+	</interface>	
+	<interface id="1090" name="零件消耗点参考系" type="in">
+		<order id="1090" name="零件消耗点参考系" flag="false" istxt="true" />
+		<!-- <order id="1091" name="零件消耗点参考系" istxt="false" /> -->
+	</interface>	
+	
+	<!-- <interface id="1090" name="零件消耗点参考系" type="in">
+		<order id="1090" name="零件消耗点参考系" flag="false" istxt="true" />
+		<order id="1091" name="零件消耗点参考系" istxt="false" />
+	</interface> -->
+	<interface id="1420" name="外租库流水账" type="in">
+		<order id="1420" name="外租库流水账 " flag="false" istxt="true" />
+	</interface>
+	
+	 <interface id="1930" name="DDBH拆分异常报警"  type="in">
+		<order id="1930" name="DDBH拆分异常报警"  flag="false" istxt="true" />
+	</interface>
+	
+	<!-- 1061、1062、1063 PJ毛需求输入接口，区分用户中心输入 add by csy 2016-01-18 -->
+	<interface id="1061" name="PJ毛需求(UL输入)" type="in">
+		<order id="1061" name="PJ毛需求(UL输入)" flag="false" istxt="true" />
+		<order id="1064" name="PJ毛需求(UL输入)" istxt="false" />
+		<order id="1067" name="PJ毛需求(UX输入)" istxt="false" />
+	</interface>
+	<interface id="1062" name="PJ毛需求(UW输入)" type="in">
+		<order id="1062" name="PJ毛需求(UW输入)" flag="false" istxt="true" />
+		<order id="1068" name="PJ毛需求(UW输入)" istxt="false" />
+	</interface>
+	
+	<interface id="1063" name="PJ毛需求(VD输入)" type="in">
+		<order id="1063" name="PJ毛需求(VD输入)" flag="false" istxt="true" />
+		<order id="1069" name="PJ毛需求(VD输入)" istxt="false" />
+	</interface>
+	
+
+<!-- 内部接口 -->
+
+    <interface id="1800" name="中心日历" type="out">
+		<order id="1800" name="中心日历" istxt="true" />
+	</interface>
+	
+	 <interface id="2800" name="中心日历" type="in">
+		<order id="2800" name="中心日历" />
+	 </interface>
+	
+	
+	<interface id="1100" name="看板循环规模" type="out">
+		<order id="1100" name="看板循环规模" />
+	</interface>
+	<interface id="1110" name="工艺消耗点" type="out">
+		<order id="1110" name="工艺消耗点" />
+	</interface>
+	<interface id="1120" name="零件-消耗点" type="out">
+		<order id="1120" name="零件-消耗点" />
+	</interface>
+	<interface id="1130" name="未来几日剔除休息时间" type="out">
+		<order id="1130" name="未来几日剔除休息时间" />
+	</interface>
+	<interface id="1140" name="生产线" type="out">
+		<order id="1140" name="生产线" />
+	</interface>
+	<interface id="1150" name="DDBH拆分结果" type="in">
+		<order id="1150" name="DDBH拆分结果" flag="false" istxt="true" />
+	</interface>
+	<interface id="1151" name="DDBH拆分结果UW" type="in">
+		<order id="1151" name="DDBH拆分结果UW" flag="false" istxt="true" />
+	</interface>
+	<interface id="1730" name="DDBH拆分结果" type="in">
+		<order id="1730" name="DDBH拆分结果" flag="false" istxt="true" />
+	</interface>
+	<interface id="1731" name="DDBH拆分结果clvUW" type="in">
+		<order id="1731" name="DDBH拆分结果clvUW" flag="false" istxt="true" />
+	</interface>
+	<interface id="1160" name="库存快照" type="in">
+		<order id="1160" name="库存快照" flag="false" istxt="true" />
+	</interface>
+	<interface id="1161" name="库存快照UW" type="in">
+		<order id="1161" name="库存快照UW" flag="false" istxt="true" />
+	</interface>
+	<!-- add by lc 2016-4-12 -->
+	<interface id="1162" name="库存快照VD" type="in">
+		<order id="1162" name="库存快照VD" flag="false" istxt="true" />
+	</interface>
+	<interface id="1170" name="异常申报" type="in">
+		<order id="1170" name="异常申报" flag="false" istxt="true" />
+	</interface>
+	<interface id="1171" name="异常申报UW" type="in">
+		<order id="1171" name="异常申报UW" flag="false" istxt="true" />
+	</interface>
+	<!-- add by lc 2016-4-12 -->
+	<interface id="1172" name="异常申报VD" type="in">
+		<order id="1172" name="异常申报VD" flag="false" istxt="true" />
+	</interface>
+	<interface id="1180" name="供，承，运输商" type="out">
+		<order id="1180" name="供，承，运输商" />
+	</interface>
+	<interface id="1190" name="零件" type="out">
+		<order id="1190" name="零件" />
+	</interface>
+	<interface id="1200" name="零件仓库" type="out">
+		<order id="1200" name="零件仓库" />
+	</interface>
+	<interface id="1210" name="卸货站台" type="out">
+		<order id="1210" name="卸货站台" />
+	</interface>
+	
+	<interface id="1240" name="物流路径总图" type="out">
+		<order id="1240" name="物流路径总图" />
+	</interface>
+	<interface id="1250" name="零件供应商" type="out">
+		<order id="1250" name="零件供应商" />
+	</interface>
+	<interface id="1260" name="运输时刻" type="out">
+		<order id="1260" name="运输时刻" />
+	</interface>
+	<interface id="1270" name="外部物流路径" type="out">
+		<order id="1270" name="外部物流路径" />
+	</interface>
+	<interface id="1280" name="仓库循环时间" type="out">
+		<order id="1280" name="仓库循环时间" />
+	</interface>
+	<interface id="1290" name="调拨申请" type="out">
+		<order id="1290" name="调拨申请" />
+	</interface>
+	<interface id="1300" name="调拨明细" type="out">
+		<order id="1300" name="调拨明细" />
+	</interface>
+	<interface id="1310" name="物理点" type="out">
+		<order id="1310" name="物理点" />
+	</interface>
+	<interface id="1320" name="集装箱（TC）" type="in">
+		<order id="1320" name="集装箱（TC）" flag="false" istxt="true" />
+	</interface>
+	<interface id="1330" name="包装" type="out">
+		<order id="1330" name="包装" />
+	</interface>
+	<interface id="1340" name="配送类别" type="out">
+		<order id="1340" name="配送类别" />
+	</interface>
+	<interface id="1350" name="日历版次" type="out">
+		<order id="1350" name="日历版次" />
+	</interface>
+	<interface id="1360" name="工作时间" type="out">
+		<order id="1360" name="工作时间" />
+	</interface>
+	<interface id="1370" name="工作时间编组" type="out">
+		<order id="1370" name="工作时间编组" />
+	</interface>
+	<interface id="1380" name="到货通知单" type="in">
+		<order id="1380" name="到货通知单" flag="false" istxt="true" />
+	</interface>
+	<interface id="1390" name="US标签" type="in">
+		<order id="1390" name="US标签" flag="false" istxt="true" />
+	</interface>
+	<interface id="1400" name="外部要货令" type="in">
+		<order id="1400" name="外部要货令" flag="false" istxt="true" />
+	</interface>
+	<interface id="1410" name="内部要货令" type="in">
+		<order id="1410" name="内部要货令" flag="false" istxt="true" />
+	</interface>
+	
+	<interface id="1430" name="小火车运输时刻表" type="out">
+		<order id="1430" name="小火车运输时刻表" />
+	</interface>
+	<interface id="1440" name="生产线-线边仓库" type="out">
+		<order id="1440" name="生产线-线边仓库" />
+	</interface>
+	<interface id="1450" name="变更记录" type="out">
+		<order id="1450" name="变更记录" />
+	</interface>
+	
+	<interface id="1820" name="模式切换记录" type="out">
+		<order id="1820" name="模式切换记录" />
+	</interface>
+	<!-- 下传所有订单 -->
+	<interface id="1460" name="订单" type="out">
+		<order id="1460" name="订单" />
+	</interface>
+	<!-- 下传所有订单明细 -->
+	<interface id="1230" name="订单明细" type="out">
+		<order id="1230" name="订单明细" />
+	</interface>
+	<!-- 下传KD订单明细 -->
+	<interface id="1600" name="KD订单明细" type="out">
+		<order id="1600" name="KD订单明细" />
+	</interface>
+	
+	
+	<!-- 下传正常按需订单 -->
+	<interface id="1610" name="订单" type="out">
+		<order id="1610" name="订单" />
+	</interface>
+	<interface id="1611" name="订单UW" type="out">
+		<order id="1611" name="订单UW" />
+	</interface>
+	<interface id="1612" name="订单VD" type="out">
+		<order id="1612" name="订单VD" />
+	</interface>
+	<!-- 下传正常按需订单明细 -->
+	<interface id="1620" name="订单明细" type="out">
+		<order id="1620" name="订单明细" />
+	</interface>
+	<interface id="1621" name="订单明细UW" type="out">
+		<order id="1621" name="订单明细UW" />
+	</interface>
+	<interface id="1622" name="订单明细VD" type="out">
+		<order id="1622" name="订单明细VD" />
+	</interface>
+	
+	<!-- 下传初始化按需订单 -->
+	<interface id="1760" name="订单" type="out">
+		<order id="1760" name="订单" />
+	</interface>
+	<!-- 下传初始化按需订单明细 -->
+	<interface id="1770" name="订单明细" type="out">
+		<order id="1770" name="订单明细" />
+	</interface>
+	
+	
+	<interface id="1630" name="车型平台" type="out">
+		<order id="1630" name="车型平台" />
+	</interface>
+	
+	<interface id="1590" name="订单" type="in">
+		<order id="1590" name="订单 " flag="false" istxt="true" />
+	</interface>
+	
+	<interface id="1640" name="仓库" type="out">
+		<order id="1640" name="仓库" />
+	</interface>
+	<interface id="1650" name="子仓库参考系" type="out">
+		<order id="1650" name="子仓库参考系" />
+	</interface>
+	<interface id="1670" name="车间" type="out">
+		<order id="1670" name="车间" />
+	</interface>
+	<interface id="1680" name="分配区" type="out">
+		<order id="1680" name="分配区" />
+	</interface>
+	<interface id="1690" name="卸货站台" type="out">
+		<order id="1690" name="卸货站台" />
+	</interface>
+	<interface id="1700" name="初始化资源表" type="out">
+		<order id="1700" name="初始化资源表" />
+	</interface>
+	<interface id="1710" name="生产平台" type="out">
+		<order id="1710" name="生产平台" />
+	</interface>
+	<interface id="1740" name="零件消耗点输入"  type="in">
+		<order id="1740" name="零件消耗点" flag="false" istxt="true" />
+	</interface>
+	<interface id="1741" name="零件消耗点输入"  type="in">
+		<order id="1741" name="零件消耗点" flag="false" istxt="true" />
+	</interface>
+	<!-- add by lc 2016-4-12 -->
+	<interface id="1742" name="零件消耗点输入"  type="in">
+		<order id="1742" name="零件消耗点" flag="false" istxt="true" />
+	</interface>
+	<interface id="1750" name="外部物流详细" type="out">
+		<order id="1750" name="外部物流详细" />
+	</interface>
+	<interface id="1910" name="工作时间" type="out">
+		<order id="1910" name="工作时间" />
+	</interface>
+	
+	<interface id="1790" name="零件仓库设置输入"  type="in">
+		<order id="1790" name="零件仓库设置输入" flag="false" istxt="true" />
+	</interface>
+	<interface id="1791" name="零件仓库设置输入UW"  type="in">
+		<order id="1791" name="零件仓库设置输入UW" flag="false" istxt="true" />
+	</interface>
+	<!-- add by lc 2016-4-12 -->
+	<interface id="1792" name="零件仓库设置输入VD"  type="in">
+		<order id="1792" name="零件仓库设置输入VD" flag="false" istxt="true" />
+	</interface>
+	
+	<interface id="1780" name="更新订单表订单生效时间"  type="in">
+		<order id="1780" name="更新订单表订单生效时间" flag="false" istxt="true" />
+	</interface>
+	<interface id="1781" name="更新订单表订单生效时间UW"  type="in">
+		<order id="1781" name="更新订单表订单生效时间UW" flag="false" istxt="true" />
+	</interface>
+	<interface id="1782" name="更新订单计算时间表订单生效时间VD"  type="in">
+		<order id="1782" name="更新订单计算时间表订单生效时间VD" flag="false" istxt="true" />
+	</interface>
+	
+	<interface id="1810" name="零件供应商临时包装" type="out">
+		<order id="1810" name="零件供应商临时包装" istxt="true" />
+	</interface>
+	
+	<interface id="2810" name="零件供应商临时包装" type="in">
+		<order id="2810" name="零件供应商临时包装" />
+	 </interface>
+	 
+	<interface id="1920" name="工业周期" type="out">
+		<order id="1920" name="工业周期" istxt="true" />
+	</interface>
+	
+	 <interface id="2920" name="工业周期" type="in">
+		<order id="2920" name="工业周期" />
+	 </interface>
+	 
+	<!-- 焊装大线参考系(输出) zbc add by lc 2015-12-7 -->
+	<interface id="1900" name="焊装大线参考系(输出)" type="out">
+		<order id="1900" name="焊装大线参考系(输出)" />
+	</interface>
+	
+	<!-- 焊装分装线参考系(输出) zbc add by lc 2015-12-8 -->
+	<interface id="1901" name="焊装分装线参考系(输出)" type="out">
+		<order id="1901" name="焊装分装线参考系(输出)" />
+	</interface>
+	
+	<!-- 单位换算参考系(输出) zbc add by lc 2015-12-8 -->
+	<interface id="1904" name="单位换算参考系(输出)" type="out">
+		<order id="1904" name="单位换算参考系(输出)" />
+	</interface>
+	
+	<!-- 小火车模板(输入) zbc add by lc 2015-12-12 -->
+	<interface id="1435" name="小火车模板(输入)" type="in">
+		<order id="1435" name="小火车模板(输入)" flag="false" istxt="true"/>
+	</interface>
+	
+	<!-- 参考系小火车(输出) zbc add by lc 2016-2-18 -->
+	<interface id="1437" name="参考系小火车(输出)" type="out">
+		<order id="1437" name="参考系小火车(输出)"/>
+	</interface>
+	
+	<!-- 入库明细(运费) zbc add by lc 2016-11-11 -->
+	<interface id="1980" name="入库明细(运费)" type="in">
+		<order id="1980" name="入库明细(运费)" flag="false" istxt="true"/>
+	</interface>
+	
+	<!-- 外部输出接口 -->
+	<interface id="1470" name="零件" type="out">
+		<order id="1470" name="零件" />
+	</interface>
+	<interface id="1480" name="供应商" type="out">
+		<order id="1480" name="供应商" />
+	</interface>
+	<interface id="1490" name="零件供应商" type="out">
+		<order id="1490" name="零件供应商" />
+	</interface>
+	<interface id="1500" name="生产日历" type="out">
+		<order id="1500" name="生产日历" />
+	</interface>
+	<interface id="1510" name="周期订单-EFI" type="out">
+		<order id="1510" name="周期订单-EFI" />
+	</interface>
+	<!-- <interface id="1520" name="预告-订单明细" type="out">
+		<order id="1520" name="预告-订单明细" />
+	</interface>    hzg 2014.5.25-->
+	<interface id="1530" name="预批量零件需求" type="out">
+		<order id="1530" name="预批量零件需求" />
+	</interface>
+	<interface id="1540" name="资源文件" type="out">
+		<order id="1540" name="资源文件" />
+	</interface>
+	<interface id="1550" name="供货路线" type="out">
+		<order id="1550" name="供货路线" />
+	</interface>
+	<interface id="1560" name="(需拆分的)零件消耗点" type="out">
+		<order id="1560" name="(需拆分的)零件消耗点" />
+	</interface>
+	<interface id="1570" name="循环对产线" type="out">
+		<order id="1570" name="循环对产线" />
+	</interface>
+	<interface id="1580" name="包装" type="out">
+		<order id="1580" name="包装" />
+	</interface>
+	<interface id="1840" name="合并时间-详细" type="out">
+		<order id="1840" name="合并时间-详细" />
+	</interface>	
+	<interface id="1850" name="工作时间模板" type="out">
+		<order id="1850" name="工作时间模板" />
+	</interface>	
+	
+	<interface id="1860" name="零件消耗点_s(原消耗点备份表)" type="out">
+		<order id="1860" name="零件消耗点_s(原消耗点备份表)" />
+	</interface>	
+	
+	<interface id="1940" name="按需零件的使用车间及提前期" type="out">
+		<order id="1940" name="按需零件的使用车间及提前期" />
+	</interface>		
+	
+	 <interface id="1880" name="仓库-零件供应商输入" type="in">
+		<order id="1880" name="仓库-零件供应商" />
+	 </interface>
+	
+	<!-- PPL(输出) zbc add by lc 2015-12-26 -->
+	<interface id="1660" name="PPL(输出)" type="out">
+		<order id="1660" name="PPL(输出)"/>
+	</interface>
+	
+	<!-- 运输费用主单输出  zbc add by lc 2017-03-06 -->
+	<interface id="1990" name="运输费用主单输出" type="out">
+		<order id="1990" name="运输费用主单输出"/>
+	</interface>
+	
+	
+	
+	
+	
+	<!-- 执行层接口 -->
+	<!-- 外部输入接口 -->
+	<!-- inStart与inEnd用于配置三厂和一二厂的接口,如果为三厂的就屏蔽，一二厂的就显示 -->
+	<interface id="2010" name="外部订单预告" type="in">
+		<order id="2010" name="外部订单预告" flag="false" istxt="true" />
+		<order id="2011" name="外部订单预告" istxt="false" />
+	</interface>
+	<interface id="2020" name="过点同步需求" type="in">
+		<order id="2020" name="过点同步需求sppv1" />
+		${inStart.label}<order id="2021" name="过点同步需求sppv2" />${inEnd.label}
+	</interface>
+	<interface id="2030" name="GEVP外部要货令" type="in">
+		<order id="2030" name="GEVP外部要货令" flag="false" istxt="true" />
+		<order id="2031" name="GEVP要货令" istxt="false" />
+		<order id="2032" name="GEVP要货令(内部)" istxt="false" />
+	</interface>
+	
+	<!-- hzg add 2013.12.9  | 新增接口2651 by hzg 2014.9.12-->
+	<interface id="2650" name="SPPV6400整车过点信息" type="in">
+		<order id="2650" name="SPPV6400整车过点信息" sort="sppv" />
+	</interface>
+	
+	<!-- hzg 2651在UL层暂时用  by hzg 2014.10.24-->
+	 
+	<interface id="2651" name="SPPV6400整车过点信息" type="in">
+		<order id="2651" name="SPPV6400整车过点信息" sort="sppv" />
+	</interface>
+	
+	<!-- 新增接口，用于批量输出，如果全部成功则返回成功，如果其中一个出错则返回失败 hzg 2013-7-22 
+	2001接口用于输出零件消耗点上次完成时间上次完成时间 hzg 2013-7-25 -->
+	<interface id="2000" name="批量输出接口" type="dout">
+		<order id="2130" name="异常申报" istxt="false" />
+		<order id="2790" name="零件仓库设置输出" istxt="false" />
+		<order id="2120" name="库存快照" istxt="false" />
+		<order id="2740" name="零件消耗点" istxt="false" />
+		<order id="2001" name="零件消耗点上次完成时间" istxt="false" />
+	</interface>
+	
+	
+	<interface id="2040" name="EFI发货通知" type="in">
+		<order id="2040" name="EFI发货通知" flag="false" istxt="true" />
+<!-- 		<order id="2041" name="EFI发货通知-发运主体信息" istxt="false" /> -->
+<!-- 		<order id="2042" name="EFI发货通知-发运明细" istxt="false" /> -->
+<!-- 		<order id="2043" name="EFI发货通知-包装对应信息" istxt="false" /> -->
+<!-- 		<order id="2044" name="EFI发货通知-同步零件信息" istxt="false" /> -->
+	</interface>
+	<interface id="2041" name="内部发货通知" type="in">
+		<order id="2041" name="内部发货通知" flag="false" istxt="true" />
+	</interface>
+	
+	<!-- EFI运输取货计划（输入）zxc add by lc 2016-11-17 -->
+	<interface id="2045" name="EFI运输取货计划" type="in">
+		<order id="2045" name="EFI运输取货计划" flag="false" istxt="true"/>
+ 		<order id="2046" name="EFI运输取货计划-异常申报" istxt="true"/> 
+	</interface>
+	
+	<!-- EFI运输取货计划跟踪（输入）zxc add by lc 2016-11-22 -->
+	<interface id="2047" name="EFI运输取货计划跟踪" type="in">
+		<order id="2047" name="EFI运输取货计划跟踪" flag="false" istxt="true"/>
+	</interface>
+	
+	<interface id="2050" name="EDI发货通知" type="in">
+		<order id="2050" name="EDI发货通知" flag="false" istxt="true" />
+<!-- 		<order id="2051" name="EDI发货通知-发运主体信息" istxt="false" /> -->
+<!-- 		<order id="2052" name="EDI发货通知-发运明细" istxt="false" /> -->
+<!-- 		<order id="2053" name="EDI发货通知-包装对应信息" istxt="false" /> -->
+	</interface>
+	<interface id="2060" name="KD在途物理点信息" type="in">
+		<order id="2060" name="KD在途物理点信息" flag="false" istxt="true" />
+	</interface>
+	<!-- add by pan.rui -->
+	<interface id="2710" name="外租库存" type="in">
+		<order id="2710" name="外租库存" flag="false" istxt="true"/>
+	</interface>
+	<interface id="2720" name="外租库流水账" type="in">
+		<order id="2720" name="外租库流水账" flag="false" istxt="true"/>
+	</interface>
+	
+	<!-- 小火车模板(输入) zxc add by lc 2015-12-12 -->
+	<interface id="2395" name="小火车模板(输入)" type="in">
+		<order id="2395" name="小火车模板(输入)" flag="false" istxt="true"/>
+	</interface>
+	
+	<!-- 小火车消耗点模板(输入) zxc add by lc 2015-12-14 -->
+	<interface id="2396" name="小火车消耗点模板(输入)" type="in">
+		<order id="2396" name="小火车消耗点模板(输入)" flag="false" istxt="true"/>
+	</interface>
+	
+	<!-- 焊装过点申报信息  zxc add by lc 2015-12-21 -->
+	<interface id="2950" name="SPPV焊装过点申报信息" type="in">
+		<order id="2950" name="SPPV焊装过点申报信息" sort="sppv"/>
+	</interface>
+	
+	<!-- 零件库存快照(输入) zxc add by lc 2015-12-31 -->
+	<interface id="2980" name="零件库存快照(输入)" type="in">
+		<order id="2980" name="零件库存快照(输入)" flag="false" istxt="true"/>
+	</interface>
+	
+	<!-- DDBH拆分结果同步(输入) zxc add by lc 2016-1-13 -->
+	<interface id="2601" name="DDBH拆分结果同步(输入)" type="in">
+		<order id="2601" name="DDBH拆分结果同步(输入)" flag="false" istxt="true"/>
+	</interface>
+	
+	<!-- 参考系小火车(输入) zxc add by lc 2016-2-18 -->
+	<interface id="2398" name="参考系小火车(输入)" type="in">
+		<order id="2398" name="参考系小火车(输入)" flag="false" istxt="true"/>
+	</interface>
+	
+	<!-- DDBH排产计划流水号CS(输入) zxc add by lc 2016-3-17 -->
+	<interface id="2701" name="DDBH排产计划流水号CS(输入)" type="in">
+		<order id="2701" name="DDBH排产计划流水号CS(输入)" flag="false" istxt="true"/>
+	</interface>
+	
+	<!-- 内部接口 -->
+	<interface id="2070" name="看板循环规模" type="in">
+		<order id="2070" name="看板循环规模" flag="false" istxt="true" />
+	</interface>
+	<interface id="2080" name="工艺消耗点" type="in">
+		<order id="2080" name="工艺消耗点" flag="false" istxt="true" />
+	</interface>
+	<interface id="2090" name="零件消耗点" type="in">
+		<order id="2090" name="零件消耗点" flag="false" istxt="true" />
+	</interface>
+	<interface id="2100" name="未来几日" type="in">
+		<order id="2100" name="未来几日" flag="false" istxt="true" />
+	</interface>
+	<interface id="2110" name="生产线" type="in">
+		<order id="2110" name="生产线" flag="false" istxt="true" />
+	</interface>
+	<interface id="2111" name="生产线" type="out">
+		<order id="2111" name="生产线" />
+	</interface>
+	<interface id="2120" name="库存快照" type="out">
+		<order id="2120" name="库存快照" />
+	</interface>
+	<interface id="2130" name="异常申报" type="out">
+		<order id="2130" name="异常申报" />
+	</interface>
+	<interface id="2140" name="供，承，运输商" type="in">
+		<order id="2140" name="供，承，运输商" flag="false" istxt="true" />
+	</interface>
+	<interface id="2150" name="零件" type="in">
+		<order id="2150" name="零件" flag="false" istxt="true" />
+	</interface>
+	<interface id="2160" name="零件仓库" type="in">
+		<order id="2160" name="零件仓库" flag="false" istxt="true" />
+	</interface>
+	<interface id="2170" name="卸货站台" type="in">
+		<order id="2170" name="卸货站台" flag="false" istxt="true" />
+	</interface>
+	<interface id="2180" name="订单零件" type="in">
+		<order id="2180" name="订单零件" flag="false" istxt="true" />
+	</interface>
+	<interface id="2190" name="订单明细" type="in">
+		<order id="2190" name="订单明细" flag="false" istxt="true" />
+	</interface>
+	<interface id="2200" name="物流路径总图" type="in">
+		<order id="2200" name="物流路径总图" flag="false" istxt="true" />
+	</interface>
+	<interface id="2210" name="零件供应商" type="in">
+		<order id="2210" name="零件供应商" flag="false" istxt="true" />
+	</interface>
+	<interface id="2220" name="运输时刻" type="in">
+		<order id="2220" name="运输时刻" flag="false" istxt="true" />
+	</interface>
+	<interface id="2230" name="外部物流路径" type="in">
+		<order id="2230" name="外部物流路径" flag="false" istxt="true" />
+	</interface>
+	<interface id="2750" name="外部物流路径详细" type="in">
+		<order id="2750" name="外部物流路径详细" flag="false" istxt="true" />
+	</interface>
+	<interface id="2240" name="仓库循环时间" type="in">
+		<order id="2240" name="仓库循环时间" flag="false" istxt="true" />
+	</interface>
+	<interface id="2250" name="调拨申请" type="in">
+		<order id="2250" name="调拨申请" flag="false" istxt="true" />
+	</interface>
+	<interface id="2260" name="调拨明细" type="in">
+		<order id="2260" name="调拨明细" flag="false" istxt="true" />
+	</interface>
+	<interface id="2270" name="物理点" type="in">
+		<order id="2270" name="物理点" flag="false" istxt="true" />
+	</interface>
+	<interface id="2280" name="集装箱（TC）" type="out">
+		<order id="2280" name="集装箱（TC）" />
+	</interface>
+	<interface id="2290" name="包装" type="in">
+		<order id="2290" name="包装" flag="false" istxt="true" />
+	</interface>
+	<interface id="2300" name="配送类别" type="in">
+		<order id="2300" name="配送类别" flag="false" istxt="true" />
+	</interface>
+	<interface id="2310" name="日历版次" type="in">
+		<order id="2310" name="日历版次" flag="false" istxt="true" />
+	</interface>
+	<interface id="2320" name="工作时间" type="in">
+		<order id="2320" name="工作时间" flag="false" istxt="true" />
+	</interface>
+	<interface id="2330" name="工作时间编组" type="in">
+		<order id="2330" name="工作时间编组" flag="false" istxt="true" />
+	</interface>
+	<interface id="2780" name="工作时间模板" type="in">
+		<order id="2780" name="工作时间模板" flag="false" istxt="true" />
+	</interface>
+	
+	<!-- 整车过点（输出）zxc add by csy 2016-01-11 -->
+	<interface id="2990" name="整车过点（输出）" type="out">
+		<order id="2990" name="整车过点（输出）" />
+	</interface>
+	
+	<!-- 入库明细（运费）zxc add by lc 2016-11-10 -->
+	<interface id="2945" name="入库明细（运费）" type="out">
+		<order id="2945" name="入库明细（运费）"/>
+	</interface>
+	<!-- 两个执行层之间互相调用接口(内部要货令) -->
+	<!-- 执行层1部署 -->
+	<interface id="2340" name="内部要货令" type="in">
+		<order id="2340" name="内部要货令" flag="false" istxt="true" />
+	</interface>
+	<interface id="2350" name="内部要货令" type="out">
+		<order id="2350" name="内部要货令" />
+	</interface>
+	
+	
+	<!-- 执行层2部署 -->
+	<interface id="2560" name="内部要货令" type="in">
+		<order id="2560" name="内部要货令" flag="false" istxt="true" />
+	</interface>
+	<interface id="2570" name="内部要货令" type="out">
+		<order id="2570" name="内部要货令" />
+	</interface>
+	
+	<interface id="2670" name="内部要货令(输出到执行层1)" type="out">
+		<order id="2670" name="内部要货令(输出到执行层1)" />
+	</interface>
+	
+	
+	<interface id="2360" name="到货通知单" type="out">
+		<order id="2360" name="到货通知单" />
+	</interface>
+	<interface id="2370" name="US标签" type="out">
+		<order id="2370" name="US标签" />
+	</interface>
+	<interface id="2380" name="外部要货令" type="out">
+		<order id="2380" name="外部要货令" />
+	</interface>
+	<interface id="2390" name="小火车运输时刻表" type="in">
+		<order id="2390" name="小火车运输时刻表" flag="false" istxt="true" />
+	</interface>
+	<interface id="2400" name="生产线-线边仓库" type="in">
+		<order id="2400" name="生产线-线边仓库" flag="false" istxt="true" />
+	</interface>
+	<interface id="2410" name="变更记录" type="in">
+		<order id="2410" name="变更记录" flag="false" istxt="true" />
+	</interface>
+	<interface id="2420" name="订单" type="in">
+		<order id="2420" name="订单" flag="false" istxt="true" />
+	</interface>
+	<interface id="2820" name="模式切换记录" type="in">
+		<order id="2820" name="模式切换记录" flag="false" istxt="true" />
+	</interface>
+	<!-- 接受初始化按需订单 -->
+	<interface id="2760" name="订单" type="in">
+		<order id="2760" name="订单" flag="false" istxt="true" />
+	</interface>
+	<!-- 接受初始化订单明细 -->
+	<interface id="2770" name="订单明细" type="in">
+		<order id="2770" name="订单明细" flag="false" istxt="true" />
+	</interface>
+	<interface id="2430" name="DDBH拆分结果" type="in">
+		<order id="2430" name="DDBH拆分结果" flag="false" istxt="true" />
+	</interface>
+	
+	<!-- 新增接口  hzg 2014.4.22  -->
+	<interface id="2431" name="DDBH拆分结果" type="in">
+		<order id="2431" name="DDBH拆分结果" flag="false" istxt="true" />
+	</interface>
+	
+	<!-- 用于CS模式增加的接口  hzg 20131206  -->
+	<interface id="2480" name="DDBH拆分结果CS" type="in">
+		<order id="2480" name="DDBH拆分结果CS" flag="false" istxt="true" />
+	</interface>
+	
+	<interface id="2550" name="订单" type="out">
+		<order id="2550" name="订单" />
+	</interface>
+	
+	<interface id="2580" name="车间" type="in">
+		<order id="2580" name="车间" flag="false" istxt="true" />
+	</interface>
+	<interface id="2590" name="分配区" type="in">
+		<order id="2590" name="分配区" flag="false" istxt="true" />
+	</interface>
+	<interface id="2600" name="仓库" type="in">
+		<order id="2600" name="仓库" flag="false" istxt="true" />
+	</interface>
+	<interface id="2610" name="子仓库" type="in">
+		<order id="2610" name="子仓库" flag="false" istxt="true" />
+	</interface>
+	<interface id="2620" name="卸货站台" type="in">
+		<order id="2620" name="卸货站台" flag="false" istxt="true" />
+	</interface>
+	<interface id="2630" name="线边库存(初始化资源表)" type="in">
+		<order id="2630" name="线边库存(初始化资源表)" flag="false" istxt="true" />
+	</interface>
+	
+	
+	<!-- 外部接口输出 -->
+	<interface id="2440" name="成品库存快照" type="out">
+		<order id="2440" name="成品库存快照" />
+	</interface>
+	<interface id="2450" name="零件库存快照" type="out">
+		<order id="2450" name="零件库存快照" />
+	</interface>
+	<!-- add hzg 2013.12.27 -->
+	<interface id="2830" name="保税库流水账" type="out">
+		<order id="2830" name="保税库流水账" />
+		<order id="2831" name="保税库流水账" flag="false" />
+		<order id="2832" name="保税库流水账" flag="false" />
+		<order id="2833" name="保税库流水账" flag="false" />
+	</interface>
+	
+	<interface id="2460" name="仓库流水账" type="out">
+			<order id="2460" name="仓库流水账" />
+		<!-- <order id="2461" name="仓库流水账" flag="false" />
+		<order id="2462" name="仓库流水账" flag="false" /> -->
+		<order id="2463" name="仓库流水账" flag="false" />
+		<order id="2464" name="仓库流水账" flag="false" />
+		<!-- <order id="2465" name="仓库流水账" flag="false" />
+		<order id="2466" name="仓库流水账" flag="false" /> -->
+		<order id="2467" name="仓库流水账" flag="false" />
+		<!-- <order id="2468" name="仓库流水账" flag="false" />
+		<order id="2469" name="仓库流水账" flag="false" /> -->
+	</interface>
+		
+	<interface id="2470" name="成品库流水账" type="out">
+		<order id="2470" name="成品库流水账" />
+	</interface>
+	<interface id="1720" name="要货令deject" type="out">
+		<order id="1720" name="要货令deject" flag="false" istxt="true" />
+		<order id="1521" name="dejectSAP接口 kd订单发送时间" flag="false" istxt="true" />
+		<order id="1520" name="预告-订单明细" flag="false"  istxt="true" />
+	</interface>
+	<interface id="2490" name="入库反馈" type="out">
+		<order id="2490" name="入库反馈" />
+	</interface>
+	<interface id="2500" name="发货通知" type="out">
+		<order id="2500" name="发货通知" />
+	</interface>
+	<interface id="2510" name="发货通知" type="out">
+		<order id="2510" name="发货通知" />
+	</interface>
+	<interface id="2520" name="要货令" type="out">
+		<order id="2520" name="要货令" />
+	</interface>
+	<interface id="2521" name="同步要货令" type="out">
+		<order id="2521" name="同步要货令" isDb="true"/>
+	</interface>
+	<interface id="2530" name="过点需求信息" type="out">
+		<order id="2531" name="过点需求信息sppv1" isDb="true" />
+		<order id="2533" name="过点需求信息sppv2" isDb="true" />
+		<order id="2532" name="过点需求信息sppv1" isDb="true" />
+		<order id="2534" name="过点需求信息sppv2" isDb="true" />
+		<order id="2530" name="过点需求信息" istxt="true" />
+	</interface>
+	<interface id="2540" name="总成排产" type="out">
+		<order id="2540" name="总成排产" />
+	</interface>
+    <interface id="2700" name="成品库发货通知" type="out">
+		<order id="2700" name="成品库发货通知" />
+	</interface>
+	
+	<!-- hzg add 2013-8-20 -->
+	<interface id="2640" name="仓库-成品库库存快照" type="out">
+		<order id="2641" name="仓库-成品库库存快照db-db" isDb="true"/>
+		<order id="2640" name="仓库-成品库库存快照db-txt" istxt="true" />
+	</interface>
+	
+	 <interface id="2740" name="零件消耗点" type="out">
+		<order id="2740" name="零件消耗点" />
+	</interface>
+	
+	<interface id="2790" name="零件仓库设置输出" type="out">
+		<order id="2790" name="零件仓库设置输出" />
+	</interface>
+
+	<interface id="2730" name="零件仓库设置输出" type="out">
+		<order id="2730" name="零件仓库设置输出" />
+	</interface>
+	
+	<interface id="2910" name="同步集配零件" type="out">
+		<order id="2910" name="同步集配零件" />
+	</interface>
+	
+	<interface id="2930" name="同步配送" type="out">
+		<order id="2930" name="同步配送" />
+	</interface>
+
+	<!-- add hzg 2013-10-22 -->
+	<interface id="2660" name="KDYS重箱空箱申报(输出)" type="out">
+		<order id="2660" name="KDYS重箱空箱申报(输出)" />
+	</interface>
+
+<!-- by panrui 2013-07-01 16:10 -->
+	<interface id="2840" name="masdan发货通知" type="out">
+		<order id="2840" name="发货通知" />
+	</interface>
+	
+	<interface id="2850" name="masdan发货通知明细" type="out">
+		<order id="2850" name="发货通知明细" />
+	</interface>
+
+	<interface id="2860" name="合并时间-详细" type="in">
+		<order id="2860" name="合并时间-详细" flag="false" istxt="true" />
+	</interface>	
+	
+	<interface id="2870" name="工作时间模板" type="in">
+		<order id="2870" name="工作时间模板" flag="false" istxt="true" />
+	</interface>	
+
+	<interface id="2880" name="仓库零件供应商输出" type="out">
+		<order id="2880" name="仓库零件供应商" />
+	</interface>
+	
+
+	<!-- DDBH -->
+	<!-- 外部输入接口 add datesourceid=6 3011  3021 interface hzg 2013-8-29 -->
+	<!-- inStart与inEnd用于配置三厂和一二厂的接口,如果为三厂的就屏蔽，一二厂的就显示 -->
+	<interface id="3010" name="商业OF接口" type="in">
+		<order id="3010" name="商业OF接口sppv1"  />
+	</interface>
+	<interface id="3011" name="商业OF接口" type="in">
+		<order id="3011" name="商业OF接口sppv2"  />
+	</interface>
+	<interface id="3020" name="整车过点信息" type="in" >
+		<order id="3020" name="整车过点信息sppv1" sort="sppv" />
+	</interface>
+	<interface id="3021" name="整车过点信息" type="in">
+		<order id="3021" name="整车过点信息sppv2" sort="sppv" />
+	</interface>
+	
+	<interface id="3030" name="CODDC-消耗点零件" type="in">
+		<order id="3030" name="CODDC-消耗点零件" flag="false" istxt="true" />
+		<!-- <order id="3031" name="CODDC-消耗点零件"  /> -->
+	</interface>
+	<interface id="3040" name="CLDV-CODDC对应关系" type="in">
+		<order id="3040" name="CLDV-CODDC对应关系" flag="false" istxt="true" />
+	</interface>
+	<interface id="3050" name="九天排产计划(商业化的时间)" type="in">
+		<order id="3050" name="九天排产计划(商业化的时间)" flag="false" istxt="true" />
+		<!-- <order id="3051" name="九天排产计划(商业化的时间)" istxt="false"/> -->
+		<order id="3052" name="九天排产计划(商业化的时间)" istxt="false"/>
+	</interface>
+	<interface id="3060" name="九天排产计划(JT的顺序)" type="in">
+		<order id="3060" name="九天排产计划(JT的顺序)" flag="false" istxt="true" />
+		<order id="3061" name="九天排产计划(JT的顺序)"  />
+	</interface>
+	<interface id="3200" name="九天排产计划(一二厂CLV临时)" type="in">
+		<order id="3200" name="九天排产计划(一二厂CLV临时)" flag="false" istxt="true" />
+		<order id="3201" name="九天排产计划(一二厂CLV临时)"  />
+	</interface>
+	
+	<!-- 焊装过点申报信息  ddbh add by lc 2015-12-23 -->
+	<interface id="3310" name="焊装过点信息" type="in">
+		<order id="3310" name="焊装过点信息sppv1" sort="sppv"/>
+	</interface>
+
+	<!-- 内部接口 -->
+	<interface id="3070" name="工艺消耗点" type="in">
+		<order id="3070" name="工艺消耗点" flag="false" istxt="true" />
+	</interface>
+	<interface id="3080" name="零件消耗点" type="in">
+		<order id="3080" name="零件消耗点" flag="false" istxt="true" />
+	</interface>
+	<interface id="3090" name="未来几日" type="in">
+		<order id="3090" name="未来几日" flag="false" istxt="true" />
+	</interface>
+	<interface id="3100" name="生产线" type="in">
+		<order id="3100" name="生产线" flag="false" istxt="true" />
+	</interface>
+	<interface id="3190" name="工作时间模板" type="in">
+		<order id="3190" name="工作时间模板" flag="false" istxt="true" />
+	</interface>
+	
+	<!-- 3650 整车过点（输入） add by csy 2016-01-11 -->
+	<interface id="3650" name="整车过点（输入）" type="in">
+		<order id="3650" name="整车过点（输入）" flag="false" istxt="true" />
+	</interface>
+	
+	<!-- CLV  zbc调用 1730-->
+	<interface id="3110" name="DDBH拆分结果" type="out">
+		<order id="3110" name="DDBH拆分结果" />
+	</interface>
+	
+	<!-- SPPV  zxc调用  2430-->
+	<interface id="3160" name="DDBH拆分结果" type="out">
+		<order id="3160" name="DDBH拆分结果" />
+	</interface>
+	
+	<!-- SPPV  zxc调用  2431  hzg 2014.4.22 -->
+	<interface id="3161" name="DDBH拆分结果INFO" type="out">
+		<order id="3161" name="DDBH拆分结果INFO" />
+	</interface>
+	<!-- SPPV  zbc调用 1150-->
+	<interface id="3150" name="DDBH拆分结果" type="out">
+		<order id="3150" name="DDBH拆分结果" />
+	</interface>
+	<interface id="3120" name="车型平台" type="in">
+		<order id="3120" name="车型平台" flag="false" istxt="true" />
+	</interface>
+	
+	<interface id="3130" name="生产平台" type="in">
+		<order id="3130" name="生产平台" flag="false" istxt="true" />
+	</interface>
+	
+	<interface id="3140" name="分配区" type="in">
+		<order id="3140" name="分配区" flag="false" istxt="true" />
+	</interface>
+	
+	<interface id="3170" name="DDBH异常报警信息" type="out">
+		<order id="3170" name="DDBH异常报警信息" />
+	</interface>
+	
+	<interface id="3210" name="合并时间-详细" type="in">
+		<order id="3210" name="合并时间-详细" flag="false" istxt="true" />
+	</interface>	
+	
+	<interface id="3220" name="工作时间模板" type="in">
+		<order id="3220" name="工作时间模板" flag="false" istxt="true" />
+	</interface>	
+	
+	<interface id="3230" name="零件消耗点_s(原消耗点备份表)" type="in">
+		<order id="3230" name="零件消耗点_s(原消耗点备份表)" flag="false" istxt="true" />
+	</interface>	
+	
+	
+	<!-- modified by xss for 10679 -->
+	<interface id="2680" name="容器收发台账" type="out">
+		<order id="2680" name="容器收发台账"  />
+	</interface>	
+	
+	<!-- modified by xss for 10679 -->
+	<interface id="2690" name="容器收发流水账" type="out">
+		<order id="2690" name="容器收发流水账" />
+	</interface>	
+	
+	<!-- modified by xss for 0011505 -->
+	<interface id="1890" name="按需平移UL/UX" type="out">
+		<order id="1890" name="按需平移" isDb="true" />
+	</interface>
+	
+	<!-- modified by xss for 0011505 -->
+	<interface id="1891" name="按需平移UW" type="out">
+		<order id="1891" name="按需平移" isDb="true" />
+	</interface>
+	
+	<!-- 订单（排产） -->
+	<interface id="1465" name="订单排产" type="out">
+		<order id="1465" name="订单排产" />
+	</interface>
+	<!-- 下传所有订单明细（排产） -->
+	<interface id="1235" name="订单明细排产" type="out">
+		<order id="1235" name="订单明细排产" />
+	</interface>	
+	
+	<interface id="2425" name="订单(排产)" type="in">
+		<order id="2425" name="订单(排产)" flag="false" istxt="true" />
+	</interface>	
+
+	<interface id="2195" name="订单明细（排产）" type="in">
+		<order id="2195" name="订单明细（排产）" flag="false" istxt="true" />
+	</interface>
+	
+	<!-- modified by xss for 0011639 -->
+	<interface id="2890" name="生产线零件（PROG）" type="out">
+		<order id="2890" name="生产线零件（PROG）" />
+	</interface>
+	
+	<!-- modified by lc 总成计划(输出) -->
+	<interface id="3280" name="总成计划(输出)" type="out">
+		<order id="3280" name="总成计划(输出)" />
+	</interface>
+	
+	<!-- modified by lc 需拆分零件消耗点(输出) -->
+	<interface id="3290" name="需拆分零件消耗点(输出)" type="out">
+		<order id="3290" name="需拆分零件消耗点(输出)" />
+	</interface>
+	
+
+	<!-- 焊装排产计划 ddbh add by yz 2015-11-17-->
+	<interface id="3240" name="焊装排产计划(输入)" type="in">
+		<order id="3240" name="焊装排产计划(输入)" flag="false" istxt="true"/>
+	</interface>
+	
+	<!-- 总成-零件-消耗点-系数 ddbh add by yz 2015-11-19-->
+	<interface id="3300" name="总成-零件-消耗点-系数(输入)" type="in">
+		<order id="3300" name="总成-零件-消耗点-系数(输入)" flag="false" istxt="true"/>
+	</interface>
+	
+	<!-- 备件外销计划(输入) ddbh add by lc 2015-11-30 -->
+	<interface id="3260" name="备件外销计划(输入)" type="in">
+		<order id="3260" name="备件外销计划(输入)" flag="false" istxt="true"/>
+	</interface>
+	
+	<!-- 焊装排产数量(输入) ddbh add by yz 2015-11-27-->
+	<interface id="3250" name="焊装排产数量(输入)" type="in">
+		<order id="3250" name="焊装排产数量(输入)" flag="false" istxt="true"/>
+	</interface>
+	
+	<!-- 焊装分装线排产计划(输出) ddbh add by yz 2015-11-30 -->
+	<interface id="3270" name="焊装分装线排产计划(输出)" type="out">
+		<order id="3270" name="焊装分装线排产计划(输出)" />
+	</interface>
+	
+	<!-- 整车单量份(输入) ddbh add by lc 2015-12-4 -->
+	<interface id="3330" name="整车单量份(输入)" type="in">
+		<order id="3330" name="整车单量份(输入)" flag="false" istxt="true"/>
+	</interface>
+	
+	<!-- 总成单量份 ddbh add by yz 2015-12-5-->
+	<interface id="3320" name="总成单量份(输入)" type="in">
+		<order id="3320" name="总成单量份(输入)" flag="false" istxt="true"/>
+	</interface>
+	
+	<!-- 焊装大线参考系(输入) ddbh add by lc 2015-12-8 -->
+	<interface id="3370" name="焊装大线参考系(输入)" type="in">
+		<order id="3370" name="焊装大线参考系(输入)" flag="false" istxt="true"/>
+	</interface>
+	
+	<!-- 焊装分装线参考系(输入) ddbh add by lc 2015-12-8 -->
+	<interface id="3380" name="焊装分装线参考系(输入)" type="in">
+		<order id="3380" name="焊装分装线参考系(输入)" flag="false" istxt="true"/>
+	</interface>
+	
+	<!-- 零件参考系(输入) ddbh add by lc 2015-12-8 -->
+	<interface id="3450" name="零件参考系(输入)" type="in">
+		<order id="3450" name="零件参考系(输入)" flag="false" istxt="true"/>
+	</interface>
+	
+	<!-- 单位换算参考系(输入) ddbh add by lc 2015-12-8 -->
+	<interface id="3460" name="单位换算参考系(输入)" type="in">
+		<order id="3460" name="单位换算参考系(输入)" flag="false" istxt="true"/>
+	</interface>
+	
+	<!-- 产线零件参考系(输出) zxc add by yz 2015-12-7 -->
+	<interface id="2900" name="产线零件参考系(输出)" type="out">
+		<order id="2900" name="产线零件参考系(输出)" />
+	</interface>
+	
+	<!-- 产线零件参考系(输入) ddbh add by yz 2015-12-7 -->
+	<interface id="3340" name="产线零件参考系(输入)" type="in">
+		<order id="3340" name="产线零件参考系(输入)" flag="false" istxt="true"/>
+	</interface>
+	
+	<!-- 日历版次(输入) ddbh add by yz 2015-12-8 -->
+	<interface id="3350" name="日历版次(输入)" type="in">
+		<order id="3350" name="日历版次(输入)" flag="false" istxt="true"/>
+	</interface>
+	
+	<!-- 工作时间编组(输入) ddbh add by yz 2015-12-8 -->
+	<interface id="3360" name="工作时间编组(输入)" type="in">
+		<order id="3360" name="工作时间编组(输入)" flag="false" istxt="true"/>
+	</interface>
+	
+	<!-- 分装线排产数量(输出) zbc add by yz 2015-12-8 -->
+	<interface id="1902" name="分装线排产数量(输出)" type="out">
+		<order id="1902" name="分装线排产数量(输出)" />
+	</interface>
+	
+	<!-- 分装线排产数量(输入) ddbh add by yz 2015-12-8 -->
+	<interface id="3390" name="分装线排产数量(输入)" type="in">
+		<order id="3390" name="分装线排产数量(输入)" flag="false" istxt="true"/>
+	</interface>
+	
+	<!-- 焊装离线点参考系(输出) zbc add by yz 2015-12-8 -->
+	<interface id="1903" name="焊装离线点参考系(输出)" type="out">
+		<order id="1903" name="焊装离线点参考系(输出)" />
+	</interface>
+	
+	<!-- 焊装离线点参考系(输入) ddbh add by yz 2015-12-8 -->
+	<interface id="3400" name="焊装离线点参考系(输入)" type="in">
+		<order id="3400" name="焊装离线点参考系(输入)" flag="false" istxt="true"/>
+	</interface>
+	
+	<!-- 小火车模板(输出) ddbh add by lc 2015-12-12 -->
+	<interface id="3430" name="小火车模板(输出)" type="out">
+		<order id="3430" name="小火车模板(输出)" />
+	</interface>
+	
+	<!-- 小火车消耗点模板(输出) ddbh add by lc 2015-12-14 -->
+	<interface id="3440" name="小火车消耗点模板(输出)" type="out">
+		<order id="3440" name="小火车消耗点模板(输出)" />
+	</interface>
+	
+	<!-- 物流路径(输入) ddbh add by yz 2015-12-12 -->
+	<interface id="3470" name="物流路径(输入)" type="in">
+		<order id="3470" name="物流路径(输入)" flag="false" istxt="true"/>
+	</interface>
+	
+	<!-- 下线结算拆分结果(输出) ddbh add by yz 2015-12-14 -->
+	<interface id="3480" name="下线结算拆分结果(输出)" type="out">
+		<order id="3480" name="下线结算拆分结果(输出)" />
+	</interface>
+	
+	<!-- 入库明细(输出) ddbh add by yz 2015-12-14 -->
+	<interface id="2940" name="入库明细(输出)" type="out">
+		<order id="2940" name="入库明细(输出)" />
+	</interface>
+	
+	<!-- 入库明细(输入) ddbh add by yz 2015-12-14 -->
+	<interface id="3490" name="入库明细(输入)" type="in">
+		<order id="3490" name="入库明细(输入)" flag="false" istxt="true"/>
+	</interface>
+	
+	<!-- 整车LCDV序列号传输(输出) ddbh add by csy 2015-12-17 -->
+	<interface id="3500" name="整车LCDV序列号传输(输出)" type="out">
+		<order id="3500" name="整车LCDV序列号传输(输出)" />
+	</interface>
+	
+	<!-- 五位车型定义(输入) ddbh add by yz 2015-12-18 -->
+	<interface id="3510" name="五位车型定义(输入)" type="in">
+		<order id="3510" name="五位车型定义(输入)" flag="false" istxt="true"/>
+	</interface>
+	
+	<!--焊装总装外协件顺序需求清单预告  add by zbb 2015-12-19 -->
+	<interface id="3520" name="焊装总装外协件顺序需求清单预告(输出)" type="out">
+		<order id="3520" name="焊装总装外协件顺序需求清单预告(输出)" flag="false" istxt="true"/>
+	</interface>
+	
+	<!-- 按需JL需求(输出)ddbh add by csy 2015-12-22 -->
+	<interface id="3530" name="按需JL需求(输出)" type="out">
+		<order id="3530" name="按需JL需求(输出)" />
+	</interface>
+	
+	<!-- 按需JL需求(UL、UX)(输入) zbc add by csy 2015-12-22 -->
+	<interface id="1950" name="按需JL需求(输入)" type="in">
+		<order id="1950" name="按需JL需求(输入)" flag="false" istxt="true"/>
+	</interface>
+	
+	<!-- 按需JL需求(UW)(输入) zbc add by csy 2015-12-22 -->
+	<interface id="1951" name="按需JL需求(输入)" type="in">
+		<order id="1951" name="按需JL需求(输入)" flag="false" istxt="true"/>
+	</interface>
+	
+	<!-- 按需JL需求(VD)(输入) zbc add by csy 2015-12-22 -->
+	<interface id="1952" name="按需JL需求(输入)" type="in">
+		<order id="1952" name="按需JL需求(输入)" flag="false" istxt="true"/>
+	</interface>
+	
+	<!-- PJ毛需求(输出) ddbh add by csy 2015-12-23 -->
+	<interface id="3540" name="PJ毛需求(输出)" type="out">
+		<order id="3540" name="PJ毛需求(输出)" />
+	</interface>
+	
+	<!--  DFPV仓库流水账  add by yz 2015-12-26 -->
+	<interface id="2960" name="DFPV仓库流水账(输出)" type="out">
+		<order id="2960" name="DFPV仓库流水账(输出)" />
+	</interface>
+	
+	<!-- DFPV仓库流水账(输入) add by yz 2015-12-26 -->
+	<interface id="3550" name="DFPV仓库流水账(输入)" type="in">
+		<order id="3550" name="DFPV仓库流水账(输入)" flag="false" istxt="true"/>
+	</interface>
+	
+	<!-- DFPV仓库原始流水账(输入) add by yz 2015-12-28 -->
+	<interface id="2970" name="DFPV仓库原始流水账(输入)" type="in">
+		<order id="2970" name="DFPV仓库原始流水账(输入)" flag="false" istxt="true"/>
+	</interface>
+	
+	<!-- 总成拆分请求（输出） ddbh add by lc 2015-12-28 -->
+	<interface id="3560" name="总成拆分请求（输出）" type="out">
+		<order id="3560" name="总成拆分请求（输出）"/>
+	</interface>
+	
+	<!-- 物料主数据清单(输出) add by csy 2015-12-29 -->
+	<interface id="1960" name="物料主数据清单(输出)" type="out">
+		<order id="1960" name="物料主数据清单(输出)" />
+	</interface>
+	
+	<!-- 物料主数据清单(输出) add by csy 2015-12-29 -->
+	<interface id="3570" name="工程变更号信息(输出)" type="out">
+		<order id="3570" name="工程变更号信息(输出)" />
+	</interface>
+	
+	<!-- BOM创建(输出) add by csy 2015-12-29 -->
+	<interface id="3580" name="BOM创建(输出)" type="out">
+		<order id="3580" name="BOM创建(输出)" />
+	</interface>
+	
+	<!-- BOM更改(输出) add by csy 2015-12-29 -->
+	<interface id="3590" name="BOM更改(输出)" type="out">
+		<order id="3590" name="BOM更改(输出)" />
+	</interface>
+	
+	<!-- 整车零部件清单(输出) add by csy 2015-12-29 -->
+	<interface id="3600" name="整车零部件清单(输出)" type="out">
+		<order id="3600" name="整车零部件清单(输出)" />
+	</interface>
+	
+	<!-- BOM零件切换汇总(输出) add by csy 2016-05-13 -->
+	<interface id="3710" name="BOM零件切换汇总(输出)" type="out">
+		<order id="3710" name="BOM零件切换汇总(输出)" />
+	</interface>
+	
+	<!-- 供应商参考系(输出) add by yz 2015-12-29-->
+	<interface id="1970" name="供应商参考系(输出)" type="out">
+		<order id="1970" name="供应商参考系(输出)" />
+	</interface>
+	
+	<!-- 备件外销(输出) add by lc 2015-12-31 -->
+	<interface id="3620" name="备件外销(输出)" type="out">
+		<order id="3620" name="备件外销(输出)"/>
+	</interface>
+	
+	<!-- 消耗点对应关系(输入) add by yz 2015-12-31 -->
+	<interface id="1121" name="消耗点对应关系(输入)" type="in">
+		<order id="1121" name="消耗点对应关系(输入)" flag="false" istxt="true"/>
+	</interface>
+	
+	<!-- 供应商-承运商-运输商(输入) add by lc 2016-1-6 -->
+	<interface id="3630" name="供，承，运输商(输入)" type="in">
+		<order id="3630" name="供，承，运输商(输入)" flag="false" istxt="true"/>
+	</interface>
+	
+	<!-- 零件供应商(输入) add by lc 2016-1-6 -->
+	<interface id="3640" name="零件供应商(输入)" type="in">
+		<order id="3640" name="零件供应商(输入)" flag="false" istxt="true"/>
+	</interface>
+	
+	<!-- DDBH拆分结果同步(输出) add by lc 2016-1-13 -->
+	<interface id="3660" name="DDBH拆分结果同步(输出)" type="out">
+		<order id="3660" name="DDBH拆分结果同步(输出)"/>
+	</interface>
+	
+
+	<!-- 供应商参考系(输出) add by yz 2016-1-18-->
+	<interface id="2602" name="发货通知单（交货单）(输出)" type="out">
+		<order id="2602" name="发货通知单（交货单）(输出)" />
+	</interface>
+	
+	<!-- DFPV调拨申请 xss-0012338-->
+	<interface id="2603" name="DFPV调拨申请" type="out">
+		<order id="2603" name="DFPV调拨申请" />
+	</interface>
+	
+	<!-- 参考系小火车(输入) ddbh add by lc 2016-2-5 -->
+	<interface id="3670" name="参考系小火车(输入)" type="in">
+		<order id="3670" name="参考系小火车(输入)" flag="false" istxt="true"/>
+	</interface>
+	
+	<!-- 零时订单变更(HAFMOD)(输入) ddbh add by yz 2016-2-23 -->
+	<interface id="3680" name="零时订单变更(HAFMOD)(输入)" type="in">
+		<order id="3680" name="零时订单变更(HAFMOD)(输入)" flag="false" istxt="true"/>
+	</interface>
+	
+	<!-- DFPV下线结算(输出) add by yz 2016-2-24-->
+	<interface id="3690" name="DFPV下线结算(输出)" type="out">
+		<order id="3690" name="DFPV下线结算(输出)" />
+	</interface>
+	
+	<!-- DFPV下线结算(输入) ddbh add by yz 2016-2-24 -->
+	<interface id="2604" name="DFPV下线结算(输入)" type="in">
+		<order id="2604" name="DFPV下线结算(输入)" flag="false" istxt="true"/>
+	</interface>
+	
+	<!-- DDBH排产计划流水号CS(输出) ddbh add by lc 2016-3-17 -->
+	<interface id="3700" name="DDBH排产计划流水号CS(输出)" type="out">
+		<order id="3700" name="DDBH排产计划流水号CS(输出)"/>
+	</interface>
+	
+	<!-- CLDDXX2总装计划(输入) ddbh add by lc 2016-5-13 -->
+	<interface id="3720" name="CLDDXX2总装计划(输入)" type="in">
+		<order id="3720" name="CLDDXX2总装计划(输入)" flag="false" istxt="true"/>
+	</interface>
+	
+	<!-- CODDC总成零件消耗点(输入) ddbh add by lc 2016-5-16 -->
+	<interface id="3730" name="CODDC总成零件消耗点(输入)" type="in">
+		<order id="3730" name="CODDC总成零件消耗点(输入)" flag="false" istxt="true"/>
+	</interface>
+	
+	<!-- 分装线计划所有分总成号修改过的输出SPPV(输出) ddbh add by csy 2016-08-10 -->
+	<interface id="3740" name="分装线计划所有分总成号修改过的输出SPPV(输出)" type="out">
+		<order id="3740" name="分装线计划所有分总成号修改过的输出SPPV(输出)" />
+	</interface>
+	
+	<!-- v4_008  -->
+	<interface id="1906" name="周期毛需求、PPL需求对比(输出)" type="out">
+		<order id="1906" name="周期毛需求、PPL需求对比(输出)" />
+	</interface>
+	
+</interfaces>
+

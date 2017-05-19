@@ -1,0 +1,3137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<!-- ibatis数据库操作配置文件 -->
+<sqlMap namespace="inPutzxc">
+   <!-- 2710 清除外租库存表数据 hzg 2013-2-38 -->
+   <delete id="wzkcDelete">
+   		<![CDATA[
+			truncate table  ${dbSchemalzxc}ck_wzkc 
+		]]>
+   </delete>
+   
+    <!-- 2060 KD件在途物理点信息  hzg 2013-2-38 -->
+   <delete id="kdwldDelete">
+   		<![CDATA[
+   		 	delete from ${dbSchemalzxc}in_kdwld b where b.CLZT='1' 
+		]]>
+   </delete>
+   
+    <!-- 2200 物流路径总图  hzg 2013-3-4 -->
+   <delete id="wulljDelete">
+   		<![CDATA[
+   		 	truncate table   ${dbSchemalzxc}ckx_wullj_t
+		]]>
+   </delete>
+   
+   <!-- 2200 物流路径总图  删除物流路径总图主表editor为temp的数据 -->
+   <delete id="wulljDeleteTemp">
+   		<![CDATA[
+   			delete from ${dbSchemalzxc}ckx_wullj where editor = 'temp'
+		]]>
+   </delete>
+
+    <!--  2200 物流路径总图   更新物流路径总图主表editor为temp的数据 -->
+    <update id="wulljUpdateTemp">
+    <![CDATA[
+         update ${dbSchemalzxc}ckx_wullj set EDITOR='temp'
+    ]]>
+    </update>
+
+    <!--  2200 物流路径总图   主表与中间表合并 -->
+    <update id="wulljMerge">
+        <![CDATA[
+     MERGE INTO ${dbSchemalzxc}ckx_wullj c
+	USING (select * FROM ${dbSchemalzxc}ckx_wullj_t) s
+	ON (C.USERCENTER = S.USERCENTER AND C.FENPQH = S.FENPQH AND C.LINGJBH=S.LINGJBH AND C.GONGYSBH=S.GONGYSBH )
+	WHEN MATCHED THEN
+	  UPDATE
+	     SET C.SHENGCXBH=S.SHENGCXBH,
+			C.LUJBH=S.LUJBH,
+			C.LUJMC=S.LUJMC,
+			C.FAHD=S.FAHD,
+			C.WAIBMS=S.WAIBMS,
+			C.WJIANGLMS=S.WJIANGLMS,
+			C.WSHENGXSJ=S.WSHENGXSJ,
+			C.GONGYFE=S.GONGYFE,
+			C.ZHIDGYS=S.ZHIDGYS,
+			C.JIAOFM=S.JIAOFM,
+			C.BEIHZQ=S.BEIHZQ,
+			C.YUNSZQ=S.YUNSZQ,
+			C.GCBH=S.GCBH,
+			C.XIEHZTBH=S.XIEHZTBH,
+			C.SONGHPC=S.SONGHPC,
+			C.BEIHSJC=S.BEIHSJC,
+			C.MUDD=S.MUDD,
+			C.DINGHCK=S.DINGHCK,
+			C.MOS2=S.MOS2,
+			C.JIANGLMS2=S.JIANGLMS2,
+			C.SHENGXSJ2=S.SHENGXSJ2,
+			C.CANGKSHPC2=S.CANGKSHPC2,
+			C.CANGKSHSJ2=S.CANGKSHSJ2,
+			C.CANGKFHSJ2=S.CANGKFHSJ2,
+			C.BEIHSJ2=S.BEIHSJ2,
+			C.IBEIHSJ2=S.IBEIHSJ2,
+			C.PBEIHSJ2=S.PBEIHSJ2,
+			C.XIANBCK=S.XIANBCK,
+			C.MOS=S.MOS,
+			C.JIANGLMS=S.JIANGLMS,
+			C.SHENGXSJ=S.SHENGXSJ,
+			C.CANGKSHPC=S.CANGKSHPC,
+			C.CANGKSHSJ=S.CANGKSHSJ,
+			C.CANGKFHSJ=S.CANGKFHSJ,
+			C.BEIHSJ=S.BEIHSJ,
+			C.IBEIHSJ=S.IBEIHSJ,
+			C.PBEIHSJ=S.PBEIHSJ,
+			C.ZHIZLX=S.ZHIZLX,
+			C.CREATOR=S.CREATOR,
+			C.CREATE_TIME=S.CREATE_TIME,
+			C.EDITOR=S.EDITOR,
+			C.EDIT_TIME=S.EDIT_TIME,
+			C.GONGYSLX=S.GONGYSLX,
+			C.DINGHCKLX=S.DINGHCKLX,
+			C.WULGYYZ2=S.WULGYYZ2,
+			C.WULGYYZ1=S.WULGYYZ1,
+			C.WULGYYZ=S.WULGYYZ,
+			C.FENZXH=S.FENZXH
+	WHEN NOT MATCHED THEN
+	  INSERT
+	    (USERCENTER,
+		FENPQH,
+		LINGJBH,
+		GONGYSBH,
+		SHENGCXBH,
+		LUJBH,
+		LUJMC,
+		FAHD,
+		WAIBMS,
+		WJIANGLMS,
+		WSHENGXSJ,
+		GONGYFE,
+		ZHIDGYS,
+		JIAOFM,
+		BEIHZQ,
+		YUNSZQ,
+		GCBH,
+		XIEHZTBH,
+		SONGHPC,
+		BEIHSJC,
+		MUDD,
+		DINGHCK,
+		MOS2,
+		JIANGLMS2,
+		SHENGXSJ2,
+		CANGKSHPC2,
+		CANGKSHSJ2,
+		CANGKFHSJ2,
+		BEIHSJ2,
+		IBEIHSJ2,
+		PBEIHSJ2,
+		XIANBCK,
+		MOS,
+		JIANGLMS,
+		SHENGXSJ,
+		CANGKSHPC,
+		CANGKSHSJ,
+		CANGKFHSJ,
+		BEIHSJ,
+		IBEIHSJ,
+		PBEIHSJ,
+		ZHIZLX,
+		CREATOR,
+		CREATE_TIME,
+		EDITOR,
+		EDIT_TIME,
+		GONGYSLX,
+		DINGHCKLX,
+		WULGYYZ2,
+		WULGYYZ1,
+		WULGYYZ,
+		FENZXH
+	     )
+	  VALUES
+	    (S.USERCENTER,
+			S.FENPQH,
+			S.LINGJBH,
+			S.GONGYSBH,
+			S.SHENGCXBH,
+			S.LUJBH,
+			S.LUJMC,
+			S.FAHD,
+			S.WAIBMS,
+			S.WJIANGLMS,
+			S.WSHENGXSJ,
+			S.GONGYFE,
+			S.ZHIDGYS,
+			S.JIAOFM,
+			S.BEIHZQ,
+			S.YUNSZQ,
+			S.GCBH,
+			S.XIEHZTBH,
+			S.SONGHPC,
+			S.BEIHSJC,
+			S.MUDD,
+			S.DINGHCK,
+			S.MOS2,
+			S.JIANGLMS2,
+			S.SHENGXSJ2,
+			S.CANGKSHPC2,
+			S.CANGKSHSJ2,
+			S.CANGKFHSJ2,
+			S.BEIHSJ2,
+			S.IBEIHSJ2,
+			S.PBEIHSJ2,
+			S.XIANBCK,
+			S.MOS,
+			S.JIANGLMS,
+			S.SHENGXSJ,
+			S.CANGKSHPC,
+			S.CANGKSHSJ,
+			S.CANGKFHSJ,
+			S.BEIHSJ,
+			S.IBEIHSJ,
+			S.PBEIHSJ,
+			S.ZHIZLX,
+			S.CREATOR,
+			S.CREATE_TIME,
+			S.EDITOR,
+			S.EDIT_TIME,
+			S.GONGYSLX,
+			S.DINGHCKLX,
+			S.WULGYYZ2,
+			S.WULGYYZ1,
+			S.WULGYYZ,
+			S.FENZXH
+	    )
+		]]>
+    </update>
+    
+    
+   <!-- 2200 将ck_csinfo表中当前时间大于等于‘将来模式生效时间’的数据转入ck_csinfo_h表中 -->
+  <insert id="insertWulljCsinfo">
+   		<![CDATA[
+   		insert into ${dbSchemalzxc}ck_csinfo_h (
+                    USERCENTER,
+                    CHANX,
+				    XIAOHD,
+				    LINGJBH,
+				    SHENGXSJ,
+				    ZHENGCLSH,
+				    ZHENGCXH,
+				    PANDSL,
+				    FLAG,	
+				    XIAOHCBH,	
+				    SYTANGC,	
+				    CREATOR,
+				    CREATE_TIME,
+				    EDITOR,	
+				    EDIT_TIME,
+				    CURR_TIME	 
+            )    
+				    select
+                    a.USERCENTER,
+                    a.CHANX,  				    
+				    a.XIAOHD,
+				    a.LINGJBH,
+				    a.SHENGXSJ,
+				    a.ZHENGCLSH,
+				    a.ZHENGCXH,
+				    a.PANDSL,
+				    a.FLAG,	
+				    a.XIAOHCBH,	
+				    a.SYTANGC,	
+				    a.CREATOR,
+				    a.CREATE_TIME,
+				    a.EDITOR,	
+				    a.EDIT_TIME,
+				    SYSDATE from ${dbSchemalzxc}ck_csinfo a 
+            where  TO_CHAR(SYSDATE,'yyyy-MM-dd hh24:mi:ss')>=TO_CHAR(a.SHENGXSJ,'yyyy-MM-dd hh24:mi:ss')
+	  	]]>
+  </insert>	
+  
+  <!-- 2200 删除ck_csinfo表中当前时间大于等于‘将来模式生效时间’的数据-->
+  <insert id="deleteWulljCsinfo">
+   		<![CDATA[
+		delete from ${dbSchemalzxc}ck_csinfo where TO_CHAR(SYSDATE,'yyyy-MM-dd hh24:mi:ss')>=TO_CHAR(SHENGXSJ,'yyyy-MM-dd hh24:mi:ss')
+	  	]]>
+  </insert>	
+
+     <!-- 2200 筛选ckx_wullj表存在，但ck_csinfo表中不存在的数据，将中符合条件转入ck_csinfo表中 -->
+   <insert id="insertWulljLCsinfo">
+		<![CDATA[
+           insert into ${dbSchemalzxc}ck_csinfo(USERCENTER,chanx,lingjbh,xiaohd,SHENGXSJ,creator,create_time,EDITOR,EDIT_TIME,flag )
+select distinct t1.usercenter,t1.shengcxbh,t1.lingjbh,t1.xiaohdbh,TO_DATE(t2.SHENGXSJ,'yyyy-MM-dd hh24:mi:ss'),'2200',SYSDATE,'2200',SYSDATE,0 from ${dbSchemalzxc}ckx_lingjxhd t1,${dbSchemalzxc}ckx_wullj t2 where t1.usercenter=t2.usercenter
+                 and t1.shengcxbh=t2.shengcxbh and t1.fenpqbh=t2.fenpqh and t1.lingjbh=t2.lingjbh  
+                  and t2.jianglms='CS' and  TO_DATE(t2.SHENGXSJ,'yyyy-MM-dd hh24:mi:ss') between SYSDATE and SYSDATE+2  and t1.biaos!=0
+    and not exists (
+          select 1 from ${dbSchemalzxc}ck_csinfo x where 
+          t2.USERCENTER=x.USERCENTER and t2.shengcxbh=x.chanx and t2.lingjbh=x.lingjbh and x.xiaohd = t1.xiaohdbh
+    ) 
+    ]]>
+  </insert>	
+  
+	 <!-- 2200 筛选ckx_wullj表中不存在，但ck_csinfo表存在的数据，将中符合条件转入ck_csinfo_h表中 -->    
+<insert id="insertWulljRCsinfo">
+	 		<![CDATA[  
+insert into ${dbSchemalzxc}ck_csinfo_h(USERCENTER,chanx,lingjbh,xiaohd,SHENGXSJ,creator,create_time,EDIT_TIME,flag,CURR_TIME )
+select distinct x.usercenter,x.CHANX,x.lingjbh,x.XIAOHD,x.SHENGXSJ,'2200',create_time,EDIT_TIME,flag,SYSDATE from ${dbSchemalzxc}ck_csinfo x
+	where  not exists( 
+      select 1 from(
+	         select distinct t1.usercenter,t1.shengcxbh,t1.lingjbh,t1.xiaohdbh, TO_DATE(t2.SHENGXSJ,'yyyy-MM-dd hh24:mi:ss')
+                   from ${dbSchemalzxc}ckx_lingjxhd t1,${dbSchemalzxc}ckx_wullj t2 where t2.jianglms='CS' and  TO_DATE(t2.SHENGXSJ,'yyyy-MM-dd hh24:mi:ss') between SYSDATE and SYSDATE+2  
+                   and t1.usercenter=t2.usercenter and t1.shengcxbh=t2.shengcxbh and t1.fenpqbh=t2.fenpqh and t1.lingjbh=t2.lingjbh      
+          )a, ${dbSchemalzxc}ck_csinfo x  where x.usercenter=a.usercenter and x.chanx = a.shengcxbh and a.lingjbh=x.lingjbh and x.xiaohd=a.xiaohdbh
+
+    ) 	
+		]]>
+ </insert>
+  
+
+   <!-- 2200 删除ck_csinfo表中ckx_wullj表中不存在，但ck_csinfo表存在的数据的数据-->
+   <delete id="deletefCsinfo">
+   		<![CDATA[
+	delete from  ${dbSchemalzxc}ck_csinfo x
+	where  not exists( 
+      select 1 from(
+	         select distinct t1.usercenter,t1.shengcxbh,t1.lingjbh,t1.xiaohdbh, TO_DATE(t2.SHENGXSJ,'yyyy-MM-dd hh24:mi:ss')
+                   from ${dbSchemalzxc}ckx_lingjxhd t1,${dbSchemalzxc}ckx_wullj t2 where t2.jianglms='CS' and  TO_DATE(t2.SHENGXSJ,'yyyy-MM-dd hh24:mi:ss') between SYSDATE and SYSDATE+2  
+                   and t1.usercenter=t2.usercenter and t1.shengcxbh=t2.shengcxbh and t1.fenpqbh=t2.fenpqh and t1.lingjbh=t2.lingjbh     
+          )a, ${dbSchemalzxc}ck_csinfo x  where x.usercenter=a.usercenter and x.chanx = a.shengcxbh and a.lingjbh=x.lingjbh and x.xiaohd=a.xiaohdbh
+
+    ) 	
+		  ]]>
+   </delete>
+
+   
+   <!-- 2210 更新仓库零件供应商表达总量为0 ,cut and flag='1' ,modify by hzg mantis:0010708 -->
+   <update id="updateShulOfCkLingjgys">
+	   <![CDATA[
+	   	Update ${dbSchemalzxc}ck_lingjgys t set t.biaodsl=0 ,t.edit_time=sysdate where exists (
+		  select *　from (select a.usercenter,a.lingjbh,b.gongysbh from (
+			select * from (
+				select t.usercenter,t.lingjbh,t.gongysbh, 
+				row_number()over(partition by t.usercenter,t.lingjbh order by t.usercenter,t.lingjbh) as row_flag
+				from ${dbSchemalzxc}ckx_lingjgys t where t.biaos='1' 
+			   ) c where row_flag=2 ) a
+				inner join (select * from ${dbSchemalzxc}ckx_lingjgys where biaos='1' and flag='1') b 
+				on a.usercenter=b.usercenter and a.lingjbh=b.lingjbh 
+				order by usercenter,lingjbh 
+			) z 
+				Where t.usercenter=z.usercenter and t.lingjbh=z.lingjbh 
+				and t.gongysdm=z.gongysbh)
+
+	   	]]>
+   </update>
+   
+   
+   <!-- 2210 更新零件供应商FLAG状态为0 -->
+   <update id="updateFlagOfLingjgys">
+	   <![CDATA[
+	   		update ${dbSchemalzxc}ckx_lingjgys set flag=0 where flag=1 
+	   	]]>
+   </update>
+   
+   
+   <!-- 2390 小火车运输时刻表  hzg 2013-3-4 -->
+   <delete id="xiaohcysskTempDelete">
+   		<![CDATA[
+   		 	truncate table  ${dbSchemalzxc}ckx_xiaohcyssk_t 
+		]]>
+   </delete>
+
+   <!-- 2390 小火车运输时刻表  hzg 2013-3-4 -->
+   <delete id="xiaohcysskUpdate">
+   		<![CDATA[
+   		 	update ${dbSchemalzxc}ckx_xiaohcyssk t set t.editor = 'temp'
+		]]>
+   </delete>
+
+   <!-- 2390 小火车运输时刻表  hzg 2013-3-4 -->
+   <delete id="xiaohcysskDelete">
+   		<![CDATA[
+   		 	delete from  ${dbSchemalzxc}ckx_xiaohcyssk t where t.editor = 'temp' 
+		]]>
+   </delete>
+   
+   <!-- 2390 小火车运输时刻表  hzg 2013-3-4 -->
+   <update id="xiaohcysskMerge">
+   		<![CDATA[
+   		 MERGE INTO ${dbSchemalzxc}CKX_XIAOHCYSSK c
+   		 USING (select * FROM ${dbSchemalzxc}CKX_XIAOHCYSSK_T) s ON( C.USERCENTER=S.USERCENTER AND C.SHENGCXBH=S.SHENGCXBH AND C.XIAOHCBH=S.XIAOHCBH AND C.RIQ=S.RIQ AND C.TANGC=S.TANGC) 
+       WHEN MATCHED THEN UPDATE SET C.KAISBHSJ=S.KAISBHSJ,C.CHUFSXSJ=S.CHUFSXSJ,C.CREATOR=S.CREATOR,C.CREATE_TIME=S.CREATE_TIME,C.EDITOR='2390',C.EDIT_TIME=S.EDIT_TIME
+       WHEN NOT MATCHED THEN INSERT (USERCENTER,  SHENGCXBH,  XIAOHCBH,  RIQ,  TANGC,  KAISBHSJ,  CHUFSXSJ,  CREATOR,  CREATE_TIME,  EDITOR,  EDIT_TIME
+		) VALUES(S.USERCENTER  ,S.SHENGCXBH    ,S.XIAOHCBH    ,S.RIQ    ,S.TANGC    ,S.KAISBHSJ    ,S.CHUFSXSJ    ,S.CREATOR		,S.CREATE_TIME		,	'2390'	,S.EDIT_TIME) 
+		]]>
+   </update>
+   
+   <!-- 2160 零件仓库设置  hzg 2013-3-4 -->
+   <delete id="lingjckDelete">
+   		<![CDATA[
+   			delete from  ${dbSchemalzxc}ckx_lingjck t  where t.editor != 'temp' or t.editor is null
+		]]>
+   </delete>
+   
+    <!-- 2160 零件仓库设置  hzg 2013-3-4 -->
+   <update id="lingjckUpdate">
+   		<![CDATA[
+   			 update ${dbSchemalzxc}ckx_lingjck d set d.editor = '2160' where d.editor = 'temp'
+		]]>
+   </update>
+   
+   <!-- 2160 零件仓库设置  wy 2015-3-2 -->
+   <select id="lingjckQueryIsexits" parameterClass="java.util.HashMap" resultClass="java.lang.Integer">
+   		<![CDATA[
+   			select count(1) ljckCount from ${dbSchemalzxc}ckx_lingjck ljck where ljck.usercenter=#usercenter# and ljck.lingjbh=#lingjbh#
+   			and ljck.cangkbh=#cangkbh# and ljck.zickbh=#zickbh#
+		]]>
+   </select>
+   
+   <!-- 2160 零件仓库设置  wy 2015-3-2 -->
+   <select id="lingjckQueryIsexit" parameterClass="java.util.HashMap">
+   		<![CDATA[
+   			select * from ${dbSchemalzxc}ckx_lingjck ljck where ljck.usercenter=#usercenter# and ljck.lingjbh=#lingjbh# and ljck.cangkbh=#cangkbh#
+		]]>
+   </select>
+   
+   <!-- 2160 零件仓库设置  wy 2015-3-2 -->
+   <update id="lingjckUpdateDingzkw" parameterClass="java.util.HashMap">
+   		<![CDATA[
+   			 update ${dbSchemalzxc}ckx_lingjck d set d.dingzkw = '' 
+   			 where d.usercenter=#usercenter# and d.lingjbh=#lingjbh# and d.cangkbh=#cangkbh#
+		]]>
+   </update>
+   
+   <!-- 2240 仓库循环时间  hzg 2013-3-4 -->
+   <delete id="cangkxhsjTempDelete">
+   		<![CDATA[
+   			truncate table ${dbSchemalzxc}ckx_cangkxhsj_t
+		]]>
+   </delete>
+
+  <!-- 2240 仓库循环时间  gswang 2013-9-28 -->
+   <delete id="cangkxhsjUpdate">
+   		<![CDATA[
+   		 	update ${dbSchemalzxc}ckx_cangkxhsj t set t.editor = 'temp'
+		]]>
+   </delete>
+
+   <!-- 2240 仓库循环时间  gswang 2013-9-28-->
+   <delete id="cangkxhsjDelete">
+   		<![CDATA[
+   		 	delete from  ${dbSchemalzxc}ckx_cangkxhsj t where t.editor = 'temp' 
+		]]>
+   </delete>
+   
+   <!-- 2240 仓库循环时间  gswang 2013-9-28 -->
+   <update id="cangkxhsjMerge">
+   		<![CDATA[
+		MERGE INTO ${dbSchemalzxc}CKX_CANGKXHSJ c
+		   USING (SELECT *  FROM ${dbSchemalzxc}CKX_CANGKXHSJ_T) s ON(c.FENPQHCK = s.FENPQHCK and c.USERCENTER = s.USERCENTER and c.CANGKBH = s.CANGKBH and c.MOS = s.MOS) 
+		       WHEN MATCHED THEN UPDATE SET c.CANGKSHPCF=s.CANGKSHPCF,c.CANGKSHSJ=s.CANGKSHSJ,c.CANGKFHSJ=s.CANGKFHSJ,c.BEIHSJ=s.BEIHSJ,c.IBEIHSJ=s.IBEIHSJ,c.PBEIHSJ=s.PBEIHSJ,c.SHIFZDBH=s.SHIFZDBH,c.SHENGXBS=s.SHENGXBS,c.CREATOR=s.CREATOR,c.CREATE_TIME=s.CREATE_TIME,c.EDIT_TIME=s.EDIT_TIME,c.ZUH=s.ZUH,c.EDITOR=s.EDITOR 
+		       WHEN NOT MATCHED THEN INSERT( USERCENTER, CANGKBH, FENPQHCK, MOS, CANGKSHPCF, CANGKSHSJ, CANGKFHSJ, BEIHSJ, IBEIHSJ, PBEIHSJ, SHIFZDBH, SHENGXBS, CREATOR, CREATE_TIME, EDIT_TIME, ZUH, EDITOR)  
+		      VALUES(s.USERCENTER,s.CANGKBH,s.FENPQHCK,s.MOS,s.CANGKSHPCF,s.CANGKSHSJ,s.CANGKFHSJ,s.BEIHSJ,s.IBEIHSJ,s.PBEIHSJ,s.SHIFZDBH,s.SHENGXBS,s.CREATOR,s.CREATE_TIME,s.EDIT_TIME,s.ZUH,s.EDITOR)
+		]]>
+   </update>
+   
+    <!-- 2220 运输时刻  hzg 2013-3-4 -->
+   <delete id="yunsskTempDelete">
+   		<![CDATA[
+   			truncate table  ${dbSchemalzxc}ckx_yunssk_t
+		]]>
+   </delete>
+
+  <!-- 2220 运输时刻  gswang 2013-9-28 -->
+   <delete id="yunsskUpdate">
+   		<![CDATA[
+   		 	update ${dbSchemalzxc}ckx_yunssk t set t.editor = 'temp'
+		]]>
+   </delete>
+
+   <!-- 2220 运输时刻  gswang 2013-9-28-->
+   <delete id="yunsskDelete">
+   		<![CDATA[
+   		 	delete from  ${dbSchemalzxc}ckx_yunssk t where t.editor = 'temp' 
+		]]>
+   </delete>
+   
+   <!-- 2220 运输时刻 2013-9-28 -->
+   <update id="yunsskMerge">
+   		<![CDATA[
+		MERGE INTO ${dbSchemalzxc}CKX_YUNSSK c
+		   USING (SELECT *  FROM ${dbSchemalzxc}CKX_YUNSSK_T) s ON(c.XIEHZTBH = s.XIEHZTBH and c.USERCENTER = s.USERCENTER and c.GCBH = s.GCBH and c.DAOHSJ = s.DAOHSJ  and c.XUH = s.XUH) 
+		       WHEN MATCHED THEN UPDATE SET c.FACSJ=s.FACSJ,c.CREATOR=s.CREATOR,c.CREATE_TIME=s.CREATE_TIME,c.EDITOR=s.EDITOR,c.EDIT_TIME=s.EDIT_TIME,c.ZUH=s.ZUH
+		       WHEN NOT MATCHED THEN INSERT( USERCENTER, XIEHZTBH, GCBH, FACSJ, DAOHSJ, XUH, CREATOR, CREATE_TIME, EDITOR, EDIT_TIME, ZUH)  
+		      VALUES(s.USERCENTER,s.XIEHZTBH,s.GCBH,s.FACSJ,s.DAOHSJ,s.XUH,s.CREATOR,s.CREATE_TIME,s.EDITOR,s.EDIT_TIME,s.ZUH)
+		]]>
+   </update>
+
+    <!-- 2100 未来几日剔除休息时间  hzg 2013-3-4 -->
+   <delete id="ticxxsjTempDelete">
+   		<![CDATA[
+   			truncate table  ${dbSchemalzxc}ckx_ticxxsj_t
+		]]>
+   </delete>
+
+  <!-- 2100 未来几日剔除休息时间  gswang 2013-9-28 -->
+   <delete id="ticxxsjUpdate">
+   		<![CDATA[
+   		 	update ${dbSchemalzxc}ckx_ticxxsj t set t.editor = 'temp'
+		]]>
+   </delete>
+
+   <!-- 2100 未来几日剔除休息时间  gswang 2013-9-28-->
+   <delete id="ticxxsjDelete">
+   		<![CDATA[
+   		 	delete from  ${dbSchemalzxc}ckx_ticxxsj t where t.editor = 'temp' 
+		]]>
+   </delete>
+   
+   <!-- 2100 未来几日剔除休息时间 2013-9-28 -->
+   <update id="ticxxsjMerge">
+   		<![CDATA[
+			MERGE INTO ${dbSchemalzxc}CKX_TICXXSJ c
+		    USING (SELECT * from ${dbSchemalzxc}CKX_TICXXSJ_T) s ON(c.USERCENTER = s.USERCENTER and c.SHUNXH = s.SHUNXH and c.CHANXCK = s.CHANXCK and c.GONGZR = s.GONGZR) 
+		       WHEN MATCHED THEN UPDATE SET  c.RIQ=s.RIQ,c.SHIJDKSSJ=s.SHIJDKSSJ,c.SHIJDJSSJ=s.SHIJDJSSJ,c.SHIJCD=s.SHIJCD,c.CREATOR=s.CREATOR,c.CREATE_TIME=s.CREATE_TIME,c.EDITOR=s.EDITOR,c.EDIT_TIME=s.EDIT_TIME
+		       WHEN NOT MATCHED THEN INSERT ( USERCENTER,CHANXCK,GONGZR,SHUNXH,RIQ,SHIJDKSSJ,SHIJDJSSJ,SHIJCD,CREATOR,CREATE_TIME,EDITOR,EDIT_TIME) 
+		      VALUES(s.USERCENTER,s.CHANXCK,s.GONGZR,s.SHUNXH,s.RIQ,s.SHIJDKSSJ,s.SHIJDJSSJ,s.SHIJCD,s.CREATOR,s.CREATE_TIME,s.EDITOR,s.EDIT_TIME)            
+		]]>
+   </update>
+   
+   <!-- 2080 写CKX_RONGQC容器区表 hzg 2013-3-5  -->
+   <insert id="insertRongqc" parameterClass="java.util.Map">
+   		<![CDATA[
+   			INSERT INTO ${dbSchemalzxc}CKX_RONGQC 
+			(USERCENTER, RONGQCBH, MIAOS, BIAOS, CREATOR, CREATE_TIME, EDITOR, EDIT_TIME, SHIFFK) 
+			 values( 
+			#usercenter#,#rongqcbh#,'工艺消耗点','1','interspace',sysdate,'interspace',sysdate,'R')
+		]]>
+   </insert>
+   
+   
+    <!-- 2080 工艺消耗点，查找主键为条件的数据是否已经存在  hzg 2013-3-5 -->
+    <select id="queryRongqcCount" parameterClass="java.util.Map" resultClass="java.lang.String">
+    <![CDATA[
+   			select count(1) from ${dbSchemalzxc}CKX_RONGQC where  
+   			 USERCENTER=#usercenter#  AND RONGQCBH=#rongqcbh#
+		]]>
+    </select>
+
+   <!-- 2080 工艺消耗点 更新工艺消耗点中的容器场编号字段  BY gswang 2014-04-02-->
+   <update id="updateGongyxhdRongqc" parameterClass="java.util.Map">
+   		<![CDATA[
+			UPDATE ${dbSchemalzxc}ckx_gongyxhd  gh set gh.rongqcbh = substr(gh.gongyxhd,0,3) 
+			where gh.rongqcbh is null and gh.editor = #EDITOR#        
+		]]>
+   </update>
+    
+    <!-- 2310 日历版次  hzg 2013-3-5 -->
+   <delete id="calendarVersionTempDelete">
+   		<![CDATA[
+   			truncate table  ${dbSchemalzxc}ckx_calendar_version_t
+		]]>
+   </delete>
+
+  <!-- 2310 日历版次  gswang 2013-9-28 -->
+   <delete id="calendarVersionUpdate">
+   		<![CDATA[
+   		 	update ${dbSchemalzxc}ckx_calendar_version t set t.editor = 'temp'
+		]]>
+   </delete>
+
+   <!-- 2310 日历版次  gswang 2013-9-28-->
+   <delete id="calendarVersionDelete">
+   		<![CDATA[
+   		 	delete from  ${dbSchemalzxc}ckx_calendar_version t where t.editor = 'temp' 
+		]]>
+   </delete>
+   
+   <!-- 2310 日历版次 2013-9-28 -->
+   <update id="calendarVersionMerge">
+   		<![CDATA[
+	MERGE INTO ${dbSchemalzxc}ckx_calendar_version c
+	    USING (SELECT * from ${dbSchemalzxc}ckx_calendar_version_t) s ON(c.BANC = s.BANC and c.USERCENTER = s.USERCENTER and c.RIQ = s.RIQ) 
+	       WHEN MATCHED THEN UPDATE SET c.XINGQ=s.XINGQ,c.NIANZQ=s.NIANZQ,c.ZHOUX=s.ZHOUX,c.NIANZX=s.NIANZX,c.XIS=s.XIS,c.SHIFJFR=s.SHIFJFR,c.SHIFGZR=s.SHIFGZR,c.BIAOS=s.BIAOS,c.CREATOR=s.CREATOR,c.CREATE_TIME=s.CREATE_TIME,c.EDITOR=s.EDITOR,c.EDIT_TIME=s.EDIT_TIME,c.NIANZQTEMP=s.NIANZQTEMP,c.ZHOUXTEMP=s.ZHOUXTEMP,c.NIANZXTEMP=s.NIANZXTEMP 
+	       WHEN NOT MATCHED THEN INSERT ( BANC,USERCENTER,RIQ,XINGQ,NIANZQ,ZHOUX,NIANZX,XIS,SHIFJFR,SHIFGZR,BIAOS,CREATOR,CREATE_TIME,EDITOR,EDIT_TIME,NIANZQTEMP,ZHOUXTEMP,NIANZXTEMP) 
+	      VALUES(s.BANC,s.USERCENTER,s.RIQ,s.XINGQ,s.NIANZQ,s.ZHOUX,s.NIANZX,s.XIS,s.SHIFJFR,s.SHIFGZR,s.BIAOS,s.CREATOR,s.CREATE_TIME,s.EDITOR,s.EDIT_TIME,s.NIANZQTEMP,s.ZHOUXTEMP,s.NIANZXTEMP)            
+		]]>
+   </update>
+   
+    <!-- 2230 外部物流路径  删除中间表数据 -->
+   <delete id="waibwlDelete">
+   		<![CDATA[
+   			truncate table ${dbSchemalzxc}ckx_waibwl_t
+		]]>
+   </delete>
+
+    <!-- 2230 外部物流路径  删除外部物流路径主表editor为temp的数 -->
+   <delete id="waibwlDeleteTemp">
+   		<![CDATA[
+   			delete from ${dbSchemalzxc}ckx_waibwl where editor = 'temp'
+		]]>
+   </delete>
+
+    <!--  2230 外部物流路径  更新外部物流路径主表editor为temp的数据 -->
+    <update id="waibwlUpdateTemp">
+    <![CDATA[
+         update ${dbSchemalzxc}ckx_waibwl set EDITOR='temp'
+    ]]>
+    </update>
+
+    <!--  2230 外部物流路径  主表与中间表合并 -->
+    <update id="waibwlMerge">
+        <![CDATA[
+     MERGE INTO ${dbSchemalzxc}ckx_waibwl c
+USING (select * FROM ${dbSchemalzxc}ckx_waibwl_t) s
+ON (C.USERCENTER = S.USERCENTER AND C.GONGYSBH = S.GONGYSBH AND C.FAHD=S.FAHD AND C.MUDD=S.MUDD )
+WHEN MATCHED THEN
+  UPDATE
+     SET c.LUJBH=s.LUJBH,
+        c.LUJMC=s.LUJMC,
+        c.JIAOFM=s.JIAOFM,
+        c.BEIHZQ=s.BEIHZQ,
+        c.PANYSJ=s.PANYSJ,
+        c.CREATOR=s.CREATOR,
+        c.CREATE_TIME=s.CREATE_TIME,
+        c.EDITOR=s.EDITOR,
+        c.EDIT_TIME=s.EDIT_TIME,
+        c.XIEHZTBZ=s.XIEHZTBZ
+WHEN NOT MATCHED THEN
+  INSERT
+    (LUJBH,
+    LUJMC,
+    USERCENTER,
+    GONGYSBH,
+    FAHD,
+    MUDD,
+    JIAOFM,
+    BEIHZQ,
+    PANYSJ,
+    CREATOR,
+    CREATE_TIME,
+    EDITOR,
+    EDIT_TIME,
+    XIEHZTBZ
+     )
+  VALUES
+    (s.LUJBH,
+    s.LUJMC,
+    s.USERCENTER,
+    s.GONGYSBH,
+    s.FAHD,
+    s.MUDD,
+    s.JIAOFM,
+    s.BEIHZQ,
+    s.PANYSJ,
+    s.CREATOR,
+    s.CREATE_TIME,
+    s.EDITOR,
+    s.EDIT_TIME,
+    s.XIEHZTBZ
+    )
+
+		]]>
+    </update>
+   
+   <!-- 2580 车间  删除车间中间表数据 -->
+   <delete id="chejDelete">
+   		<![CDATA[
+   			truncate table ${dbSchemalzxc}ckx_chej_t
+		]]>
+   </delete>
+
+    <!-- 2580 车间  删除车间主表editor为temp的数据 -->
+   <delete id="chejDeleteTemp">
+   		<![CDATA[
+   			delete from ${dbSchemalzxc}ckx_chej where editor = 'temp'
+		]]>
+   </delete>
+
+    <!-- 2580 车间  更新车间EDITOR为temp数据 -->
+   <update id="chejUpdateTemp">
+       <![CDATA[
+   			 update ${dbSchemalzxc}ckx_chej set EDITOR='temp'
+		]]>
+   </update>
+    <!-- 2580 车间  主表与中间表合并 -->
+   <update id="chejMerge">
+       <![CDATA[
+     MERGE INTO ${dbSchemalzxc}ckx_chej c
+USING (select * FROM ${dbSchemalzxc}ckx_chej_t) s
+ON (C.USERCENTER = S.USERCENTER AND C.CHEJBM = S.CHEJBM )
+WHEN MATCHED THEN
+  UPDATE
+     SET c.CHEJMC=s.CHEJMC,
+        c.BEIZ=s.BEIZ,
+        c.CREATOR=s.CREATOR,
+        c.CREATE_TIME=s.CREATE_TIME,
+        c.EDITOR=s.EDITOR,
+        c.EDIT_TIME=s.EDIT_TIME
+WHEN NOT MATCHED THEN
+  INSERT
+    (USERCENTER,
+    CHEJBM,
+    CHEJMC,
+    BEIZ,
+    CREATOR,
+    CREATE_TIME,
+    EDITOR,
+    EDIT_TIME
+     )
+  VALUES
+    (s.USERCENTER,
+    s.CHEJBM,
+    s.CHEJMC,
+    s.BEIZ,
+    s.CREATOR,
+    s.CREATE_TIME,
+    s.EDITOR,
+    s.EDIT_TIME)
+
+		]]>
+   </update>
+   
+   <!-- 2430 将flag为T数据也插入ddbh_chaifjginfo表 hzg 2013-3-6 ; 作废 hzg 2014.4.22 改为用2431接口写ddbh_caifjginfo表 -->
+   <insert id="insertCaifjginfo" >
+   		<![CDATA[
+   		 	insert into ${dbSchemalzxc}ddbh_caifjginfo  select * from ${dbSchemalzxc}ddbh_caifjg t  where t.flag = 'T'
+		]]>
+   </insert>
+   
+    <!-- 2430 更新ddbh_caifjg表,将flag设置为0  hzg 2013-3-6 ; 作废 hzg 2014.4.22 -->
+   <update id="caifjgUpdate">
+   		<![CDATA[
+   			 update ${dbSchemalzxc}ddbh_caifjg set flag='0' where flag='T' 
+		]]>
+   </update>
+   
+   <!-- 2810 零件供应商临时包装  删除中间表 -->
+   <delete id="lingjgyslsbzDelete">
+   		<![CDATA[
+   			truncate table ${dbSchemalzxc}ckx_lingjgyslsbz_t
+		]]>
+   </delete>
+
+    <!-- 2810 删除ckx_lingjgyslsbz表EDITOR设置为temp -->
+   <delete id="lingjgyslsbzDeleteTemp">
+   		<![CDATA[
+   			delete from ${dbSchemalzxc}ckx_lingjgyslsbz where EDITOR='temp'
+		]]>
+   </delete>
+
+   <!-- 2810 更新ckx_lingjgyslsbz表,将EDITOR设置为temp  hzg 2013-3-6 -->
+   <update id="lingjgyslsbzUpdateTemp">
+        <![CDATA[
+   			 update ${dbSchemalzxc}ckx_lingjgyslsbz set EDITOR='temp'
+		]]>
+   </update>
+    <!-- 2810 合并主表与中间表 -->
+   <update id="lingjgyslsbzMerge">
+        <![CDATA[
+     MERGE INTO ${dbSchemalzxc}ckx_lingjgyslsbz c
+USING (select * FROM ${dbSchemalzxc}ckx_lingjgyslsbz_T) s
+ON (C.USERCENTER = S.USERCENTER AND C.LINGJBH = S.LINGJBH AND C.GONGYSBH = S.GONGYSBH AND C.xuh = S.xuh)
+WHEN MATCHED THEN
+  UPDATE
+     SET c.SHENGXSJ=s.SHENGXSJ,
+         c.SHIXSJ=s.SHIXSJ,
+         c.UCBZLX=s.UCBZLX,
+         c.UCRL=s.UCRL,
+         c.UABZLX=s.UABZLX,
+         c.UAUCGS=s.UAUCGS,
+         c.GAIB=s.GAIB,
+         c.NEIC=s.NEIC,
+         c.CREATOR=s.CREATOR,
+         c.CREATE_TIME=s.CREATE_TIME,
+         c.EDITOR=s.EDITOR,
+         c.EDIT_TIME=s.EDIT_TIME
+WHEN NOT MATCHED THEN
+  INSERT
+    (USERCENTER,
+    GONGYSBH,
+    LINGJBH,
+    XUH,
+    SHENGXSJ,
+    SHIXSJ,
+    UCBZLX,
+    UCRL,
+    UABZLX,
+    UAUCGS,
+    GAIB,
+    NEIC,
+    CREATOR,
+    CREATE_TIME,
+    EDITOR,
+    EDIT_TIME
+     )
+  VALUES
+    (s.USERCENTER,
+    s.GONGYSBH,
+    s.LINGJBH,
+    s.XUH,
+    s.SHENGXSJ,
+    s.SHIXSJ,
+    s.UCBZLX,
+    s.UCRL,
+    s.UABZLX,
+    s.UAUCGS,
+    s.GAIB,
+    s.NEIC,
+    s.CREATOR,
+    s.CREATE_TIME,
+    s.EDITOR,
+    s.EDIT_TIME)
+
+		]]>
+   </update>
+
+
+   <!-- 2780 工作时间模板  hzg 2013-3-6 -->
+   <delete id="gongzsjmbTempDelete">
+   		<![CDATA[
+   			truncate table  ${dbSchemalzxc}ckx_gongzsjmb_t
+		]]>
+   </delete>
+   
+      <!-- 2780 工作时间模板  hzg 2013-3-6 -->
+   <update id="gongzsjmbMerge">
+   		<![CDATA[
+     MERGE INTO ${dbSchemalzxc}CKX_GONGZSJMB c
+        USING (select * FROM ${dbSchemalzxc}CKX_GONGZSJMB_T) s ON( C.USERCENTER=S.USERCENTER AND C.CHANX=S.CHANX AND C.GONGZR=S.GONGZR AND C.XIAOHSJ=S.XIAOHSJ) 
+       WHEN MATCHED THEN UPDATE SET C.JUEDSK=S.JUEDSK
+       WHEN NOT MATCHED THEN INSERT (USERCENTER,  CHANX,  GONGZR,  XIAOHSJ,  JUEDSK
+    ) VALUES(S.USERCENTER  ,S.CHANX    ,S.GONGZR    ,S.XIAOHSJ    ,S.JUEDSK )    			
+		]]>
+   </update>
+
+      <!-- 2780 工作时间模板  hzg 2013-3-6 -->
+   <select id="querygongzsjmbOldDate" parameterClass="java.util.Map" resultClass="java.util.HashMap">
+   		<![CDATA[
+   		select tt.*  from (   
+		   	select gmb.usercenter,gmb.chanx,gmb.gongzr,gmb.xiaohsj,gmbt.usercenter uc from ${dbSchemalzxc}ckx_gongzsjmb gmb left join ${dbSchemalzxc}ckx_gongzsjmb_t gmbt on 
+			gmb.usercenter = gmbt.usercenter and gmb.chanx = gmbt.chanx and gmb.gongzr = gmbt.gongzr and gmb.xiaohsj = gmbt.xiaohsj 
+			where gmbt.usercenter is null	
+		) tt  where rownum <=50000		
+		]]>
+   </select>
+ 
+       <!-- 2780 工作时间模板  hzg 2013-3-6 -->
+   <delete id="gongzsjmbMergeDelete">
+   		<![CDATA[
+		   	delete from ${dbSchemalzxc}ckx_gongzsjmb  g where 	G.USERCENTER=#USERCENTER# AND G.CHANX = #CHANX# AND G.GONGZR=#GONGZR# AND G.XIAOHSJ = #XIAOHSJ#
+		]]>
+   </delete>
+   
+   <!-- 2750 外部物流路径详细 删除中间表-->
+   <delete id="waibwlxxDelete_temp">
+   		<![CDATA[
+   			truncate table  ${dbSchemalzxc}ckx_waibwlxx_t
+		]]>
+   </delete>
+    <!-- 2750 外部物流路径详细 删除主表中editor为temp-->
+   <delete id="deleteWaibwlxxTemp">
+   		<![CDATA[
+   			delete from ${dbSchemalzxc}ckx_waibwlxx where EDITOR='temp'
+		]]>
+   </delete>
+    <!-- 2750 外部物流路径详细 主表标记temp-->
+    <update id="updateWaibwlxxTemp">
+        <![CDATA[
+             update ${dbSchemalzxc}ckx_waibwlxx set EDITOR='temp'
+        ]]>
+    </update>
+    <!-- 2750 外部物流路径详细 主表与中间表合并-->
+    <update id="mergeWaibwlxx">
+        <![CDATA[
+     MERGE INTO ${dbSchemalzxc}ckx_waibwlxx c
+USING (select * FROM ${dbSchemalzxc}ckx_waibwlxx_T) s
+ON (C.USERCENTER = S.USERCENTER AND C.lujbh = S.lujbh AND C.xuh = S.xuh)
+WHEN MATCHED THEN
+  UPDATE
+     SET c.WULDBH      = s.WULDBH,
+         c.WULDMC      = s.WULDMC,
+         c.SHIFJK      = s.SHIFJK,
+         c.GUANJDBS    = s.GUANJDBS,
+         c.JIHDHSYSJ   = s.JIHDHSYSJ,
+         c.GCBH        = s.GCBH,
+         c.YUNSMS      = s.YUNSMS,
+         c.BEIHZQ      = s.BEIHZQ,
+         c.YUNSSJ      = s.YUNSSJ,
+         c.SHENGXBS    = s.SHENGXBS,
+         c.SHENGXRQ    = s.SHENGXRQ,
+         c.YAOHLZKBS   = s.YAOHLZKBS,
+         c.CREATOR     = s.CREATOR,
+         c.CREATE_TIME = s.CREATE_TIME,
+         c.EDITOR      = s.EDITOR,
+         c.EDIT_TIME   = s.EDIT_TIME,
+         c.SHIFQHBS    = s.SHIFQHBS
+
+
+WHEN NOT MATCHED THEN
+  INSERT
+    (LUJBH,
+     XUH,
+     WULDBH,
+     WULDMC,
+     SHIFJK,
+     GUANJDBS,
+     JIHDHSYSJ,
+     GCBH,
+     YUNSMS,
+     BEIHZQ,
+     YUNSSJ,
+     SHENGXBS,
+     SHENGXRQ,
+     YAOHLZKBS,
+     USERCENTER,
+     CREATOR,
+     CREATE_TIME,
+     EDITOR,
+     EDIT_TIME,
+     SHIFQHBS
+
+     )
+  VALUES
+    (s.LUJBH,
+     s.XUH,
+     s.WULDBH,
+     s.WULDMC,
+     s.SHIFJK,
+     s.GUANJDBS,
+     s.JIHDHSYSJ,
+     s.GCBH,
+     s.YUNSMS,
+     s.BEIHZQ,
+     s.YUNSSJ,
+     s.SHENGXBS,
+     s.SHENGXRQ,
+     s.YAOHLZKBS,
+     s.USERCENTER,
+     s.CREATOR,
+     s.CREATE_TIME,
+     s.EDITOR,
+     s.EDIT_TIME,
+     s.SHIFQHBS)
+
+		]]>
+    </update>
+
+
+   <!-- 2030 GEVP外部要货令 hzg 2013-3-6 -->
+   <delete id="gevpYaohlDelete">
+   		<![CDATA[
+   			delete FROM ${dbSchemalzxc}in_gevp_yaohl ig where ig.clzt = '1' or ig.cj_date< sysdate -15
+		]]>
+   </delete>
+   
+    <!-- 2030 更新GEVP外部要货令用户中心  gswang 2013-11-28 -->
+   <update id="updateGevpYaohlUsercenter">
+   		<![CDATA[
+			update ${dbSchemalzxc}in_gevp_yaohl ig set ig.pceditor = (select gys.neibyhzx from ${dbSchemalzxc}ckx_gongys gys where gys.leix = '1' and gys.usercenter = ig.usercenter and gys.gcbh=ig.gysdm)   			
+		]]>
+   </update>
+   
+    <!-- 2010 外部订单预告  hzg 2013-3-6 -->
+   <delete id="wbddygDelete">
+   		<![CDATA[
+   			truncate table ${dbSchemalzxc}in_wbddyg
+		]]>
+   </delete>
+   
+   <!-- 2040 更新in_efi_fhtz_fyztxx表的clzt=5为6  2015-1-13 yz -->
+   <update id="updatein_efi_fhtz_fyztxx_6">
+  	 <![CDATA[
+   			update ${dbSchemalzxc}in_efi_fhtz_fyztxx a
+				 set a.clzt = '6' where a.clzt = '5'
+		]]>
+   </update>
+   
+   <!-- 2040 查询需要插入ck_daohtzd_dfpv所有字段 yz 2015-12-22  -->
+	<select id="queryDaohtzd_dfpv_6" parameterClass="java.util.Map" resultClass="java.util.HashMap" remapResults="true">
+		<![CDATA[
+				select distinct
+			      t.usercenter, 
+			      '' as uth,  
+			      t.blh, 
+			      t.xiehzt, 
+			      t.tch, 
+			      t.chengysdm, 
+			      t.chengysmc, 
+			      '2' as zhuangt, 
+			      t.yujddsj,
+			      '0' as dayzt, 
+			      t.fayzmzdw, 
+			      t.shiftb, 
+			      t.yuansblh,
+			      t.changh,
+			      t.cangkbh, 
+			      '' as yuansuth, 
+			      t.psasj,
+			      t.changh     
+			       from (select i.*, d.gongsmc as chengysmc from 
+			       (select a.jfdh as blh,a.jfdh as yuansblh,a.xzddm as xiehzt,a.jzxh as tch,a.cysdm as chengysdm,
+			       a.fyyjdd_date as yujddsj,a.fyzmzdw as fayzmzdw,a.sftbfhtz as shiftb,a.changh as changh,b.cangkbh,
+			       a.jf_date as psasj,c.usercenter as usercenter 
+             		from ${dbSchemalzxc}in_efi_fhtz_fyztxx a,${dbSchemalzxc}ckx_xiehzt b,${dbSchemalzxc}ckx_usercenter c
+		             where a.xzddm = b.xiehztbh and b.usercenter = c.usercenter and c.biaos = '1' and a.clzt = '6')i 
+		             left join ${dbSchemalzxc}ckx_gongys d on
+		             i.usercenter = d.usercenter and i.chengysdm = d.gcbh)t,
+		             ${dbSchemalzxc}ckx_cangk m where t.usercenter = m.usercenter and 
+		             substr(t.xiehzt,1,4) = m.xiehztbz and t.cangkbh = m.cangkbh and m.gongc = '0'
+		]]>
+	</select>
+		   
+   <!-- 2040 查询需要插入ck_uabq_dfpv所有字段 yz 2015-12-23  -->
+	<select id="queryUabq_dfpv_6" parameterClass="java.util.Map" resultClass="java.util.HashMap" remapResults="true">
+		<![CDATA[
+				select distinct
+			       usercenter,
+			       uth,
+			       uah,
+			       blh,
+			       gongysdm,
+			       gongysmc ,
+			       gongyslx ,
+			       pich,
+			       uaxh,
+			       uarl,
+			       ucxh,
+			       uchl,
+			       lingjbh,
+			       lingjmc,
+			       cangkbh,
+			       zickbh,
+			       danw,
+			       lingjsl,
+			       baozzt,
+			       zhuangtsx,
+			       chanx,
+			       jingz,
+			       maoz,
+			       yanssl,
+			       yaohlh,
+			       dingdh,
+			       quancbqh,
+			       xiaohd,
+			       dinghckkw,
+			       xianbck,
+			       xianbckkw,
+			       daybs,
+			       shiftjkw,
+			       xiaohcbh,
+			       tangc,
+			       shifht,
+			       xiangd,
+			       to_char(gongzr,'yyyy-MM-dd') as gongzr,
+			       changd,
+			       kuand,
+			       gaod,
+			       '0' as beiz1
+			       from (select a.usercenter,a.uth,a.blh,a.cangkbh,c.ua as uah,c.pzh as pich,c.yhl as yaohlh,c.ualx as uaxh,
+			       b.ljh as lingjbh,b.ddh as dingdh,c.gys as gongysdm,c.ualjsl as lingjsl,c.uclx as ucxh,c.ucljsl as uchl,
+			       c.quancbqh,c.xiaohd,c.cangkkw as dinghckkw,c.xianbck,c.xianbckkw,'0' as daybs,'0' as shiftjkw,c.xiaohcbh,
+			       c.shifht,c.xiangd,c.gongzr,c.tangc,d.zhongwmc,b.jldw as danw,d.lingjzl,e.uaucgs*e.ucrl as uarl,d.zhongwmc as lingjmc,
+			       f.gongsmc as gongysmc,f.leix as gongyslx,g.zickbh,'1' as baozzt,h.yaohllx as zhuangtsx,h.chanx,
+			       c.ualjsl*d.lingjzl as jingz,c.ualjsl*d.lingjzl+i.baozzl as maoz,c.ualjsl as yanssl,c.changd,c.kuand,c.gaod
+			       from ${dbSchemalzxc}ck_daohtzd_dfpv a join ${dbSchemalzxc}in_efi_fhtz_fymx b on a.blh = b.jfdh 
+			       join ${dbSchemalzxc}in_efi_fhtz_bzdyxx c on b.xuh = c.xuh and a.blh = c.jfdh 
+			       left join ${dbSchemalzxc}ckx_lingj d on a.usercenter = d.usercenter and b.ljh = d.lingjbh 
+			       left join ${dbSchemalzxc}ckx_lingjgys e on a.usercenter = e.usercenter and c.gys = e.gongysbh and b.ljh = e.lingjbh 
+			       left join ${dbSchemalzxc}ckx_gongys f on c.gys = f.gcbh and a.usercenter = f.usercenter 
+			       left join ${dbSchemalzxc}ckx_lingjck g on a.usercenter = g.usercenter and a.cangkbh = g.cangkbh and b.ljh = g.lingjbh 
+			       left join ${dbSchemalzxc}ck_yaohl h on a.usercenter = h.usercenter and c.yhl = h.yaohlh 
+			       left join ${dbSchemalzxc}ckx_baoz i on c.ualx = i.baozlx)t,in_efi_fhtz_fyztxx m where t.blh = m.jfdh and m.clzt = '6'
+		]]>
+	</select>
+		
+	<!-- 2040 更新ck_yaohl表的yaohlzt状态为02  2016-2-4 yz -->
+<!--   <update id="updateck_yaohl">
+  	 <![CDATA[
+   			update ${dbSchemalzxc}ck_yaohl 
+				 set yaohlzt = '02' 
+				 where usercenter = #USERCENTER# 
+				 and yaohlh = #YAOHLH#
+		]]>
+   </update> -->
+      	   
+    <!-- 2040 更新in_efi_fhtz_fyztxx表传到dfpv的clzt为1  2015-1-13 yz -->
+   <update id="updatein_efi_fhtz_fyztxx_dfpv_1">
+  	 <![CDATA[
+   			update ${dbSchemalzxc}in_efi_fhtz_fyztxx a
+				 set clzt = '1' 
+				 where clzt = '6' and exists (select 1 from ${dbSchemalzxc}ck_daohtzd_dfpv b where a.jfdh=b.blh) 
+		]]>
+   </update>
+   
+   <!-- 2040 更新in_efi_fhtz_fyztxx表其他的clzt为0  2015-1-13 yz -->
+   <update id="updatein_efi_fhtz_fyztxx_0">
+  	 <![CDATA[
+   			update ${dbSchemalzxc}in_efi_fhtz_fyztxx 
+				 set clzt = '0' 
+				 where clzt = '6' 
+		]]>
+   </update>
+   
+   <!-- 2041 EFI发货通知，查询交付单号总数 ,hzg 2013-3-13 -->
+   <select id="queryJfdhTotal" resultClass="java.lang.String">
+   	<![CDATA[
+   			 select count(JFDH) total from ${dbSchemalzxc}in_efi_fhtz_fyztxx where CLZT = '1' 
+		]]>
+   </select>
+   
+    <!--2040 2041 清空EFI发货通知-同步零件信息表  hzg 2013-3-13 -->
+   <delete id="efiTbljxxDelete">
+   		<![CDATA[
+   			delete from ${dbSchemalzxc}in_efi_fhtz_tbljxx where UA in  
+						 (select t.ua from ${dbSchemalzxc}in_efi_fhtz_bzdyxx t, 
+						 ${dbSchemalzxc}in_efi_fhtz_fyztxx t1 
+						 where t.jfdh = t1.jfdh and t1.clzt = '1' and t1.cj_date < sysdate-2) 
+		]]>
+   </delete>
+   
+    <!--2040 2041 清空EFI发货通知-包装对应信息表  hzg 2013-3-13 -->
+   <delete id="efiBzdyxxDelete">
+   		<![CDATA[
+   			 delete from ${dbSchemalzxc}in_efi_fhtz_bzdyxx where JFDH in  
+			 (select JFDH from ${dbSchemalzxc}in_efi_fhtz_fyztxx where CLZT = '1' and cj_date < sysdate-2) 
+		]]>
+   </delete>
+   
+   <!--2040 2041 清空EFI发货通知-发运明细表  hzg 2013-3-13 -->
+   <delete id="efiFymxDelete">
+   		<![CDATA[
+   			 delete from ${dbSchemalzxc}in_efi_fhtz_fymx where JFDH in   
+				 (select JFDH from ${dbSchemalzxc}in_efi_fhtz_fyztxx where CLZT = '1' and cj_date < sysdate-2) 
+		]]>
+   </delete>
+   
+   <!--2040 2041 清空EFI发货通知-发运主体信息表  hzg 2013-3-13 -->
+   <delete id="efiFyztxxDelete">
+   		<![CDATA[
+   			 delete from ${dbSchemalzxc}in_efi_fhtz_fyztxx where CLZT = '1' and cj_date < sysdate-2
+		]]>
+   </delete>
+   
+   <!-- 2041 查询交付单号 hzg 2013-3-13 -->
+   <select id="queryJiaofdh" parameterClass="java.lang.String" resultClass="java.lang.String">
+   		<![CDATA[
+   			  	 select JFDH from ${dbSchemalzxc}in_efi_fhtz_fyztxx  where JFDH=#jiaofdh#
+		]]>
+   </select>
+   
+   <!-- 2041 插入发货通知主体表in_efi_fhtz_fyztxx -->
+   <insert id="insertFyztxx" parameterClass="java.util.Map">
+   		<![CDATA[
+   			 insert into ${dbSchemalzxc}in_efi_fhtz_fyztxx
+				(jfdh,
+				jf_date,
+				fyzmzdw,
+				fyyjdd_date,
+				cysdm,
+				jszdm,
+				xzddm,
+				fhrdm,
+				jzxh,
+				sftbfhtz,
+				sfgzxlh,
+				cj_date,
+				clzt,
+				changh
+				)
+			values(#jfdh#,
+				#jf_date#,
+				#fyzmzdw#,
+				#fyyjdd_date#,
+				#cysdm#,
+				#jszdm#,
+				#xzddm#,
+				#fhrdm#,
+				#jzxh#,
+				#sftbfhtz#,
+				#sfgzxlh#,
+				to_date(#currTime#,'yyyy-MM-dd hh24:mi:ss'),'F',#changbiao#)
+		]]>
+   </insert>
+   
+   
+    <!-- 2041 插入EFI发货通知-发运明细表in_efi_fhtz_fymx -->
+   <insert id="insertFymx" parameterClass="java.util.Map">
+   		<![CDATA[
+   				insert into ${dbSchemalzxc}in_efi_fhtz_fymx 
+				(xuh,
+				jfdh,
+				fysl,
+				jldw,
+				bzlx,
+				ljh,
+				ddh,
+				lygj)values(
+				#xuh#,
+				#jfdh#,
+				#d_fysl#,
+				#jldw#,
+				#bzlx#,
+				#ljh#,
+				#ddh#,
+				#lygj#)
+		]]>
+   </insert>
+   
+    <!-- 2041 插入数据到插入EFI发货通知-包装对应信息表in_efi_fhtz_bzdyxx|xss-0011589-2015-9-1 -->
+   <insert id="insertBzdyxx" parameterClass="java.util.Map">
+   		<![CDATA[
+   				insert into ${dbSchemalzxc}in_efi_fhtz_bzdyxx 
+				(xuh,
+				jfdh,
+				ua,
+				ualx,
+				uc,
+				uclx,
+				ucljsl,
+				ualjsl,
+				yhl,
+				pzh,
+				gys,
+				ggph,
+				changd,
+				kuand,
+				gaod,
+				quancbqh,
+				xiaohd,
+				xiaohcbh,
+				tangc,
+				shifht,
+				xiangd,
+				gongzr,
+				xianbck,
+				xianbckkw,
+				cangkkw
+				)
+			values(
+				#xuh#,
+				#jfdh#,
+				#ua#,
+				#ualx#,
+				#uc#,
+				#uclx#,
+				#d_ucljsl#,
+				#d_ualjsl#,
+				#yhl#,
+				#pzh#,
+				#gys#,
+				#ggph#,
+				#chang#,
+				#kuan#,
+				#gao#,
+				#quancbqh#,
+				#xiaohd#,
+				#xiaohcbh#,
+				#tangc#,
+				#shifht#,
+				#xiangd#,
+				to_date(#gongzr#,'yyyy-MM-dd hh24:mi:ss'),
+				#xianbck#,
+				#xianbckkw#,
+				#cangkkw#
+				)
+		]]>
+   </insert>
+   
+   <!-- 2041 更新数据到插入EFI发货通知-包装对应信息表  -->
+   <update id="updateBzdyxx">
+  	 <![CDATA[
+   			update ${dbSchemalzxc}in_efi_fhtz_bzdyxx 
+				 set ualx=#ualx#,
+				 	uc=#uc#,
+					uclx=#uclx#,
+					ucljsl=#d_ucljsl#,
+					ualjsl=#d_ualjsl#,
+					yhl=#yhl#,
+					pzh=#pzh#,
+					gys=#gys# 
+				 where xuh = #xuh#  and jfdh = #jfdh# and ua = #ua#
+		]]>
+   </update>
+   
+   <!--2041 插入数据到EFI发货通知-同步零件信息表  -->
+   <insert id="insertTbljxx">
+   <![CDATA[
+   insert into ${dbSchemalzxc}in_efi_fhtz_tbljxx( 
+			ua,
+			uc,
+			xlh,
+			gys,
+			lsh,
+			shul,
+			wzly
+		)values(
+			#ua#,
+			#uc#,
+			#xlh#,
+			#gys#,
+			#lsh#,
+			#shul#,
+			#lygj#)
+		]]>
+   </insert>
+   
+   <!-- 2041 更新in_efi_fhtz_fyztxx表的clzt状态为J  2015-1-13 yz -->
+   <update id="updatein_efi_fhtz_fyztxx_F">
+  	 <![CDATA[
+   			update ${dbSchemalzxc}in_efi_fhtz_fyztxx 
+				 set clzt = 'J' where clzt = 'F'
+		]]>
+   </update>
+   
+   <!-- 2041 查询需要插入ck_daohtzd_dfpv的非移库出库的数据 yz 2015-12-22  -->
+	<select id="queryDaohtzd_dfpv" parameterClass="java.util.Map" resultClass="java.util.HashMap" remapResults="true">
+		<![CDATA[
+				select distinct
+			      t.usercenter, 
+			      '' as uth,  
+			      t.blh, 
+			      t.xiehzt, 
+			      t.tch, 
+			      t.chengysdm, 
+			      t.chengysmc, 
+			      '2' as zhuangt, 
+			      t.yujddsj,
+			      '0' as dayzt, 
+			      t.fayzmzdw, 
+			      t.shiftb, 
+			      t.yuansblh, 
+			      t.changh,
+			      t.cangkbh,
+			      '' as yuansuth, 
+			      t.psasj,
+			      t.changh     
+			       from (select i.*, d.gongsmc as chengysmc from 
+			       (select a.jfdh as blh,a.jfdh as yuansblh,a.xzddm as xiehzt,a.jzxh as tch,a.cysdm as chengysdm,
+			       a.fyyjdd_date as yujddsj,a.fyzmzdw as fayzmzdw,a.sftbfhtz as shiftb,a.changh as changh,b.cangkbh,
+			       a.jf_date as psasj,c.usercenter as usercenter 
+             		from ${dbSchemalzxc}in_efi_fhtz_fyztxx a,${dbSchemalzxc}ckx_xiehzt b,${dbSchemalzxc}ckx_usercenter c
+		             where a.xzddm = b.xiehztbh and b.usercenter = c.usercenter and c.biaos = '1' and a.clzt = 'J')i 
+		             left join ${dbSchemalzxc}ckx_gongys d on
+		             i.usercenter = d.usercenter and i.chengysdm = d.gcbh)t,
+		             ${dbSchemalzxc}ckx_cangk m where t.usercenter = m.usercenter and 
+		             substr(t.xiehzt,1,4) = m.xiehztbz and t.cangkbh = m.cangkbh and m.gongc = '0'
+		]]>
+	</select>
+	
+	<!-- 2041 查询需要插入ck_daohtzd_dfpv的移库还有出库的数据 yz 2016-3-23  -->
+	<select id="queryDaohtzd_dfpv_J" parameterClass="java.util.Map" resultClass="java.util.HashMap" remapResults="true">
+		<![CDATA[
+				select distinct
+            t.usercenter, 
+            '' as uth,  
+            t.blh, 
+            t.xiehzt, 
+            t.tch, 
+            t.chengysdm, 
+            '' as chengysmc, 
+            '2' as zhuangt, 
+            t.yujddsj,
+            '0' as dayzt, 
+            t.fayzmzdw, 
+            t.shiftb, 
+            t.yuansblh, 
+            t.changh,
+            t.cangkbh,
+            '' as yuansuth, 
+            t.psasj,
+            t.changh     
+             from (select a.jfdh as blh,a.jfdh as yuansblh,a.xzddm as xiehzt,a.jzxh as tch,a.cysdm as chengysdm,
+             a.fyyjdd_date as yujddsj,a.fyzmzdw as fayzmzdw,a.sftbfhtz as shiftb,a.changh as changh,a.xzddm as cangkbh,
+             a.jf_date as psasj,c.usercenter as usercenter 
+                 from ${dbSchemalzxc}in_efi_fhtz_fyztxx a,${dbSchemalzxc}ckx_xiehzt b,${dbSchemalzxc}ckx_usercenter c
+                 where a.xzddm = b.cangkbh and b.usercenter = c.usercenter and c.biaos = '1' and a.clzt = 'J')t,           
+                 ${dbSchemalzxc}ckx_cangk m where t.usercenter = m.usercenter and 
+                 t.cangkbh = m.cangkbh and m.gongc = '0'
+		]]>
+	</select>
+	
+	<!-- 2041 查询uth序列 2015-12-22 -->
+   <select id="queryDaoh_seqno" resultClass="java.lang.String">
+   		<![CDATA[
+   			select lpad(daoh_seqno.nextval,8,0) from dual
+		]]>
+   </select>
+   
+   <!-- 2041 查询 ck_daohtzd_dfpv是否存在此数据 yz 2016-2-4-->
+   <select id="queryck_daohtzd_dfpv" parameterClass="java.util.Map" resultClass="java.lang.Integer">
+   	<![CDATA[
+   			 select count(*) from ${dbSchemalzxc}ck_daohtzd_dfpv where USERCENTER = #USERCENTER# and BLH = #BLH# and ZHUANGT = '2' 
+		]]>
+   </select>
+	
+	 <!--2041 插入数据到ck_daohtzd_dfpv yz 2015-12-22  -->
+   <insert id="insertDaohtzd_dfpv" parameterClass="java.util.Map">
+   			insert into ${dbSchemalzxc}ck_daohtzd_dfpv d
+			  (usercenter,
+			   uth,
+			   utscsj,
+			   blh,
+			   xiehzt,
+			   tch,
+			   cangkbh,
+			   chengysdm,
+			   chengysmc,
+			   zhuangt,
+			   yujddsj,
+			   blscsj,
+			   dayzt,
+			   fayzmzdw,
+			   creator,
+			   create_time,
+			   editor,
+			   edit_time,
+			   shiftb,
+			   yuansblh,
+			   yuansuth,
+			   psasj,
+			   changh,
+			   fayzsl
+			   <isEqual property="CREATOR" compareValue="2041" prepend=",">
+                    beiz1
+               </isEqual>
+			   )
+			values
+			  (#USERCENTER#,
+			   #UTH#,
+			   sysdate,
+			   #BLH#,
+			   #XIEHZT#,
+			   #TCH#,
+			   #CANGKBH#,
+			   #CHENGYSDM#,
+			   #CHENGYSMC#,
+			   #ZHUANGT#,
+			   to_date(#YUJDDSJ#, 'yyyy-MM-dd hh24:mi:ss'),
+			   sysdate,
+			   #DAYZT#,
+			   #FAYZMZDW#,
+			   #CREATOR#,
+			   sysdate,
+			   #EDITOR#,
+			   sysdate,
+			   #SHIFTB#,
+			   #YUANSBLH#,
+			   #YUANSUTH#,
+			   to_date(#PSASJ#, 'yyyy-MM-dd hh24:mi:ss'),
+			   #CHANGH#,
+			   (SELECT SUM(b.fysl)
+			      FROM ${dbSchemalzxc}in_efi_fhtz_fymx   b
+			     WHERE b.jfdh = #BLH#
+			     GROUP BY b.jfdh)
+			   <isEqual property="CREATOR" compareValue="2041" prepend=",">
+                    '1'
+               </isEqual>)
+   </insert>
+   
+   <!-- 2041 查询需要插入ck_uabq_dfpv所有字段 yz 2015-12-23  -->
+	<select id="queryUabq_dfpv" parameterClass="java.util.Map" resultClass="java.util.HashMap" remapResults="true">
+		<![CDATA[
+				select distinct
+			       usercenter,
+			       uth,
+			       uah,
+			       blh,
+			       gongysdm,
+			       gongysmc,
+			       gongyslx,
+			       pich,
+			       uaxh,
+			       uarl,
+			       ucxh,
+			       uchl,
+			       lingjbh,
+			       lingjmc,
+			       cangkbh,
+			       zickbh,
+			       danw,
+			       lingjsl,
+			       baozzt,
+			       zhuangtsx,
+			       chanx,
+			       jingz,
+			       maoz,
+			       yanssl,
+			       yaohlh,
+			       dingdh,
+			       quancbqh,
+			       xiaohd,
+			       dinghckkw,
+			       xianbck,
+			       xianbckkw,
+			       daybs,
+			       shiftjkw,
+			       xiaohcbh,
+			       tangc,
+			       shifht,
+			       xiangd,
+			       to_char(gongzr,'yyyy-MM-dd') as gongzr,
+			       changd,
+			       kuand,
+			       gaod,
+			       '0' as beiz1,
+			       m.jzxh,
+			       m.cysdm,			  
+			       m.xzddm
+			       from (select a.usercenter,a.uth,a.blh,a.cangkbh,c.ua as uah,c.pzh as pich,c.yhl as yaohlh,c.ualx as uaxh,
+			       b.ljh as lingjbh,b.ddh as dingdh,c.gys as gongysdm,c.ualjsl as lingjsl,c.uclx as ucxh,c.ucljsl as uchl,
+			       c.quancbqh,c.xiaohd,c.cangkkw as dinghckkw,c.xianbck,c.xianbckkw,'0' as daybs,'0' as shiftjkw,c.xiaohcbh,
+			       c.shifht,c.xiangd,c.gongzr,c.tangc,d.zhongwmc,b.jldw as danw,d.lingjzl,e.uaucgs*e.ucrl as uarl,d.zhongwmc as lingjmc,
+			       f.gongsmc as gongysmc,f.leix as gongyslx,g.zickbh,'1' as baozzt,h.yaohllx as zhuangtsx,h.chanx,
+			       c.ualjsl*d.lingjzl as jingz,c.ualjsl*d.lingjzl+i.baozzl as maoz,c.ualjsl as yanssl,c.changd,c.kuand,c.gaod
+			       from ${dbSchemalzxc}ck_daohtzd_dfpv a join ${dbSchemalzxc}in_efi_fhtz_fymx b on a.blh = b.jfdh 
+			       join ${dbSchemalzxc}in_efi_fhtz_bzdyxx c on b.xuh = c.xuh and a.blh = c.jfdh
+			       left join ${dbSchemalzxc}ckx_lingj d on a.usercenter = d.usercenter and b.ljh = d.lingjbh 
+			       left join ${dbSchemalzxc}ckx_lingjgys e on a.usercenter = e.usercenter and c.gys = e.gongysbh and b.ljh = e.lingjbh 
+			       left join ${dbSchemalzxc}ckx_gongys f on c.gys = f.gcbh and a.usercenter = f.usercenter 
+			       left join ${dbSchemalzxc}ckx_lingjck g on a.usercenter = g.usercenter and a.cangkbh = g.cangkbh and b.ljh = g.lingjbh 
+			       left join ${dbSchemalzxc}ck_yaonbhl h on c.yhl = h.yaohlh 
+			       left join ${dbSchemalzxc}ckx_baoz i on c.ualx = i.baozlx
+			       )t,in_efi_fhtz_fyztxx m where t.blh = m.jfdh and m.clzt = 'J'
+		]]>
+	</select>
+   
+   	<!-- 2041 查询ulh序列 2015-12-23 -->
+   	<select id="queryul_seqno" parameterClass="java.lang.String" resultClass="java.lang.String">
+   		<![CDATA[
+   			select lpad(ul_seqno.nextval,8,0) from dual
+		]]>
+   	</select>
+   	
+   	<!-- 2041 查询elh序列 2015-12-23 -->
+   	<select id="queryel_seqno" parameterClass="java.lang.String" resultClass="java.lang.String">
+   		<![CDATA[
+   			select lpad(el_seqno.nextval,9,0) from dual
+		]]>
+   	</select>
+   	
+   	<!-- 2041 查询 ck_uabq_dfpv是否存在此数据 yz 2016-2-4-->
+   <select id="queryck_uabq_dfpv" parameterClass="java.util.Map" resultClass="java.lang.Integer">
+   	<![CDATA[
+   			 select count(*) from ${dbSchemalzxc}ck_uabq_dfpv where USERCENTER = #USERCENTER# and UTH = #UTH# and UAH = #UAH# 
+		]]>
+   </select>
+   
+    <!--2041 插入数据到ck_uabq_dfpv yz 2015-12-23  -->
+   <insert id="insertUabq_dfpv" parameterClass="java.util.Map">
+   <![CDATA[
+   			insert into ${dbSchemalzxc}ck_uabq_dfpv( 
+			 	usercenter, 
+				uth, 
+				uah, 
+				ulh, 
+				blh, 
+				elh, 
+				gongysdm, 
+				gongysmc, 
+				gongyslx, 
+				pich, 
+				uaxh, 
+				uarl, 
+				ucxh, 
+				ucgs, 
+				uchl, 
+				lingjbh, 
+				lingjmc, 
+				cangkbh, 
+				zickbh, 
+				danw, 
+				lingjsl, 
+				baozzt, 
+				zhuangtsx, 
+				chuangjrq,
+				chanx, 
+				jingz, 
+				maoz, 
+				yanssl,
+				yaohlh, 
+				dingdh, 
+				caozy,  
+				creator, 
+				create_time, 
+				editor, 
+				edit_time,  
+				quancbqh, 
+				xiaohd, 
+				dinghckkw, 
+				xianbck, 
+				xianbckkw, 
+				daybs, 
+				shiftjkw,
+				xiaohcbh, 
+				tangc, 
+				shifht, 
+				xiangd, 
+				gongzr,
+				changd,
+			    kuand,
+			    gaod,
+			    beiz1
+		)values(
+				 #USERCENTER#, 
+				 #UTH#, 
+				 #UAH#, 
+				 #ULH#, 
+				 #BLH#,  
+				 #ELH#, 
+				 #GONGYSDM#, 
+				 #GONGYSMC#, 
+				 #GONGYSLX#, 
+				 #PICH#,  
+				 #UAXH#, 
+				 #UARL#, 
+				 #UCXH#, 
+				 #UCGS#, 
+				 #UCHL#, 
+				 #LINGJBH#, 
+				 #LINGJMC#,  
+				 #CANGKBH#, 
+				 #ZICKBH#, 
+				 #DANW#, 
+				 #LINGJSL#, 
+				 #BAOZZT#,  
+				 #ZHUANGTSX#, 
+				 sysdate,
+				 #CHANX#, 
+				 #JINGZ#, 
+				 #MAOZ#, 
+				 #YANSSL#, 
+				 #YAOHLH#, 
+				 #DINGDH#, 
+				 #CAOZY#, 
+				 #CREATOR#, 
+				 sysdate, 
+				 #EDITOR#, 
+				 sysdate, 
+				 #QUANCBQH#, 
+				 #XIAOHD#, 
+				 #DINGHCKKW#,  
+				 #XIANBCK#, 
+				 #XIANBCKKW#, 
+				 #DAYBS#, 
+				 #SHIFTJKW#,
+				 #XIAOHCBH#,  
+				 #TANGC#, 
+				 #SHIFHT#, 
+				 #XIANGD#,
+				 to_date(#GONGZR#,'yyyy-MM-dd'),
+				 #CHANGD#,
+			     #KUAND#,
+			     #GAOD#,
+			     #BEIZ1#
+				 )
+		]]>
+   </insert>
+   
+  <!--   2041 更新ck_yaonbhl表的yaohlzt状态为02  2015-12-23 yz -->
+<!--    <update id="updateck_yaonbhl">
+  	 <![CDATA[
+   			update ${dbSchemalzxc}ck_yaonbhl 
+				 set yaohlzt = '02' 
+				 where usercenter = #USERCENTER# 
+				 and yaohlh = #YAOHLH#
+		]]>
+   </update> -->
+   
+    <!-- 2041 更新in_efi_fhtz_fyztxx表传到dfpv的clzt为1  2015-1-13 yz -->
+   <update id="updatein_efi_fhtz_fyztxx_dfpv">
+  	 <![CDATA[
+   			update ${dbSchemalzxc}in_efi_fhtz_fyztxx a
+				 set clzt = '1' 
+				 where clzt = 'J' and exists (select 1 from ${dbSchemalzxc}ck_daohtzd_dfpv b where a.jfdh=b.blh) 
+		]]>
+   </update>
+   
+   <!-- 2041 更新in_efi_fhtz_fyztxx表其他的clzt为0  2015-1-13 yz -->
+   <update id="updatein_efi_fhtz_fyztxx">
+  	 <![CDATA[
+   			update ${dbSchemalzxc}in_efi_fhtz_fyztxx 
+				 set clzt = '0' 
+				 where clzt = 'J' 
+		]]>
+   </update>
+   
+   <!--2050 EDI发货通知   保存发运主体信息in_edi_fhtz_fyxx hzg 2013-3-13  -->
+      <insert id="insertEDIFyxx" parameterClass="java.util.Map">
+   <![CDATA[
+			insert into ${dbSchemalzxc}in_edi_fhtz_fyxx(USERCENTER,T01A001,T01B001,D03B001,D03D002,
+			D03FA01,D03FA02,D03FA05,D03FD03,C18AB01,C18B005,C05AB01,H02AB01,C06AB01,
+			D04A001,cj_date,clzt)
+			values(
+			#usercenter#,
+			#T01A001#,
+			#T01B001#,
+			#D03B001#,
+			#D03D002#,
+			#D03FA01#,
+			#D03FA02#,
+			#D03FA05#,
+			#D03FD03#,
+			#gongysbh#,
+			#C18B005#,
+			#C05AB01#,
+			#xiehztbh#,
+			#gongysbh#,
+			#D04A001#,
+			to_date(#currTime#,'yyyy-MM-dd hh24:mi:ss'),
+			0)	
+		]]>
+   </insert>
+   
+    <!--2050 EDI发货通知  主体信息写到in_kdwld hzg 2014-5-27  -->
+      <insert id="insertKdwld" parameterClass="java.util.Map">
+   <![CDATA[
+			insert into ${dbSchemalzxc}in_kdwld(ID,FALG,PAP_BOX_ID,KDYS_BOX_ID,C_POINT_ID,T_TIME,CJ_DATE,CLZT)
+			values(
+			sys_guid(),
+			'C',
+			#D04A001#,
+			#D04A001#,
+			'30',
+			substr(#T01B001#,0,10),
+			sysdate,
+			0)	
+		]]>
+   </insert>
+   
+   <!--2050 EDI发货通知   保存发运明细信息in_edi_fhtz_fymx hzg 2013-3-13  -->
+      <insert id="insertEDIFymx" parameterClass="java.util.Map">
+   <![CDATA[
+			insert into ${dbSchemalzxc}in_edi_fhtz_fymx(xuh,T01A001,A02D001,A02D002,
+			B03AB01,B03AB02,A04A002,A04B003,A09AC01,A01C009)
+			values(
+			#fy_xuh#,
+			#T01A001#,
+			#A02D001#,
+			#A02D002#,
+			#B03AB01#, 
+			#B03AB02#,
+			#A04A002#,
+			#A04B003#,
+			#A09AC01#,
+			#A01C009#
+			)
+		]]>
+   </insert>
+   
+    <!--2050 EDI发货通知   录入信息到包装对应信息表 in_edi_fhtz_bzxx hzg 2013-3-13  -->
+      <insert id="insertEDIBzxx" parameterClass="java.util.Map">
+   <![CDATA[
+				 insert into ${dbSchemalzxc}in_edi_fhtz_bzxx(xuh,T01A001,B04A001,B05AB01,B05AB03,
+						B05AB02,B05AD01,A07A001)
+				values(
+				#fy_xuh#,
+				#T01A001#,
+				#B04A001#,
+				#B05AB01#,
+				#B03AB01#,
+				#B05AB02#,
+				#B05AD01#,
+				#A07A001#
+				)
+		]]>
+   </insert>
+   
+   <!-- 2050 -->
+   <select id="queryUCOfLingjgys" parameterClass="java.util.Map" resultClass="java.util.HashMap">
+	   <![CDATA[
+	   select ucbzlx, to_char(uaucgs) as uaucgs, to_char(ucrl) as ucrl  
+		 from ${dbSchemalzxc}ckx_lingjgys  
+		 where usercenter=#usercenter# and  
+		 gongysbh=#gongysbh# and 
+		 lingjbh=#lingjbh# and biaos=1
+	   ]]>
+   </select>
+   
+    <!-- 2050 根据邓白氏码查询供应商表中的供承运商编号 hzg 只取一条记录  2014.5.22-->
+   <select id="queryGongys" parameterClass="java.util.Map" resultClass="java.lang.String">
+	   <![CDATA[
+	   	 select gcbh from ${dbSchemalzxc}ckx_gongys  
+		 where usercenter=#usercenter# and  
+		 chuanz=#dengbsm# and biaos=1 and rownum=1
+	   ]]>
+   </select>
+   
+    <!-- 2050 update hzg 2013-5-29 如果有查出多条记录只取一条 mantis: 0007070  ，取ckx_anjmlxhd表的实际仓库值 hzg 2014.3.31-->
+   <select id="queryShijck" parameterClass="java.util.Map" resultClass="java.lang.String">
+	   <![CDATA[
+	   	 select cangkbh from ${dbSchemalzxc}ckx_anjmlxhd  
+		 where usercenter=#usercenter# and  
+		 anjmlxhd=#xiaohd#  and biaos=1 and rownum=1
+	   ]]>
+   </select>
+   
+    <!-- 2050 update hzg 2013-5-29 如果有查出多条记录只取一条 mantis: 0007070 -->
+   <select id="queryXiehztbh" parameterClass="java.util.Map" resultClass="java.lang.String">
+	   <![CDATA[
+	   	 select xiehztbh from ${dbSchemalzxc}ckx_xiehzt  
+		 where usercenter=#usercenter# and  
+		 cangkbh=#cangkbh#  and biaos=1 and rownum=1
+	   ]]>
+   </select>
+   
+   <!--2050  -->
+   <update id="updateEDIBzxx" parameterClass="java.util.Map">
+   		<![CDATA[
+   		update ${dbSchemalzxc}in_edi_fhtz_bzxx set
+   		 ucbzlx=#ucbzlx#,
+		 uaucgs=#uaucgs#,
+		 ucrl=#ucrl#
+		where xuh=#xuh# and t01a001=#t01a001#
+   		]]>
+   </update>
+
+ <!-- 2050 EDI发货通知-发运主体信息表数据是否存在处理状态为1的数据 ,hzg 2013-3-13 -->
+   <select id="queryT01A001Total" resultClass="java.lang.String">
+   	<![CDATA[
+   			 select count(T01A001) total from ${dbSchemalzxc}in_edi_fhtz_fyxx where CLZT = '1'
+		]]>
+   </select>
+
+<!-- 2050 清空EDI发货通知-包装对应信息表数据  hzg 2013-3-13 -->
+   <delete id="ediBzxxDelete">
+   		<![CDATA[
+   			delete from ${dbSchemalzxc}in_edi_fhtz_bzxx where T01A001 in 
+   			 (select T01A001 from ${dbSchemalzxc}in_edi_fhtz_fyxx where CLZT = '1')
+		]]>
+   </delete>
+   
+    <!-- 2050 清空EDI发货通知-发运明细表数据  hzg 2013-3-13 -->
+   <delete id="ediFymxDelete">
+   		<![CDATA[
+   			 delete from ${dbSchemalzxc}in_edi_fhtz_fymx where T01A001 in  
+	        			 (select T01A001 from ${dbSchemalzxc}in_edi_fhtz_fyxx where CLZT = '1')
+		]]>
+   </delete>
+   
+   <!-- 2050 清空EDI发货通知-发运主体信息表数据  hzg 2013-3-13 -->
+   <delete id="ediFyxxDelete">
+   		<![CDATA[
+   			delete from ${dbSchemalzxc}in_edi_fhtz_fyxx where CLZT = '1'
+		]]>
+   </delete>
+   
+   <!-- 2050 -->
+   <select id="queryJfdhOfFyxx" parameterClass="java.lang.String" resultClass="java.lang.String">
+   	<![CDATA[
+   			 select T01A001 from ${dbSchemalzxc}in_edi_fhtz_fyxx  
+		 		where T01A001=#jiaofdh#
+		]]>
+   </select>
+   
+   <!-- 2090 将准备层标识1，ckx_lingjxhd标识为0的四个总量更新为准备层文件的值  hzg 2013-7-22|0013552：不更新标识  lc 2017-4-11 -->
+    <update id="updateLingjxhdOfZongl" parameterClass="java.util.Map" >
+   		<![CDATA[
+   			 update ${dbSchemalzxc}CKX_LINGJXHD d set d.YIFYHLZL=#YIFYHLZL#,d.JIAOFZL=#JIAOFZL#,d.XITTZZ=#XITTZZ#,d.ZHONGZZL=#ZHONGZZL#
+   			  where d.BIAOS = '0' and USERCENTER=#USERCENTER# and LINGJBH=#LINGJBH# and XIAOHDBH=#XIAOHDBH#
+		]]>
+   </update>
+  
+   <!-- 2090 归集零件消耗点小火车信息，将小火车信息写到小火车表  hzg 2013.12.11 -->
+  <insert id="insertXiaohcinfoOfLingjxhdIntoXiaohc">
+  		<![CDATA[
+  		insert into ${dbSchemalzxc}ckx_xiaohc(usercenter,shengcxbh,xiaohcbh,biaos,creator,create_time) 
+ 			select distinct t.usercenter,nvl(t.fenzxh,t.shengcxbh),t.xiaohcbh,'1' biaos ,'2090',sysdate
+ 			  from ${dbSchemalzxc}ckx_lingjxhd t where biaos='1'and xiaohcbh is not null 
+	    	and not exists 
+		      (select 1 from ${dbSchemalzxc}ckx_xiaohc x where 
+		      x.usercenter=t.usercenter 
+		      and x.shengcxbh=nvl(t.fenzxh,t.shengcxbh) 
+		      and x.xiaohcbh=t.xiaohcbh  )
+  
+  		]]>
+  </insert>
+   
+   <!--############################## DB->DB ###############################  -->
+
+   <!-- id="2011" caption="外部订单预告" hzg 2013-3-14 -->
+   <select id="queryWbddyg" parameterClass="java.util.Map" resultClass="java.util.HashMap" remapResults="true">
+   	<![CDATA[
+   	$head$
+   	select tt.*,ROWNUM RN from (  
+		select dingdh,zzzx,lingjbh,yxbh,ddrq,shul,zfbj,hgbm,xianh,lyxt,usercenter,'0' as clzt,to_char(cj_date,'yyyy-MM-dd hh24:mi:ss') as cj_date,
+		WENJMC,WENJLJ   
+		from ${dbSchemalzxc}in_wbddyg where 1=1 
+	$middle$ 
+	order by DINGDH, LINGJBH, DDRQ, XIANH, LYXT, USERCENTER         	
+	) tt where 1=1		
+	$foot$	
+		]]>
+   </select>
+   
+   
+   <!-- 2650 SPPV6400整车过点信息  hzg 2013-12-9 取STATE状态为J的数据   PORTEDATE加to_char函数 12.26  -->
+   <select id="queryAzposvehAll" parameterClass="java.util.Map" resultClass="java.util.HashMap" remapResults="true">
+		<![CDATA[
+		$head$
+		select tt.*,ROWNUM RN from (
+			select WHOF,UW5ANOSEQ,CODECEN,EFERPORTE,LMP,to_char(PORTEDATE,'yyyy-MM-dd hh24:mi:ss') PORTEDATE,trim(AZPOSVEH) AZPOSVEH,'F' as FLAG   
+							 from sppv.ATHENA001 where MONVEH='S'    
+		 order by  WHOF, CODECEN, LMP, PORTEDATE, AZPOSVEH, STATE   
+		 ) tt where 1=1  							 
+		$foot$	
+			]]>
+	</select>
+   
+    <!-- 2650 SPPV整车过点信息ALL  处理前更新ATHENA001表 MONVEH不为E的改新为S,hzg 2013.12.20 -->
+   <update id="updateATHENA001OfStateJsbsToJ">
+   		<![CDATA[
+		   update sppv.ATHENA001 set MONVEH='S' where (MONVEH <>'E' or MONVEH is null)
+		]]>
+   </update>
+   
+   <!-- 2650 SPPV整车过点信息ALL  处理后更新ATHENA001表,S-E hzg 2013.12.20  -->
+   <update id="updateAthena001OfState">
+   		<![CDATA[
+		   update sppv.ATHENA001 set MONVEH='E' where  MONVEH='S' 
+		]]>
+   </update>
+   
+   <!-- 2650 SPPV整车过点信息  更新athena001表 -->
+   <!-- <update id="updateAthenaOfChanx">
+   		<![CDATA[
+		  update ${dbSchemalzxc}ck_zhengcgd set shengcx=usercenter||'5L'||substr(zongzlsh,1,1) where length(trim(shengcx)) <> 5 
+		]]>
+   </update> -->
+   
+    <!-- 2650 归集ck_zhengcgd表产线和及最大整车序号 hzg 2013.12.23 -->
+    <select id="queryGroupbyShengcxOfZhengcgd" parameterClass="java.util.Map" resultClass="java.util.HashMap">
+    <![CDATA[
+     SELECT T.SHENGCX,to_char(NVL(MAX(T.ZHENGCXH),0)) ZHENGCXH
+           FROM ${dbSchemalzxc}CK_ZHENGCGD  T 
+           WHERE T.WULD='6000' 
+           GROUP BY SHENGCX ORDER BY SHENGCX    
+   	]]>
+   </select>
+   
+   <!-- 2650 归集ck_zhengcgd表6000点数据并按过点时间从小到大排序(顺序) hzg 2013.12.23 -->
+    <select id="queryGroupbyXuhOfZhengcgd6000" parameterClass="java.util.Map" resultClass="java.util.HashMap">
+    <![CDATA[
+     		 SELECT V.USERCENTER,V.DINGDH,V.ZONGZLSH,V.SHENGCX,V.ZHENGCXH,
+     		 	to_char(V.GUODSJ,'yyyy-mm-dd hh24:mi:ss') GUODSJ 
+     		 FROM  ${dbSchemalzxc}CK_ZHENGCGD V 
+     		 		WHERE V.SHENGCX=#SHENGCX#
+     				AND V.WULD='6000' AND (V.ZHENGCXH IS NULL OR V.ZHENGCXH=0) 
+     		 ORDER BY GUODSJ
+   	]]>
+   </select>
+   
+   <!-- 2650 根据产线和最大整车序号查询DDBH_PCJHLSH_CS表中最小的流水号   lc 2016-3-19 -->
+   <select id="queryLiushofPcjhlsh6000" parameterClass="java.util.Map" resultClass="java.lang.String">
+    <![CDATA[
+       SELECT to_char(MIN(T.LIUSH)) LIUSH
+         FROM ${dbSchemalzxc}DDBH_PCJHLSH_CS T WHERE T.SHENGCXBH=#SHENGCX# 
+          AND T.LIUSH>(SELECT to_char(NVL(MAX(V.ZHENGCXH),0)) ZHENGCXH
+                       FROM CK_ZHENGCGD V WHERE V.SHENGCX=#SHENGCX# AND V.WULD='6000')   
+   	]]>
+   </select>
+   
+   <!--  2650 整车序号最大值  hzg  2013.12.23 -->
+   <update id="updateZhengcxhOfZhengcgd" parameterClass="java.util.Map" >
+   	<![CDATA[
+		   UPDATE ${dbSchemalzxc}CK_ZHENGCGD T
+					SET T.ZHENGCXH=#sZhengcxh#,
+						T.EDITOR=#editor#,
+						T.EDIT_TIME=sysdate
+					WHERE T.USERCENTER=#USERCENTER#
+					AND	 T.SHENGCX=#SHENGCX#
+					AND	 T.ZONGZLSH=#ZONGZLSH#
+					AND	 T.DINGDH=#DINGDH#
+					AND  T.GUODSJ=to_date(#GUODSJ#,'yyyy-mm-dd hh24:mi:ss')
+		]]>
+   </update>
+   
+     <!-- 2950 SPPV焊装过点申报信息  lc 2015-12-22 |0013625:订单号为空的给八个0，上线物理点为空的给BAP，这种属备件分装线  lc 2017-04-19 -->
+   <select id="querysppvhzgdsbxx" parameterClass="java.util.Map" resultClass="java.util.HashMap" remapResults="true">
+		<![CDATA[
+		$head$
+		select tt.*,ROWNUM RN from (
+			select nvl(trim(WHOF),'00000000') WHOF,UW5ANOSEQ,CODECEN,nvl(trim(LOCALWLDID),'BAP') LOCALWLDID,LMP,to_char(ATIME,'yyyy-MM-dd hh24:mi:ss') ATIME,AZPOSVEH,'F' as FLAG   
+			  from sppv.ATHENA006 where MONVEH='S'    
+		order by UW5ANOSEQ,AZPOSVEH,ATIME,STATE   
+		) tt where 1=1  							 
+		$foot$	
+			]]>
+	</select>
+   
+   <!-- 2950 SPPV焊装过点申报信息 lc 2015-12-22 处理前更新ATHENA006表 MONVEH不为E的改为S -->
+   <update id="updateATHENA006OfStateJsbsToJ">
+   		<![CDATA[
+		   update sppv.ATHENA006 set MONVEH='S' where (MONVEH <>'E' or MONVEH is null)
+		]]>
+   </update>
+   
+   <!-- 2950 SPPV焊装过点申报信息 lc 2015-12-22 处理后更新ATHENA006表  -->
+   <update id="updateAthena006OfState">
+   		<![CDATA[
+		   update sppv.ATHENA006 set MONVEH='E' where MONVEH='S' 
+		]]>
+   </update>
+   
+   <!-- 2950 SPPV焊装过点申报信息 lc 2015-12-22 更新ck_zhengcgd表 -->
+   <!-- <update id="updateAthena006OfChanx">
+   		<![CDATA[
+		   update ${dbSchemalzxc}ck_zhengcgd set shengcx=usercenter||'2'||rtrim(shengcx) where length(rtrim(shengcx)) <> 5 
+		]]>
+   </update> -->
+   
+    <!-- 2950 SPPV焊装过点申报信息 lc 2015-12-22 归集ck_zhengcgd表物理点，产线和最大整车序号  -->
+    <select id="queryGroupbyShengcx" parameterClass="java.util.Map" resultClass="java.util.HashMap">
+    <![CDATA[
+       SELECT T.WULD,T.SHENGCX,to_char(NVL(MAX(T.ZHENGCXH),0)) ZHENGCXH
+         FROM ${dbSchemalzxc}CK_ZHENGCGD T 
+        WHERE T.WULD IN (SELECT DISTINCT A.SHANGXD FROM ${dbSchemalzxc}CK_GUODSZ A 
+                          WHERE A.LEIX='2' AND A.USERCENTER=T.USERCENTER) 
+          AND SUBSTR(T.SHENGCX,1,3)=T.USERCENTER||'2' 
+        GROUP BY WULD,SHENGCX 
+        ORDER BY WULD,SHENGCX   
+   	]]>
+   </select>
+   
+   <!-- 2950 SPPV焊装过点申报信息 lc 2015-12-22 归集ck_zhengcgd表每个物理点数据并按过点时间从小到大排序(顺序) -->
+    <select id="queryGroupbyXuhOfZhengcgd" parameterClass="java.util.Map" resultClass="java.util.HashMap">
+    <![CDATA[
+       SELECT V.USERCENTER,V.DINGDH,V.ZONGZLSH,V.SHENGCX,V.ZHENGCXH,
+     		  to_char(V.GUODSJ,'yyyy-mm-dd hh24:mi:ss') GUODSJ 
+     	FROM  ${dbSchemalzxc}CK_ZHENGCGD V 
+     	WHERE V.SHENGCX=#SHENGCX# AND V.WULD=#WULD# AND (V.ZHENGCXH IS NULL OR V.ZHENGCXH=0) 
+     	ORDER BY GUODSJ
+   	]]>
+   </select>
+   
+   <!-- 2950 SPPV焊装过点申报信息 lc 2016-3-18 根据产线和最大整车序号查询DDBH_PCJHLSH_CS表中最小的流水号 -->
+   <select id="queryLiushofPcjhlsh" parameterClass="java.util.Map" resultClass="java.lang.String">
+    <![CDATA[
+       SELECT to_char(MIN(T.LIUSH)) LIUSH
+         FROM ${dbSchemalzxc}DDBH_PCJHLSH_CS T WHERE T.SHENGCXBH=#SHENGCX# 
+          AND T.LIUSH>(SELECT to_char(NVL(MAX(V.ZHENGCXH),0)) ZHENGCXH
+                       FROM CK_ZHENGCGD V WHERE V.SHENGCX=#SHENGCX# AND V.WULD=#WULD#)   
+   	]]>
+   </select>
+   
+   <!-- 2950 SPPV焊装过点申报信息 lc 2015-12-22 更新整车序号  -->
+   <update id="updateZhengcxh" parameterClass="java.util.Map" >
+   	<![CDATA[
+		   UPDATE ${dbSchemalzxc}CK_ZHENGCGD T
+					SET T.ZHENGCXH=#sZhengcxh#,
+						T.EDITOR=#editor#,
+						T.EDIT_TIME=sysdate
+					WHERE T.USERCENTER=#USERCENTER#
+					AND	 T.SHENGCX=#SHENGCX#
+					AND	 T.ZONGZLSH=#ZONGZLSH#
+					AND	 T.DINGDH=#DINGDH#
+					AND  T.GUODSJ=to_date(#GUODSJ#,'yyyy-mm-dd hh24:mi:ss')
+		]]>
+   </update>
+   
+   <!--  id="2480" 更新MOS值 hzg 2013.12.10 -->
+   <update id="updateMosOfChaifjg_cs">
+   		<![CDATA[
+			 UPDATE ${dbSchemalzxc}IN_CAIFJG_CS T1
+				SET  
+					T1.MOS='CS',
+					T1.EDITOR='2480',
+					T1.EDIT_TIME=sysdate
+				WHERE T1.FLAG='T'
+				AND		EXISTS
+				(select 1 from ${dbSchemalzxc}ckx_wullj  c
+						where T1.usercenter = c.usercenter   AND
+						c.fenpqh=substr(T1.xiaohd,1,5)       AND
+						c.mos='CS'                           AND
+						c.lingjbh=T1.lingjbh                 AND
+						rownum='1')		 
+		]]>
+   </update>
+   
+    
+   <!--  id="2480" 更新ZHENGCXH值 hzg 2013.12.23  把exits去掉，直接在where后面带条件 12.26-->
+   <update id="updateZhengcxhOfChaifjg_cs">
+   		<![CDATA[
+ 		  update  ${dbSchemalzxc}DDBH_CAIFJG_CS t set t.zhengcxh =    
+        		(select z.zhengcxh from  ${dbSchemalzxc}ck_zhengcgd z 
+        			where z.wuld='6000' and nvl(z.zhengcxh,0)>0 
+        								and z.usercenter=t.usercenter 
+         								and z.shengcx=t.chanx 
+         								and z.zongzlsh=t.zhongzlxh 
+         								and rownum=1)
+         	where  t.flag='T' and (t.zhengcxh is null or t.zhengcxh=0)  	
+		]]>
+   </update>
+   
+   <!-- id="2480" 更新1点和1000点ZHENGCXH值  lc 2016.1.8 -->
+   <update id="updateZhengcxhOfChaifjg_cs1">
+   		<![CDATA[
+ 		  update ${dbSchemalzxc}DDBH_CAIFJG_CS t set t.zhengcxh =    
+        		 (select z.zhengcxh from ${dbSchemalzxc}ck_zhengcgd z 
+        		   where z.wuld in (select distinct a.shangxd from ${dbSchemalzxc}ck_guodsz a 
+                                     where a.leix='2' and a.usercenter=z.usercenter) 
+        		     and nvl(z.zhengcxh,0)>0 
+        			 and z.usercenter=t.usercenter 
+         			 and z.shengcx=t.chanx
+         			 and substr(z.shengcx,1,3)=z.usercenter||'2' 
+         			 and z.zongzlsh=t.zhongzlxh 
+         			 and rownum=1)
+           where t.flag='T' and (t.zhengcxh is null or t.zhengcxh=0)  	
+		]]>
+   </update>
+   
+    <!--  id="2480" 更新小火车编号  hzg 2013.12.10 ;由于表增加了分装线，所以分装线的更新不到，因些去掉产线关联条件 by hzg 2016.8.24 -->
+   <update id="updateXiaohcbhOfChaifjg_cs" parameterClass="java.util.Map" >
+   	<![CDATA[
+		   UPDATE ${dbSchemalzxc}DDBH_CAIFJG_CS T1
+        	SET T1.Xiaohcbh= (select c.xiaohcbh from ${dbSchemalzxc}ckx_lingjxhd  c
+            		where T1.usercenter = c.usercenter  AND
+            		T1.Lingjbh=c.lingjbh         AND
+            		T1.Xiaohd=c.xiaohdbh         AND
+            		c.biaos='1'),
+          	T1.EDITOR='2480',
+          	T1.EDIT_TIME=sysdate
+        	WHERE T1.FLAG='T' AND T1.MOS='CS'
+		]]>
+   </update>
+   
+    <!--  id="2480" 更新消耗点内部偏移量 ，如果偏移量为负则置为0 ，sign用于判断是否为负，decode用于判断取值  hzg 2013.12.10 ;
+    由于表增加了分装线，所以分装线的更新不到，因些去掉产线关联条件 by hzg 2016.8.24-->
+   <update id="updateXiaohdpylOfChaifjg_cs" >
+   	<![CDATA[
+		   UPDATE ${dbSchemalzxc}DDBH_CAIFJG_CS T
+        	SET T.XIAOHDPYL= 
+          	(select  decode(sign(nvl(t1.chessl,0)-nvl(t2.pianycws,0)),-1,0,1,nvl(t1.chessl,0)-nvl(t2.pianycws,0),0)
+          	from ${dbSchemalzxc}CKX_GONGYXHD t1,${dbSchemalzxc}CKX_XIAOHC t2 
+          	where t.xiaohd=t1.gongyxhd  and t1.biaos='1' 
+          	and t.usercenter=t2.usercenter and t.xiaohcbh=t2.xiaohcbh  
+          	and t.chanx=t2.shengcxbh  and t2.biaos='1'),
+       	 T.EDITOR='2480',
+         T.EDIT_TIME=sysdate
+         WHERE T.FLAG='T' AND T.MOS='CS'
+		]]>
+   </update>
+   
+   
+      <!--  id="2480" 更新四个值不为空的记录，将FLAG置为0  hzg 2013.12.11 -->
+   <update id="updateFlagToZeroOfNotNull" >
+   	<![CDATA[
+	   update ${dbSchemalzxc}DDBH_CAIFJG_CS tt set tt.flag='0'
+	      where   tt.Flag='T' AND  tt.MOS = 'CS'
+		   and (tt.XIAOHDPYL is not null and tt.ZHENGCXH is not null and tt.XIAOHCBH is not null)
+		]]>
+   </update>
+   
+   <!-- 2480 清空中间表数据  hzg 2013.12.17 -->
+   <delete id="truncateOfin_caifjg_cs">
+   		<![CDATA[
+	  			truncate table ${dbSchemalzxc}in_caifjg_cs
+		]]>
+   </delete>
+   
+   
+    <!--  id="2480" 将中间表中模式为CS的数据输出到业务表  hzg 2013.12.17 -->
+   <insert id="insertInCaifjgCsToDdbhCaifjsCs">
+   	<![CDATA[
+	   	insert into ${dbSchemalzxc}ddbh_caifjg_cs(
+		  usercenter,ofh,chanx,chejh,
+		  lingjbh,xiaohd,zhongzlxh,hanzbs,
+		  emon,shunxh,lingjsl,xuqly,danw,zhizlx,
+		  caifsj,flag,xiaohdpyl,zhengcxh,
+		  xiaohcbh,mos,creator,create_time
+		)
+		select  t.usercenter,t.ofh,t.chanx,t.chejh,
+				t.lingjbh,t.xiaohd,t.zhongzlxh,t.hanzbs,
+				t.emon,t.shunxh,t.lingjsl,t.xuqly,t.danw,t.zhizlx,
+				t.caifsj,t.flag,t.xiaohdpyl,t.zhengcxh,
+				t.xiaohcbh,t.mos,'2480',sysdate
+		from ${dbSchemalzxc}in_caifjg_cs t  where  t.mos='CS'
+		]]>
+   </insert>
+   
+   
+   
+   <!--  id="2020" caption="过点同步需求"  hzg 2013-3-15 update 取JSBS为J的数据  2013-10-9 update sxdate由取sysdate改为csdate hzg 2014.3.5  加UW5ANOSEQ排序  hzg 2014.3.22-->
+   <select id="querySppv034" parameterClass="java.util.Map" resultClass="java.util.HashMap" remapResults="true">
+   	<![CDATA[
+   	$head$
+   	select tt.*,ROWNUM RN from (
+		select whof,uw5anoseq,value,product,to_char(csdate,'yyyy-MM-dd hh24:mi:ss') as sxdate,'' as xiaohdbh,'' as danw,oclass,jsbs,
+		coef_att,to_char(sysdate,'yyyy-MM-dd hh24:mi:ss') as csdate,codecen,lmp,wldid   from sppv.sppv034 where JSBS='J' 
+	order by CODECEN,UW5ANOSEQ,WHOF,OCLASS,value          	
+	) tt where 1=1	
+	$foot$	
+		]]>
+   </select>
+
+   <!--  id="2020" 查询消耗点编号-->
+   <select id="querySppvXiaohdbh" parameterClass="java.util.Map" resultClass="java.lang.String" >
+   	<![CDATA[
+		select p.shangxd from ${dbSchemalzxc}ckx_peislb p where p.peislx= 
+		(select t.peislx from ${dbSchemalzxc}ckx_tongbjplj t where  t.usercenter=#USERCENTER# and t.lingjbh=#PRODUCT# and t.shengcxbh=#LMP#
+			and t.nclass=#OCLASS# )
+		]]>
+   </select>
+
+   <!--  id="2020" 查询单位-->
+   <select id="querySppvDanw" parameterClass="java.util.Map" resultClass="java.lang.String">
+   	<![CDATA[
+		select p.danw from ${dbSchemalzxc}ckx_lingj p where p.usercenter=#USERCENTER# and p.lingjbh=#PRODUCT#
+		]]>
+   </select>
+   
+      <!-- 2020 过点同步需求 更新sppv034表中JSBS状态为J -->
+   <update id="updateSppv034JsbsToJ">
+   		<![CDATA[
+		    update sppv.sppv034 set JSBS='J' where JSBS='F'
+		]]>
+   </update>
+   
+   <!-- 2020 过点同步需求 更新sppv034表中JSBS状态 update 将状态J改为F 2013-10-9 -->
+   <update id="updateSppv034">
+   		<![CDATA[
+		    update sppv.sppv034 set JSBS='T' where JSBS='J'
+		]]>
+   </update>
+   
+   
+      <!-- id="2031" caption="GEVP外部要货令" -->
+   <select id="queryGevpYaohl" parameterClass="java.util.Map" resultClass="java.util.HashMap" remapResults="true">
+   	<![CDATA[
+   	$head$
+   	select temp.*, rownum RN from (
+ 		  select t.PCEDITOR AS USERCENTER,t.YAOHLH,t.GYSDM,
+ 		  to_char(t.JIAOFJ,'yyyy-MM-dd hh24:mi:ss') as JIAOFJ,
+ 		  to_char(t.ZUIZSJ,'yyyy-MM-dd hh24:mi:ss') as ZUIZSJ,
+		  to_char(t.ZUIWSJ,'yyyy-MM-dd hh24:mi:ss') as ZUIWSJ,t.LINGJBH,t.DANW,t.YAOHSL,t.BAOZXH,
+		 t.UARL,t.UCXH,t.UCRL,t.UCGS,t.XIEHD,t.MUDD,t.DINGDH,t.KEHU,to_char(t.cj_date,'yyyy-MM-dd hh24:mi:ss') as cj_date,'0' as clzt,WENJMC,WENJLJ 
+             from ${dbSchemalzxc}IN_GEVP_YAOHL t,${dbSchemalzxc}CKX_LINGJ t1,${dbSchemalzxc}ckx_usercenter t2,${dbSchemalzxc}ckx_gongys t3
+             where 1=1 and t.LINGJBH = t1.LINGJBH AND t.PCEDITOR = t1.USERCENTER   AND T.PCEDITOR = T2.USERCENTER 
+             AND T.GYSDM = T3.GCBH  AND T.PCEDITOR = T3.USERCENTER AND T2.biaos = '1'  AND T.clzt = 0  and t3.LEIX = '1' and t3.NEIBGYS_CANGKBH is not null 
+ 		)temp where 1=1   
+ 	$middle$ 	 
+	$foot$	
+		]]>
+   </select>   
+   
+      <!-- id="2032" caption="GEVP外部要货令(内部)" -->
+   <select id="queryGevpCkYaonbhl" parameterClass="java.util.Map" resultClass="java.util.HashMap" remapResults="true">
+   	<![CDATA[
+   	$head$
+   	select temp.*, rownum RN from (
+         select t.PCEDITOR AS USERCENTER,   
+		 t.YAOHLH,t.GYSDM,
+		  to_char(t.JIAOFJ,'yyyy-MM-dd hh24:mi:ss') as JIAOFJ,
+ 		  to_char(t.ZUIZSJ,'yyyy-MM-dd hh24:mi:ss') as ZUIZSJ,
+		  to_char(t.ZUIWSJ,'yyyy-MM-dd hh24:mi:ss') as ZUIWSJ,
+			t.LINGJBH,
+		 t.DANW,t.YAOHSL,t.BAOZXH,t.UARL,SUBSTR(t.XIEHD,4,8) AS XIEHD,t.MUDD,
+             t.DINGDH,t.KEHU,'9' AS SHIFPZ,'' AS YAOHLLB,'01' AS YAOHLZT,'0'AS JIAOFLX,t1.ZHONGWMC LINGJMC,'SG' AS YAOHLLX,
+             '2030' AS CREATOR ,to_char(SYSDATE,'yyyy-MM-dd hh24:mi:ss') AS CREATE_TIME,'2030t' AS EDITOR ,to_char(SYSDATE,'yyyy-MM-dd hh24:mi:ss') AS EDIT_TIME,t.USERCENTER as beiz3,t3.NEIBGYS_CANGKBH as CANGKBH 
+             from ${dbSchemalzxc}IN_GEVP_YAOHL t,${dbSchemalzxc}CKX_LINGJ t1,${dbSchemalzxc}ckx_usercenter t2,${dbSchemalzxc}ckx_gongys t3
+             where 1=1 and t.LINGJBH = t1.LINGJBH AND t.PCEDITOR = t1.USERCENTER   AND T.PCEDITOR = T2.USERCENTER 
+             AND T.GYSDM = T3.GCBH  AND T.PCEDITOR = T3.USERCENTER AND T2.biaos = '1'  AND T.clzt = 0  and t3.LEIX = '1' and t3.NEIBGYS_CANGKBH is not null 
+      )temp where 1=1  
+    $middle$      
+	$foot$	
+		]]>
+   </select>     
+ 
+      <!-- id="2531" caption="过点毛需求 tb0010a" -->
+   <select id="queryGuodmxq" parameterClass="java.util.Map" resultClass="java.util.HashMap" remapResults="true">
+   	<![CDATA[
+   	$head$
+   	select temp.*, rownum RN from (
+					SELECT CLV001.CODECEN USERCENTER,'L' || (case
+					         when sppv002.uw5anoseq is null then
+					          substr(clv001.LMP, 2, 1)
+					         else
+					          substr(sppv002.uw5anoseq, 1, 1)
+					       end) as scxh,
+					       sppv002.whof,
+					       SPPV007b.Azposveh
+					  FROM sppv.sppv003, sppv.SPPV007b, sppv.sppv002, sppv.clv001
+					 where sppv003.atime >= (SYSDATE - (select to_number(trunc(sysdate) - to_date((select max(rq) as rq
+					                                            from sppv.sppv003
+					                                           where rq <> trim(to_char(sysdate,'yyyy-mm-dd'))
+					                                             and wldid = 'ECOM01'),
+					                                          'yyyy-mm-dd')) as jg
+					  from dual) + 0.5)
+					   and SPPV007b.Wldid = sppv003.wldid
+					   and sppv002.bgd = sppv003.bgd
+					   and sppv002.whof = clv001.whof
+					   and sppv007b.azposveh >= 1000
+					   and sppv007b.azposveh <= 6000
+		)temp where 1=1  
+	$middle$ 				   
+	$foot$	
+		]]>
+   </select>    
+
+      <!-- id="2532" caption="过点毛需求 tb0010b" -->
+   <select id="queryGuodmxqtbB" parameterClass="java.util.Map" resultClass="java.util.HashMap" remapResults="true">
+   	<![CDATA[
+   	$head$
+   	select temp.*, rownum RN from (
+					SELECT  NOREV001.whof,to_number(NOREV002.COEF_ATT) sl,NOREV003.PRODUCT 
+					          FROM  sppv.NOREV001, sppv.NOREV002, sppv.NOREV003
+					          WHERE NOREV001.CT=NOREV002.CT AND NOREV002.OCLASS=NOREV003.OCLASS AND   
+					          NOREV003.VALUE=NOREV002.VALUE AND NOREV002.OCLASS LIKE '8%' and  
+					          NOREV001.whof in (
+					          SELECT sppv002.whof FROM sppv.sppv003,sppv.SPPV007b,sppv.sppv002
+					          where sppv003.atime >=(SYSDATE - (select to_number(trunc(sysdate) - to_date((select max(rq) as rq
+					                                            from sppv.sppv003
+					                                           where rq <>trim(to_char(sysdate,'yyyy-mm-dd'))
+					                                             and wldid = 'ECOM01'),
+					                                          'yyyy-mm-dd')) as jg
+					  from dual)+ 0.5)  and SPPV007b.Wldid = sppv003.wldid and 
+					          sppv002.bgd=sppv003.bgd and sppv007b.azposveh >=1000 and sppv007b.azposveh<=6000)
+	)temp where 1=1  
+	$middle$ 
+	$foot$	
+		]]>
+   </select>  
+   
+      <!-- id="2531" caption="过点毛需求 tb0010a" -->
+   <delete id="deleteSppvTba">
+   		<![CDATA[
+   			truncate table  ${dbSchemalzxc}tb0010a 
+		]]>
+   </delete>
+   
+      <!-- id="2531" caption="过点毛需求 tb0010b" -->
+   <delete id="deleteSppvTbb">
+   		<![CDATA[
+   			truncate table  ${dbSchemalzxc}tb0010b 
+		]]>
+   </delete>
+   
+   <!-- id="2531" caption="过点毛需求 tb0010" -->
+   <delete id="deleteSppvTbGdmxq">
+   		<![CDATA[
+   			truncate table  ${dbSchemalzxc}tb0010 
+		]]>
+   </delete>   
+    
+    
+    <!-- 1、id="2521" 执行前将同步集配单editor的状态F改为J hzg 2013.9.4 -->
+	<update id="updateTongbjpdZTBefore">
+   		<![CDATA[
+		 update ${dbSchemalzxc}ck_tongbjpd t set t.editor='J' where t.editor='F'
+	
+		]]>
+   </update>
+    
+      <!--2、 id="2521"根据包装单元卡要货令查询同步要货令 add hzg 2013.9.4 -->
+    <select id="queryEFIyhlMain" parameterClass="java.util.Map" resultClass="java.util.HashMap" remapResults="true">
+    	<![CDATA[
+   		 select t.yaohlh
+           from ${dbSchemalzxc}ck_yaohl t
+           left join ${dbSchemalzxc}ck_tongbjpd y
+             on t.yaohlh = y.yaohlh
+            and t.usercenter = y.usercenter
+           left join ${dbSchemalzxc}ck_daowldsj z
+             on t.yaohlh = z.yaohlh
+            and t.usercenter = z.usercenter
+          where yaohlzt = '01' and (nvl(t.shiflsk, '0') = '0' or nvl(t.shifpz, '0') = '1')
+            and yaohllx = 'SY' and z.xuh = (select min(m.xuh) as mxuh from ck_daowldsj m)
+            and y.editor = 'J'
+          group by t.yaohlh order by t.yaohlh 
+		]]>
+    </select>
+   
+   
+      <!-- 3、id="2521" 根据包装单元卡要货令查询同步要货令 flag默认值给0  hzg 2013.9.4 -->
+   <select id="queryEFITongbyhl" parameterClass="java.lang.String" resultClass="java.util.HashMap" remapResults="true">
+   	<![CDATA[
+					select 
+						(case upper(substr(t.yaohlh,length(t.yaohlh)))
+						      when 'P' then substr(t.yaohlh,0,length(t.yaohlh)-1)
+						      else t.yaohlh end
+						) as yaohlh,
+				       t.usercenter as usercenter,
+				       to_char(t.jiaofj,'yyyy-MM-dd hh24:mi:ss') as jiaofj,
+				       to_char(t.zuizsj,'yyyy-MM-dd hh24:mi:ss') as zuizsj,
+				       to_char(t.zuiwsj,'yyyy-MM-dd hh24:mi:ss') as zuiwsj, 
+				       t.lingjbh as tlingjbh,
+				       z.gcbh cysbh,
+				       t.danw as tdanw,
+				       to_char(t.yaohsl) as yaohsl,
+				       t.baozxh as baozxh,
+				       to_char(t.usxh) as usxh,
+				       t.ucxh as ucxh,
+				       to_char(t.ucrl) as ucrl,
+				       to_char(t.faysj,'yyyy-MM-dd hh24:mi:ss') as faysj,
+				       t.xiehd as xiehd,
+				       t.mudd as mudd,
+				       t.dingdh as dingdh,
+				       t.yaohllx as yaohllx,
+				       t.tongblshqj as tongblshqj,
+				       t.chej as chej,
+				       t.shnagxfs as shnagxfs,
+				       t.chanx as chanx,
+				       t.keh as keh,
+				       t.peislb as peislb,
+				       to_char(t.yaohlscsj,'yyyy-MM-dd hh24:mi:ss') as yaohlscsj, 
+				       y.lingjxh as lingjxh,
+				       y.zhengclsh as zhengclsh,
+				       to_char(y.zhengcsxsj,'yyyy-MM-dd hh24:mi:ss') as zhengcsxsj,
+				       y.weiz as weiz,
+		               y.lingjbh as ylingjbh,
+		               y.gongysdm as gongysdm,
+				       decode(t.cangkbh,null,'   ',t.cangkbh)||
+               		   decode(t.zickbh,null,'   ',t.zickbh)||t.beiz  as gongysmc,
+				       to_char(y.lingjsl) as lingjsl,
+				       y.danw as ydanw,
+				       substr(to_char(z.xuh),length(to_char(z.xuh))-1,2) as wuldbh,
+				       z.shifjk as shifjk,
+				       '' jh,
+				       to_char(t.create_time,'yyyy-MM-dd hh24:mi:ss') as cjdate,
+				       t.gongysdm zhgongysdm,
+				       '0' as flag
+				  from ${dbSchemalzxc}ck_yaohl t
+				  left join ${dbSchemalzxc}ck_tongbjpd y on t.yaohlh = y.yaohlh
+				                         and t.usercenter = y.usercenter
+				  left join ${dbSchemalzxc}ck_daowldsj z on t.yaohlh = z.yaohlh
+				                    and t.usercenter = z.usercenter  
+				 where yaohlzt = '01' and (nvl(t.shiflsk,'0')='0' or nvl(t.shifpz,'0') = '1') and yaohllx ='SY'  
+				   and z.xuh=(select min(m.xuh) as mxuh from ${dbSchemalzxc}ck_daowldsj m)
+				   and y.editor = 'J' and t.yaohlh=#YAOHLH#
+		]]>
+   </select>  
+	
+	<!-- 4、id="2521" 将同步要货令插入到EFI200表中 add hzg 2013.9.4  -->
+	<insert id="insertEFI200" parameterClass="java.util.Map">
+		<![CDATA[
+			INSERT INTO EFI200 
+			(ORDERNO, UC, DELIVERTIME, FIRSTTIME, LASTTIME, VENDER, PARTNO, METRICUNIT, AMOUNT,UATYPE,UAPACKAMOUNT,
+			UCTYPE,UCPACKAMOUNT,TRANTIME,UNLOADLOCAL,CONSUMELOCAL,PLANNO,ORDERTYPE,SYNNUMBER,WORKNO,LINETYPE,LINENO,
+			CLIENT,DELIVERTYPE,CREATTIME,PARTSEQ,CARSEQ,CARTIME,SYNPLACE,SYNPARTNO,SUPPLIER,SUPPLIERNAME,SYNPARTNUM,
+			SYNUNIT,XH,BLFLAG,ROLLNO,CREATDATE,FLAG) 
+			 values( 
+			 #ORDERNO#,#UC#,to_date(#DELIVERTIME#,'yyyy-MM-dd hh24:mi:ss'), to_date(#FIRSTTIME#,'yyyy-MM-dd hh24:mi:ss'), to_date(#LASTTIME#,'yyyy-MM-dd hh24:mi:ss'), 
+			 #VENDER#, #PARTNO#, #METRICUNIT#, #AMOUNT#,#UATYPE#,#UAPACKAMOUNT#,
+			#UCTYPE#,#UCPACKAMOUNT#,to_date(#TRANTIME#,'yyyy-MM-dd hh24:mi:ss'),#UNLOADLOCAL#,#CONSUMELOCAL#,#PLANNO#,#ORDERTYPE#,#SYNNUMBER#,#WORKNO#,#LINETYPE#,#LINENO#,
+			#CLIENT#,#DELIVERTYPE#,to_date(#CREATTIME#,'yyyy-MM-dd hh24:mi:ss'),#PARTSEQ#,#CARSEQ#,to_date(#CARTIME#,'yyyy-MM-dd hh24:mi:ss'),#SYNPLACE#,#SYNPARTNO#,#SUPPLIER#,#SUPPLIERNAME#,#SYNPARTNUM#,
+			#SYNUNIT#,#XH#,#BLFLAG#,#ROLLNO#,sysdate,#FLAG#
+			 )
+		]]>
+	</insert>
+
+	<!--5、id="2521"  更新EFI200中的flag状态为1 hzg 2013.9.4 -->
+	 <update id="updateFlagOfEfi200" parameterClass="java.lang.String">
+   		<![CDATA[
+		 	update EFI200 t set t.flag='1' where t.flag='0' and t.orderno = #yaohlh# 
+		]]>
+   </update>
+   
+   <!-- 6、id="2521"  更新ck_tongbjpd中的editor状态为visule hzg 2013.9.4 -->
+	 <update id="updateStateOfTongbjpd" parameterClass="java.util.Map">
+   		<![CDATA[
+		 	update ${dbSchemalzxc}ck_tongbjpd  t  set t.editor=#visule# where t.editor='J' and t.yaohlh=#yaohlh#
+		]]>
+   </update>
+   
+	
+   <!--2521 执行后将同步集配单editor的状态逐个F改为T hzg 2013.9.5 -->
+	 <update id="updateTongbjpdZT">
+   		<![CDATA[
+		 update ${dbSchemalzxc}ck_tongbjpd t set t.editor='T' where t.editor='F' and t.yaohlh=#YAOHL#
+	
+		]]>
+   </update>
+   
+   <!--2521 执行前将要货令beiz1的状态逐个改为F add pan.r 2013.9.4 -->
+   <update id="updateYAOHLZTF">
+   		<![CDATA[
+		 update ${dbSchemalzxc}ck_yaohl t set t.BEIZ1='F' where t.YAOHLH=#YAOHL#
+	
+		]]>
+    </update>
+    
+     <!--2521 执行后将要货令beiz1的状态逐个改为T add pan.r 2013.9.4 -->
+   <update id="updateYAOHLZTT">
+   		<![CDATA[
+		 update ${dbSchemalzxc}ck_yaohl t set t.BEIZ1='T' where t.BEIZ1='F' and t.YAOHLH  = #YAOHL#
+	
+		]]>
+    </update>
+
+   
+    <!-- 2560 2030 外部要货令（执行层1输入）  更新CK_YAONBHL表子仓库代码 hzg 2013-5-28 -->
+   <update id="updateNbyaohlOfZickbh" parameterClass="java.util.Map">
+   		<![CDATA[
+		 UPDATE ${dbSchemalzxc}CK_YAONBHL T SET T.ZICKBH =(SELECT T1.ZICKBH FROM  
+				${dbSchemalzxc}CKX_LINGJCK T1 WHERE T1.USERCENTER = T.USERCENTER AND T1.LINGJBH = T.LINGJBH  
+				     and T1.CANGKBH = T.CANGKBH) WHERE T.EDITOR = #INTEREDITOR#
+	
+		]]>
+   </update>
+
+      <!--2560 2030 查询客户成品库关系是否配载 -->
+    <select id="kehcpkshifpz" parameterClass="java.util.Map" resultClass="java.util.HashMap" >
+    	<![CDATA[
+			select keh.usercenter||keh.cangkbh||keh.kehbh key,keh.shifpz value from ${dbSchemalzxc}ckx_keh_chengpk keh group by keh.usercenter,keh.cangkbh,keh.kehbh ,keh.shifpz order by keh.usercenter,keh.cangkbh,keh.kehbh,keh.shifpz  desc
+		]]>
+    </select>
+
+      <!--2560 2030 查询客户成品库关系客户提前期 -->
+    <select id="kehcpkkehtqq" parameterClass="java.util.Map" resultClass="java.util.HashMap" >
+    	<![CDATA[
+			select keh.usercenter||keh.cangkbh||keh.kehbh key,keh.kehtqq value from ${dbSchemalzxc}ckx_keh_chengpk keh group by keh.usercenter,keh.cangkbh,keh.kehbh ,keh.kehtqq order by keh.usercenter,keh.cangkbh,keh.kehtqq,keh.kehtqq 
+		]]>
+    </select>
+
+      <!--2560 2030 查询仓库的备货提前时间 -->
+    <select id="kehcpkbeihtqq" parameterClass="java.util.Map" resultClass="java.util.HashMap" >
+    	<![CDATA[
+			select c.usercenter||c.cangkbh key,c.daoctqq value from ${dbSchemalzxc}ckx_cangk c order by c.usercenter,c.cangkbh
+		]]>
+    </select>
+   
+      <!--2560 2030 查询 creator = '2560temp' or creator = '2030temp'的要货令-->
+    <select id="yaohlList" parameterClass="java.util.Map" resultClass="java.util.HashMap" >
+    	<![CDATA[   
+			select y.usercenter||y.cangkbh||y.keh yid,y.usercenter,y.yaohlh,to_char(y.zuiwsj,'yyyy-MM-dd hh24:mi:SS') as jiaofj,to_char(y.zuiwsj,'yyyy-MM-dd hh24:mi:SS') zuiwsj,y.shifpz,y.suodpz,y.yaohllx,y.muddlx,y.cangkbh,y.keh,Y.beiz3 from ${dbSchemalzxc}ck_yaonbhl y where y.EDITOR = #INTEREDITOR# 
+			order by y.usercenter,y.cangkbh 
+		]]>
+    </select>
+    
+     <!--2560 2030 计算备货时间 -->
+    <select id="queryBeihsj" parameterClass="java.util.Map" resultClass="java.lang.String">
+	select to_char(juedsk,'yyyy-MM-dd hh24:mi')
+       from (select rownum rn, juedsk
+               from (select a.usercenter,
+                            a.chanxck,
+                            b.gongzr,
+                            b.xiaohsj,
+                            b.juedsk
+                       from ${dbSchemalzxc}CKX_CALENDAR_HEBTIME_INFO a, ${dbSchemalzxc}CKX_GONGZSJMB b
+                      where a.hebtimeh = b.hebtimeh
+                        and a.usercenter = #usercenter#
+                        and a.chanxck = #cangkbh#
+                        and b.juedsk <![CDATA[<=]]> 
+                         (select max(juedsk)
+                               from (select a.usercenter,
+                                            a.chanxck ,
+                                            b.gongzr,
+                                            b.xiaohsj,
+                                            b.juedsk
+                                       from ${dbSchemalzxc}CKX_CALENDAR_HEBTIME_INFO a,
+                                            ${dbSchemalzxc}CKX_GONGZSJMB         b
+                                      where a.hebtimeh = b.hebtimeh
+                                        and a.usercenter = #usercenter#
+                                        and a.chanxck = #cangkbh#
+                                        and b.juedsk <![CDATA[<=]]>
+                                            to_date(#juedsk#,
+                                                    'yyyy-mm-dd hh24:mi:ss')))
+                      order by juedsk desc))
+      where rn = $kehtqq$ + 1
+    </select>
+    
+   <update id="updateyaonbhl" parameterClass="java.util.Map">
+   		<![CDATA[
+		 update ${dbSchemalzxc}CK_YAONBHL d set d.EDITOR = #CREATOR#,d.MUDDLX = #MUDDLX#,d.SHIFSCBHD = #SHIFSCBHD#,d.BEIHSJ = to_date(#BEIHSJ#,'yyyy-mm-dd hh24:mi:ss'),
+		 d.YAOHLLX = #YAOHLLX#,d.SHIFPZ = #SHIFPZ#,d.SUODPZ=#SUODPZ#,d.YAOHLLB=#YAOHLLB#,d.jiaofj=to_date(#JIAOFJ#,'yyyy-mm-dd hh24:mi:ss') where d.usercenter=#USERCENTER# and d.yaohlh = #YAOHLH#
+		]]>
+   </update>
+
+     <!--2030 查询此次插入数据的要货令-->
+    <select id="newyaohlList" parameterClass="java.util.Map" resultClass="java.util.HashMap" >
+    	<![CDATA[
+			select y.yaohlh,y.USERCENTER from ${dbSchemalzxc}ck_yaonbhl y where y.editor = '2030t'
+		]]>
+    </select>
+
+   <update id="updateNbyaohlEditor" parameterClass="java.util.Map">
+   		<![CDATA[
+		 update ${dbSchemalzxc}CK_YAONBHL d set d.EDITOR = '2030temp' where d.EDITOR = '2030t' and d.yaohlh = #YAOHLH#  and d.USERCENTER = #USERCENTER# 
+		]]>
+   </update>
+   
+    <!--2030 数据输入完成后将in_gevp_yaohl表clzt更新为1-->   
+   <update id="updateGevpClzt" parameterClass="java.util.Map">
+   		<![CDATA[
+		 update ${dbSchemalzxc}in_gevp_yaohl ig set ig.clzt = '1' where ig.yaohlh = #YAOHLH# and ig.pceditor = #USERCENTER# 
+		]]>
+   </update>
+
+    <!--2860 合并时间-详细  gswang 2014-3-19-->   
+   <update id="HebtimeUpdateTemp" parameterClass="java.util.Map">
+   		<![CDATA[
+		 update ${dbSchemalzxc}CKX_CALENDAR_HEBTIME_INFO g set g.CREATOR='temp'
+		]]>
+   </update> 
+
+   <!-- 2860 合并时间-详细 gswang 2014-3-19 -->
+   <delete id="HebtimeZXCDeleteTemp">
+   		<![CDATA[
+		   	delete from ${dbSchemalzxc}CKX_CALENDAR_HEBTIME_INFO  g where 	g.CREATOR = 'temp'
+		]]>
+   </delete>
+   
+   <!-- 2870 工作时间模板  gswang 2014-3-19 -->
+   <delete id="gongzsjmbTDelete">
+   		<![CDATA[
+   			truncate table  ${dbSchemalzxc}ckx_gongzsjmb_t
+		]]>
+   </delete>
+   
+    <!--2870 工作时间模板  gswang 2014-3-19-->   
+   <update id="updateGongzsjmbCreator" parameterClass="java.util.Map">
+   		<![CDATA[
+		 update ${dbSchemalzxc}CKX_GONGZSJMB g set g.CREATOR='temp'
+		]]>
+   </update>   
+   
+   <!-- 2870 工作时间模板  gswang 2014-3-19 -->
+   <update id="gongzsjmbTMerge">
+   		<![CDATA[
+     MERGE INTO ${dbSchemalzxc}CKX_GONGZSJMB c
+        USING (select * FROM ${dbSchemalzxc}CKX_GONGZSJMB_T) s ON( C.HEBTIMEH=S.HEBTIMEH AND C.GONGZR=S.GONGZR AND C.XIAOHSJ=S.XIAOHSJ) 
+       WHEN MATCHED THEN UPDATE SET C.JUEDSK=S.JUEDSK,C.CREATOR=S.CREATOR,C.CREATE_TIME=S.CREATE_TIME 
+       WHEN NOT MATCHED THEN INSERT (HEBTIMEH,  GONGZR,  XIAOHSJ,  JUEDSK,CREATOR,CREATE_TIME
+    ) VALUES(S.HEBTIMEH    ,S.GONGZR    ,S.XIAOHSJ    ,S.JUEDSK ,S.CREATOR,S.CREATE_TIME)    			
+		]]>
+   </update>
+   
+   <!-- 2870 工作时间模板 gswang 2014-3-19 -->
+   <delete id="deleteGongzsjmbTemp">
+   		<![CDATA[
+		   	delete from ${dbSchemalzxc}CKX_GONGZSJMB  g where 	g.CREATOR = 'temp'
+		]]>
+   </delete>
+   
+    <!-- 2970 IN_DFPV_YUANSLSZ表关联ckx_danwhs表查询更新数量和单位  yz 2016-3-25 -->
+    <select id="queryshuldanw_dfpv" parameterClass="java.util.Map" resultClass="java.util.HashMap" remapResults="true">
+		<![CDATA[ 
+		SELECT DECODE(HUANSBL,NULL,A.LINGJSL,A.LINGJSL*C.HUANSBL) LINGJSL,
+               DECODE(HUANSBL,NULL,B.DANW,C.MUBDW) DANW,
+               A.USERCENTER,
+               A.PINGZH,
+               A.PINGZXMH,
+               A.LINGJBH
+          FROM ${dbSchemalzxc}IN_DFPV_YUANSLSZ A JOIN ${dbSchemalzxc}CKX_LINGJ B ON A.USERCENTER=B.USERCENTER AND A.LINGJBH=B.LINGJBH AND A.DANW!=B.DANW
+          LEFT JOIN ${dbSchemalzxc}CKX_DANWHS C ON A.USERCENTER=C.USERCENTER AND A.DANW=C.BEIHDW AND B.DANW=C.MUBDW  
+         WHERE B.BIAOS='1'
+			]]>
+	</select>
+	
+	<!-- 2970 更新单位和换算比例后的数量  yz 2016-3-25 -->
+    <update id="updateshuldanw_dfpv" parameterClass="java.util.Map" >
+        <![CDATA[
+    	UPDATE ${dbSchemalzxc}IN_DFPV_YUANSLSZ A SET A.LINGJSL = #LINGJSL#,A.DANW = #DANW#
+    	 WHERE A.USERCENTER = #USERCENTER# AND A.LINGJBH = #LINGJBH# 
+    	   AND A.PINGZH = #PINGZH# AND A.PINGZXMH = #PINGZXMH#
+    	]]>
+    </update>
+   
+   <!-- 2970 更新零件数量：操作码为B30且操作符为‘-’的在零件数量前加负号  2016-3-16 yz -->
+   <update id="updatein_dfpv_yuanslsz_B30">
+  	 <![CDATA[
+   			update ${dbSchemalzxc}in_dfpv_yuanslsz t
+         		set t.lingjsl = 0-t.lingjsl 
+         		where t.caozf = '-' and t.caozm = 'B30' and t.flag = '0'
+		]]>
+   </update>
+   
+   <!-- 2970 操作码为B10的插入ck_yicsbcz表 yz 2016-3-16 -->
+  <insert id="insertck_yicsbcz">
+   		insert into ${dbSchemalzxc}ck_yicsbcz
+  (usercenter, liush, lingjbh, shengbd, caozlx, caozsl, caozsj, flag)
+  select a.usercenter,
+         substr(a.usercenter,2,3)||REPLACE(TO_CHAR(ycsbcz_seqno.nextval, '9999999'),' ','0'),
+         a.lingjbh,
+         a.xiaohd,
+         '1',
+         a.lingjsl,
+         sysdate,
+         '0'
+    from ${dbSchemalzxc}in_dfpv_yuanslsz a
+   where a.caozm = 'B10' and a.flag = '0'	  	
+  </insert>	
+	
+	 <!-- 2970 操作码为B36的用lingjbh关联xqjs_diaobmx表获取仓库子仓库  2016-2-26 yz -->
+   <update id="updatein_dfpv_yuanslsz_B36">
+  	 <![CDATA[
+   			update ${dbSchemalzxc}in_dfpv_yuanslsz t
+				 set t.cangk = (select distinct m.cangkbh from ${dbSchemalzxc}xqjs_diaobmx m 
+				 where t.blh=m.diaobsqdh and t.lingjbh=m.lingjbh and t.usercenter=m.usercenter),
+				 t.cangkzck = (select m.cangkbh||m.zickbh as cangkzck from ${dbSchemalzxc}xqjs_diaobmx m 
+				 where t.blh=m.diaobsqdh and t.lingjbh=m.lingjbh and t.usercenter=m.usercenter) 
+				 where t.flag = '0' and t.caozm='B36'
+		]]>
+   </update>
+	
+	 <!-- 2970 操作码不为B36的用lingjbh关联ckx_wullj表获取线边仓库作为仓库  2015-12-29 yz -->
+   <update id="updatein_dfpv_yuanslsz">
+  	 <![CDATA[
+   			update ${dbSchemalzxc}in_dfpv_yuanslsz t
+             set t.cangk = (select max(m.xianbck) from ${dbSchemalzxc}ckx_wullj m 
+             where t.usercenter=m.usercenter and t.lingjbh=m.lingjbh and m.shengcxbh like 'UL_L2'),    
+             t.cangkzck = (select max(m.xianbck) from ${dbSchemalzxc}ckx_wullj m 
+             where t.usercenter=m.usercenter and t.lingjbh=m.lingjbh and m.shengcxbh like 'UL_L2'),
+             t.beiz = '1' 
+             where t.flag = '0' and t.caozm!='B36' and exists (select 1 from ${dbSchemalzxc}ckx_wullj m 
+             where t.usercenter=m.usercenter and t.lingjbh=m.lingjbh and m.shengcxbh like 'UL_L2')
+		]]>
+   </update>
+   
+   <!-- 2970 插入dfpv_shennh表 yz 2016-3-2 -->
+    <update id="insertdfpv_shenh">
+        <![CDATA[
+     MERGE INTO ${dbSchemalzxc}dfpv_shenh C
+	USING (select * FROM ${dbSchemalzxc}in_dfpv_yuanslsz a where a.flag='0'
+	    			and exists (select 1 from ${dbSchemalzxc}ckx_xitcsdy  t 
+	    			where (t.zidlx = 'DFPVLSZ' and a.caozm=t.zidbm) or a.caozm='B36')) S
+	ON (C.USERCENTER = S.USERCENTER AND C.PINGZH = S.PINGZH AND C.PINGZXMH = S.PINGZXMH )
+	WHEN MATCHED THEN
+	  UPDATE
+	     SET C.EDITOR = S.EDITOR,
+	     C.EDIT_TIME = sysdate
+	WHEN NOT MATCHED THEN
+	  INSERT
+	    (			usercenter, 
+					pingzh, 
+					pingzxmh, 
+					caozm, 
+					chexbs, 
+					caozf, 
+					gongysdm, 
+					blh, 
+					cangk, 
+					cangkzck, 
+					midck, 
+					xiaohd, 
+					lingjbh, 
+					danw, 
+					lingjsl, 
+					jiaofrq, 
+					liusqs, 
+					liusjz, 
+					zherzt, 
+					zherztmc, 
+					yicxhlx, 
+					caiwrq, 
+					caozy, 
+					oper_time, 
+					creator,
+					create_time,
+					editor, 
+					edit_time,
+					zhuangt,
+					beiz
+	     )
+	  VALUES
+	    (			S.usercenter, 
+					S.pingzh, 
+					S.pingzxmh, 
+					decode(S.caozm,'B36','A36',S.caozm), 
+					S.chexbs, 
+					S.caozf, 
+					S.gongysdm, 
+					S.blh, 
+					S.cangk, 
+					S.cangkzck, 
+					S.midck, 
+					S.xiaohd, 
+					S.lingjbh, 
+					S.danw, 
+					S.lingjsl, 
+					S.jiaofrq, 
+					S.liusqs, 
+					S.liusjz, 
+					S.zherzt, 
+					S.zherztmc, 
+					S.yicxhlx, 
+					S.caiwrq, 
+					S.caozy, 
+					S.oper_time,
+					S.creator, 
+					sysdate,
+					S.editor,  
+					sysdate,
+					'0' ,
+					S.beiz
+	    )
+		]]>
+    </update>
+	   
+   <!-- 2970 插入审核表后更新in_dfpv_yuanslsz表的需要审核的flag为1  2015-12-29 yz -->
+   <update id="updatein_dfpv_yuanslsz_shenh">
+  	 <![CDATA[
+   			update ${dbSchemalzxc}in_dfpv_yuanslsz t
+				 set t.flag = '1' 
+				 where t.flag = '0' and exists (select 1 from ${dbSchemalzxc}ckx_xitcsdy f 
+	    			where (f.zidlx = 'DFPVLSZ' and t.caozm=f.zidbm) or t.caozm='B36')
+		]]>
+   </update>
+   
+   <!-- 2970 插入in_dfpv_liusz表 yz 2016-3-2 -->
+    <update id="insertin_dfpv_liusz">
+        <![CDATA[
+     MERGE INTO ${dbSchemalzxc}in_dfpv_liusz C
+	USING (select * FROM ${dbSchemalzxc}in_dfpv_yuanslsz a where a.flag='0') S
+	ON (C.USERCENTER = S.USERCENTER AND C.PINGZH = S.PINGZH AND C.PINGZXMH = S.PINGZXMH )
+	WHEN MATCHED THEN
+	  UPDATE
+	     SET C.EDITOR = S.EDITOR,
+	     C.EDIT_TIME = sysdate
+	WHEN NOT MATCHED THEN
+	  INSERT
+	    (			usercenter, 
+					pingzh, 
+					pingzxmh, 
+					caozm, 
+					chexbs, 
+					caozf, 
+					gongysdm, 
+					blh, 
+					cangk, 
+					cangkzck, 
+					midck, 
+					xiaohd, 
+					lingjbh, 
+					danw, 
+					lingjsl, 
+					jiaofrq, 
+					liusqs, 
+					liusjz, 
+					zherzt, 
+					zherztmc, 
+					yicxhlx, 
+					caiwrq, 
+					caozy, 
+					oper_time, 
+					creator,
+					create_time,
+					editor, 
+					edit_time,
+					beiz1
+	     )
+	  VALUES
+	    (			S.usercenter, 
+					S.pingzh, 
+					S.pingzxmh, 
+					S.caozm, 
+					S.chexbs, 
+					S.caozf, 
+					S.gongysdm, 
+					S.blh, 
+					S.cangk, 
+					S.cangkzck, 
+					S.midck, 
+					S.xiaohd, 
+					S.lingjbh, 
+					S.danw, 
+					S.lingjsl, 
+					S.jiaofrq, 
+					S.liusqs, 
+					S.liusjz, 
+					S.zherzt, 
+					S.zherztmc, 
+					S.yicxhlx, 
+					S.caiwrq, 
+					S.caozy, 
+					S.oper_time, 
+					S.creator, 
+					sysdate,
+					S.editor,  
+					sysdate,
+					S.beiz
+	    )
+		]]>
+    </update>
+      
+    <!-- 2970 更新in_dfpv_yuanslsz表的flag为1  2015-12-29 yz -->
+   <update id="updatein_dfpv_yuanslsz_liusz">
+  	 <![CDATA[
+   			update ${dbSchemalzxc}in_dfpv_yuanslsz t
+				 set t.flag = '1' 
+				 where t.flag = '0'
+		]]>
+   </update>
+    
+    <!-- 2980 in_dfpv_kuckz表关联ckx_danwhs表查询更新数量和单位  lc 2016-3-25 -->
+    <select id="queryshuldanw" parameterClass="java.util.Map" resultClass="java.util.HashMap" remapResults="true">
+		<![CDATA[ 
+		SELECT DECODE(HUANSBL,NULL,A.LINGJSL,A.LINGJSL*C.HUANSBL) LINGJSL,
+               DECODE(HUANSBL,NULL,B.DANW,C.MUBDW) DANW,
+               A.USERCENTER,
+               A.LINGJBH,
+               A.KUWDZ,
+               A.ZHUANGT
+          FROM ${dbSchemalzxc}IN_DFPV_KUCKZ A JOIN ${dbSchemalzxc}CKX_LINGJ B ON A.USERCENTER=B.USERCENTER AND A.LINGJBH=B.LINGJBH AND A.DANW!=B.DANW
+          LEFT JOIN ${dbSchemalzxc}CKX_DANWHS C ON A.USERCENTER=C.USERCENTER AND A.DANW=C.BEIHDW AND B.DANW=C.MUBDW  
+         WHERE B.BIAOS='1'
+			]]>
+	</select>
+	
+	<!-- 2980 更新单位和换算比例后的数量  lc 2016-3-25 -->
+    <update id="updateshuldanw" parameterClass="java.util.Map" >
+        <![CDATA[
+    	UPDATE ${dbSchemalzxc}IN_DFPV_KUCKZ A SET A.LINGJSL = #LINGJSL#,A.DANW = #DANW#
+    	 WHERE A.USERCENTER = #USERCENTER# AND A.LINGJBH = #LINGJBH# 
+    	   AND A.KUWDZ = #KUWDZ# AND A.ZHUANGT = #ZHUANGT#    		
+   		]]>	
+   </update>
+   
+   <!-- 2980 保留最近六版数据，其他清除，并删除in_dfpv_kuckz表当天数据  lc 2016-4-6 -->
+   <delete id="dfpvkckzDelete">
+   		<![CDATA[
+   		 	delete from ${dbSchemalzxc}in_dfpv_kuckz k
+             where exists (select create_time from 
+                       (select tt.create_time, ROWNUM RN from 
+                            (select distinct create_time
+                               from ${dbSchemalzxc}in_dfpv_kuckz
+                            order by create_time desc) tt) t
+              where t.RN > 6 and t.create_time = k.create_time) 
+                or to_char(k.create_time, 'yyyy-MM-dd') = to_char(sysdate, 'yyyy-MM-dd') 
+		]]>
+   </delete>
+   
+   <!-- 2045 查询新插入的运输计划号在表中是否原已存在  lc 2016-12-29 -->
+   <select id="queryGroupbyYunsjhh" parameterClass="java.util.Map" resultClass="java.util.HashMap">
+        <![CDATA[
+            select distinct t.yunsjhh
+              from ${dbSchemalzxc}ck_quhjh t
+             where t.editor = 'temp'
+               and t.yunsjhh in (select distinct a.yunsjhh from ${dbSchemalzxc}ck_quhjh a where a.editor != 'temp')   
+        ]]>
+   </select>
+   
+   <!-- 2045 删除该版次中新插入的在表中原已存在的运输计划号下的所有数据  lc 2016-12-29 -->
+   <delete id="deleteGroupbyYunsjhh">
+   		<![CDATA[
+		    delete from ${dbSchemalzxc}ck_quhjh t where t.editor = 'temp' and t.yunsjhh = #YUNSJHH#
+	  	]]>
+   </delete>
+   
+   <!-- 2045 查询新插入的要货令号在表中是否原重复  lc 2016-12-29 -->
+   <select id="queryGroupbyYaohlh" parameterClass="java.util.Map" resultClass="java.util.HashMap">
+        <![CDATA[
+            select distinct t.yunsjhh
+              from ${dbSchemalzxc}ck_quhjh t
+             where t.editor = 'temp'
+               and t.yaohlh in (select a.yaohlh from ${dbSchemalzxc}ck_quhjh a group by a.yaohlh having count(1) > 1)     
+        ]]>
+   </select>
+   
+   <!-- 2045 ck_yaohl表关联ck_quhjh表查询更新零件编号、零件数量、目的地、预计到货时间、产线、仓库编号  lc 2016-11-18 -->
+   <select id="queryquhjh" parameterClass="java.util.Map" resultClass="java.util.HashMap" remapResults="true">
+		<![CDATA[ 
+		    select t.usercenter,
+                   t.yunsjhh,
+                   t.yaohlh,
+                   yh.lingjbh,
+                   yh.yaohsl,
+                   yh.mudd,
+                   yh.zuiwsj,
+                   yh.chanx,
+                   yh.cangkbh
+              from ${dbSchemalzxc}ck_yaohl yh
+              join ${dbSchemalzxc}ck_quhjh t
+                on yh.usercenter = t.usercenter
+               and yh.yaohlh = substr(t.yaohlh,11,12)
+             where t.editor = 'temp'
+		]]>
+   </select>
+	
+   <!-- 2045 更新零件编号、零件数量、目的地、预计到货时间、产线、仓库编号  lc 2016-11-18 -->
+   <update id="updatequhjh" parameterClass="java.util.Map">
+        <![CDATA[
+    	    update ${dbSchemalzxc}ck_quhjh t 
+               set t.lingjbh = #LINGJBH#,
+                   t.lingjsl = #YAOHSL#,
+                   t.mudd = #MUDD#,
+                   t.yujdhsj = #ZUIWSJ#,
+                   t.chanx = #CHANX#,
+                   t.cangkbh = #CANGKBH#
+    	     where t.usercenter = #USERCENTER# 
+    	       and t.yunsjhh = #YUNSJHH#
+    	       and t.yaohlh = #YAOHLH#      		
+   		]]>	
+   </update>
+   
+   <!-- 2045 将editor为temp的更新为2045 lc 2016-11-22 -->
+   <update id="updateqhjheditor">
+   		<![CDATA[
+   			update ${dbSchemalzxc}ck_quhjh t set t.editor = '2045' where t.editor = 'temp'
+		]]>
+   </update>
+   
+   <!-- 2045 插入错误日志SQL配置  lc 2017-1-3 -->
+   <insert id="insertErrorFileInfo" parameterClass="java.util.Map">
+   		<![CDATA[
+			insert into ${dbSchemalzxc}in_errorfile 
+				(EID,INBH,SID,FILE_ERRORINFO,ERROR_DATE,YUNXKSSJ)
+			values(
+				#EID#,#INBH#,#SID#,substr(#file_errorinfo#,0,700),#error_date#,sysdate)
+		]]>
+   </insert>
+   
+   <!-- 2046 删除没有取货计划的异常申报数据  lc 2016-12-30 -->
+   <delete id="deleteycsbbycreator">
+   		<![CDATA[
+		    delete from ${dbSchemalzxc}ck_quhjh t where t.creator = 'temp'
+	  	]]>
+   </delete>
+   
+   <!-- 2047 清空ck_quhjhgz_tmp表数据  lc 2017-1-3 -->
+   <delete id="qhjhgz_tmpDelete">
+   		<![CDATA[
+   			truncate table ${dbSchemalzxc}ck_quhjhgz_tmp
+   		]]>
+   </delete>
+   
+   <!-- 2047 查询CK_QUHJHGZ_TMP表中重复的运输计划号  lc 2017-1-5 -->
+   <select id="queryByQuhjhgz_tmp" parameterClass="java.util.Map" resultClass="java.util.HashMap">
+        <![CDATA[
+            select t.usercenter, t.yunsjhh, max(t.yunszt) yunszt
+              from ${dbSchemalzxc}ck_quhjhgz_tmp t
+             group by t.usercenter, t.yunsjhh
+            having count(1) > 1  
+        ]]>
+   </select>
+   
+   <!-- 2047 根据运输状态和最晚上传时间判断重复运输计划号的有效性，将无效的打标  lc 2017-1-5 -->
+   <update id="updateByYunszt" parameterClass="java.util.Map">
+        <![CDATA[
+    	    update ${dbSchemalzxc}ck_quhjhgz_tmp a
+               set a.editor = '2047'
+             where not exists (select 1
+                      from (select t.*, ROWNUM RN
+                              from (select *
+                                      from ${dbSchemalzxc}ck_quhjhgz_tmp
+                                     where usercenter = #USERCENTER#
+                                       and yunsjhh = #YUNSJHH#
+                                       and yunszt = #YUNSZT#
+                                     order by shangcsj asc) t) tt
+                     where tt.RN = 1
+                       and tt.liush = a.liush)
+               and a.usercenter = #USERCENTER#
+               and a.yunsjhh = #YUNSJHH#     		
+   		]]>	
+   </update>
+   
+   <!-- 2047 根据最晚上传时间判断重复运输计划号的有效性，将无效的打标  lc 2017-1-5 -->
+   <update id="updateByShangcsj" parameterClass="java.util.Map">
+        <![CDATA[
+    	    update ${dbSchemalzxc}ck_quhjhgz_tmp a
+               set a.editor = '2047'
+             where not exists (select 1
+                      from (select t.*, ROWNUM RN
+                              from (select *
+                                      from ${dbSchemalzxc}ck_quhjhgz_tmp
+                                     where usercenter = #USERCENTER#
+                                       and yunsjhh = #YUNSJHH#
+                                     order by shangcsj desc) t) tt
+                     where tt.RN = 1
+                       and tt.liush = a.liush)
+               and a.usercenter = #USERCENTER#
+               and a.yunsjhh = #YUNSJHH#      		
+   		]]>	
+   </update>
+   
+   <!-- 2047 Merge表CK_QUHJHGZ数据  lc 2017-1-5 -->
+   <update id="ck_quhjhgzMerge">
+   		<![CDATA[
+   		    MERGE INTO ${dbSchemalzxc}CK_QUHJHGZ C
+            USING (SELECT * FROM ${dbSchemalzxc}CK_QUHJHGZ_TMP WHERE EDITOR = 'temp') S
+            ON (C.USERCENTER = S.USERCENTER AND C.YUNSJHH = S.YUNSJHH)
+            WHEN MATCHED THEN
+              UPDATE
+                 SET C.KACH        = S.KACH,
+                     C.YINGDSJ     = S.YINGDSJ,
+                     C.PIANC       = S.PIANC,
+                     C.YUNSZT      = S.YUNSZT,
+                     C.SHANGCSJ    = S.SHANGCSJ,
+                     C.FLAG        = S.FLAG,
+                     C.WULDDM      = S.WULDDM,
+                     C.WULDMC      = S.WULDMC,
+                     C.DAODWLDSJ   = S.DAODWLDSJ,
+                     C.SHANGCWLD   = C.WULDDM,
+                     C.DAODSCWLDSJ = C.DAODWLDSJ,
+                     C.EDITOR      = 'temp',
+                     C.EDIT_TIME   = SYSDATE
+               WHERE C.YUNSZT != '3'
+            WHEN NOT MATCHED THEN
+              INSERT
+                (USERCENTER,
+                 YUNSJHH,
+                 KACH,
+                 YINGDSJ,
+                 PIANC,
+                 YUNSZT,
+                 SHANGCSJ,
+                 FLAG,
+                 WULDDM,
+                 WULDMC,
+                 DAODWLDSJ,
+                 CREATOR,
+                 CREATE_TIME,
+                 EDITOR,
+                 EDIT_TIME)
+              VALUES
+                (S.USERCENTER,
+                 S.YUNSJHH,
+                 S.KACH,
+                 S.YINGDSJ,
+                 S.PIANC,
+                 S.YUNSZT,
+                 S.SHANGCSJ,
+                 S.FLAG,
+                 S.WULDDM,
+                 S.WULDMC,
+                 S.DAODWLDSJ,
+                 '2047',
+                 SYSDATE,
+                 'temp',
+                 SYSDATE) 
+		]]>
+   </update>
+   
+   <!-- 2047 更新ck_daohtzd表中的卡车号 lc 2016-11-22 -->
+   <update id="updateck_daohtzdkch">
+   		<![CDATA[
+   			update ${dbSchemalzxc}ck_daohtzd dhtzd
+               set dhtzd.tch =
+                   (select tt.kach
+                      from (select distinct t.kach, ua.usercenter, ua.uth, ua.blh
+                              from (select gz.usercenter, gz.yunsjhh, gz.kach
+                                      from ${dbSchemalzxc}ck_quhjhgz gz
+                                     where gz.editor = 'temp') t
+                             inner join ${dbSchemalzxc}ck_quhjh a
+                                on t.usercenter = a.usercenter
+                               and t.yunsjhh = a.yunsjhh
+                             inner join ${dbSchemalzxc}ck_uabq ua
+                                on a.usercenter = ua.usercenter
+                               and substr(a.yaohlh, 11, 12) = ua.yaohlh) tt
+                     where dhtzd.usercenter = tt.usercenter
+                       and dhtzd.uth = tt.uth
+                       and dhtzd.blh = tt.blh
+                       and dhtzd.zhuangt = '2')
+             where exists (select 1
+                      from (select distinct ua.usercenter, ua.uth, ua.blh
+                              from (select gz.usercenter, gz.yunsjhh
+                                      from ${dbSchemalzxc}ck_quhjhgz gz
+                                     where gz.editor = 'temp') t
+                             inner join ${dbSchemalzxc}ck_quhjh a
+                                on t.usercenter = a.usercenter
+                               and t.yunsjhh = a.yunsjhh
+                             inner join ${dbSchemalzxc}ck_uabq ua
+                                on a.usercenter = ua.usercenter
+                               and substr(a.yaohlh, 11, 12) = ua.yaohlh) tt
+                     where dhtzd.usercenter = tt.usercenter
+                       and dhtzd.uth = tt.uth
+                       and dhtzd.blh = tt.blh
+                       and dhtzd.zhuangt = '2')
+		]]>
+   </update>
+   
+   <!-- 2047 将editor为temp的更新为2047 lc 2016-11-22 -->
+   <update id="updateqhjhgzeditor">
+   		<![CDATA[
+   			update ${dbSchemalzxc}ck_quhjhgz t set t.editor = '2047' where t.editor = 'temp'
+		]]>
+   </update>
+   
+</sqlMap>
+

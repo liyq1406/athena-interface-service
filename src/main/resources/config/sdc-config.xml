@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<components>
+	<import resource="classpath*:config/**/module-*.xml" />
+	<constant name="useIBatis" value="classpath:config/sqlmap-config.xml" />
+	<constant name="useCache" value="classpath:config/ehcache.xml" />
+
+	<component-scan
+		package="com.toft.widgets,com.toft.core3,com.toft.core2,com.athena" />
+
+	<datasources transaction-manager="local">
+		${jdbcstart.label}
+		<datasource id="3" name="开发数据库" type="Oracle">
+			<connection user-name="ZBC_TEST" password="ZBC_TEST"
+				server-name="10.26.218.52" port="1521" db-name="functdb">
+			</connection>
+		</datasource>
+
+		<datasource id="1" name="开发数据库" type="Oracle">
+			<connection user-name="ZXC_TEST" password="ZXC_TEST"
+				server-name="10.26.218.52" port="1521" db-name="functdb">
+			</connection>
+		</datasource>
+
+		<datasource id="2" name="开发数据库" type="Oracle">
+			<connection user-name="DDBH_TEST" password="DDBH_TEST"
+				server-name="10.26.218.52" port="1521" db-name="functdb">
+			</connection>
+		</datasource>
+
+		<datasource id="4" name="开发数据库" type="Oracle">
+			<connection user-name="sppv" password="sppv" server-name="10.26.218.87"
+				port="1521" db-name="base3">
+			</connection>
+		</datasource>
+
+		<datasource id="5" name="EFI数据库" type="Oracle">
+			<connection user-name="efi" password="efi" server-name="10.26.202.78"
+				port="1521" db-name="efidb">
+			</connection>
+		</datasource>
+
+		 <datasource id="6" name="开发数据库" type="Oracle">
+			<connection user-name="sppv" password="sppv" server-name="10.26.202.101"
+				port="1521" db-name="SPPV">
+			</connection>
+		</datasource>
+			
+		${jdbcend.label}
+
+		<!-- jndi数据连接 -->
+		${jndistart.label}
+		<datasource id="1" name="JNDI连接数据库" type="Oracle">
+			<connection jndi="${jndi.name1}"></connection>
+		</datasource>
+
+		<datasource id="2" name="JNDI连接数据库" type="Oracle">
+			<connection jndi="${jndi.name2}"></connection>
+		</datasource>
+
+		<datasource id="4" name="JNDI连接数据库sppv" type="Oracle">
+			<connection jndi="${jndi.name4}"></connection>
+		</datasource>
+
+
+		<datasource id="5" name="JNDI连接数据库efi" type="Oracle">
+			<connection jndi="${jndi.name5}"></connection>
+		</datasource>
+
+		<datasource id="6" name="JNDI连接数据库sppv" type="Oracle">
+			<connection jndi="${jndi.name6}"></connection>
+		</datasource>
+		
+		${jndiend.label}
+
+	</datasources>
+
+	<listener class="com.toft.core3.biz.module.ModuleListener" />
+	<listener class="com.athena.component.StartListener" />
+
+
+	<message resource="config.toft.ToftErrorCode" />
+	<message resource="config.toft.ToftSYSErrorCode" />
+
+</components>

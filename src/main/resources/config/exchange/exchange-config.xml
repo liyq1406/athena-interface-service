@@ -1,0 +1,2974 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<exchange-configs>
+	<!-- 
+		exchange-config-group[@reader]:组默认的数据输入格式
+		exchange-config-group[@writer]:组默认的数据输出格式
+	 -->
+	 <!-- 文本格式输入，数据库格式输出 -->
+	<exchange-config-group reader="txt" writer="db">
+		<!-- 
+		文本格式输入组配置说明
+			exchange-config[@timer]:定时调度时间表达式
+			reader[@filePath]:文件路径
+			reader[@split]:文本分隔符
+			
+			writer[@class]:数据输出类，可以继承本组的DataWriter，实现自定义的条件判定，扩展方法如下：
+				1.输出前：boolean before();
+				2.输出后：void after();
+				3.行记录解析前：boolean beforeRecord(int rowIndex,String line);
+				4.行记录解析后：void afterRecord(int rowIndex,Record record);
+				record.get('f004')
+				
+			writer[@table]：数据库表名
+			writer[@updateFields]:更新字段，使用，号分隔。
+			field[@writerColumn]:输出列名称
+			field[@start]:起始位置
+			field[@length]:长度
+			field[@type]:数据类型 
+			field[@format]:数据格式
+			field[@isUpdate]:是否更新，默认值true
+		 -->
+		<exchange-config id="IN_1" caption="零件参考系">
+		<reader filePath="/interface/LJCKX" encoding="GBK">
+		</reader>
+		<writer class="com.athena.component.input.ComponentDbDataWriter"
+		table="in_component" datasourceId="1" idKeys="usercenter,ljh">
+		</writer>
+		<field writerColumn="usercenter" start="0" length="0" isUpdate="false"/>
+		<field writerColumn="ljdhcj"  start="0" length="3"/>
+		<field writerColumn="ljh" start="3" length="10" isUpdate="false"/>
+		<field writerColumn="ksrq" start="13" length="6"/>
+		<field writerColumn="jsrq"  start="19" length="6"/>
+		<field writerColumn="zzcjdz"  start="25" length="3"/>
+		<field writerColumn="dw"  start="28" length="2"/>
+		<field writerColumn="zwmc"  start="30" length="20" isUpdate="false"/>
+		<field writerColumn="cj_date"/>
+		<field writerColumn="clzt"/>
+		</exchange-config>
+		
+		<exchange-config id="IN_3" caption="供应商参考系">
+		<reader filePath="/interface/GYSCKX"  encoding="GBK">
+		</reader>
+		<writer class="com.athena.component.input.SupplierDbDataWriter"
+		table="in_supplier" datasourceId="1" idKeys="c_user_center,c_supplier_code">
+		</writer>
+		<field writerColumn="c_supplier_code"  start="1" length="10" isUpdate="false"/>
+		<field writerColumn="c_user_center"  start="11" length="2" isUpdate="false"/>
+		<field writerColumn="c_company_code" start="14" length="12"/>
+		<field writerColumn="c_insee"  start="26" length="4"/>
+		<field writerColumn="c_nic"  start="30" length="5"/>
+		<field writerColumn="c_iso_address"  start="35" length="23"/>
+		<field writerColumn="c_company_name"  start="58" length="63"/>
+		<field writerColumn="c_line_address1"  start="121" length="35"/>
+		<field writerColumn="c_line_address2" start="156" length="65"/>
+		<field writerColumn="c_line_address3"  start="223" length="35"/>
+		<field writerColumn="c_line_address4"  start="258" length="35"/>
+		<field writerColumn="c_nation_code"  start="289" length="3"/>
+		<field writerColumn="c_nation_name"  start="292" length="31"/>
+		<field writerColumn="c_phone"  start="325" length="14"/>
+		<field writerColumn="c_tax"  start="339" length="12"/>
+		<field writerColumn="c_unit_name"  start="357" length="35"/>
+		<field writerColumn="c_transupplier_code"  start="392" length="10"/>
+		<field writerColumn="c_name1"  start="402" length="20"/>
+		<field writerColumn="c_name2"  start="422" length="20"/>
+		<field writerColumn="cj_date"/>
+		<field writerColumn="clzt"/>
+		</exchange-config>
+		
+		<exchange-config id="IN_4" caption="零件供应商参考系">
+		<reader filePath="/interface/JL-GYSCKX"  encoding="GBK">
+		</reader>
+		<writer class="com.athena.component.input.ComSupDbDataWriter"
+		table="in_component_supplier" datasourceId="1" 
+		idKeys="c_user_center,c_component_code,c_supplier_code">
+		</writer>
+		<field writerColumn="c_component_code"  start="1" length="10" isUpdate="false"/>
+		<field writerColumn="c_component_nam"  start="11" length="40"/>
+		<field writerColumn="c_user_center"  start="51" length="2" isUpdate="false"/>
+		<field writerColumn="c_ekgrp" start="54" length="7"/>
+		<field writerColumn="c_ebeln" start="61" length="8"/>
+		<field writerColumn="c_bsart" start="69" length="4"/>
+		<field writerColumn="n_quote" start="73" length="3"/>
+		<field writerColumn="c_lfsgr" start="76" length="3"/>
+		<field writerColumn="c_supplier_code"  start="79" length="10" isUpdate="false"/>
+		<field writerColumn="t_begin"  start="89" length="8"/>
+		<field writerColumn="cj_date"/>
+		<field writerColumn="clzt"/>
+		</exchange-config>
+				
+		<exchange-config id="IN_2" caption="零件周期毛需求">
+		<reader filePath="/interface/ZQMXQ"  encoding="GBK"></reader>
+		<writer class="com.athena.component.input.GundmxqDbDataWriter"
+		table="xqjs_maoxqmx" datasourceId="6" 
+		idKeys="id"></writer>
+		<field writerColumn="id"  start="0" length="0"/>
+		<field writerColumn="xuqbc"  start="0" length="0"/>
+		<field writerColumn="shiycj"  start="0" length="0"/>
+		<field writerColumn="xuqsszq"  start="0" length="0"/>
+		<field writerColumn="xuqz"  start="0" length="0"/>
+		<field writerColumn="xuqksrq"  start="0" length="0"/>
+		<field writerColumn="creator"  start="0" length="0"/>
+		<field writerColumn="editor"  start="0" length="0"/>
+		<field writerColumn="create_time"  start="0" length="0"/>
+		<field writerColumn="edit_time"  start="0" length="0"/>
+		<field writerColumn="active"  start="0" length="0"/>
+		<field writerColumn="usercenter"  start="0" length="2" isUpdate="false"/>
+		<field writerColumn="lingjbh"  start="3" length="10" isUpdate="false"/>
+		<field writerColumn="xuqsl"  start="13" length="16" type="number" format="number(16,6)"/>
+		<field writerColumn="danw"  start="29" length="2"/>
+		<field writerColumn="zhizlx"  start="42" length="6" isUpdate="false"/>
+		<field writerColumn="xuqrq"  start="48" length="8" isUpdate="false" type="date" format="yyyyMMdd"/>
+		<field writerColumn="xuqjsrq"  start="56" length="8"/>
+		<field writerColumn="chanx"  start="93" length="2" isUpdate="false"/>
+		</exchange-config>
+		
+		<exchange-config id="IN_2_1" caption="KD件零件周期毛需求">
+		<reader filePath="/interface/KDJ_ZQMXQ"  encoding="GBK"></reader>
+		<writer class="com.athena.component.input.KdJGundmxqDbDataWriter"
+		table="xqjs_maoxqmx" datasourceId="6" 
+		idKeys="id"></writer>
+		<field writerColumn="id"  start="0" length="0"/>
+		<field writerColumn="xuqbc"  start="0" length="0"/>
+		<field writerColumn="shiycj"  start="0" length="0"/>
+		<field writerColumn="xuqsszq"  start="0" length="0"/>
+		<field writerColumn="xuqz"  start="0" length="0"/>
+		<field writerColumn="xuqksrq"  start="0" length="0"/>
+		<field writerColumn="creator"  start="0" length="0"/>
+		<field writerColumn="editor"  start="0" length="0"/>
+		<field writerColumn="create_time"  start="0" length="0"/>
+		<field writerColumn="edit_time"  start="0" length="0"/>
+		<field writerColumn="active"  start="0" length="0"/>
+		<field writerColumn="usercenter"  start="0" length="2" isUpdate="false"/>
+		<field writerColumn="lingjbh"  start="3" length="10" isUpdate="false"/>
+		<field writerColumn="xuqsl"  start="13" length="16" type="number" format="number(16,6)"/>
+		<field writerColumn="danw"  start="29" length="2"/>
+		<field writerColumn="zhizlx"  start="42" length="6" isUpdate="false"/>
+		<field writerColumn="xuqrq"  start="48" length="8" isUpdate="false" type="date" format="yyyyMMdd"/>
+		<field writerColumn="xuqjsrq"  start="56" length="8"/>
+		<field writerColumn="chanx"  start="93" length="2" isUpdate="false"/>
+		</exchange-config>
+		
+		
+		<exchange-config id="IN_14" caption="KD件在途,物理点信息">
+			<reader filePath="/interface/KDJZT" encoding="GBK"></reader>
+			<writer table="in_kdwld" class="com.athena.component.input.KdysDbDataWriter" datasourceId="1"
+			idKeys="id"></writer>
+			<field writerColumn="id" start="0" length="0" isUpdate="false"></field>
+			<field writerColumn="falg" start="0" length="1" ></field>
+			<field writerColumn="pap_sheet_id" start="2" length="20"></field>
+			<field writerColumn="pap_box_id" start="22" length="20"></field>
+			<field writerColumn="kdys_sheet_id" start="42" length="20"></field>
+			<field writerColumn="kdys_box_id" start="62" length="20"></field>
+			<field writerColumn="c_point_id" start="0" length="0"></field>
+			<field writerColumn="t_time" start="82" length="10"></field>
+			<field writerColumn="cj_date"/>
+		    <field writerColumn="clzt"/>
+		</exchange-config>
+		
+		<exchange-config id="IN_12" caption="零件MAF库存">
+			<reader filePath="/interface/LJKC-MAF" encoding="GBK"></reader>
+			<writer table="in_maf" class="com.athena.component.input.MafDbDateWriter" datasourceId="1"
+			idKeys="c_component_code,c_maf_code,c_supplier_code"></writer>
+			<field writerColumn="c_component_code" start="0" length="10" isUpdate="false"></field>
+			<field writerColumn="c_maf_code" start="10" length="10" isUpdate="false"></field>
+			<field writerColumn="c_supplier_code" start="20" length="10" isUpdate="false"></field>
+			<field writerColumn="ck_date" start="30" length="8"></field>
+			<field writerColumn="n_maf_num" start="38" length="13" type="number" format="number(13,3)"></field>
+			<field writerColumn="c_unit" start="51" length="2"></field>
+			<field writerColumn="c_user_center" start="53" length="2"></field>
+			<field writerColumn="cj_date"/>
+		    <field writerColumn="clzt"/>
+		</exchange-config>
+	
+		<exchange-config id="IN_10" caption="九天排产计划(商业化的时间)">
+			<reader filePath="/interface/SYH" encoding="GBK"></reader>
+			<writer table="in_clddxx" class="com.athena.component.input.ClddxxDbDataWriter" datasourceId="1"
+			idKeys="whof"></writer>
+			<field writerColumn="usercenter" start="0" length="2"></field>
+			<field writerColumn="whof" start="2" length="8" isUpdate="false"></field>
+			<field writerColumn="lcdv24" start="42" length="24"></field>
+			<field writerColumn="yplbj" start="99" length="5"></field>
+			<field writerColumn="yjjhzrq" start="105" length="10"></field>
+			<field writerColumn="yjjhzsx" start="115" length="10"></field>
+			<field writerColumn="scxh" start="128" length="2"></field>
+			<field writerColumn="yjjzlsj" start="130" length="10"></field>
+			<field writerColumn="yjsyhsj" start="140" length="10"></field>
+			<field writerColumn="sxsxh" start="160" length="8"></field>
+			<field writerColumn="lcdv" start="901" length="1400"></field>
+			<field writerColumn="cj_date"/>
+		    <field writerColumn="clzt"/>
+		</exchange-config>
+		
+		<exchange-config id="IN_9" caption="九天排产计划(JT的顺序)">
+			<reader filePath="/interface/JTPCJH" encoding="GBK"></reader>
+			<writer table="in_jtpcjh" class="com.athena.component.input.JtpcjhDbDateWriter" datasourceId="1"
+			idKeys="usercenter,ofh"></writer>
+			<field writerColumn="usercenter" start="1" length="3" isUpdate="false"></field>
+			<field writerColumn="zzx" start="4" length="2"></field>
+			<field writerColumn="ofh" start="17" length="8" isUpdate="false"></field>
+			<field writerColumn="jtxx" start="69" length="10"></field>
+			<field writerColumn="jtrq" start="79" length="8"></field>
+			<field writerColumn="lcdv24" start="87" length="24"></field>
+			<field writerColumn="lcdv3500" start="113" length="3500"></field>
+			<field writerColumn="cj_date"/>
+		    <field writerColumn="clzt"/>
+		</exchange-config>
+
+		<exchange-config id="IN_16" caption="订单信息">
+			<reader filePath="/interface/DDXX" encoding="GBK"></reader>
+			<writer table="in_ddxx" class="com.athena.component.input.DdxxDbDataWriter" datasourceId="1"
+			idKeys="dingdh"></writer>
+			<field writerColumn="dingdh" start="2" length="8" isUpdate="false"></field>
+			<field writerColumn="yhqs_date" start="10" length="20"></field>
+			<field writerColumn="dinghlx" start="30" length="3"></field>
+			<field writerColumn="gysdm" start="33" length="10"></field>
+			<field writerColumn="lingjbh" start="43" length="10"></field>
+			<field writerColumn="shul" start="53" length="16"></field>
+			<field writerColumn="danw" start="69" length="2"></field>
+			<field writerColumn="usercenter" start="71" length="2"></field>
+			<field writerColumn="yhjs_date" start="73" length="8"></field>
+			<field writerColumn="ckdm" start="81" length="3"></field>
+			<field writerColumn="dhcj" start="0" length="0"></field>
+			<field writerColumn="leix" start="0" length="0"></field>
+			<field writerColumn="xiehztbh" start="0" length="0"></field>
+			<field writerColumn="uabzlx" start="0" length="0"></field>
+			<field writerColumn="ucbzlx" start="0" length="0"></field>
+			<field writerColumn="ucrl" start="0" length="0"></field>
+			<field writerColumn="uaucgs" start="0" length="0"></field>
+			<field writerColumn="jf_date" start="0" length="0"></field>
+			<field writerColumn="zhwhr" start="0" length="0"></field>
+			<field writerColumn="zhwhsj" start="0" length="0"></field>
+			<field writerColumn="lujbh" start="0" length="0"></field>			
+			<field writerColumn="cj_date"/>
+		    <field writerColumn="clzt"/>
+		</exchange-config>
+		
+		<exchange-config id="IN_11" caption="EDI发货通知">
+		<reader class="com.athena.component.input.FhtzReader" filePath="/interface/EDI-FHTZ" encoding="GBK"></reader>
+		<writer class="com.athena.component.input.FhtzDbDataWriter" datasourceId="1"
+		idKeys="T01A001"></writer>
+		<field writerColumn="T01A001" start="6" length="17" isUpdate="false"/>
+		<field writerColumn="T01B001" start="23" length="14"/>
+		<field writerColumn="D03B001" start="6" length="3"/>
+		<field writerColumn="D03D002" start="9" length="17"/>
+		<field writerColumn="D03FA01" start="26" length="14" type="number" format="number(14,3)"/>
+		<field writerColumn="D03FA02" start="40" length="3"/>
+		<field writerColumn="D03FA05" start="43" length="3"/>
+		<field writerColumn="D03FD03" start="46" length="14"/>
+		<field writerColumn="C18AB01" start="6" length="20"/>
+		<field writerColumn="C18B005" start="29" length="17"/>
+		<field writerColumn="C05AB01" start="6" length="20"/>
+		<field writerColumn="H02AB01" start="6" length="17"/>
+		<field writerColumn="C06AB01" start="6" length="20"/>
+		<field writerColumn="D04A001" start="6" length="17"/>
+		<field writerColumn="A02D001" start="12" length="14" type="number" format="number(13,3)"/>
+		<field writerColumn="A02D002" start="26" length="3"/>
+		<field writerColumn="B03AB01" start="6" length="5"/>
+		<field writerColumn="B03AB02" start="23" length="3"/>
+		<field writerColumn="A04A002" start="6" length="10"/>
+		<field writerColumn="A04B003" start="41" length="2" type="number" format="#"/>
+		<field writerColumn="A09AC01" start="6" length="17"/>
+		<field writerColumn="A01C009" start="6" length="3"/>
+		<field writerColumn="B04A001" start="6" length="17"/>
+		<field writerColumn="B05AB01" start="6" length="17"/>
+		<field writerColumn="B05AD01" start="23" length="9"/>
+		<field writerColumn="A07A001" start="6" length="17"/>
+		</exchange-config>
+		
+		    <exchange-config id="IN_13" caption="EFI发货通知">
+			<reader class="com.athena.component.input.EFIFhtzRead" filePath="/interface/EFI-FHTZ"  encoding="GBK"></reader>
+			<writer class="com.athena.component.input.EFIFhtzDbDataWriter" datasourceId="1" 
+			idKeys="jfdh,xuh,ua,uc"></writer>
+			<field writerColumn="jfdh" start="0" length="17" isUpdate="false"></field>
+			<field writerColumn="jf_date" start="17" length="14"></field>
+			<field writerColumn="fyzmzdw" start="31" length="3"></field>
+			<field writerColumn="fyyjdd_date" start="34" length="14"></field>
+			<field writerColumn="cysdm" start="48" length="10"></field>
+			<field writerColumn="jszdm" start="58" length="20"></field>
+			<field writerColumn="xzddm" start="78" length="17"></field>
+			<field writerColumn="fhrdm" start="95" length="20"></field>
+			<field writerColumn="jzxh" start="115" length="17"></field>
+			<field writerColumn="sftbfhtz" start="132" length="2"></field>
+			<field writerColumn="sfgzxlh" start="134" length="2"></field>
+			<field writerColumn="cj_date"/>
+		    <field writerColumn="clzt"/>
+			<field writerColumn="xuh" start="136" length="6" isUpdate="false"></field>
+			<field writerColumn="fysl" start="142" length="14" type="number" format="number(14,3)"></field>
+			<field writerColumn="jldw" start="156" length="3"></field>
+			<field writerColumn="bzlx" start="159" length="5"></field>
+			<field writerColumn="ljh" start="176" length="35"></field>
+			<field writerColumn="ddh" start="211" length="17"></field>
+			<field writerColumn="lygj" start="228" length="3"></field>	
+			<field writerColumn="ua" start="231" length="17" isUpdate="false"></field>
+			<field writerColumn="ualx" start="248" length="5"></field>
+			<field writerColumn="uc" start="253" length="17" isUpdate="false"></field>
+			<field writerColumn="uclx" start="270" length="5"></field>
+			<field writerColumn="ucljsl" start="275" length="10" type="number" format="number(9,3)"></field>
+			<field writerColumn="ualjsl" start="285" length="10" type="number" format="number(9,3)"></field>
+			<field writerColumn="yhl" start="295" length="12"></field>
+			<field writerColumn="pzh" start="307" length="17"></field>
+			<field writerColumn="xlh" start="324" length="13"></field>
+			<field writerColumn="gys" start="337" length="10"></field>
+			<field writerColumn="lsh" start="347" length="9"></field>
+			<field writerColumn="shul" start="356" length="6"></field>
+		</exchange-config>
+		
+		<exchange-config id="IN_15" caption="GEVP外部要货令">
+			<reader filePath="/interface/GEVP-YHL" encoding="GBK"></reader>
+			<writer table="IN_GEVP_YAOHL" class="com.athena.component.input.GEVPYhlDbDataWriter" datasourceId="1"
+			idKeys="USERCENTER,YAOHLH"></writer>
+			<field writerColumn="USERCENTER" start="0" length="0" isUpdate="false"></field>
+			<field writerColumn="YAOHLH" start="503" length="9" isUpdate="false"></field>
+			<field writerColumn="GYSDM" start="234" length="20"></field>
+			<field writerColumn="JIAOFJ" start="461" length="14" type="date" format="yyyyMMddHHmm"></field>
+			<field writerColumn="ZUIZSJ" start="475" length="14" type="date" format="yyyyMMddHHmm"></field>
+			<field writerColumn="ZUIWSJ" start="489" length="14" type="date" format="yyyyMMddHHmm"></field>
+			<field writerColumn="LINGJBH" start="346" length="35"></field>
+			<field writerColumn="DANW" start="291" length="3"></field>
+			<field writerColumn="YAOHSL" start="450" length="8" type="number" format="number(8,3)"></field>
+			<field writerColumn="BAOZXH" start="323" length="17"></field>
+			<field writerColumn="UCXH" start="300" length="17"></field>
+			<field writerColumn="UCRL" start="283" length="8" type="number" format="number(8,3)"></field>
+			<field writerColumn="UCGS" start="294" length="6"></field>
+			<field writerColumn="XIEHD" start="398" length="17"></field>
+			<field writerColumn="MUDD" start="415" length="17"></field>
+			<field writerColumn="DINGDH" start="381" length="17"></field>		
+			<field writerColumn="CJ_DATE"/>
+		    <field writerColumn="CLZT"/>
+		</exchange-config>
+		
+		<exchange-config id="IN_5" caption="消耗点参考系">
+			<reader filePath="/interface/XHDCKX"  encoding="GBK"></reader>
+			<writer table="in_xhdckx" class="com.athena.component.input.XXDDbDataWriter" datasourceId="4"
+			idKeys="usercenter,xhd"></writer>
+			<field writerColumn="usercenter" start="0" length="0" isUpdate="false"></field>
+			<field writerColumn="xhd" start="0" length="9" isUpdate="false"></field>
+			<field writerColumn="xhdmc" start="9" length="40"></field>
+			<field writerColumn="xhdzt" start="49" length="1"></field>	
+			<field writerColumn="CJ_DATE"/>
+		    <field writerColumn="CLZT"/>
+		</exchange-config>
+		
+		<exchange-config id="IN_6" caption="零件消耗点参考系">
+			<reader filePath="/interface/XHD-LJCKX" encoding="GBK"></reader>
+			<writer table="in_xhdljckx" class="com.athena.component.input.XXDLJDataWriter" datasourceId="4"
+			idKeys="usercenter,lingj,xhd"></writer>
+			<field writerColumn="usercenter" start="0" length="0" isUpdate="false"></field>
+			<field writerColumn="czm" start="0" length="1"></field>
+			<field writerColumn="sycj" start="1" length="3"></field>
+			<field writerColumn="lingj" start="4" length="11" isUpdate="false"></field>
+			<field writerColumn="xhd" start="15" length="9" isUpdate="false"></field>
+			<field writerColumn="CJ_DATE"/>
+		    <field writerColumn="CLZT"/>
+		</exchange-config>
+		
+		<exchange-config id="IN_7" caption="CODDC-消耗点零件">
+			<reader filePath="/interface/CODDC-XHDLJ" class="com.athena.component.input.CODDCDataRead" encoding="GBK"></reader>
+			<writer table="in_coddc" class="com.athena.component.input.CODDCDataWriter" datasourceId="1"
+			idKeys="usercenter,CODDC,lingj,xiaohd,EMON"></writer>
+			<field writerColumn="usercenter" start="0" length="0" isUpdate="false"></field>
+			<field writerColumn="CODDC" start="0" length="7" isUpdate="false"></field>	
+			<field writerColumn="lingj" start="7" length="11" isUpdate="false"></field>
+			<field writerColumn="xiaohd" start="18" length="9" isUpdate="false"></field>
+			<field writerColumn="sydw" start="27" length="10" isUpdate="false"></field>
+			<field writerColumn="CHANX" start="0" length="0"></field>
+			<field writerColumn="fenpqh" start="0" length="0"></field>
+			<field writerColumn="xhdxs" start="37" length="16" type="number" format="number(16,7)"></field>		
+			<field writerColumn="EMON" start="0" length="0" isUpdate="false"></field>	
+			<field writerColumn="clzt"></field>	
+			<field writerColumn="cj_date"></field>		
+		</exchange-config>
+		
+		<exchange-config id="IN_8" caption="CLDV-CODDC对应关系">
+			<reader filePath="/interface/CLDV-CODDC" encoding="GBK"></reader>
+			<writer table="in_cldv_coddc" class="com.athena.component.input.CLDV_CODDCDataWriter" datasourceId="1"
+			idKeys="CODDC,LCDV1424"></writer>
+			<field writerColumn="CODDC" start="0" length="7" isUpdate="false"></field>
+			<field writerColumn="LCDV1424" start="7" length="3500" isUpdate="false"></field>		
+			<field writerColumn="clzt"></field>	
+			<field writerColumn="cj_date"></field>		
+		</exchange-config>
+		
+		
+		
+		<exchange-config id="IN_20" caption="外部订单预告">
+			<reader filePath="/interface/WBDDYG" encoding="GBK"></reader>
+			<writer table="in_wbddyg" class="com.athena.component.input.WbddygDbDataWriter" datasourceId="1"
+			idKeys="lingjbh,ddrq,xianh,lyxt"></writer>
+			<field writerColumn="zzzx" start="0" length="3"></field>
+			<field writerColumn="lingjbh" start="3" length="10" isUpdate="false"></field>	
+			<field writerColumn="yxbh" start="13" length="1"></field>	
+			<field writerColumn="ddrq" start="14" length="8" isUpdate="false"></field>
+			<field writerColumn="filler" start="22" length="8"></field>		
+			<field writerColumn="shul" start="30" length="8"></field>	
+			<field writerColumn="zfbj" start="38" length="1"></field>		
+			<field writerColumn="hgbm" start="39" length="5"></field>	
+			<field writerColumn="xianh" start="44" length="3" isUpdate="false"></field>
+			<field writerColumn="lyxt" start="47" length="3" isUpdate="false"></field>
+			<field writerColumn="usercenter" start="50" length="2"></field>			
+			<field writerColumn="clzt"></field>	
+			<field writerColumn="cj_date"></field>		
+		</exchange-config>
+		
+		<exchange-config id="IN_21" caption="外租库流水账">
+			<reader filePath="/interface/WZKLSZ" encoding="GBK"></reader>
+			<writer table="in_wzklsz" class="com.athena.component.input.WzklszDbDataWriter" datasourceId="1" idKeys=""></writer>
+			<field writerColumn="czm" start="0" length="3"></field>
+			<field writerColumn="qxbs" start="3" length="1"></field>
+			<field writerColumn="lingjbh" start="6" length="10"></field>
+			<field writerColumn="gysbm" start="16" length="10"></field>
+			<field writerColumn="lingjsl" start="26" length="10"></field>
+			<field writerColumn="danw" start="36" length="2"></field>
+			<field writerColumn="zhangh" start="38" length="11"></field>
+			<field writerColumn="blh" start="49" length="10"></field>
+			<field writerColumn="jfrq" start="59" length="8"></field>
+			<field writerColumn="pch" start="72" length="10"></field>
+			<field writerColumn="dingdh" start="82" length="8"></field>
+			<field writerColumn="ckbm" start="91" length="6"></field>
+			<field writerColumn="usercenter" start="97" length="3"></field>
+			<field writerColumn="rksj" start="100" length="12"></field>
+			<field writerColumn="ckglyz" start="112" length="3"></field>
+			<field writerColumn="uth" start="115" length="7"></field>
+			<field writerColumn="dqsj" start="131" length="8"></field>
+		</exchange-config>
+	  </exchange-config-group>
+	
+	
+		<!-- 
+		数据库输入组配置说明
+			reader[@sql]:sql查询语句
+			reader[@split]:文本分隔符
+			
+			writer[@class]:数据输出类，接口方法：
+				1.输出前：boolean before(DataParserConfig dataParserConfig);
+				2.输出后：void after(DataParserConfig dataParserConfig);
+				3.行记录解析前：boolean beforeRecord(DataParserConfig dataParserConfig,int rowIndex,String line);
+				4.行记录解析后：void afterRecord(DataParserConfig dataParserConfig,int rowIndex,Record record);
+			writer[@table]：数据库表名
+			writer[@idKeys]:更新字段，使用，号分隔。
+			
+			field[@readerColumn]:输入列名称
+			field[@writerColumn]:输出列名称
+			field[@length]:长度
+			field[@type]:数据类型
+			field[@format]:数据格式
+		 -->	
+		<!-- 数据库格式输入，数据库格式输出 -->
+     	<exchange-config-group reader="db"  writer="db"  timer="0 * * * * *">
+		<exchange-config id="IN_17" caption="整车过点信息">
+		<reader sql="select usercenter,whof,CODECEN,uw5anoseq,monveh,EFERPORTE,LMP,PORTEDATE,AZPOSVEH,STATE,sysdate as cjdate from CKXZBC_TEST.zcgdxx" datasourceId="1">
+		</reader>
+		<writer datasourceId="1" table="in_zcgdxx" idKeys="whof,PORTEDATE,AZPOSVEH">
+		</writer>
+		<field readerColumn="usercenter"  writerColumn="usercenter" length="3"/>
+		<field readerColumn="whof"  writerColumn="whof" length="8" isUpdate="false"/>
+		<field readerColumn="CODECEN" writerColumn="CODECEN" length="2"/>
+		<field readerColumn="uw5anoseq" writerColumn="uw5anoseq" length="9"/>
+		<field readerColumn="monveh" writerColumn="monveh" length="5"/>
+		<field readerColumn="EFERPORTE" writerColumn="EFERPORTE" length="6"/>
+		<field readerColumn="LMP" writerColumn="LMP" length="2"/>
+		<field readerColumn="PORTEDATE" writerColumn="PORTEDATE" isUpdate="false" type="date"/>
+		<field readerColumn="AZPOSVEH" writerColumn="AZPOSVEH" isUpdate="false" length="4"/>
+		<field readerColumn="STATE" writerColumn="STATE" length="1"/>
+		<field readerColumn="cjdate" writerColumn="cj_date" type="date"/>
+		</exchange-config>
+		
+		<exchange-config id="IN_18" caption="商业化OF">
+			<reader sql="select whof,flag,'0' as clzt,sysdate as cj_date from in_syof" datasourceId="1"></reader>
+			<writer datasourceId="1" table="in_syof" idKeys="whof"></writer>
+			<field readerColumn="whof" writerColumn="whof" length="8" isUpdate="false"/>
+			<field readerColumn="flag" writerColumn="flag" length="1"/>	
+			<field readerColumn="clzt" writerColumn="clzt" length="1"/>	
+			<field readerColumn="cj_date" writerColumn="cj_date" type="date"/>	
+		</exchange-config>
+		
+		
+		<exchange-config id="IN_19" caption="过点同步需求">
+		<reader sql="select codecen,
+      				(select LMP from TB_WLDID y where y.wldid=wldid) as lmp,
+       				whof,
+       				substr((select shangxd
+         			 from ckx_peislb z
+         			where z.peislx = (select t.peislx
+                             from ckx_tongbjplj t
+                            where t.usercenter = trim(codecen)
+                              and t.lingjbh = trim(PRODUCT)
+                              and t.shengcxbh = trim(LMP)
+                              and t.nclass = trim(OCLASS))),1,9) as xiaohdbh,
+       				uw5anoseq,
+       				oclass,
+       				bzz,
+      			    product,
+      			    (select danw from ckx_lingj w where w.usercenter=codecen and w.lingjbh=product) as danw,
+       				sxdate,
+       				coef_att,
+       				jsbs,
+       				csdate,
+       				'0' as clzt,
+       				sysdate as cj_date
+  					from CKXZBC_TEST.in_gdtbxq" datasourceId="1">
+		</reader>
+		<writer datasourceId="1" table="in_gdtbxq" idKeys="usercenter,lmp,uw5anoseq,oclass,product">
+		</writer>
+		<field readerColumn="codecen"  writerColumn="usercenter" length="3" isUpdate="false"/>
+		<field readerColumn="codecen"  writerColumn="codecen" length="3"/>
+		<field readerColumn="lmp" writerColumn="lmp" length="2" isUpdate="false"/>
+		<field readerColumn="whof" writerColumn="whof" length="8"/>
+		<field readerColumn="xiaohdbh" writerColumn="xiaohdbh" length="9"/>
+		<field readerColumn="uw5anoseq" writerColumn="uw5anoseq" length="9" isUpdate="false"/>
+		<field readerColumn="oclass" writerColumn="oclass" length="4" isUpdate="false"/>
+		<field readerColumn="bzz" writerColumn="bzz" length="3"/>
+		<field readerColumn="product" writerColumn="product" length="10" isUpdate="false"/>
+		<field readerColumn="danw" writerColumn="danw" length="2"/>	
+		<field readerColumn="sxdate" writerColumn="sxdate" type="date"/>
+		<field readerColumn="coef_att" writerColumn="coef_att" length="1"/>
+		<field readerColumn="jsbs" writerColumn="jsbs" length="1"/>
+		<field readerColumn="csdate" writerColumn="csdate" type="date"/>
+		<field readerColumn="clzt" writerColumn="clzt" length="1"/>
+		<field readerColumn="cj_date" writerColumn="cj_date" type="date"/>
+		</exchange-config>
+		
+		
+		
+		
+		
+		
+		
+
+		<exchange-config id="FF_1" caption="零件参考系">
+		<reader sql="select usercenter,ljh,ljdhcj,to_date(ksrq,'yyyy-MM-dd') as ksrq,to_date(jsrq,'yyyy-MM-dd') as jsrq,zzcjdz,dw,
+		             zwmc,fymc,'2' as biaos,'interface' as creator,sysdate as create_time,WENJMC,WENJLJ from in_component" datasourceId="1">
+		</reader>
+		<writer datasourceId="1" table="ckx_lingj" idKeys="usercenter,lingjbh">
+		</writer>
+		<field readerColumn="usercenter"  writerColumn="usercenter" length="2" isUpdate="false"/>
+		<field readerColumn="ljh"  writerColumn="lingjbh" length="10" isUpdate="false"/>
+		<field readerColumn="ljdhcj" writerColumn="dinghcj" length="3"/>
+		<field readerColumn="ksrq" writerColumn="kaisrq"/>
+		<field readerColumn="jsrq" writerColumn="jiesrq"/>
+		<field readerColumn="zzcjdz" writerColumn="zhizlx" length="3"/>
+		<field readerColumn="dw" writerColumn="danw" length="2"/>
+		<field readerColumn="zwmc" writerColumn="zhongwmc" length="20"/>
+		<field readerColumn="fymc" writerColumn="fawmc" length="20"/>
+		<field readerColumn="biaos" writerColumn="biaos" length="1"/>
+		<field readerColumn="creator" writerColumn="creator"/>
+		<field readerColumn="create_time" writerColumn="create_time" type="date"/>
+		<field readerColumn="creator" writerColumn="editor"/>
+		<field readerColumn="create_time" writerColumn="edit_time" type="date"/>
+		</exchange-config>
+		
+		
+		<exchange-config id="FF_2" caption="供应商参考系">
+		<reader sql="select c_user_center,c_supplier_code,'2' as leix,c_company_name,c_line_address1,c_phone,c_tax,'1' as biaos,
+		             'interface' as creator,sysdate as create_time,WENJMC,WENJLJ from in_supplier" datasourceId="1">
+		</reader>
+		<writer datasourceId="1" table="ckx_gongys" idKeys="usercenter,gcbh">
+		</writer>
+		<field readerColumn="c_user_center"  writerColumn="usercenter" length="3" isUpdate="false"/>
+		<field readerColumn="c_supplier_code"  writerColumn="gcbh" length="10" isUpdate="false"/>
+		<field readerColumn="leix"  writerColumn="leix" length="1"/>
+		<field readerColumn="c_company_name" writerColumn="gongsmc" length="70"/>
+		<field readerColumn="c_line_address1" writerColumn="diz" length="106"/>
+		<field readerColumn="c_phone" writerColumn="dianh" length="20"/>
+		<field readerColumn="c_tax" writerColumn="chuanz" length="20"/>
+		<field readerColumn="biaos" writerColumn="biaos" length="1"/>
+		<field readerColumn="creator" writerColumn="creator" length="32"/>
+		<field readerColumn="create_time" writerColumn="create_time" type="date"/>
+		<field readerColumn="creator" writerColumn="editor" length="32"/>
+		<field readerColumn="create_time" writerColumn="edit_time" type="date"/>
+		</exchange-config>
+		
+		
+		<exchange-config id="FF_3" caption="零件供应商参考系">
+		<reader sql="select c_user_center,c_component_code,c_supplier_code,c_ebeln,n_quote,
+		             to_date(t_begin,'yyyy-MM-dd') as t_begin,'interface' as creator,sysdate as create_time,WENJMC,WENJLJ from in_component_supplier" datasourceId="1">
+		</reader>
+		<writer datasourceId="1" table="ckx_lingjgys" idKeys="usercenter,gongysbh,lingjbh">
+		</writer>
+		<field readerColumn="c_user_center"  writerColumn="usercenter" length="3" isUpdate="false"/>
+		<field readerColumn="c_component_code"  writerColumn="lingjbh" length="10" isUpdate="false"/>
+		<field readerColumn="c_supplier_code"  writerColumn="gongysbh" length="10" isUpdate="false"/>
+		<field readerColumn="c_ebeln" writerColumn="gongyhth" length="8"/>
+		<field readerColumn="n_quote" writerColumn="gongyfe" length="3"/>
+		<field readerColumn="t_begin" writerColumn="shengxsj"/>
+		<field readerColumn="creator" writerColumn="creator" length="32"/>
+		<field readerColumn="create_time" writerColumn="create_time" type="date"/>
+		<field readerColumn="creator" writerColumn="editor" length="32"/>
+		<field readerColumn="create_time" writerColumn="edit_time" type="date"/>
+		</exchange-config>
+		
+		
+		<exchange-config id="FF_4" caption="消耗点参考系">
+		<reader sql="select xhd,xhdzt,'1' as biaos,'interface' as creator,sysdate as create_time,WENJMC,WENJLJ from in_xhdckx" datasourceId="4">
+		</reader>
+		<writer datasourceId="4" table="ckx_gongyxhd" idKeys="gongyxhd">
+		</writer>
+		<field readerColumn="xhd"  writerColumn="gongyxhd" length="9" isUpdate="false"/>
+		<field readerColumn="xhdzt"  writerColumn="gongybs" length="1"/>
+		<field readerColumn="biaos"  writerColumn="biaos" length="1"/>
+		<field readerColumn="creator" writerColumn="creator" length="32"/>
+		<field readerColumn="create_time" writerColumn="create_time" type="date"/>
+		<field readerColumn="creator" writerColumn="editor" length="32"/>
+		<field readerColumn="create_time" writerColumn="edit_time" type="date"/>
+		</exchange-config>
+		
+		
+		<exchange-config id="FF_5" caption="零件消耗点参考系">
+		<reader sql="select  
+		            case when czm='D' then '0'
+					else '1' end as czm,
+		            usercenter,
+       				lingj,
+       				xhd,
+       				substr(xhd, 1, 5) as fenpqbh,
+       				'0' as xiaohbl,
+       				'2' as biaos,
+        			(select y.shengcxbh
+          			from ckx_fenpq y
+         			where y.usercenter = t.usercenter
+           			and y.fenpqh = substr(t.xhd, 1, 5)) as shengcxbh,'interface' as creator,
+       				sysdate as create_time,
+       				WENJMC,
+       				WENJLJ  
+  					from in_xhdljckx t" datasourceId="4">
+		</reader>
+		<writer datasourceId="4" table="ckx_lingjxhd" idKeys="usercenter,lingjbh,xiaohdbh">
+		</writer>
+		<field readerColumn="usercenter"  writerColumn="usercenter" length="3" isUpdate="false"/>
+		<field readerColumn="lingj"  writerColumn="lingjbh" length="10" isUpdate="false"/>
+		<field readerColumn="xhd"  writerColumn="xiaohdbh" length="9"/>
+		<field readerColumn="fenpqbh"  writerColumn="fenpqbh" length="5"/>
+		<field readerColumn="xiaohbl"  writerColumn="xiaohbl" length="3"/>
+		<field readerColumn="biaos"  writerColumn="biaos" length="1"/>
+		<field readerColumn="shengcxbh"  writerColumn="shengcxbh" length="5"/>
+		<field readerColumn="gongybs"  writerColumn="czm" length="1"/>
+		<field readerColumn="creator" writerColumn="creator" length="32"/>
+		<field readerColumn="create_time" writerColumn="create_time" type="date"/>
+		<field readerColumn="creator" writerColumn="editor" length="32"/>
+		<field readerColumn="create_time" writerColumn="edit_time" type="date"/>
+		</exchange-config>
+		
+		
+		<exchange-config id="FF_10" caption="CODDC-消耗点零件">
+		<reader sql="select usercenter,CODDC,lingj,xiaohd,xhdxs,EMON,'interface' as creator,sysdate as cjsj from in_coddc" datasourceId="1">
+		</reader>
+		<writer datasourceId="2" table="ddbh_CODDCxhdlj" idKeys="USERCENTER,CODDC,LINGJ,XIAOHD,ECOMSJ">
+		</writer>
+		<field readerColumn="usercenter" writerColumn="USERCENTER" length="3" isUpdate="false"/>
+		<field readerColumn="CODDC"  writerColumn="CODDC" length="7" isUpdate="false"/>
+		<field readerColumn="lingj"  writerColumn="LINGJ" length="11" isUpdate="false"/>
+		<field readerColumn="xiaohd"  writerColumn="XIAOHD" length="9" isUpdate="false"/>
+		<field readerColumn="xhdxs"  writerColumn="XIAOHXS" length="16"/>
+		<field readerColumn="EMON"  writerColumn="ECOMSJ" isUpdate="false"/>
+		<field readerColumn="creator"  writerColumn="creator" length="32"/>
+		<field readerColumn="cjsj"  writerColumn="create_time" type="date"/>
+		</exchange-config>
+		
+		
+		<exchange-config id="FF_6_1" caption="EDI发货通知-发运主体信息">
+		<reader sql="select usercenter,T01A001,T01B001,D03B001,D03D002,D03FA01,D03FA02,D03FA05,D03FD03,C18AB01,
+		 C18B005,C05AB01,H02AB01,C06AB01,D04A001,shiftb,shifxl,state,sysdate as cj_date,'0' as clzt  from in_edi_fhtz_fyxx" datasourceId="1">
+		</reader>
+		<writer datasourceId="2" table="in_edi_fhtz_fyxx" idKeys="T01A001">
+		</writer>
+		<field readerColumn="usercenter" writerColumn="usercenter" length="2"/>
+		<field readerColumn="T01A001"  writerColumn="T01A001" length="17" isUpdate="false"/>
+		<field readerColumn="T01B001"  writerColumn="T01B001" length="20"/>
+		<field readerColumn="D03B001"  writerColumn="D03B001" length="3"/>
+		<field readerColumn="D03D002"  writerColumn="D03D002" length="17"/>
+		<field readerColumn="D03FA01"  writerColumn="D03FA01" length="14" type="number" format="number(14,3)"/>
+		<field readerColumn="D03FA02"  writerColumn="D03FA02" length="3"/>
+		<field readerColumn="D03FA05"  writerColumn="D03FA05" length="3"/>
+		<field readerColumn="D03FD03"  writerColumn="D03FD03" length="20"/>
+		<field readerColumn="C18AB01"  writerColumn="C18AB01" length="10"/>
+		<field readerColumn="C18B005"  writerColumn="C18B005" length="17"/>
+		<field readerColumn="C05AB01"  writerColumn="C05AB01" length="20"/>
+		<field readerColumn="H02AB01"  writerColumn="H02AB01" length="17"/>
+		<field readerColumn="C06AB01"  writerColumn="C06AB01" length="10"/>
+		<field readerColumn="D04A001"  writerColumn="D04A001" length="17"/>
+		<field readerColumn="shiftb"  writerColumn="shiftb" length="2"/>
+		<field readerColumn="shifxl"  writerColumn="shifxl" length="2"/>
+		<field readerColumn="state"  writerColumn="state" length="1"/>
+		<field readerColumn="cj_date"  writerColumn="cj_date"/>
+		<field readerColumn="clzt"  writerColumn="clzt" length="1"/>
+		</exchange-config>
+		
+		<exchange-config id="FF_6_2" caption="EDI发货通知-发运明细">
+		<reader sql="select xuh,T01A001,A02D001,A02D002,B03AB01,B03AB02,A04A002,A04B003,A09AC01,A01C009 from in_edi_fhtz_fymx" datasourceId="1">
+		</reader>
+		<writer datasourceId="2" table="in_edi_fhtz_fymx" idKeys="xuh,T01A001">
+		</writer>
+		<field readerColumn="xuh" writerColumn="xuh" length="6" isUpdate="false"/>
+		<field readerColumn="T01A001"  writerColumn="T01A001" length="17" isUpdate="false"/>
+		<field readerColumn="A02D001"  writerColumn="A02D001" length="14" type="number" format="number(14,3)"/>
+		<field readerColumn="A02D002"  writerColumn="A02D002" length="3"/>
+		<field readerColumn="B03AB01"  writerColumn="B03AB01" length="5"/>
+		<field readerColumn="B03AB02"  writerColumn="B03AB02" length="3"/>
+		<field readerColumn="A04A002"  writerColumn="A04A002" length="10"/>
+		<field readerColumn="A04B003"  writerColumn="A04B003" length="2"/>
+		<field readerColumn="A09AC01"  writerColumn="A09AC01" length="17"/>
+		<field readerColumn="A01C009"  writerColumn="A01C009" length="3"/>
+		</exchange-config>
+		
+		<exchange-config id="FF_6_3" caption="EDI发货通知-包装对应信息">
+		<reader sql="select xuh,T01A001,B04A001,B05AB01,B05AB03,ucbzlx,uaucgs,ucrl,B05AB02,B05AD01,A07A001 from in_edi_fhtz_bzxx" datasourceId="1">
+		</reader>
+		<writer datasourceId="2" table="in_edi_fhtz_bzxx" idKeys="xuh,T01A001">
+		</writer>
+		<field readerColumn="xuh" writerColumn="xuh" length="6" isUpdate="false"/>
+		<field readerColumn="T01A001"  writerColumn="T01A001" length="17" isUpdate="false"/>
+		<field readerColumn="B04A001"  writerColumn="B04A001" length="17"/>
+		<field readerColumn="B05AB01"  writerColumn="B05AB01" length="17"/>
+		<field readerColumn="B05AB03"  writerColumn="B05AB03" length="17"/>
+		<field readerColumn="ucbzlx"  writerColumn="ucbzlx" length="5"/>
+		<field readerColumn="uaucgs"  writerColumn="uaucgs" length="9" type="number" format="number(9,3)"/>
+		<field readerColumn="ucrl"  writerColumn="ucrl" length="9" type="number" format="number(9,3)"/>
+		<field readerColumn="B05AB02"  writerColumn="B05AB02" length="14" type="number" format="number(14,3)"/>
+		<field readerColumn="B05AD01"  writerColumn="B05AD01" length="9"/>
+		<field readerColumn="A07A001"  writerColumn="A07A001" length="17"/>
+		</exchange-config>
+		
+		<exchange-config id="FF_7_1" caption="EFI发货通知-发运主体信息">
+		<reader sql="select jfdh,jf_date,fyzmzdw,fyyjdd_date,cysdm,jszdm,xzddm,fhrdm,jzxh,sftbfhtz,sfgzxlh,sysdate as cj_date,'0' as clzt from in_efi_fhtz_fyztxx" datasourceId="1">
+		</reader>
+		<writer datasourceId="2" table="in_efi_fhtz_fyztxx" idKeys="jfdh">
+		</writer>
+		<field readerColumn="jfdh" writerColumn="jfdh" length="17" isUpdate="false"/>
+		<field readerColumn="jf_date"  writerColumn="jf_date" length="20"/>
+		<field readerColumn="fyzmzdw"  writerColumn="fyzmzdw" length="3"/>
+		<field readerColumn="fyyjdd_date"  writerColumn="fyyjdd_date" length="20"/>
+		<field readerColumn="cysdm"  writerColumn="cysdm" length="10"/>
+		<field readerColumn="jszdm"  writerColumn="jszdm" length="20"/>
+		<field readerColumn="xzddm"  writerColumn="xzddm" length="17"/>
+		<field readerColumn="fhrdm"  writerColumn="fhrdm" length="20"/>
+		<field readerColumn="jzxh"  writerColumn="jzxh" length="17"/>
+		<field readerColumn="sftbfhtz"  writerColumn="sftbfhtz" length="2"/>
+		<field readerColumn="sfgzxlh"  writerColumn="sfgzxlh" length="2"/>
+		<field readerColumn="cj_date"  writerColumn="cj_date"/>
+		<field readerColumn="clzt"  writerColumn="clzt" length="1"/>
+		</exchange-config>
+		
+		<exchange-config id="FF_7_2" caption="EFI发货通知-发运明细">
+		<reader sql="select xuh,jfdh,fysl,jldw,bzlx,ljh,ddh,lygj from in_efi_fhtz_fymx" datasourceId="1">
+		</reader>
+		<writer datasourceId="2" table="in_efi_fhtz_fymx" idKeys="xuh,jfdh">
+		</writer>
+		<field readerColumn="xuh" writerColumn="xuh" length="6" isUpdate="false"/>
+		<field readerColumn="jfdh"  writerColumn="jfdh" length="17" isUpdate="false"/>
+		<field readerColumn="fysl"  writerColumn="fysl" length="14" type="number" format="number(14,3)"/>
+		<field readerColumn="jldw"  writerColumn="jldw" length="3"/>
+		<field readerColumn="bzlx"  writerColumn="bzlx" length="5"/>
+		<field readerColumn="ljh"  writerColumn="ljh" length="10"/>
+		<field readerColumn="ddh"  writerColumn="ddh" length="17"/>
+		<field readerColumn="lygj"  writerColumn="lygj" length="3"/>
+		</exchange-config>
+		
+		<exchange-config id="FF_7_3" caption="EFI发货通知-包装对应信息">
+		<reader sql="select xuh,jfdh,ua,ualx,uc,uclx,ucljsl,ualjsl,yhl,pzh,gys from in_efi_fhtz_bzdyxx" datasourceId="1">
+		</reader>
+		<writer datasourceId="2" table="in_efi_fhtz_bzdyxx" idKeys="xuh,jfdh,ua">
+		</writer>
+		<field readerColumn="xuh" writerColumn="xuh" length="6" isUpdate="false"/>
+		<field readerColumn="jfdh"  writerColumn="jfdh" length="17" isUpdate="false"/>
+		<field readerColumn="ua"  writerColumn="ua" length="17" isUpdate="false"/>
+		<field readerColumn="ualx"  writerColumn="ualx" length="5"/>
+		<field readerColumn="uc"  writerColumn="uc" length="17"/>
+		<field readerColumn="uclx"  writerColumn="uclx" length="5"/>
+		<field readerColumn="ucljsl"  writerColumn="ucljsl" length="9" type="number" format="number(9,3)"/>
+		<field readerColumn="ualjsl"  writerColumn="ualjsl" length="9" type="number" format="number(9,3)"/>
+		<field readerColumn="yhl"  writerColumn="yhl" length="12"/>
+		<field readerColumn="pzh"  writerColumn="pzh" length="17"/>
+		<field readerColumn="gys"  writerColumn="gys" length="10"/>
+		</exchange-config>
+		
+		<exchange-config id="FF_7_4" caption="EFI发货通知-同步零件信息">
+		<reader sql="select ua,uc,xlh,gys,lsh,shul from in_efi_fhtz_tbljxx" datasourceId="1">
+		</reader>
+		<writer datasourceId="2" table="in_efi_fhtz_tbljxx" idKeys="ua">
+		</writer>
+		<field readerColumn="ua" writerColumn="ua" length="17" isUpdate="false"/>
+		<field readerColumn="uc"  writerColumn="uc" length="17" isUpdate="false"/>
+		<field readerColumn="xlh"  writerColumn="xlh" length="13"/>
+		<field readerColumn="gys"  writerColumn="gys" length="10"/>
+		<field readerColumn="lsh"  writerColumn="lsh" length="9"/>
+		<field readerColumn="shul"  writerColumn="shul" length="6" type="number" format="#"/>
+		</exchange-config>
+
+        <exchange-config id="FF_8_1" caption="订单">
+		<reader sql="select dingdh,'PY' as DINGDLX,gysdm,leix,'OEDIPP' as DINGDWHR from in_ddxx" datasourceId="1">
+		</reader>
+		<writer datasourceId="3" table="xqjs_dingd" idKeys="DINGDH">
+		</writer>
+		<field readerColumn="dingdh" writerColumn="DINGDH" length="8" isUpdate="false"/>
+		<field readerColumn="DINGDLX"  writerColumn="DINGDLX" length="1"/>
+		<field readerColumn="gysdm" writerColumn="GONGYSDM" length="10"/>
+		<field readerColumn="leix"  writerColumn="GONGYSLX" length="1"/>
+		<field readerColumn="DINGDWHR"  writerColumn="DINGDWHR" length="20"/>
+		</exchange-config>
+		
+		<exchange-config id="FF_8_2" caption="订单明细">
+		<reader sql="select t_order_id_seq.nextval as id,usercenter,dingdh,lingjbh,gysdm,leix,yhqs_date,yhjs_date,xiehztbh,ckdm,dhcj,shul,danw,uabzlx,ucbzlx,ucrl,uaucgs,jf_date,zhwhr,zhwhsj,lujbh from in_ddxx" datasourceId="1">
+		</reader>
+		<writer datasourceId="3" table="xqjs_dingdmx" idKeys="ID,DINGDH">
+		</writer>
+		<field readerColumn="id" writerColumn="ID" length="32" isUpdate="false"/>
+		<field readerColumn="dingdh" writerColumn="DINGDH" length="8" isUpdate="false"/>
+		<field readerColumn="usercenter"  writerColumn="USERCENTER" length="3"/>
+		<field readerColumn="lingjbh"  writerColumn="LINGJBH" length="10"/>
+		<field readerColumn="gysdm"  writerColumn="GONGYSDM" length="10"/>
+		<field readerColumn="leix"  writerColumn="leix" length="1"/>
+		<field readerColumn="yhqs_date"  writerColumn="YAOHQSRQ"/>
+		<field readerColumn="yhjs_date"  writerColumn="YAOHJSRQ"/>
+		<field readerColumn="ckdm"  writerColumn="CANGKDM" length="3"/>
+		<field readerColumn="dhcj"  writerColumn="DINGHCJ" length="3"/>
+		<field readerColumn="shul"  writerColumn="SHUL" length="10"/>
+		<field readerColumn="danw"  writerColumn="DANW" length="3"/>
+		<field readerColumn="uabzlx"  writerColumn="UABZLX" length="5"/>
+		<field readerColumn="ucbzlx"  writerColumn="UABZUCLX" length="5"/>
+		<field readerColumn="ucrl"  writerColumn="UABZUCRL" length="9"/>
+		<field readerColumn="uaucgs"  writerColumn="UABZUCSL" length="9"/>
+		<field readerColumn="jf_date"  writerColumn="JIAOFRQ"/>
+		<field readerColumn="zhwhr"  writerColumn="ZUIHWHR" length="10"/>
+		<field readerColumn="zhwhsj"  writerColumn="ZUIHWHSJ"/>
+		<field readerColumn="lujbh"  writerColumn="LUJDM" length="3"/>
+		</exchange-config>
+        
+        <exchange-config id="FF_9_1" caption="调拨申请">
+		<reader sql="select usercenter,dbsqdh,dbsq_date,kjkm,cbzx,sysdate as cjsj from in_dbsqdxx" datasourceId="1">
+		</reader>
+		<writer datasourceId="3" table="xqjs_diaobsq" idKeys="usercenter,diaobsqdh">
+		</writer>
+		<field readerColumn="usercenter" writerColumn="usercenter" length="3" isUpdate="false"/>
+		<field readerColumn="dbsqdh"  writerColumn="diaobsqdh" length="8" isUpdate="false"/>
+		<field readerColumn="dbsq_date"  writerColumn="diaobsqsj"/>
+		<field readerColumn="kjkm"  writerColumn="huijkm" length="10"/>
+		<field readerColumn="cbzx"  writerColumn="chengbzx" length="4"/>
+		<field readerColumn="cjsj"  writerColumn="create_time"/>
+		</exchange-config>
+		
+		<exchange-config id="FF_9_2" caption="调拨申请明细">
+		<reader sql="select xuh,usercenter,dbsqdh,zzlx,ljh,sbsl,sysdate as cjsj from in_dbsqdxx" datasourceId="1">
+		</reader>
+		<writer datasourceId="3" table="xqjs_diaobsqmx" idKeys="usercenter,diaobsqdh,lux,lingjbh">
+		</writer>
+		<field readerColumn="xuh" writerColumn="xuh" length="8"/>
+		<field readerColumn="usercenter" writerColumn="usercenter" length="3" isUpdate="false"/>
+		<field readerColumn="dbsqdh"  writerColumn="diaobsqdh" length="8" isUpdate="false"/>
+		<field readerColumn="zzlx"  writerColumn="lux" length="3" isUpdate="false"/>
+		<field readerColumn="ljh"  writerColumn="lingjbh" length="10" isUpdate="false"/>
+		<field readerColumn="sbsl"  writerColumn="shenbsl" length="10"/>
+		<field readerColumn="cjsj"  writerColumn="create_time"/>
+		</exchange-config>
+
+		<exchange-config id="FF_11" caption="九天排产计划(商业化的时间)">
+		<reader sql="select usercenter,
+       				whof,
+       				lcdv24,
+       				yjjhzrq,
+       				yjjhzsx,
+      			   (select z.chejbhhz from ckx_chexpt z,ddbh_shangyhsjjh x where z.usercenter=x.usercenter and z.chejbhzz=x.ZONGZCJDM and z.shengcxbhzz=x.YUJZZSCX) chejbhhz,
+       			   (select z.shengcptbh from ckx_chexpt z,ddbh_shangyhsjjh x where z.usercenter=x.usercenter and z.chejbhzz=x.ZONGZCJDM and z.shengcxbhzz=x.YUJZZSCX) shengcptbh,
+       			   (select z.shengcxbhhz from ckx_chexpt z,ddbh_shangyhsjjh x where z.usercenter=x.usercenter and z.chejbhzz=x.ZONGZCJDM and z.shengcxbhzz=x.YUJZZSCX) shengcxbhhz,
+       			   scxh,
+       			   yjsyhsj,
+      			   sxsxh,
+       			  (select CODDC from in_cldv_coddc y where y.LCDV1424 = t.lcdv) coddc,
+                   sysdate as shij,
+                   wenjlj,
+                   wenjmc
+                  from in_clddxx t" datasourceId="1">
+		</reader>
+		<writer datasourceId="7" table="ddbh_shangyhsjjh" idKeys="USERCENTER,OFH">
+		</writer>
+		<field readerColumn="usercenter" writerColumn="USERCENTER" length="3" isUpdate="false"/>
+		<field readerColumn="whof"  writerColumn="OFH" length="8" isUpdate="false"/>
+		<field readerColumn="lcdv24"  writerColumn="LCDV24" length="24"/>
+		<field readerColumn="yjjhzrq"  writerColumn="JINRHZSJ"/>
+		<field readerColumn="yjjhzsx"  writerColumn="HANZXHH" length="10"/>
+		<field readerColumn="scxh"  writerColumn="YUJZZSCX" length="2"/>
+		<field readerColumn="yjsyhsj"  writerColumn="SHANGYHSJ"/>
+		<!-- <field readerColumn="sxsxh"  writerColumn="HANZXHH" length="10"/> -->
+		<field readerColumn="coddc"  writerColumn="CODDC" length="7"/>
+		<field readerColumn="shij"  writerColumn="create_time"/>
+		<field readerColumn="shij"  writerColumn="edit_time"/>
+		</exchange-config>
+		
+        <exchange-config id="FF_12" caption="九天排产计划(JT的顺序)">
+		<reader sql="select usercenter,zzx,ofh,jtxx,jtrq,lcdv24,(select CODDC from in_cldv_coddc y where y.LCDV1424=t.lcdv3500) CODDC,sysdate as cjsj from in_jtpcjh t" datasourceId="1">
+		</reader>
+		<writer datasourceId="2" table="ddbh_JTsxpcjh" idKeys="usercenter,ofh">
+		</writer>
+		<field readerColumn="usercenter" writerColumn="usercenter" length="3" isUpdate="false"/>
+		<field readerColumn="ofh"  writerColumn="ofh" length="8" isUpdate="false"/>
+		<field readerColumn="zzx"  writerColumn="ZONGZX" length="2"/>
+		<field readerColumn="jtxx"  writerColumn="JTSX" length="10"/>
+		<field readerColumn="jtrq"  writerColumn="JTSJ"/>
+		<field readerColumn="lcdv24"  writerColumn="LCDV24" length="24"/>
+		<field readerColumn="CODDC"  writerColumn="CODDC" length="7"/>
+		<field readerColumn="cjsj"  writerColumn="create_time"/>
+		</exchange-config>
+        
+        <exchange-config id="FF_13" caption="外部订单预告">
+		<reader sql="select zzzx,lingjbh,yxbh,ddrq,filler,shul,zfbj,hgbm,xianh,lyxt,usercenter,'0' as clzt,sysdate as cj_date from in_wbddyg"  datasourceId="1">
+		</reader>
+		<writer datasourceId="5" table="in_wbddyg" idKeys="lingjbh,ddrq,xianh,lyxt">
+		</writer>
+		<field readerColumn="zzzx" writerColumn="zzzx" length="3"/>
+		<field readerColumn="lingjbh"  writerColumn="lingjbh" length="10" isUpdate="false"/>
+		<field readerColumn="yxbh"  writerColumn="yxbh" length="1"/>
+		<field readerColumn="ddrq"  writerColumn="ddrq" length="8" isUpdate="false"/>
+		<field readerColumn="filler"  writerColumn="filler" length="8"/>
+		<field readerColumn="shul"  writerColumn="shul" length="8"/>
+		<field readerColumn="zfbj"  writerColumn="zfbj" length="1"/>
+		<field readerColumn="hgbm"  writerColumn="hgbm" length="5"/>
+		<field readerColumn="xianh"  writerColumn="xianh" length="3" isUpdate="false"/>
+		<field readerColumn="lyxt"  writerColumn="lyxt" length="3" isUpdate="false"/>
+		<field readerColumn="usercenter"  writerColumn="usercenter" length="3"/>
+		<field readerColumn="clzt"  writerColumn="clzt" length="1"/>
+		<field readerColumn="cj_date"  writerColumn="cj_date"/>
+		</exchange-config>
+        
+        <exchange-config id="FF_14" caption="GEVP外部要货令">
+		<reader sql="select USERCENTER,YAOHLH,GYSDM,JIAOFJ,ZUIZSJ,ZUIWSJ,LINGJBH,DANW,YAOHSL,BAOZXH,UARL,UCXH,UCRL,UCGS,XIEHD,MUDD,DINGDH,KEHU,sysdate as cj_date,'0' as clzt from IN_GEVP_YAOHL"  datasourceId="1">
+		</reader>
+		<writer datasourceId="2" table="IN_GEVP_YAOHL" idKeys="USERCENTER,YAOHLH">
+		</writer>
+		<field readerColumn="USERCENTER" writerColumn="USERCENTER" length="3" isUpdate="false"/>
+		<field readerColumn="YAOHLH"  writerColumn="YAOHLH" length="12" isUpdate="false"/>
+		<field readerColumn="GYSDM"  writerColumn="GYSDM" length="10"/>
+		<field readerColumn="JIAOFJ"  writerColumn="JIAOFJ"/>
+		<field readerColumn="ZUIZSJ"  writerColumn="ZUIZSJ"/>
+		<field readerColumn="ZUIWSJ"  writerColumn="ZUIWSJ"/>
+		<field readerColumn="LINGJBH"  writerColumn="LINGJBH" length="10"/>
+		<field readerColumn="DANW"  writerColumn="DANW" length="2"/>
+		<field readerColumn="YAOHSL"  writerColumn="YAOHSL" length="9"/>
+		<field readerColumn="BAOZXH"  writerColumn="BAOZXH" length="5"/>
+		<field readerColumn="UARL"  writerColumn="UARL" length="9"/>
+		<field readerColumn="UCXH"  writerColumn="UCXH" length="5"/>
+		<field readerColumn="UCRL"  writerColumn="UCRL" length="9"/>
+		<field readerColumn="UCGS"  writerColumn="UCGS" length="5"/>
+		<field readerColumn="XIEHD"  writerColumn="XIEHD" length="10"/>
+		<field readerColumn="MUDD"  writerColumn="MUDD" length="13"/>
+		<field readerColumn="DINGDH"  writerColumn="DINGDH" length="12"/>
+		<field readerColumn="KEHU"  writerColumn="KEHU" length="10"/>
+		<field readerColumn="cj_date"  writerColumn="cj_date"/>
+		<field readerColumn="clzt"  writerColumn="clzt" length="1"/>
+		</exchange-config>
+
+	</exchange-config-group>
+		
+		<!--数据库格式输入，TXT格式输出  -->
+		<!--  separate=""  分隔符
+		 separate_size="before/after"  分隔符位置 -->
+		<exchange-config-group reader="db"  writer="txt">		
+		
+		<exchange-config id="OUT_26" caption="总成排产">
+		<reader sql="select zzzx,
+       			lingjbh,
+      			 yxbh,
+      			 ddrq,
+      			 '' as filler,
+      			replace(to_char(shul, '9999999'),' ','0') as shul,
+       			zfbj,
+     		    hgbm,
+       			xianh,
+       			lyxt,
+       			usercenter
+ 				from ${dbSchemal2}in_zcpc" datasourceId="5"></reader>
+		<writers>
+			<writer filePath="/interface2" fileName="ATH_NUP_001.txt" encoding="GBK"></writer>
+		</writers>
+		
+		<field readerColumn="zzzx" writerColumn="zzzx" length="3"/>
+		<field readerColumn="lingjbh" writerColumn="lingjbh" length="10"/>
+		<field readerColumn="yxbh" writerColumn="yxbh" length="1"/>
+		<field readerColumn="ddrq" writerColumn="ddrq" length="8"/>
+		<field readerColumn="filler" writerColumn="filler" length="8"/>
+		<field readerColumn="shul" writerColumn="shul" length="8"/>
+		<field readerColumn="zfbj" writerColumn="zfbj" length="1"/>
+		<field readerColumn="hgbm" writerColumn="hgbm" length="5"/>
+		<field readerColumn="xianh" writerColumn="xianh" length="3"/>
+		<field readerColumn="lyxt" writerColumn="lyxt" length="3"/>
+		<field readerColumn="usercenter" writerColumn="usercenter" length="3"/>
+		</exchange-config>
+			
+			
+			
+		<exchange-config id="OUT_2" caption="零件库存快照">
+		<reader sql="SELECT 'FLUX'||to_char(sysdate,'yyyyMMddHh24mi') as flux,
+		             USERCENTER,
+      				 LINGJBH,
+      				 GONGYSDM,
+       				'+' || replace(replace(to_char(sum(LINGJSL), '99999.999'), '.', ''),' ','0') as LINGJSL,
+       				 '+000000000' as n,
+       				 DANW,
+      				 CANGKBH || ZICKBH || '4' as ZCK
+  					from ${dbSchemal4}CK_USBQ where edit_time between (select end_time from ${dbSchemal4}in_time where in_id='OUT_2') and sysdate
+ 					group by USERCENTER, LINGJBH, GONGYSDM, DANW, CANGKBH, ZICKBH" datasourceId="2"></reader>
+			
+		<writers>
+			<writer filePath="/interface2" class="com.athena.component.output.LjkckzTxtWriter" fileName="ATH_SAP_002.txt" encoding="GBK"></writer>
+		</writers>
+		<field readerColumn="flux" writerColumn="flux" length="16"/>
+		<field readerColumn="USERCENTER" writerColumn="USERCENTER" length="3"/>
+		<field readerColumn="LINGJBH" writerColumn="LINGJBH" length="10"/>
+		<field readerColumn="GONGYSDM" writerColumn="GONGYSDM" length="11"/>
+		<field readerColumn="LINGJSL" writerColumn="LINGJSL" length="10"/>
+		<field readerColumn="n" writerColumn="n" length="10"/>
+		<field readerColumn="DANW" writerColumn="DANW" length="2"/>
+		<field readerColumn="ZCK" writerColumn="ZCK" length="7"/>
+		
+		</exchange-config>
+		
+		 	
+		 <exchange-config id="OUT_13" caption="包装参考系">
+		<reader sql="select 'EMBALC' || baozlx as baozlx,
+                     baozmc,
+                     lpad(changd, 4, '0') as changd,
+                     lpad(kuand, 4, '0') as kuand,
+                     lpad(gaod, 4, '0') as gaod,
+                     rpad(substr(changd * kuand * gaod,-6),10,'0') as tiji
+                     from ${dbSchemal3}ckx_baoz" datasourceId="1"></reader>
+		
+		<writers>
+			<writer filePath="/interface2" fileName="ATH_EFI_001.txt" encoding="GBK"></writer>
+		</writers>
+		
+		<field readerColumn="baozlx" writerColumn="baozlx" length="11"/>
+		<field readerColumn="baozmc" writerColumn="baozmc" length="40"/>
+		<field readerColumn="changd" writerColumn="changd" length="4"/>
+		<field readerColumn="kuand" writerColumn="kuand" length="4"/>
+		<field readerColumn="gaod" writerColumn="gaod" length="4"/>
+		<field readerColumn="tiji" writerColumn="tiji" length="10"/>
+        
+		</exchange-config>
+		 
+		 
+		<exchange-config id="OUT_1" caption="成品库存快照">
+		<reader sql="select 'IMA' as ima,
+       				t.cangkbh || t.zickbh as tckbh,
+       				substr(t.chanx, 1, 3) as tchanx,
+       				t.lingjbh as lingjbh,
+       				y.cangkbh || y.zickbh as yckbh,
+       				(select distinct replace(replace(to_char(sum(beihsl), '99999.999'),'.',''),' ','0') from ${dbSchemal4}ck_beihdmx
+                    where biaos != '2') as beihsl,
+        			(select distinct replace(replace(to_char(sum(keyljsl), '9999999.999'),'.',''),' ','0') from ${dbSchemal4}ck_usbq
+                    where BAOZZT = '4' or BAOZZT = '6') as keyljsl,
+       				(select distinct replace(replace(to_char(sum(lingjsl - keyljsl),'99999.999'),'.',''),' ','0') from ${dbSchemal4}ck_usbq
+         			where BAOZZT != '4' and BAOZZT != '6') as bksykc,
+       				'' as filler,
+       				t.danw as danw
+ 				    from ${dbSchemal4}ck_usbq t, ${dbSchemal4}ck_beihdmx y
+ 					where t.ush = y.ush
+   					and t.cangklx = '3'
+   					and t.edit_time between (select end_time from ${dbSchemal4}in_time where in_id='OUT_1') and sysdate
+ 					group by t.cangkbh,
+          			t.zickbh,
+          			t.chanx,
+          			t.lingjbh,
+          			y.cangkbh,
+          			y.zickbh,
+          			t.danw " datasourceId="2"></reader>
+		
+		<writers>
+			<writer filePath="/interface2" class="com.athena.component.output.CpkkzTxtWriter"  fileName="ATH_SAP_001.txt" encoding="GBK"></writer>
+		</writers>
+		
+		<field readerColumn="ima" writerColumn="ima" length="3"/>
+		<field readerColumn="tckbh" writerColumn="tckbh" length="6"/>
+		<field readerColumn="tchanx" writerColumn="tchanx" length="3"/>
+		<field readerColumn="lingjbh" writerColumn="lingjbh" length="10"/>
+		<field readerColumn="yckbh" writerColumn="yckbh" length="6"/>
+		<field readerColumn="beihsl" writerColumn="beihsl" length="9"/>
+		<field readerColumn="filler" writerColumn="filler" length="13" separate="\n"/> 
+		<field readerColumn="ima" writerColumn="ima" length="3"/>
+		<field readerColumn="tckbh" writerColumn="tckbh" length="6"/>
+		<field readerColumn="tchanx" writerColumn="tchanx" length="3"/>
+		<field readerColumn="lingjbh" writerColumn="lingjbh" length="10"/>
+		<field readerColumn="filler" writerColumn="filler" length="6"/>
+		<field readerColumn="keyljsl" writerColsumn="keyljsl" length="9"/>
+		<field readerColumn="bksykc" writerColumn="bksykc" length="9"/>        
+		<field readerColumn="danw" writerColumn="danw" length="2"/> 
+		<field readerColumn="filler" writerColumn="filler" length="2"/> 
+		
+		</exchange-config>
+		 
+		 <exchange-config id="OUT_4" caption="成品库流水账">
+		<reader sql="select 'AVX' as avx,
+		           to_char(sysdate,'yyyyMMddHHmm') as jlhrq,
+		           cangkbh || zickbh as fcck,
+			       keh,
+			       substr(chanx, 1, 3) as chanx,
+			       lingjbh,
+			       danw,
+			       '+'||replace(replace(to_char(shifsl, '99999,999'), '.', ''),' ','0') as shifsl,
+			       bqh,
+			       '' as filler,
+			       dingdh,
+			       replace(replace(to_char((shifsl*lingjzl), '9999,999'), ',', ''),' ','0') as mz,
+			       kehljh,
+			       'N+' as n,
+			       replace(replace(to_char(lingjzl,'99.999'),'.',''),' ','0') as lingjzl
+			       from ${dbSchemal3}in_cpk_lszbhd" datasourceId="1"></reader>
+		
+		<writers>
+			<writer filePath="/interface2" class="com.athena.component.output.CpklszTxtWriter"  fileName="ATH_SAP_004.txt" encoding="GBK"></writer>
+		</writers>
+		
+		<field readerColumn="avx" writerColumn="avx" length="3"/>
+		<field readerColumn="jlhrq" writerColumn="jlhrq" length="12"/>
+		<field readerColumn="fcck" writerColumn="fcck" length="6"/>
+		<field readerColumn="keh" writerColumn="keh" length="6"/>
+		<field readerColumn="chanx" writerColumn="chanx" length="3"/>
+		<field readerColumn="lingjbh" writerColumn="lingjbh" length="10"/>
+		<field readerColumn="danw" writerColumn="danw" length="2"/>
+		<field readerColumn="shifsl" writerColumn="shifsl" length="10"/>
+		<field readerColumn="bqh" writerColumn="bqh" length="9"/>
+		<field readerColumn="filler" writerColumn="filler" length="11"/>
+		<field readerColumn="keh" writerColumn="keh" length="6"/>
+		<field readerColumn="filler" writerColumn="filler" length="29"/>
+		<field readerColumn="dingdh" writerColumn="dingdh" length="17"/>
+		<field readerColumn="mz" writerColumn="mz" length="8"/>
+		<field readerColumn="kehljh" writerColumn="kehljh" length="35"/>
+		<field readerColumn="n" writerColumn="n" length="2"/>
+		<field readerColumn="lingjzl" writerColumn="lingjzl" length="9"/>
+		<field readerColumn="filler" writerColumn="filler" length="22"/>
+		</exchange-config>
+		 
+		<exchange-config id="OUT_14" caption="生产日历">
+		<reader sql="select t.usercenter as usercenter,
+        NVL(replace(t.riq,'-',''),'') as riq,
+        NVL(t.xingq,'') as xingq,
+        NVL(t.shifgzr,'') as shifgzr,
+        to_char(sysdate,'yyyyMM') as gzyf,
+        NVL(substr(t.nianzx, -2),'') as nianzx,
+        NVL(t.nianzq || t.zhoux,'') as gyzqzs,
+        '10' as gyxs,
+        NVL(y.appobj,'') as appobj
+        from ${dbSchemal3}ckx_calendar_version t, ${dbSchemal3}ckx_calendar_group y where t.usercenter=y.usercenter and t.banc=y.rilbc" datasourceId="1"></reader>
+		 
+		<writers>
+			<writer filePath="/interface2"  fileName="ATH_EFI_002.txt" encoding="GBK"></writer>
+		</writers>
+		
+		<field readerColumn="usercenter" writerColumn="usercenter" length="6"/>
+		<field readerColumn="riq" writerColumn="riq" length="11"/>
+		<field readerColumn="xingq" writerColumn="xingq" length="4"/>
+		<field readerColumn="shifgzr" writerColumn="shifgzr" length="4"/>
+		<field readerColumn="gzyf" writerColumn="gzyf" length="9"/>
+		<field readerColumn="nianzx" writerColumn="nianzx" length="5"/>
+		<field readerColumn="gyzqzs" writerColumn="gyzqzs" length="11"/> 
+		<field readerColumn="gyxs" writerColumn="gyxs" length="5"/> 
+		<field readerColumn="appobj" writerColumn="appobj" length="5"/>          
+		</exchange-config>
+		 
+		<exchange-config id="OUT_9" caption="零件供应商信息">
+		<reader sql="select usercenter,
+                    lingjbh,
+                    gongysbh,
+                    gongyfe,
+                    '' as filer, 
+                    uabzlx,
+                    replace(replace(to_char(uaucgs,'99999.999'),'.',''),' ','0') as uaucgs,
+                    ucbzlx,
+                    replace(replace(to_char(ucrl,'99999.999'),'.',''),' ','0') as ucrl
+                    from ${dbSchemal3}ckx_lingjgys" datasourceId="1"></reader>
+		<writers>
+			<writer filePath="/interface2" fileName="ATH_EFI_003.txt" encoding="GBK"></writer>
+		</writers>
+		
+		<field readerColumn="usercenter" writerColumn="usercenter" length="3"/>
+		<field readerColumn="lingjbh" writerColumn="lingjbh" length="10"/>
+		<field readerColumn="gongysbh" writerColumn="gongysbh" length="11"/>
+		<field readerColumn="gongyfe" writerColumn="gongyfe" length="3"/>
+		<field readerColumn="filer" writerColumn="filer" length="1"/>
+		<field readerColumn="uabzlx" writerColumn="uabzlx" length="5"/>
+		<field readerColumn="uaucgs" writerColumn="uaucgs" length="9"/>
+		<field readerColumn="ucbzlx" writerColumn="ucbzlx" length="5"/>
+		<field readerColumn="ucrl" writerColumn="ucrl" length="9"/>
+		</exchange-config> 
+		 
+		 <exchange-config id="OUT_10" caption="供应商信息">
+		<reader sql="select usercenter,gcbh,substr(gongsmc,1,35) as gongsmc,'' as filler,substr(diz,1,65) as diz from ${dbSchemal3}ckx_gongys" datasourceId="1"></reader>
+		<writers>
+			<writer filePath="/interface2"  fileName="ATH_EFI_004.txt" encoding="GBK"></writer>
+		</writers>
+		
+		<field readerColumn="usercenter" writerColumn="usercenter" length="3"/>
+		<field readerColumn="gcbh" writerColumn="gcbh" length="10"/>
+		<field readerColumn="filler" writerColumn="filler" length="1"/>
+		<field readerColumn="gongsmc" writerColumn="gongsmc" length="35"/>
+		<field readerColumn="filler" writerColumn="filler" length="35"/>
+		<field readerColumn="diz" writerColumn="diz" length="65"/>
+		<field readerColumn="filler" writerColumn="filler" length="35"/>
+		<field readerColumn="filler" writerColumn="filler" length="36"/>
+		</exchange-config> 
+		
+		<exchange-config id="OUT_11" caption="零件信息">
+		<reader sql="select '' as filler,usercenter,lingjbh,danw,jihy,biaos,zhongwmc,fawmc from ckx_lingj" 
+		 
+		 datasourceId="1"></reader>
+		<writers>
+			<writer filePath="/interface2"  fileName="ATH_EFI_005.txt" encoding="GBK"></writer>
+		</writers>
+		
+		<field readerColumn="usercenter" writerColumn="usercenter" length="3"/>
+		<field readerColumn="lingjbh" writerColumn="lingjbh" length="10"/>
+		<field readerColumn="filler" writerColumn="filler" length="1"/>
+		<field readerColumn="danw" writerColumn="danw" length="2"/>
+		<field readerColumn="jihy" writerColumn="jihy" length="3"/>
+		<field readerColumn="filler" writerColumn="filler" length="1"/>
+		<field readerColumn="biaos" writerColumn="biaos" length="1"/>
+		<field readerColumn="filler" writerColumn="filler" length="12"/>
+		<field readerColumn="zhongwmc" writerColumn="zhongwmc" length="35"/>
+		<field readerColumn="fawmc" writerColumn="fawmc" length="35"/>
+		
+		</exchange-config> 
+		
+		
+		
+		<exchange-config id="OUT_12" caption="周期订单">
+		<reader sql="select to_char(t.Dingdsxsj,'yyyyMMddHHmmss') as Dingdsxsj,
+        y.usercenter as usercenter,
+        y.lingjbh as lingjbh,
+        y.gongysdm as gongysdm,
+        replace(replace(to_char(y.shul,'999999999.999'),'.',''),' ','0') as shul,
+        to_char(y.yaohqsrq,'yyyyMMdd') as yaohqsrq,
+        to_char(y.yaohjsrq,'yyyyMMdd') as yaohjsrq,
+        y.leix as leix,
+        replace(replace(to_char(y.uabzucsl * y.uabzucrl,'99999.999'),'.',''),' ','0') as uasl,
+        y.uabzucsl as uabzucsl,
+        replace(replace(to_char(y.uabzucrl,'99999.999'),'.',''),' ','0') as uabzucrl,
+        y.uabzuclx as uabzuclx,
+        y.uabzlx as uabzl,
+        y.cangkdm as cangkdm,
+        t.dingdh as dingdh,
+        substr(t.chullx, -1) as chullx,
+        to_char(y.jiaofrq,'yyyyMMdd') as jiaofrq，
+        '' as filer
+        from ${dbSchemal1}xqjs_dingd t, ${dbSchemal1}xqjs_dingdmx y
+        where t.dingdh = y.dingdh
+        and substr(t.chullx, 1, 1) = 'p'
+        and t.dingdzt = '4' and t.Dingdfssj =to_date(to_char(sysdate,'yyyy-MM-dd'),'yyyy-MM-dd')" datasourceId="3"></reader>
+		<writers>
+			<writer filePath="/interface2"  fileName="ATH_EFI_005.txt" encoding="GBK"></writer>
+		</writers>
+		
+		<field readerColumn="Dingdsxsj" writerColumn="Dingdsxsj" length="14"/>
+		<field readerColumn="usercenter" writerColumn="usercenter" length="3"/>
+		<field readerColumn="lingjbh" writerColumn="lingjbh" length="10"/>
+		<field readerColumn="gongysdm" writerColumn="gongysdm" length="10"/>
+		<field readerColumn="shul" writerColumn="shul" length="9"/>
+		<field readerColumn="yaohqsrq" writerColumn="yaohqsrq" length="8"/>
+		<field readerColumn="yaohjsrq" writerColumn="yaohjsrq" length="8"/>
+		<field readerColumn="leix" writerColumn="leix" length="1"/>
+		<field readerColumn="uasl" writerColumn="uasl" length="9"/>
+		<field readerColumn="uabzucsl" writerColumn="uabzucsl" length="9"/>
+		<field readerColumn="uabzucrl" writerColumn="uabzucrl" length="9"/>
+		<field readerColumn="uabzuclx" writerColumn="uabzuclx" length="5"/>
+		<field readerColumn="uabzl" writerColumn="uabzl" length="5"/>
+		<field readerColumn="cangkdm" writerColumn="cangkdm" length="6"/>
+		<field readerColumn="dingdh" writerColumn="dingdh" length="8"/>
+		<field readerColumn="chullx" writerColumn="chullx" length="1"/>
+		<field readerColumn="jiaofrq" writerColumn="jiaofrq" length="8"/>
+		<field readerColumn="filer" writerColumn="filer" length="75"/>
+		
+		</exchange-config> 
+		
+		<exchange-config id="OUT_8" caption="入库反馈">
+		<reader sql="select YAOHLH, '+' ||replace(replace(to_char(yanssl, '99999999.999'), '.', ''), ' ', '0') as YANSSL,
+		             to_char(sysdate, 'yyyyMMddHHmmss') as RUKSJ from ${dbSchemal3}in_rkfk" datasourceId="1"></reader>
+		<writers>
+			<writer filePath="/interface2" class="com.athena.component.output.RkfkTxtWriter" fileName="ATH_EFI_006.txt" encoding="GBK"></writer>
+		</writers>
+		
+		<field readerColumn="YAOHLH" writerColumn="YAOHLH" length="9"/>
+		<field readerColumn="YANSSL" writerColumn="YANSSL" length="13"/>
+		<field readerColumn="RUKSJ" writerColumn="RUKSJ" length="14"/>
+		</exchange-config> 
+		
+		<exchange-config id="OUT_7" caption="EFI要货令">
+		<reader sql="select t.yaohlh as yaohlh,
+       t.usercenter as usercenter,
+       to_char(t.jiaofj,'yyyyMMddHHmmss') as jiaofj,
+       to_char(t.zuizsj,'yyyyMMddHHmmss') as zuizsj,
+       to_char(t.zuiwsj,'yyyyMMddHHmmss') as zuiwsj,
+       t.lingjbh as tlingjbh,
+       t.danw as tdanw,
+       replace(replace(to_char(t.yaohsl,'99999.999'),'.',''),' ','0') as yaohsl,
+       t.baozxh as baozxh,
+       replace(replace(to_char(t.usxh,'99999.999'),'.',''),' ','0') as usxh,
+       t.ucxh as ucxh,
+       replace(replace(to_char(t.ucrl,'99999.999'),'.',''),' ','0') as ucrl,
+       t.ucgs as ucgs,
+       to_char(t.faysj,'yyyyMMddHHmmss') as faysj,
+       t.xiehd as xiehd,
+       t.mudd as mudd,
+       t.dingdh as dingdh,
+       t.yaohllx as yaohllx,
+       t.tongblshqj as tongblshqj,
+       t.chej as chej,
+       t.shnagxfs as shnagxfs,
+       t.chanx as chanx,
+       t.keh as keh,
+       t.peislb as peislb,
+       to_char(t.yaohlscsj,'yyyyMMddHHmmss') as yaohlscsj,
+       y.lingjxh as lingjxh,
+       y.zhengclsh as zhengclsh,
+       to_char(y.zhengcsxsj,'yyyyMMddHHmmss') as zhengcsxsj,
+       y.weiz as weiz,
+       y.lingjbh as ylingjbh,
+       y.gongysdm as gongysdm,
+       y.gongysmc as gongysmc,
+       replace(replace(to_char(y.lingjsl,'99999.999'),'.',''),' ','0') as lingjsl,
+       y.danw as ydanw,
+       z.wuldbh as wuldbh,
+       z.shifjk as shifjk
+       from ${dbSchemal3}in_efi_yaohl t, ${dbSchemal3}in_efi_tongbjpd y, ${dbSchemal3}in_efi_daowldsj z
+       where t.yaohlh = y.yaohlh
+       and t.usercenter = y.usercenter
+       and t.yaohlh = z.yaohlh
+       and t.usercenter = z.usercenter" datasourceId="1"></reader>
+	   <writers>
+			<writer filePath="/interface2" class="com.athena.component.output.EfiYhlTxtWriter" fileName="ATH_EFI_007.txt" encoding="GBK"></writer>
+	   </writers>
+		
+		<field readerColumn="yaohlh" writerColumn="yaohlh" length="12"/>
+		<field readerColumn="usercenter" writerColumn="usercenter" length="3"/>
+		<field readerColumn="jiaofj" writerColumn="jiaofj" length="14"/>
+		<field readerColumn="zuizsj" writerColumn="zuizsj" length="14"/>
+		<field readerColumn="zuiwsj" writerColumn="zuiwsj" length="14"/>
+		<field readerColumn="tlingjbh" writerColumn="tlingjbh" length="10"/>
+		<field readerColumn="tdanw" writerColumn="tdanw" length="2"/>
+		<field readerColumn="yaohsl" writerColumn="yaohsl" length="9"/>
+		<field readerColumn="baozxh" writerColumn="baozxh" length="5"/>
+		<field readerColumn="usxh" writerColumn="usxh" length="9"/>
+		<field readerColumn="ucxh" writerColumn="ucxh" length="5"/>
+		<field readerColumn="ucrl" writerColumn="ucrl" length="9"/>
+		<field readerColumn="ucgs" writerColumn="ucgs" length="5"/>
+		<field readerColumn="faysj" writerColumn="faysj" length="14"/>
+		<field readerColumn="xiehd" writerColumn="xiehd" length="10"/>
+		<field readerColumn="mudd" writerColumn="mudd" length="13"/>
+		<field readerColumn="dingdh" writerColumn="dingdh" length="12"/>
+		<field readerColumn="yaohllx" writerColumn="yaohllx" length="2"/>
+		<field readerColumn="tongblshqj" writerColumn="tongblshqj" length="20"/>
+		<field readerColumn="chej" writerColumn="chej" length="3"/>
+		<field readerColumn="shnagxfs" writerColumn="shnagxfs" length="4"/>
+		<field readerColumn="chanx" writerColumn="chanx" length="5"/>
+		<field readerColumn="keh" writerColumn="keh" length="10"/>
+		<field readerColumn="peislb" writerColumn="peislb" length="4"/>
+		<field readerColumn="yaohlscsj" writerColumn="yaohlscsj" length="14"/>
+		<field readerColumn="lingjxh" writerColumn="lingjxh" length="2"/>
+		<field readerColumn="zhengclsh" writerColumn="zhengclsh" length="9"/>
+		<field readerColumn="zhengcsxsj" writerColumn="zhengcsxsj" length="14"/>
+		<field readerColumn="weiz" writerColumn="weiz" length="2"/>
+		<field readerColumn="ylingjbh" writerColumn="ylingjbh" length="10"/>
+		<field readerColumn="gongysdm" writerColumn="gongysdm" length="10"/>
+		<field readerColumn="gongysmc" writerColumn="gongysmc" length="40"/>
+		<field readerColumn="lingjsl" writerColumn="lingjsl" length="9"/>
+		<field readerColumn="ydanw" writerColumn="ydanw" length="2"/>
+		<field readerColumn="wuldbh" writerColumn="wuldbh" length="2"/>
+		<field readerColumn="shifjk" writerColumn="shifjk" length="1"/>
+		</exchange-config> 
+
+		<exchange-config id="OUT_16" caption="发货通知信息">
+		<reader sql="select t.t01a001 as jfdh,
+                     t.d04a001 as tch,
+                     y.b04a001 as um,
+                     z.a04a002 as lingjh,
+                     replace(to_char(b05ab02*(select count(b05ab01) from ${dbSchemal3}in_edi_fhtz_bzxx y),'99999999.99'),' ','0') as lingjsl
+                     from ${dbSchemal3}in_edi_fhtz_fyxx t, ${dbSchemal3}in_edi_fhtz_bzxx y, ${dbSchemal3}in_edi_fhtz_fymx z 
+                     where t.t01a001 = y.t01a001
+                     and t.t01a001 = z.t01a001" datasourceId="1"></reader>
+		<writers>
+			<writer filePath="/interface2" class="com.athena.component.output.FhtzxxTxtWriter"  fileName="ATH_KYS_001.txt" encoding="GBK"></writer>
+		</writers>
+		
+		<field readerColumn="jfdh" writerColumn="jfdh" length="13"/>
+		<field readerColumn="tch" writerColumn="tch" length="18"/>
+		<field readerColumn="um" writerColumn="um" length="13"/>
+		<field readerColumn="lingjh" writerColumn="lingjh" length="13"/>
+		<field readerColumn="lingjsl" writerColumn="lingjsl" length="13"/>
+		</exchange-config> 
+		
+		
+		<exchange-config id="OUT_25" caption="GEVP发货通知">
+		<reader sql="select fhtzh,
+       			to_char(scsj, 'yyyyMMddHHmmss') as scsj,
+       			to_char(fssj, 'yyyyMMddHHmmss') as fssj,
+      		 	to_char(ddsj, 'yyyyMMddHHmmss') as ddsj,
+       			chenys,
+       			gongys,
+      	 		xiehd,
+       			kach,
+       			usercenter,
+       			lingjh,
+       			lingjmc,
+       			replace(to_char(lingjsl, '999999.99'), ' ', '') as lingjsl,
+       			yaohlh,
+       			rqxh,
+       			replace(to_char(rqsl, '999999.99'), ' ', '') as rqsl,
+       			replace(to_char(rqnljsl, '999999.99'), ' ', '') as rqnljsl,
+       			'' as filler
+  				from ${dbSchemal3}in_gevp_fhtz" datasourceId="1"></reader>
+		<writers>
+			<writer filePath="/interface2" class="com.athena.component.output.GevpFhtzTxtWriter" fileName="ATH_GEP_001.txt" encoding="GBK"></writer>
+		</writers>
+		
+		<field readerColumn="fhtzh" writerColumn="fhtzh" length="11"/>
+		<field readerColumn="scsj" writerColumn="scsj" length="15"/>
+		<field readerColumn="fssj" writerColumn="fssj" length="17"/>
+		<field readerColumn="ddsj" writerColumn="ddsj" length="17"/>
+		<field readerColumn="chenys" writerColumn="chenys" length="18"/>
+		<field readerColumn="gongys" writerColumn="gongys" length="11"/>
+		<field readerColumn="xiehd" writerColumn="xiehd" length="16"/>
+		<field readerColumn="kach" writerColumn="kach" length="11"/>
+		<field readerColumn="usercenter" writerColumn="usercenter" length="3"/>
+		<field readerColumn="lingjh" writerColumn="lingjh" length="11"/>
+		<field readerColumn="lingjmc" writerColumn="lingjmc" length="41"/>
+		<field readerColumn="lingjsl" writerColumn="lingjsl" length="10"/>
+		<field readerColumn="yaohlh" writerColumn="yaohlh" length="23"/>
+		<field readerColumn="rqxh" writerColumn="rqxh" length="7"/>
+		<field readerColumn="rqsl" writerColumn="rqsl" length="10"/>
+		<field readerColumn="rqnljsl" writerColumn="rqnljsl" length="10"/>
+		<field readerColumn="filler" writerColumn="filler" length="11"/>
+		</exchange-config> 
+		
+		<exchange-config id="OUT_20" caption="需拆分消耗点零件">
+		<reader sql="select substr(shengcxbh,1,3) as shengcxbh,lingjbh,xiaohdbh from ${dbSchemal3}ckx_lingjxhd where biaos='1'" datasourceId="4"></reader>
+		<writers>
+			<writer filePath="/interface3" class="com.athena.component.output.XhdljTxtWriter"  fileName="ATH_PDS_001.txt" encoding="GBK"></writer>
+		</writers>
+		
+		<field readerColumn="shengcxbh" writerColumn="shengcxbh" length="3"/>
+		<field readerColumn="lingjbh" writerColumn="lingjbh" length="11"/>
+		<field readerColumn="xiaohdbh" writerColumn="xiaohdbh" length="9"/>
+		</exchange-config> 
+		
+		
+		
+		<exchange-config id="OUT_17" caption="预批量零件需求">
+		<reader sql="select t.c_usercenter as usercenter,
+                     t.lingjbc_componenth as lingjbh,
+                     t.t_start as t_start,
+       				 t.t_end as t_end,
+       				 t.c_line_code as c_line_code,
+       				 replace(replace(to_char(t.n_num,'999999999.999999'),'.',''),' ','0') as n_num,
+       				 substr(t.c_make_line,1,3) as c_make_line
+   					 from ${dbSchemal3}in_gundmxq t,${dbSchemal3}ckx_lingj y
+ 					 where t.c_usercenter = y.usercenter
+   					 and t.lingjbc_componenth = y.lingjbh
+   					 and y.biaos = '0'" datasourceId="1"></reader>
+		<writers>
+			<writer filePath="/interface2"  fileName="ATH_OED_001.txt" encoding="GBK"></writer>
+		</writers>
+		
+		<field readerColumn="usercenter" writerColumn="usercenter" length="3"/>
+		<field readerColumn="lingjbh" writerColumn="lingjbh" length="10"/>
+		<field readerColumn="t_start" writerColumn="t_start" length="10"/>
+		<field readerColumn="t_end" writerColumn="t_end" length="10"/>
+		<field readerColumn="c_line_code" writerColumn="c_line_code" length="5"/>
+		<field readerColumn="n_num" writerColumn="n_num" length="16"/>
+		<field readerColumn="c_make_line" writerColumn="c_make_line" length="3"/>
+		</exchange-config> 
+		
+		<exchange-config id="OUT_18" caption="资源文件">	
+		<reader sql="select t.lingjbh as lingjbh,
+             '' as filler,
+             t.usercenter as usercenter,
+             t.cangkdm as cangkdm,
+             '-'||replace(replace(to_char((t.dingdlj - t.jiaoflj),'99999.999'),'.',''),' ','0') as zysl,
+             to_char(t.ziyhqrq, 'yyyyMMdd') as scsj,
+             t.gongysdm as gongysdm,
+             replace(replace(to_char(t.jiaoflj,'999999999999.999'),'.',''),' ','0') as jiaoflj,
+             replace(replace(to_char(t.dingdlj,'999999999999.999'),'.',''),' ','0') as dingdlj,
+             replace(replace(to_char(t.kucsl,'99999.999'),'.',''),' ','0') as kucsl,
+             replace(replace(to_char(t.anqkcts*y.cmj,'99999.999'),'.',''),' ','0') as aqkc,
+             replace(replace(to_char(t.xttzz,'999999999999.999'),'.',''),' ','0') as xttzz,'' as gonghlx
+             from ${dbSchemal1}xqjs_ziykzb t,${dbSchemal3}ckx_cmj y where t.usercenter=y.usercenter and t.lingjbh=y.lingjbh" datasourceId="1"></reader>
+		<writers>
+			<writer filePath="/interface2"  fileName="ATH_OED_002.txt" encoding="GBK"></writer>
+		</writers>
+		
+		<field readerColumn="lingjbh" writerColumn="lingjbh" length="10"/>
+		<field readerColumn="filler" writerColumn="filler" length="10"/>
+		<field readerColumn="usercenter" writerColumn="usercenter" length="2"/>
+		<field readerColumn="cangkdm" writerColumn="cangkdm" length="6"/>
+		<field readerColumn="zysl" writerColumn="zysl" length="10"/>
+		<field readerColumn="scsj" writerColumn="scsj" length="8"/>
+		<field readerColumn="gongysdm" writerColumn="gongysdm" length="10"/>
+		<field readerColumn="jiaoflj" writerColumn="jiaoflj" length="16"/>
+		<field readerColumn="dingdlj" writerColumn="dingdlj" length="16"/>
+		<field readerColumn="kucsl" writerColumn="kucsl" length="9"/>
+		<field readerColumn="aqkc" writerColumn="aqkc" length="9"/>
+		<field readerColumn="xttzz" writerColumn="xttzz" length="16"/>
+		<field readerColumn="gonghlx" writerColumn="gonghlx" length="3"/>
+		</exchange-config> 
+		
+		<exchange-config id="OUT_19" caption="供货路线">	
+		<reader sql="select usercenter,'' as shengcxbh,gcbh,gonghlx,'' as filler from ${dbSchemal3}ckx_gongys where leix='1' or leix='2'" datasourceId="1"></reader>
+		<writers>
+			<writer filePath="/interface2"  fileName="ATH_OED_003.txt" encoding="GBK"></writer>
+		</writers>
+		
+		<field readerColumn="usercenter" writerColumn="usercenter" length="3"/>
+		<field readerColumn="shengcxbh" writerColumn="shengcxbh" length="5"/>
+		<field readerColumn="gcbh" writerColumn="gcbh" length="10"/>
+		<field readerColumn="gonghlx" writerColumn="gonghlx" length="3"/>
+		<field readerColumn="filler" writerColumn="filler" length="17"/>
+		</exchange-config> 
+		
+		<exchange-config id="OUT_24" caption="循环对产线">	
+		<reader sql="select 'CLI' as cli,usercenter,fenpqh,shengcxbh from ${dbSchemal3}ckx_fenpq" datasourceId="1"></reader>
+		<writers>
+			<writer filePath="/interface2"  fileName="ATH_QUA_004.txt" encoding="GBK"></writer>
+		</writers>
+		<field readerColumn="cli" writerColumn="cli" length="4"/>
+		<field readerColumn="usercenter" writerColumn="usercenter" length="2"/>
+		<field readerColumn="fenpqh" writerColumn="fenpqh" length="5"/>
+		<field readerColumn="shengcxbh" writerColumn="shengcxbh" length="5"/>
+		</exchange-config> 
+		
+	    <exchange-config id="OUT_3" caption="仓库流水账">
+			<reader sql="select 'A01' CZM,
+					       ' ' QXBS,
+					       '  ' FILLER,
+					       '  ' LCLX,
+					       '1' KBBS,
+					       'N' XDJF,
+					       'S' TWBB,
+					       '   ' JFM,
+					       ' ' PX,
+					       'N ' HGBS,
+					       '     ' FILLER2,
+					       ' ' GYSLCBS,
+					       ' ' CLLBM,
+					       '         ' FILLER3,
+					       to_char(sysdate, 'YYYYMMDD') CWRRQ,
+					       '          ' FILLER4,
+					       '        ' CJJLH,
+					       USERCENTER,
+					       RUKLSH,
+					       UTH,
+					       BLH,
+					       to_char(BLSCSJ, 'YYYYMMDD') BLSCSJ,
+					       LINGJBH,
+					       LINGJSL,
+					       DANW,
+					       CHANX,
+					       GONGYSDM,
+					       GONGYSLX,
+					       CHENGYSMC,
+					       DINGDH,
+					       ELH,
+					       PICH,
+					       CANGKBH,
+					       CANGKBH || ZICKBH CKBH,
+					       to_char(RUKSJ, 'YYYYMMDD') RUKSJ,
+					       to_char(RUKSJ, 'YYYYMMDDMIHH24') JLHRQ,
+					       CANGKGLYZ,
+					       RUKLX,
+					       CREATE_TIME 
+  						   from ${dbSchemal3}IN_CK_RUKMX t 
+  						where t.RUKLX = '1' or  t.RUKLX = '2'" datasourceId="1"></reader>
+			
+			<writers class="com.athena.component.output.RkmxDataWriter">
+				<writer filePath="/interface2"  fileName="ATH_SAP_003.txt" encoding="GBK"></writer>
+			</writers>
+			
+			<field readerColumn="CZM" writerColumn="CZM" length="3"/>
+			<field readerColumn="QXBS" writerColumn="QXBS" length="1"/>
+			<field readerColumn="FILLER" writerColumn="FILLER" length="2"/>			
+			<field readerColumn="LCLX" writerColumn="LCLX" length="2"/>
+			<field readerColumn="LINGJBH" writerColumn="LINGJBH" length="10"/>
+			<field readerColumn="KBBS" writerColumn="KBBS" length="1"/>
+			
+			<field readerColumn="GONGYSDM" writerColumn="GONGYSDM" length="10"/>
+			<field readerColumn="LINGJSL" writerColumn="LINGJSL" length="10"/>
+			<field readerColumn="DANW" writerColumn="DANW" length="2"/>	
+			<field readerColumn="BLH" writerColumn="BLH" length="10"/>
+			<field readerColumn="RUKSJ" writerColumn="RUKSJ" length="8"/>
+			<field readerColumn="CHENGYSMC" writerColumn="CHENGYSMC" length="20"/>
+			
+			<field readerColumn="XDJF" writerColumn="XDJF" length="1"/>
+			<field readerColumn="TWBB" writerColumn="TWBB" length="1"/>
+			<field readerColumn="CANGKBH" writerColumn="CANGKBH" length="3"/>	
+			<field readerColumn="JFM" writerColumn="JFM" length="3"/>
+			<field readerColumn="PX" writerColumn="PX" length="1"/>
+			<field readerColumn="HGBS" writerColumn="HGBS" length="2"/>
+			
+			<field readerColumn="FILLER2" writerColumn="FILLER2" length="5"/>
+			<field readerColumn="GYSLCBS" writerColumn="GYSLCBS" length="1"/>
+			<field readerColumn="PICH" writerColumn="PICH" length="10"/>	
+			<field readerColumn="DINGDH" writerColumn="DINGDH" length="8"/>
+			<field readerColumn="CLLBM" writerColumn="CLLBM" length="1"/>
+			<field readerColumn="CKBH" writerColumn="CKBH" length="6"/>
+			
+			<field readerColumn="GONGYSLX" writerColumn="GONGYSLX" length="1"/>
+			<field readerColumn="USERCENTER" writerColumn="USERCENTER" length="2"/>
+			<field readerColumn="JLHRQ" writerColumn="JLHRQ" length="12"/>	
+			<field readerColumn="CANGKGLYZ" writerColumn="CANGKGLYZ" length="3"/>
+			<field readerColumn="CJJLH" writerColumn="CJJLH" length="8"/>
+			<field readerColumn="UTH" writerColumn="UTH" length="7"/>
+			
+			<field readerColumn="BLSCSJ" writerColumn="BLSCSJ" length="8"/>
+			<field readerColumn="ELH" writerColumn="ELH" length="7"/>
+			<field readerColumn="CHANX" writerColumn="CHANX" length="3"/>	
+			<field readerColumn="FILLER3" writerColumn="FILLER3" length="9"/>
+			<field readerColumn="CWRRQ" writerColumn="CWRRQ" length="8"/>
+			<field readerColumn="FILLER4" writerColumn="FILLER4" length="10"/>
+			   
+		</exchange-config>
+		
+		<exchange-config id="CKMX_03" caption="仓库流水账操作标识03">
+			<reader sql="select 'A03' CZM,
+				       ' ' QXBS,
+				       '  ' FILLER,
+				       '  ' LCLX,
+				       '1' KBBS,
+				       'N' XDJF,
+				       'S' TWBB,
+				       '   ' JFM,
+				       ' ' PX,
+				       'N ' HGBS,
+				       '     ' FILLER2,
+				       ' ' GYSLCBS,
+				       ' ' CLLBM,
+				       '         ' FILLER3,
+				       to_char(sysdate, 'YYYYMMDD') CWRRQ,
+				       '          ' FILLER4,
+				       '        '  CJJLH,
+				       USERCENTER,
+				       RUKLSH,
+				       UTH,
+				       ' ' BLH,
+				       to_char(sysdate, 'YYYYMMDD') BLSCSJ,
+				       LINGJBH,
+				       LINGJSL,
+				       DANW,
+				       CHANX,
+				       GONGYSDM,
+				       GONGYSLX,
+				       CHENGYSMC,
+				       ' ' DINGDH,
+				       ELH,
+				       PICH,
+				       CANGKBH,
+				       CANGKBH||ZICKBH CKBH,
+				       to_char(RUKSJ, 'YYYYMMDD') RUKSJ,
+				       to_char(RUKSJ,'YYYYMMDDMIHH24') JLHRQ,
+				       CANGKGLYZ,
+				       RUKLX,
+				       CREATE_TIME
+				  from ${dbSchemal3}IN_CK_RUKMX t
+				  WHERE t.RUKLX = '3'" datasourceId="1"></reader>
+			
+			<writers class="com.athena.component.output.Rkmx03DataWriter">
+				<writer filePath="/interface2"  fileName="ATH_SAP_003.txt" encoding="GBK"></writer>
+			</writers>
+			
+			<field readerColumn="CZM" writerColumn="CZM" length="3"/>
+			<field readerColumn="QXBS" writerColumn="QXBS" length="1"/>
+			<field readerColumn="FILLER" writerColumn="FILLER" length="2"/>			
+			<field readerColumn="LCLX" writerColumn="LCLX" length="2"/>
+			<field readerColumn="LINGJBH" writerColumn="LINGJBH" length="10"/>
+			<field readerColumn="KBBS" writerColumn="KBBS" length="1"/>
+			
+			<field readerColumn="GONGYSDM" writerColumn="GONGYSDM" length="10"/>
+			<field readerColumn="LINGJSL" writerColumn="LINGJSL" length="10"/>
+			<field readerColumn="DANW" writerColumn="DANW" length="2"/>	
+			<field readerColumn="BLH" writerColumn="BLH" length="10"/>
+			<field readerColumn="RUKSJ" writerColumn="RUKSJ" length="8"/>
+			<field readerColumn="CHENGYSMC" writerColumn="CHENGYSMC" length="20"/>
+			
+			<field readerColumn="XDJF" writerColumn="XDJF" length="1"/>
+			<field readerColumn="TWBB" writerColumn="TWBB" length="1"/>
+			<field readerColumn="CANGKBH" writerColumn="CANGKBH" length="3"/>	
+			<field readerColumn="JFM" writerColumn="JFM" length="3"/>
+			<field readerColumn="PX" writerColumn="PX" length="1"/>
+			<field readerColumn="HGBS" writerColumn="HGBS" length="2"/>
+			
+			<field readerColumn="FILLER2" writerColumn="FILLER2" length="5"/>
+			<field readerColumn="GYSLCBS" writerColumn="GYSLCBS" length="1"/>
+			<field readerColumn="PICH" writerColumn="PICH" length="10"/>	
+			<field readerColumn="DINGDH" writerColumn="DINGDH" length="8"/>
+			<field readerColumn="CLLBM" writerColumn="CLLBM" length="1"/>
+			<field readerColumn="CKBH" writerColumn="CKBH" length="6"/>
+			
+			<field readerColumn="GONGYSLX" writerColumn="GONGYSLX" length="1"/>
+			<field readerColumn="USERCENTER" writerColumn="USERCENTER" length="2"/>
+			<field readerColumn="JLHRQ" writerColumn="JLHRQ" length="12"/>	
+			<field readerColumn="CANGKGLYZ" writerColumn="CANGKGLYZ" length="3"/>
+			<field readerColumn="CJJLH" writerColumn="CJJLH" length="8"/>
+			<field readerColumn="UTH" writerColumn="UTH" length="7"/>
+			
+			<field readerColumn="BLSCSJ" writerColumn="BLSCSJ" length="8"/>
+			<field readerColumn="ELH" writerColumn="ELH" length="7"/>
+			<field readerColumn="CHANX" writerColumn="CHANX" length="3"/>	
+			<field readerColumn="FILLER3" writerColumn="FILLER3" length="9"/>
+			<field readerColumn="CWRRQ" writerColumn="CWRRQ" length="8"/>
+			<field readerColumn="FILLER4" writerColumn="FILLER4" length="10"/>
+			   
+		</exchange-config>
+		
+		<exchange-config id="CKMX_01S" caption="仓库流水账操作标识01S">
+			<reader sql="select 'A01S' CZM,
+				       ' ' QXBS,
+				       '  ' FILLER,
+				       '  ' LCLX,
+				       '1' KBBS,
+				       'N' XDJF,
+				       'S' TWBB,
+				       '   ' JFM,
+				       ' ' PX,
+				       'N ' HGBS,
+				       '     ' FILLER2,
+				       ' ' GYSLCBS,
+				       ' ' CLLBM,
+				       '         ' FILLER3,
+				       to_char(sysdate, 'YYYYMMDD') CWRRQ,
+				       '          ' FILLER4,
+				       '        '  CJJLH,
+				       USERCENTER,
+				       RUKLSH,
+				       UTH,
+				       BLH,
+				       to_char(BLSCSJ, 'YYYYMMDD') BLSCSJ,
+				       LINGJBH,
+				       LINGJSL,
+				       DANW,
+				       CHANX,
+				       GONGYSDM,
+				       GONGYSLX,
+				       CHENGYSMC,
+				       DINGDH,
+				       ELH,
+				       PICH,
+				       CANGKBH,
+				       CANGKBH||ZICKBH CKBH,
+				       to_char(RUKSJ, 'YYYYMMDD') RUKSJ,
+				       to_char(RUKSJ,'YYYYMMDDMIHH24') JLHRQ,
+				       CANGKGLYZ,
+				       RUKLX,
+				       CREATE_TIME
+				  from ${dbSchemal3}IN_CK_RUKMX t
+				  WHERE t.RUKLX = '4'" datasourceId="1"></reader>
+			
+			<writers class="com.athena.component.output.Rkmx01SDataWriter">
+				<writer filePath="/interface2"  fileName="ATH_SAP_003.txt" encoding="GBK"></writer>
+			</writers>
+			
+			<field readerColumn="CZM" writerColumn="CZM" length="3"/>
+			<field readerColumn="QXBS" writerColumn="QXBS" length="1"/>
+			<field readerColumn="FILLER" writerColumn="FILLER" length="2"/>			
+			<field readerColumn="LCLX" writerColumn="LCLX" length="2"/>
+			<field readerColumn="LINGJBH" writerColumn="LINGJBH" length="10"/>
+			<field readerColumn="KBBS" writerColumn="KBBS" length="1"/>
+			
+			<field readerColumn="GONGYSDM" writerColumn="GONGYSDM" length="10"/>
+			<field readerColumn="LINGJSL" writerColumn="LINGJSL" length="10"/>
+			<field readerColumn="DANW" writerColumn="DANW" length="2"/>	
+			<field readerColumn="BLH" writerColumn="BLH" length="10"/>
+			<field readerColumn="RUKSJ" writerColumn="RUKSJ" length="8"/>
+			<field readerColumn="CHENGYSMC" writerColumn="CHENGYSMC" length="20"/>
+			
+			<field readerColumn="XDJF" writerColumn="XDJF" length="1"/>
+			<field readerColumn="TWBB" writerColumn="TWBB" length="1"/>
+			<field readerColumn="CANGKBH" writerColumn="CANGKBH" length="3"/>	
+			<field readerColumn="JFM" writerColumn="JFM" length="3"/>
+			<field readerColumn="PX" writerColumn="PX" length="1"/>
+			<field readerColumn="HGBS" writerColumn="HGBS" length="2"/>
+			
+			<field readerColumn="FILLER2" writerColumn="FILLER2" length="5"/>
+			<field readerColumn="GYSLCBS" writerColumn="GYSLCBS" length="1"/>
+			<field readerColumn="PICH" writerColumn="PICH" length="10"/>	
+			<field readerColumn="DINGDH" writerColumn="DINGDH" length="8"/>
+			<field readerColumn="CLLBM" writerColumn="CLLBM" length="1"/>
+			<field readerColumn="CKBH" writerColumn="CKBH" length="6"/>
+			
+			<field readerColumn="GONGYSLX" writerColumn="GONGYSLX" length="1"/>
+			<field readerColumn="USERCENTER" writerColumn="USERCENTER" length="2"/>
+			<field readerColumn="JLHRQ" writerColumn="JLHRQ" length="12"/>	
+			<field readerColumn="CANGKGLYZ" writerColumn="CANGKGLYZ" length="3"/>
+			<field readerColumn="CJJLH" writerColumn="CJJLH" length="8"/>
+			<field readerColumn="UTH" writerColumn="UTH" length="7"/>
+			
+			<field readerColumn="BLSCSJ" writerColumn="BLSCSJ" length="8"/>
+			<field readerColumn="ELH" writerColumn="ELH" length="7"/>
+			<field readerColumn="CHANX" writerColumn="CHANX" length="3"/>	
+			<field readerColumn="FILLER3" writerColumn="FILLER3" length="9"/>
+			<field readerColumn="CWRRQ" writerColumn="CWRRQ" length="8"/>
+			<field readerColumn="FILLER4" writerColumn="FILLER4" length="10"/>
+			   
+		</exchange-config>
+		
+		<!-- 没有查询条件 处理是全集 -->
+		<exchange-config id="CKMX_08" caption="返修单退货单08">
+			<reader sql="select 'A08' CZM,
+				       ' ' QXBS,
+				       '  ' FILLER,
+				       '  ' LCLX,
+				       '1' KBBS,
+				       'N' XDJF,
+				       'S' TWBB,
+				       '   ' JFM,
+				       ' ' PX,
+				       'N ' HGBS,
+				       '     ' FILLER2,
+				       ' ' GYSLCBS,
+				       ' ' CLLBM,
+				       '         ' FILLER3,
+				       to_char(sysdate, 'YYYYMMDD') CWRRQ,
+				       '          ' FILLER4,
+				       '        ' CJJLH,
+				       USERCENTER,
+				       ' ' UTH,
+				       ' ' BLH,
+				       to_char(SHENGCSJ, 'YYYYMMDD') BLSCSJ,
+				       LINGJBH,
+				       LINGJSL,
+				       DANW,
+				       ' ' CHANX,
+				       GONGYSDM,
+				       ' ' GONGYSLX,
+				       CHENGYSMC,
+				       ' ' DINGDH,
+				       ELH,
+				       ' ' PICH,
+				       CANGKBH,
+				       CANGKBH || ZICKBH CKBH,
+				       ' ' RUKSJ,
+				       to_char(SHENGCSJ, 'YYYYMMDDMIHH24') JLHRQ,
+				       CANGKGLYZ,
+				       CREATE_TIME
+  				from ${dbSchemal3}IN_CK_FANXD t" datasourceId="1"></reader>
+			
+			<writers class="com.athena.component.output.Rkmx08DataWriter">
+				<writer filePath="/interface2"  fileName="ATH_SAP_003.txt" encoding="GBK"></writer>
+			</writers>
+			
+			<field readerColumn="CZM" writerColumn="CZM" length="3"/>
+			<field readerColumn="QXBS" writerColumn="QXBS" length="1"/>
+			<field readerColumn="FILLER" writerColumn="FILLER" length="2"/>			
+			<field readerColumn="LCLX" writerColumn="LCLX" length="2"/>
+			<field readerColumn="LINGJBH" writerColumn="LINGJBH" length="10"/>
+			<field readerColumn="KBBS" writerColumn="KBBS" length="1"/>
+			
+			<field readerColumn="GONGYSDM" writerColumn="GONGYSDM" length="10"/>
+			<field readerColumn="LINGJSL" writerColumn="LINGJSL" length="10"/>
+			<field readerColumn="DANW" writerColumn="DANW" length="2"/>	
+			<field readerColumn="BLH" writerColumn="BLH" length="10"/>
+			<field readerColumn="RUKSJ" writerColumn="RUKSJ" length="8"/>
+			<field readerColumn="CHENGYSMC" writerColumn="CHENGYSMC" length="20"/>
+			
+			<field readerColumn="XDJF" writerColumn="XDJF" length="1"/>
+			<field readerColumn="TWBB" writerColumn="TWBB" length="1"/>
+			<field readerColumn="CANGKBH" writerColumn="CANGKBH" length="3"/>	
+			<field readerColumn="JFM" writerColumn="JFM" length="3"/>
+			<field readerColumn="PX" writerColumn="PX" length="1"/>
+			<field readerColumn="HGBS" writerColumn="HGBS" length="2"/>
+			
+			<field readerColumn="FILLER2" writerColumn="FILLER2" length="5"/>
+			<field readerColumn="GYSLCBS" writerColumn="GYSLCBS" length="1"/>
+			<field readerColumn="PICH" writerColumn="PICH" length="10"/>	
+			<field readerColumn="DINGDH" writerColumn="DINGDH" length="8"/>
+			<field readerColumn="CLLBM" writerColumn="CLLBM" length="1"/>
+			<field readerColumn="CKBH" writerColumn="CKBH" length="6"/>
+			
+			<field readerColumn="GONGYSLX" writerColumn="GONGYSLX" length="1"/>
+			<field readerColumn="USERCENTER" writerColumn="USERCENTER" length="2"/>
+			<field readerColumn="JLHRQ" writerColumn="JLHRQ" length="12"/>	
+			<field readerColumn="CANGKGLYZ" writerColumn="CANGKGLYZ" length="3"/>
+			<field readerColumn="CJJLH" writerColumn="CJJLH" length="8"/>
+			<field readerColumn="UTH" writerColumn="UTH" length="7"/>
+			
+			<field readerColumn="BLSCSJ" writerColumn="BLSCSJ" length="8"/>
+			<field readerColumn="ELH" writerColumn="ELH" length="7"/>
+			<field readerColumn="CHANX" writerColumn="CHANX" length="3"/>	
+			<field readerColumn="FILLER3" writerColumn="FILLER3" length="9"/>
+			<field readerColumn="CWRRQ" writerColumn="CWRRQ" length="8"/>
+			<field readerColumn="FILLER4" writerColumn="FILLER4" length="10"/>
+			   
+		</exchange-config>
+		
+		<!-- 没有查询条件 处理是全集 -->
+		<exchange-config id="CKMX_08S" caption="返修单退货单08S">
+			<reader sql="select 'A08S' CZM,
+				       ' ' QXBS,
+				       '  ' FILLER,
+				       '  ' LCLX,
+				       '1' KBBS,
+				       'N' XDJF,
+				       'S' TWBB,
+				       '   ' JFM,
+				       ' ' PX,
+				       'N ' HGBS,
+				       '     ' FILLER2,
+				       ' ' GYSLCBS,
+				       ' ' CLLBM,
+				       '         ' FILLER3,
+				       to_char(sysdate, 'YYYYMMDD') CWRRQ,
+				       '          ' FILLER4,
+				       '        ' CJJLH,
+				       USERCENTER,
+				       ' ' UTH,
+				       ' ' BLH,
+				       to_char(SHENGCSJ, 'YYYYMMDD') BLSCSJ,
+				       LINGJBH,
+				       LINGJSL,
+				       DANW,
+				       ' ' CHANX,
+				       GONGYSDM,
+				       ' ' GONGYSLX,
+				       CHENGYSMC,
+				       ' ' DINGDH,
+				       ELH,
+				       ' ' PICH,
+				       CANGKBH,
+				       CANGKBH || ZICKBH CKBH,
+				       ' ' RUKSJ,
+				       to_char(SHENGCSJ, 'YYYYMMDDMIHH24') JLHRQ,
+				       CANGKGLYZ,
+				       CREATE_TIME
+  				from ${dbSchemal3}IN_CK_FANXD t" datasourceId="1"></reader>
+			
+			<writers class="com.athena.component.output.Rkmx08SDataWriter">
+				<writer filePath="/interface2"  fileName="ATH_SAP_003.txt" encoding="GBK"></writer>
+			</writers>
+			
+			<field readerColumn="CZM" writerColumn="CZM" length="3"/>
+			<field readerColumn="QXBS" writerColumn="QXBS" length="1"/>
+			<field readerColumn="FILLER" writerColumn="FILLER" length="2"/>			
+			<field readerColumn="LCLX" writerColumn="LCLX" length="2"/>
+			<field readerColumn="LINGJBH" writerColumn="LINGJBH" length="10"/>
+			<field readerColumn="KBBS" writerColumn="KBBS" length="1"/>
+			
+			<field readerColumn="GONGYSDM" writerColumn="GONGYSDM" length="10"/>
+			<field readerColumn="LINGJSL" writerColumn="LINGJSL" length="10"/>
+			<field readerColumn="DANW" writerColumn="DANW" length="2"/>	
+			<field readerColumn="BLH" writerColumn="BLH" length="10"/>
+			<field readerColumn="RUKSJ" writerColumn="RUKSJ" length="8"/>
+			<field readerColumn="CHENGYSMC" writerColumn="CHENGYSMC" length="20"/>
+			
+			<field readerColumn="XDJF" writerColumn="XDJF" length="1"/>
+			<field readerColumn="TWBB" writerColumn="TWBB" length="1"/>
+			<field readerColumn="CANGKBH" writerColumn="CANGKBH" length="3"/>	
+			<field readerColumn="JFM" writerColumn="JFM" length="3"/>
+			<field readerColumn="PX" writerColumn="PX" length="1"/>
+			<field readerColumn="HGBS" writerColumn="HGBS" length="2"/>
+			
+			<field readerColumn="FILLER2" writerColumn="FILLER2" length="5"/>
+			<field readerColumn="GYSLCBS" writerColumn="GYSLCBS" length="1"/>
+			<field readerColumn="PICH" writerColumn="PICH" length="10"/>	
+			<field readerColumn="DINGDH" writerColumn="DINGDH" length="8"/>
+			<field readerColumn="CLLBM" writerColumn="CLLBM" length="1"/>
+			<field readerColumn="CKBH" writerColumn="CKBH" length="6"/>
+			
+			<field readerColumn="GONGYSLX" writerColumn="GONGYSLX" length="1"/>
+			<field readerColumn="USERCENTER" writerColumn="USERCENTER" length="2"/>
+			<field readerColumn="JLHRQ" writerColumn="JLHRQ" length="12"/>	
+			<field readerColumn="CANGKGLYZ" writerColumn="CANGKGLYZ" length="3"/>
+			<field readerColumn="CJJLH" writerColumn="CJJLH" length="8"/>
+			<field readerColumn="UTH" writerColumn="UTH" length="7"/>
+			
+			<field readerColumn="BLSCSJ" writerColumn="BLSCSJ" length="8"/>
+			<field readerColumn="ELH" writerColumn="ELH" length="7"/>
+			<field readerColumn="CHANX" writerColumn="CHANX" length="3"/>	
+			<field readerColumn="FILLER3" writerColumn="FILLER3" length="9"/>
+			<field readerColumn="CWRRQ" writerColumn="CWRRQ" length="8"/>
+			<field readerColumn="FILLER4" writerColumn="FILLER4" length="10"/>
+			   
+		</exchange-config>
+		
+		<!-- A10 -->
+		<exchange-config id="CKMX_A10" caption="返修单退货单A10">
+			<reader sql="select 'A10' CZM,
+				       ' ' QXBS,
+				       '  ' FILLER,
+				       '  ' LCLX,
+				       '1' KBBS,
+				       'N' XDJF,
+				       'S' TWBB,
+				       '   ' JFM,
+				       ' ' PX,
+				       'N ' HGBS,
+				       '     ' FILLER2,
+				       ' ' GYSLCBS,
+				       ' ' CLLBM,
+				       '         ' FILLER3,
+				       to_char(sysdate, 'YYYYMMDD') CWRRQ,
+				       '          ' FILLER4,
+				       '        ' CJJLH,
+				       USERCENTER,
+				       ' ' UTH,
+				       ' ' BLH,
+				       to_char(SHENGCSJ, 'YYYYMMDD') BLSCSJ,
+				       LINGJBH,
+				       LINGJSL,
+				       DANW,
+				       ' ' CHANX,
+				       GONGYSDM,
+				       ' ' GONGYSLX,
+				       ' ' CHENGYSMC,
+				       ' ' DINGDH,
+				       ELH,
+				       ' ' PICH,
+				       CANGKBH,
+				       CANGKBH || ZICKBH CKBH,
+				       ' ' RUKSJ,
+				       to_char(SHENGCSJ, 'YYYYMMDDMIHH24') JLHRQ,
+				       CANGKGLYZ,
+				       CREATE_TIME
+  				from ${dbSchemal3}IN_CK_FANXD t" datasourceId="1"></reader>
+			
+			<writers class="com.athena.component.output.RkmxA10DataWriter">
+				<writer filePath="/interface2"  fileName="ATH_SAP_003.txt" encoding="GBK"></writer>
+			</writers>
+			
+			<field readerColumn="CZM" writerColumn="CZM" length="3"/>
+			<field readerColumn="QXBS" writerColumn="QXBS" length="1"/>
+			<field readerColumn="FILLER" writerColumn="FILLER" length="2"/>			
+			<field readerColumn="LCLX" writerColumn="LCLX" length="2"/>
+			<field readerColumn="LINGJBH" writerColumn="LINGJBH" length="10"/>
+			<field readerColumn="KBBS" writerColumn="KBBS" length="1"/>
+			
+			<field readerColumn="GONGYSDM" writerColumn="GONGYSDM" length="10"/>
+			<field readerColumn="LINGJSL" writerColumn="LINGJSL" length="10"/>
+			<field readerColumn="DANW" writerColumn="DANW" length="2"/>	
+			<field readerColumn="BLH" writerColumn="BLH" length="10"/>
+			<field readerColumn="RUKSJ" writerColumn="RUKSJ" length="8"/>
+			<field readerColumn="CHENGYSMC" writerColumn="CHENGYSMC" length="20"/>
+			
+			<field readerColumn="XDJF" writerColumn="XDJF" length="1"/>
+			<field readerColumn="TWBB" writerColumn="TWBB" length="1"/>
+			<field readerColumn="CANGKBH" writerColumn="CANGKBH" length="3"/>	
+			<field readerColumn="JFM" writerColumn="JFM" length="3"/>
+			<field readerColumn="PX" writerColumn="PX" length="1"/>
+			<field readerColumn="HGBS" writerColumn="HGBS" length="2"/>
+			
+			<field readerColumn="FILLER2" writerColumn="FILLER2" length="5"/>
+			<field readerColumn="GYSLCBS" writerColumn="GYSLCBS" length="1"/>
+			<field readerColumn="PICH" writerColumn="PICH" length="10"/>	
+			<field readerColumn="DINGDH" writerColumn="DINGDH" length="8"/>
+			<field readerColumn="CLLBM" writerColumn="CLLBM" length="1"/>
+			<field readerColumn="CKBH" writerColumn="CKBH" length="6"/>
+			
+			<field readerColumn="GONGYSLX" writerColumn="GONGYSLX" length="1"/>
+			<field readerColumn="USERCENTER" writerColumn="USERCENTER" length="2"/>
+			<field readerColumn="JLHRQ" writerColumn="JLHRQ" length="12"/>	
+			<field readerColumn="CANGKGLYZ" writerColumn="CANGKGLYZ" length="3"/>
+			<field readerColumn="CJJLH" writerColumn="CJJLH" length="8"/>
+			<field readerColumn="UTH" writerColumn="UTH" length="7"/>
+			
+			<field readerColumn="BLSCSJ" writerColumn="BLSCSJ" length="8"/>
+			<field readerColumn="ELH" writerColumn="ELH" length="7"/>
+			<field readerColumn="CHANX" writerColumn="CHANX" length="3"/>	
+			<field readerColumn="FILLER3" writerColumn="FILLER3" length="9"/>
+			<field readerColumn="CWRRQ" writerColumn="CWRRQ" length="8"/>
+			<field readerColumn="FILLER4" writerColumn="FILLER4" length="10"/>
+			   
+		</exchange-config>
+		
+		<!-- A25 纠纷表 -->
+		<exchange-config id="CKMX_A25" caption="纠纷表 A25">
+			<reader sql="select 'A25' CZM,
+				       ' ' QXBS,
+				       '  ' FILLER,
+				       '  ' LCLX,
+				       '1' KBBS,
+				       'N' XDJF,
+				       'S' TWBB,
+				       '   ' JFM,
+				       ' ' PX,
+				       'N ' HGBS,
+				       '     ' FILLER2,
+				       ' ' GYSLCBS,
+				       ' ' CLLBM,
+				       '         ' FILLER3,
+				       to_char(sysdate, 'YYYYMMDD') CWRRQ,
+				       '          ' FILLER4,
+				       '        ' CJJLH,
+				       USERCENTER,
+				       UTH,
+				       BLH,
+				       to_char(JIUFSJ, 'YYYYMMDD') BLSCSJ,
+				       LINGJBH,
+				       KUCSL LINGJSL,
+				       DANW,
+				       ' ' CHANX,
+				       GONGYSDM,
+				       ' ' GONGYSLX,
+				       CHENGYSMC,
+				       ' ' DINGDH,
+				       ELH,
+				       PICH,
+				       CANGKBH,
+				       CANGKBH || ZICKBH CKBH,
+				       to_char(JIUFSJ, 'YYYYMMDD') RUKSJ,
+				       to_char(JIUFSJ, 'YYYYMMDDMIHH24') JLHRQ,
+				       CANGKGLYZ,
+				       CREATE_TIME
+				  from ${dbSchemal3}IN_CK_JIUFD t" datasourceId="1"></reader>
+			
+			<writers class="com.athena.component.output.RkmxA25DataWriter">
+				<writer filePath="/interface2"  fileName="ATH_SAP_003.txt" encoding="GBK"></writer>
+			</writers>
+			
+			<field readerColumn="CZM" writerColumn="CZM" length="3"/>
+			<field readerColumn="QXBS" writerColumn="QXBS" length="1"/>
+			<field readerColumn="FILLER" writerColumn="FILLER" length="2"/>			
+			<field readerColumn="LCLX" writerColumn="LCLX" length="2"/>
+			<field readerColumn="LINGJBH" writerColumn="LINGJBH" length="10"/>
+			<field readerColumn="KBBS" writerColumn="KBBS" length="1"/>
+			
+			<field readerColumn="GONGYSDM" writerColumn="GONGYSDM" length="10"/>
+			<field readerColumn="LINGJSL" writerColumn="LINGJSL" length="10"/>
+			<field readerColumn="DANW" writerColumn="DANW" length="2"/>	
+			<field readerColumn="BLH" writerColumn="BLH" length="10"/>
+			<field readerColumn="RUKSJ" writerColumn="RUKSJ" length="8"/>
+			<field readerColumn="CHENGYSMC" writerColumn="CHENGYSMC" length="20"/>
+			
+			<field readerColumn="XDJF" writerColumn="XDJF" length="1"/>
+			<field readerColumn="TWBB" writerColumn="TWBB" length="1"/>
+			<field readerColumn="CANGKBH" writerColumn="CANGKBH" length="3"/>	
+			<field readerColumn="JFM" writerColumn="JFM" length="3"/>
+			<field readerColumn="PX" writerColumn="PX" length="1"/>
+			<field readerColumn="HGBS" writerColumn="HGBS" length="2"/>
+			
+			<field readerColumn="FILLER2" writerColumn="FILLER2" length="5"/>
+			<field readerColumn="GYSLCBS" writerColumn="GYSLCBS" length="1"/>
+			<field readerColumn="PICH" writerColumn="PICH" length="10"/>	
+			<field readerColumn="DINGDH" writerColumn="DINGDH" length="8"/>
+			<field readerColumn="CLLBM" writerColumn="CLLBM" length="1"/>
+			<field readerColumn="CKBH" writerColumn="CKBH" length="6"/>
+			
+			<field readerColumn="GONGYSLX" writerColumn="GONGYSLX" length="1"/>
+			<field readerColumn="USERCENTER" writerColumn="USERCENTER" length="2"/>
+			<field readerColumn="JLHRQ" writerColumn="JLHRQ" length="12"/>	
+			<field readerColumn="CANGKGLYZ" writerColumn="CANGKGLYZ" length="3"/>
+			<field readerColumn="CJJLH" writerColumn="CJJLH" length="8"/>
+			<field readerColumn="UTH" writerColumn="UTH" length="7"/>
+			
+			<field readerColumn="BLSCSJ" writerColumn="BLSCSJ" length="8"/>
+			<field readerColumn="ELH" writerColumn="ELH" length="7"/>
+			<field readerColumn="CHANX" writerColumn="CHANX" length="3"/>	
+			<field readerColumn="FILLER3" writerColumn="FILLER3" length="9"/>
+			<field readerColumn="CWRRQ" writerColumn="CWRRQ" length="8"/>
+			<field readerColumn="FILLER4" writerColumn="FILLER4" length="10"/>
+			   
+		</exchange-config>
+		<!-- 和A25一样的问题 -->
+		<exchange-config id="CKMX_A25S" caption="纠纷表 A25">
+			<reader sql="select 'A25S' CZM,
+				       ' ' QXBS,
+				       '  ' FILLER,
+				       '  ' LCLX,
+				       '1' KBBS,
+				       'N' XDJF,
+				       'S' TWBB,
+				       '   ' JFM,
+				       ' ' PX,
+				       'N ' HGBS,
+				       '     ' FILLER2,
+				       ' ' GYSLCBS,
+				       ' ' CLLBM,
+				       '         ' FILLER3,
+				       to_char(sysdate, 'YYYYMMDD') CWRRQ,
+				       '          ' FILLER4,
+				       '        ' CJJLH,
+				       USERCENTER,
+				       UTH,
+				       BLH,
+				       to_char(JIUFSJ, 'YYYYMMDD') BLSCSJ,
+				       LINGJBH,
+				       KUCSL LINGJSL,
+				       DANW,
+				       ' ' CHANX,
+				       GONGYSDM,
+				       ' ' GONGYSLX,
+				       CHENGYSMC,
+				       ' ' DINGDH,
+				       ELH,
+				       PICH,
+				       CANGKBH,
+				       CANGKBH || ZICKBH CKBH,
+				       to_char(JIUFSJ, 'YYYYMMDD') RUKSJ,
+				       to_char(JIUFSJ, 'YYYYMMDDMIHH24') JLHRQ,
+				       CANGKGLYZ,
+				       CREATE_TIME
+				  from ${dbSchemal3}IN_CK_JIUFD t" datasourceId="1"></reader>
+			
+			<writers class="com.athena.component.output.RkmxA25SDataWriter">
+				<writer filePath="/interface2"  fileName="ATH_SAP_003.txt" encoding="GBK"></writer>
+			</writers>
+			
+			<field readerColumn="CZM" writerColumn="CZM" length="3"/>
+			<field readerColumn="QXBS" writerColumn="QXBS" length="1"/>
+			<field readerColumn="FILLER" writerColumn="FILLER" length="2"/>			
+			<field readerColumn="LCLX" writerColumn="LCLX" length="2"/>
+			<field readerColumn="LINGJBH" writerColumn="LINGJBH" length="10"/>
+			<field readerColumn="KBBS" writerColumn="KBBS" length="1"/>
+			
+			<field readerColumn="GONGYSDM" writerColumn="GONGYSDM" length="10"/>
+			<field readerColumn="LINGJSL" writerColumn="LINGJSL" length="10"/>
+			<field readerColumn="DANW" writerColumn="DANW" length="2"/>	
+			<field readerColumn="BLH" writerColumn="BLH" length="10"/>
+			<field readerColumn="RUKSJ" writerColumn="RUKSJ" length="8"/>
+			<field readerColumn="CHENGYSMC" writerColumn="CHENGYSMC" length="20"/>
+			
+			<field readerColumn="XDJF" writerColumn="XDJF" length="1"/>
+			<field readerColumn="TWBB" writerColumn="TWBB" length="1"/>
+			<field readerColumn="CANGKBH" writerColumn="CANGKBH" length="3"/>	
+			<field readerColumn="JFM" writerColumn="JFM" length="3"/>
+			<field readerColumn="PX" writerColumn="PX" length="1"/>
+			<field readerColumn="HGBS" writerColumn="HGBS" length="2"/>
+			
+			<field readerColumn="FILLER2" writerColumn="FILLER2" length="5"/>
+			<field readerColumn="GYSLCBS" writerColumn="GYSLCBS" length="1"/>
+			<field readerColumn="PICH" writerColumn="PICH" length="10"/>	
+			<field readerColumn="DINGDH" writerColumn="DINGDH" length="8"/>
+			<field readerColumn="CLLBM" writerColumn="CLLBM" length="1"/>
+			<field readerColumn="CKBH" writerColumn="CKBH" length="6"/>
+			
+			<field readerColumn="GONGYSLX" writerColumn="GONGYSLX" length="1"/>
+			<field readerColumn="USERCENTER" writerColumn="USERCENTER" length="2"/>
+			<field readerColumn="JLHRQ" writerColumn="JLHRQ" length="12"/>	
+			<field readerColumn="CANGKGLYZ" writerColumn="CANGKGLYZ" length="3"/>
+			<field readerColumn="CJJLH" writerColumn="CJJLH" length="8"/>
+			<field readerColumn="UTH" writerColumn="UTH" length="7"/>
+			
+			<field readerColumn="BLSCSJ" writerColumn="BLSCSJ" length="8"/>
+			<field readerColumn="ELH" writerColumn="ELH" length="7"/>
+			<field readerColumn="CHANX" writerColumn="CHANX" length="3"/>	
+			<field readerColumn="FILLER3" writerColumn="FILLER3" length="9"/>
+			<field readerColumn="CWRRQ" writerColumn="CWRRQ" length="8"/>
+			<field readerColumn="FILLER4" writerColumn="FILLER4" length="10"/>
+			   
+		</exchange-config>
+		
+		<exchange-config id="CKMX_A35" caption="备货单 A35">
+			<reader sql="select         'A35' CZM,
+				       ' ' QXBS,
+				       '  ' FILLER,
+				       '  ' LCLX,
+				       '1' KBBS,
+				       t.keh XDJF,
+				       '        ' TWBB,
+				       t.pich JFM,
+				       '        ' PX,
+				       '4' HGBS,
+				       t.cangkbh||t.ZICKBH FILLER2,
+				       ' ' GYSLCBS,
+				       ' ' CLLBM,
+				       '          ' CJJLH,
+				       '       ' USERCENTER,
+				       '  ' UTH,
+				       t.zhangh BLH,
+				       to_char(sysdate, 'YYYYMMDD') BLSCSJ,
+				       LINGJBH,
+				       t.shifsl LINGJSL,
+				       DANW,
+				       GONGYSDM,
+				       '        ' GONGYSLX,
+				       '        ' CHENGYSMC,
+				       to_char(CHUKSJ, 'YYYYMMDDMIHH24') DINGDH,
+				       '          ' ELH,
+				       t.USERCENTER PICH,
+				       '          ' CANGKBH,
+				       CANGKGLYZ CKBH,
+				       '             ' RUKSJ,
+				       to_char(CHUKSJ, 'YYYYMMDD') JLHRQ,
+				       ELH CANGKGLYZ,
+				       CREATE_TIME
+          from  ${dbSchemal3}IN_CK_BEIHD t" datasourceId="1"></reader>
+			
+			<writers class="com.athena.component.output.RkmxA35DataWriter">
+				<writer filePath="/interface2"  fileName="ATH_SAP_003.txt" encoding="GBK"></writer>
+			</writers>
+			
+			<field readerColumn="CZM" writerColumn="CZM" length="3"/>
+			<field readerColumn="QXBS" writerColumn="QXBS" length="1"/>
+			<field readerColumn="FILLER" writerColumn="FILLER" length="2"/>			
+			<field readerColumn="LCLX" writerColumn="LCLX" length="2"/>
+			<field readerColumn="LINGJBH" writerColumn="LINGJBH" length="10"/>
+			<field readerColumn="KBBS" writerColumn="KBBS" length="1"/>
+			
+			<field readerColumn="GONGYSDM" writerColumn="GONGYSDM" length="10"/>
+			<field readerColumn="LINGJSL" writerColumn="LINGJSL" length="10"/>
+			<field readerColumn="DANW" writerColumn="DANW" length="2"/>	
+			<field readerColumn="BLH" writerColumn="BLH" length="11"/>
+			<field readerColumn="RUKSJ" writerColumn="RUKSJ" length="13"/>
+			<field readerColumn="CHENGYSMC" writerColumn="CHENGYSMC" length="8"/>
+			
+			<field readerColumn="XDJF" writerColumn="XDJF" length="5"/>
+			<field readerColumn="TWBB" writerColumn="TWBB" length="8"/>
+			<field readerColumn="CANGKBH" writerColumn="CANGKBH" length="10"/>	
+			<field readerColumn="JFM" writerColumn="JFM" length="10"/>
+			<field readerColumn="PX" writerColumn="PX" length="8"/>
+			<field readerColumn="HGBS" writerColumn="HGBS" length="1"/>
+			
+			<field readerColumn="FILLER2" writerColumn="FILLER2" length="6"/>
+			<field readerColumn="GYSLCBS" writerColumn="GYSLCBS" length="1"/>
+			<field readerColumn="PICH" writerColumn="PICH" length="3"/>	
+			<field readerColumn="DINGDH" writerColumn="DINGDH" length="12"/>
+			<field readerColumn="CKBH" writerColumn="CKBH" length="3"/>
+			
+			<field readerColumn="GONGYSLX" writerColumn="GONGYSLX" length="8"/>
+			<field readerColumn="USERCENTER" writerColumn="USERCENTER" length="7"/>
+			<field readerColumn="JLHRQ" writerColumn="JLHRQ" length="8"/>	
+			<field readerColumn="CANGKGLYZ" writerColumn="CANGKGLYZ" length="7"/>
+			<field readerColumn="CJJLH" writerColumn="CJJLH" length="10"/>
+			<field readerColumn="UTH" writerColumn="UTH" length="2"/>
+			
+			<field readerColumn="BLSCSJ" writerColumn="BLSCSJ" length="8"/>
+			<field readerColumn="ELH" writerColumn="ELH" length="10"/>
+			   
+		</exchange-config>
+		
+		<exchange-config id="CKMX_A36" caption="备货单 A36">
+			<reader sql="select         'A36' CZM,
+				       ' ' QXBS,
+				       '  ' FILLER,
+				       '  ' LCLX,
+				       '1' KBBS,
+				       to_char(CHUKSJ, 'YYYYMMDD') XDJF,
+				       ' ' TWBB,
+				       t.pich JFM,
+				       '        ' PX,
+				       '4' HGBS,
+				       t.cangkbh||t.ZICKBH FILLER2,
+				       ' ' GYSLCBS,
+				       ' ' CLLBM,
+				       '          ' CJJLH,
+				       '       ' USERCENTER,
+				       '  ' UTH,
+				       t.zhangh BLH,
+				       to_char(sysdate, 'YYYYMMDD') BLSCSJ,
+				       LINGJBH,
+				       t.shifsl LINGJSL,
+				       DANW,
+				       GONGYSDM,
+				       '        ' GONGYSLX,
+				       '          ' CHENGYSMC,
+				       to_char(CHUKSJ, 'YYYYMMDDMIHH24') DINGDH,
+				       '          ' ELH,
+				       t.USERCENTER PICH,
+				       '        ' CANGKBH,
+				       '         ' CANGKBH2,
+				       CANGKGLYZ CKBH,
+				       '       ' RUKSJ,
+				       to_char(CHUKSJ, 'YYYYMMDD') JLHRQ,
+				       ELH CANGKGLYZ,
+				       CREATE_TIME
+          from  ${dbSchemal3}IN_CK_BEIHD t" datasourceId="1"></reader>
+			
+			<writers class="com.athena.component.output.RkmxA36DataWriter">
+				<writer filePath="/interface2"  fileName="ATH_SAP_003.txt" encoding="GBK"></writer>
+			</writers>
+			
+			<field readerColumn="CZM" writerColumn="CZM" length="3"/>
+			<field readerColumn="QXBS" writerColumn="QXBS" length="1"/>
+			<field readerColumn="FILLER" writerColumn="FILLER" length="2"/>			
+			<field readerColumn="LCLX" writerColumn="LCLX" length="2"/>
+			<field readerColumn="LINGJBH" writerColumn="LINGJBH" length="10"/>
+			<field readerColumn="KBBS" writerColumn="KBBS" length="1"/>
+			
+			<field readerColumn="GONGYSDM" writerColumn="GONGYSDM" length="10"/>
+			<field readerColumn="LINGJSL" writerColumn="LINGJSL" length="10"/>
+			<field readerColumn="DANW" writerColumn="DANW" length="2"/>	
+			<field readerColumn="BLH" writerColumn="BLH" length="11"/>
+			
+			
+			
+			<field readerColumn="RUKSJ" writerColumn="RUKSJ" length="8"/>
+			<field readerColumn="CHENGYSMC" writerColumn="CHENGYSMC" length="10"/>			
+			<field readerColumn="XDJF" writerColumn="XDJF" length="8"/>
+			<field readerColumn="TWBB" writerColumn="TWBB" length="1"/>
+			<field readerColumn="CANGKBH" writerColumn="CANGKBH" length="8"/>	
+			<field readerColumn="CANGKBH2" writerColumn="CANGKBH2" length="9"/>	
+
+			<field readerColumn="JFM" writerColumn="JFM" length="10"/>
+			<field readerColumn="PX" writerColumn="PX" length="8"/>
+			<field readerColumn="HGBS" writerColumn="HGBS" length="1"/>
+			
+			<field readerColumn="FILLER2" writerColumn="FILLER2" length="6"/>
+			<field readerColumn="GYSLCBS" writerColumn="GYSLCBS" length="1"/>
+			<field readerColumn="PICH" writerColumn="PICH" length="3"/>	
+			<field readerColumn="DINGDH" writerColumn="DINGDH" length="12"/>
+			<field readerColumn="CKBH" writerColumn="CKBH" length="3"/>
+			
+			<field readerColumn="GONGYSLX" writerColumn="GONGYSLX" length="8"/>
+			<field readerColumn="USERCENTER" writerColumn="USERCENTER" length="7"/>
+			<field readerColumn="JLHRQ" writerColumn="JLHRQ" length="8"/>	
+			<field readerColumn="CANGKGLYZ" writerColumn="CANGKGLYZ" length="7"/>
+			<field readerColumn="CJJLH" writerColumn="CJJLH" length="10"/>
+			<field readerColumn="UTH" writerColumn="UTH" length="2"/>
+			
+			<field readerColumn="BLSCSJ" writerColumn="BLSCSJ" length="8"/>
+			<field readerColumn="ELH" writerColumn="ELH" length="10"/>
+			   
+		</exchange-config>
+		
+		<!-- A38正常退库 -->
+		<exchange-config id="CKMX_A38" caption="正常退库 A38">
+			<reader sql="select 'A38' CZM,
+					       ' ' QXBS,
+					       '  ' FILLER,
+					       '  ' LCLX,
+					       '1' KBBS,
+					       t.keh XDJF,
+					       '        ' TWBB,
+					       '        ' JFM,
+					       ' ' PX,
+					       t.cangkbh || t.ZICKBH  HGBS,
+					       ' ' FILLER2,
+					       t.usercenter GYSLCBS,
+					       t.zhangh BLH,
+					       LINGJBH,
+					       LINGJSL,
+					       '  ' DANW,
+					       GONGYSDM,
+					       '        ' CHENGYSMC,
+					       to_char(CAOZSJ, 'YYYYMMDDMIHH24') PICH,
+					       '          ' CANGKBH,
+					       t.pich CANGKBH2,
+					       '           ' RUKSJ
+					  from ${dbSchemal3}IN_CK_ZHENGCTK t" datasourceId="1"></reader>
+			
+			<writers class="com.athena.component.output.RkmxA38DataWriter">
+				<writer filePath="/interface2"  fileName="ATH_SAP_003.txt" encoding="GBK"></writer>
+			</writers>
+			
+			<field readerColumn="CZM" writerColumn="CZM" length="3"/>
+			<field readerColumn="QXBS" writerColumn="QXBS" length="1"/>
+			<field readerColumn="FILLER" writerColumn="FILLER" length="2"/>			
+			<field readerColumn="LCLX" writerColumn="LCLX" length="2"/>
+			<field readerColumn="LINGJBH" writerColumn="LINGJBH" length="10"/>
+			
+			<field readerColumn="KBBS" writerColumn="KBBS" length="1"/>			
+			<field readerColumn="GONGYSDM" writerColumn="GONGYSDM" length="10"/>
+			<field readerColumn="LINGJSL" writerColumn="LINGJSL" length="10"/>
+			<field readerColumn="DANW" writerColumn="DANW" length="2"/>	
+			<field readerColumn="BLH" writerColumn="BLH" length="11"/>
+					
+			<field readerColumn="RUKSJ" writerColumn="RUKSJ" length="13"/>
+			<field readerColumn="CHENGYSMC" writerColumn="CHENGYSMC" length="8"/>			
+			<field readerColumn="XDJF" writerColumn="XDJF" length="5"/>
+			<field readerColumn="TWBB" writerColumn="TWBB" length="8"/>
+			<field readerColumn="CANGKBH" writerColumn="CANGKBH" length="10"/>	
+			
+			<field readerColumn="CANGKBH2" writerColumn="CANGKBH2" length="10"/>	
+			<field readerColumn="JFM" writerColumn="JFM" length="8"/>
+			<field readerColumn="PX" writerColumn="PX" length="1"/>
+			<field readerColumn="HGBS" writerColumn="HGBS" length="6"/>
+			<field readerColumn="FILLER2" writerColumn="FILLER2" length="1"/>
+			
+			<field readerColumn="GYSLCBS" writerColumn="GYSLCBS" length="3"/>
+			<field readerColumn="PICH" writerColumn="PICH" length="12"/>	
+	   
+		</exchange-config>
+		
+		<!-- A39正常退库 -->
+		<exchange-config id="CKMX_A39" caption="正常退库 A39">
+			<reader sql="select 'A39' CZM,
+				       ' ' QXBS,
+				       '  ' FILLER,
+				       '  ' LCLX,
+				       '1' KBBS,
+				       to_char(t.caozsj, 'YYYYMMDD') XDJF,
+				       ' ' TWBB,
+				       t.pich JFM,
+				       '        ' PX,
+				       ' ' HGBS,
+				       t.cangkbh || t.ZICKBH FILLER2,
+				       ' ' GYSLCBS,
+				       ' ' CLLBM,
+				       '          ' CJJLH,
+				       '       ' USERCENTER,
+				       '  ' UTH,
+				       t.zhangh BLH,
+				       to_char(sysdate, 'YYYYMMDD') BLSCSJ,
+				       LINGJBH,
+				       t.lingjsl LINGJSL,
+				       'UN' DANW,
+				       GONGYSDM,
+				       '        ' GONGYSLX,
+				       '          ' CHENGYSMC,
+				       to_char(t.caozsj, 'YYYYMMDDMIHH24') DINGDH,
+				       '          ' ELH,
+				       t.USERCENTER PICH,
+				       '        ' CANGKBH,
+				       '         ' CANGKBH2,
+				       t.CANGKGLYZ CKBH,
+				       '        ' RUKSJ,
+				       to_char(t.caozsj, 'YYYYMMDD') JLHRQ,
+				       t.elh CANGKGLYZ,
+				       CREATE_TIME
+				  from ${dbSchemal3}IN_CK_ZHENGCTK t" datasourceId="1"></reader>
+			
+			<writers class="com.athena.component.output.RkmxA39DataWriter">
+				<writer filePath="/interface2"  fileName="ATH_SAP_003.txt" encoding="GBK"></writer>
+			</writers>
+			<field readerColumn="CZM" writerColumn="CZM" length="3"/>
+			<field readerColumn="QXBS" writerColumn="QXBS" length="1"/>
+			<field readerColumn="FILLER" writerColumn="FILLER" length="2"/>			
+			<field readerColumn="LCLX" writerColumn="LCLX" length="2"/>
+			<field readerColumn="LINGJBH" writerColumn="LINGJBH" length="10"/>
+			
+			<field readerColumn="KBBS" writerColumn="KBBS" length="1"/>
+			<field readerColumn="GONGYSDM" writerColumn="GONGYSDM" length="10"/>
+			<field readerColumn="LINGJSL" writerColumn="LINGJSL" length="10"/>
+			<field readerColumn="DANW" writerColumn="DANW" length="2"/>	
+			<field readerColumn="BLH" writerColumn="BLH" length="11"/>
+			
+			<field readerColumn="RUKSJ" writerColumn="RUKSJ" length="8"/>
+			<field readerColumn="CHENGYSMC" writerColumn="CHENGYSMC" length="10"/>			
+			<field readerColumn="XDJF" writerColumn="XDJF" length="8"/>
+			<field readerColumn="TWBB" writerColumn="TWBB" length="1"/>
+			<field readerColumn="CANGKBH" writerColumn="CANGKBH" length="8"/>
+				
+			<field readerColumn="CANGKBH2" writerColumn="CANGKBH2" length="9"/>	
+			<field readerColumn="JFM" writerColumn="JFM" length="10"/>
+			<field readerColumn="PX" writerColumn="PX" length="8"/>
+			<field readerColumn="HGBS" writerColumn="HGBS" length="1"/>			
+			<field readerColumn="FILLER2" writerColumn="FILLER2" length="6"/>
+			
+			<field readerColumn="GYSLCBS" writerColumn="GYSLCBS" length="1"/>
+			<field readerColumn="PICH" writerColumn="PICH" length="3"/>	
+			<field readerColumn="DINGDH" writerColumn="DINGDH" length="12"/>
+			<field readerColumn="CKBH" writerColumn="CKBH" length="3"/>			
+			<field readerColumn="GONGYSLX" writerColumn="GONGYSLX" length="8"/>
+			
+			<field readerColumn="USERCENTER" writerColumn="USERCENTER" length="7"/>
+			<field readerColumn="JLHRQ" writerColumn="JLHRQ" length="8"/>	
+			<field readerColumn="CANGKGLYZ" writerColumn="CANGKGLYZ" length="7"/>
+			<field readerColumn="CJJLH" writerColumn="CJJLH" length="10"/>
+			<field readerColumn="UTH" writerColumn="UTH" length="2"/>
+			
+			<field readerColumn="BLSCSJ" writerColumn="BLSCSJ" length="8"/>
+			<field readerColumn="ELH" writerColumn="ELH" length="10"/>
+			  
+		</exchange-config>
+		
+		<!-- A53盘点差异表 -->
+		<exchange-config id="CKMX_A53" caption="正常退库 A53">
+			<reader sql="select 'A53' CZM,
+				       ' ' QXBS,
+				       '  ' FILLER,
+				       '  ' LCLX,
+				       ' ' KBBS,
+				       '   ' XDJF,
+				       '   ' TWBB,
+				       '   ' JFM,
+				       '                      ' PX,
+				       t.pich HGBS,
+				       '        ' FILLER2,
+				       ' ' GYSLCBS,
+				       ' ' CLLBM,
+				       to_char(t.weihsj, 'YYYYMMDD') CJJLH,
+				       t.cangkglyz USERCENTER,
+				       t.elh UTH,
+				       '         ' BLH,
+				       '             ' BLSCSJ,
+				       LINGJBH,
+				       t.SHIJUSSL LINGJSL,
+				       t.blh DANW,
+				       GONGYSDM,
+				       to_char(sysdate, 'YYYYMMDDMIHH24') GONGYSLX,
+				       ' ' CHENGYSMC,
+				       ' ' DINGDH,
+				       to_char(sysdate, 'YYYYMMDD') ELH,
+				       t.CANGKBH || t.ZICKBH PICH,
+				       '          ' CANGKBH,
+				       substr(t.chanx, 0, 3) CANGKBH2,
+				       t.usercenter CKBH,
+				       ' ' RUKSJ,
+				       '        ' JLHRQ,
+				       t.uth CANGKGLYZ,
+				       '          ' FILLER3
+				  from ${dbSchemal3}IN_CK_PANDCY t" datasourceId="1"></reader>
+			
+			<writers class="com.athena.component.output.RkmxA53DataWriter">
+				<writer filePath="/interface2"  fileName="ATH_SAP_003.txt" encoding="GBK"></writer>
+			</writers>
+			<field readerColumn="CZM" writerColumn="CZM" length="3"/>
+			<field readerColumn="QXBS" writerColumn="QXBS" length="1"/>
+			<field readerColumn="FILLER" writerColumn="FILLER" length="2"/>			
+			<field readerColumn="LCLX" writerColumn="LCLX" length="2"/>
+			<field readerColumn="LINGJBH" writerColumn="LINGJBH" length="10"/>
+			
+			<field readerColumn="KBBS" writerColumn="KBBS" length="1"/>
+			<field readerColumn="GONGYSDM" writerColumn="GONGYSDM" length="10"/>
+			<field readerColumn="LINGJSL" writerColumn="LINGJSL" length="10"/>
+			<field readerColumn="DANW" writerColumn="DANW" length="2"/>	
+			<field readerColumn="BLH" writerColumn="BLH" length="9"/>
+			
+			<field readerColumn="RUKSJ" writerColumn="RUKSJ" length="1"/>
+			<field readerColumn="CHENGYSMC" writerColumn="CHENGYSMC" length="1"/>			
+			<field readerColumn="XDJF" writerColumn="XDJF" length="3"/>
+			<field readerColumn="TWBB" writerColumn="TWBB" length="3"/>
+			<field readerColumn="CANGKBH" writerColumn="CANGKBH" length="10"/>
+				
+			<field readerColumn="CANGKBH2" writerColumn="CANGKBH2" length="3"/>	
+			<field readerColumn="JFM" writerColumn="JFM" length="3"/>
+			<field readerColumn="PX" writerColumn="PX" length="22"/>
+			<field readerColumn="HGBS" writerColumn="HGBS" length="10"/>			
+			<field readerColumn="FILLER2" writerColumn="FILLER2" length="8"/>
+			
+			<field readerColumn="GYSLCBS" writerColumn="GYSLCBS" length="1"/>
+			<field readerColumn="PICH" writerColumn="PICH" length="6"/>	
+			<field readerColumn="DINGDH" writerColumn="DINGDH" length="1"/>
+			<field readerColumn="CKBH" writerColumn="CKBH" length="3"/>			
+			<field readerColumn="GONGYSLX" writerColumn="GONGYSLX" length="12"/>
+			
+			<field readerColumn="USERCENTER" writerColumn="USERCENTER" length="3"/>
+			<field readerColumn="JLHRQ" writerColumn="JLHRQ" length="8"/>	
+			<field readerColumn="CANGKGLYZ" writerColumn="CANGKGLYZ" length="7"/>
+			<field readerColumn="CJJLH" writerColumn="CJJLH" length="8"/>
+			<field readerColumn="UTH" writerColumn="UTH" length="7"/>
+			
+			<field readerColumn="BLSCSJ" writerColumn="BLSCSJ" length="12"/>
+			<field readerColumn="ELH" writerColumn="ELH" length="8"/>
+		    <field readerColumn="FILLER3" writerColumn="ELH" length="10"/>   
+		</exchange-config>
+		
+		<!-- 预告输出接口 -->
+		<exchange-config id="OUT_6" caption="预告输出接口">
+			<reader sql="select 'SERV' JLLX,
+						       m.usercenter FSQDM,
+						       '    ' FSQHGM,
+						       '              ' FSQDZ,
+						       '78001H  74                        ' JSQDM,
+						       '    ' JSQHGM,
+						       '              ' JSQDZ,
+						       '00' FYQSD,
+						       to_char(sysdate,'yyyymmddHH24MI') FYQNSJ,
+						       '      ' XXLX,
+						       '   ' XXBB,
+						       '   ' RDM,
+						       '  ' YZC,
+						       '      ' XXDM,
+						       '   ' XXJSR,
+						       'Y' CALDELBS,
+						       '              ' JSSCLJS,
+						       
+						       
+						       'DT0900' JLLX2,
+						       '0000001101' XXH,
+						       '34' XXLX2,
+						        to_char(sysdate,'yyyymmddHH24MI') RQSJ,
+						        to_char(m.yaohqsrq,'yyyymmddHH24MI') SXRQKSRQ,
+						        to_char(m.Yaohjsrq,'yyyymmddHH24MI') SXRQJSRQ,
+						        '   ' XXGNDM,
+						        
+						        'DC1800' JLLX3,
+						        m.Gongysdm XSSDM,
+						        '5  ' XSSDMFZDLC,
+						        '78001H           ' XSSNBZM,
+						        
+						        'DC0100' JLLX4,
+						        '0060653931709' GMSDM,
+						        '5  ' GMSDMFZDLC,
+						        
+						        
+						        'DC0500' JLLX4,
+						        '006065393170900000' JSRDM,
+						        '5  ' JSRDMFZDLC,
+						        
+						        
+						        'DA0900' JLLX5,
+						        m.lingjbh GMSLJH,
+						        m.dingdh DDH,
+						        '3' WHMXD,
+						        '              ' JFQXRQ,
+						        
+						        
+						       'DA0100' JLLX6,
+						       '                                   ' XSSGYSLJH,
+						       '                                   ' XGMSLJMS,
+						       
+						       'DG0605' JLLX7,
+						       to_char(m.yaohqsrq,'yyyymmddHH24MI') JFKSRQ,
+						       to_char(m.Yaohjsrq,'yyyymmddHH24MI') JFJSRQ,
+						       m.shul JFSL,
+						       m.danw JFSLDW,
+						       '113' JFYYDM,
+						       
+						       'DH0200' JLLX8,
+						       m.dinghcj XHD
+						       
+							  from ${dbSchemal1}XQJS_DINGDMX m
+							  join ${dbSchemal1}Xqjs_Dingd d on d.dingdh = m.dingdh
+                                 and d.dingdzt = '4' and d.shifyjsyhl='2'" datasourceId="1"></reader>
+			
+			<writers class="com.athena.component.output.DdmxDataWriter">
+				<writer filePath="/interface2"  fileName="ATH_EDI_002.txt" encoding="GBK"></writer>
+			</writers>
+			<field readerColumn="JLLX" writerColumn="JLLX" length="6"/>
+			<field readerColumn="FSQDM" writerColumn="FSQDM" length="35"/>
+			<field readerColumn="FSQHGM" writerColumn="FSQHGM" length="4"/>
+			<field readerColumn="FSQDZ" writerColumn="FSQDZ" length="14"/>
+			<field readerColumn="JSQDM" writerColumn="JSQDM" length="35"/>
+			<field readerColumn="JSQHGM" writerColumn="JSQHGM" length="4"/>
+			<field readerColumn="JSQDZ" writerColumn="JSQDZ" length="14"/>
+			<field readerColumn="FYQSD" writerColumn="FYQSD" length="2"/>
+			<field readerColumn="FYQNSJ" writerColumn="FYQNSJ" length="10"/>
+			<field readerColumn="XXLX" writerColumn="XXLX" length="6"/>
+			<field readerColumn="XXBB" writerColumn="XXBB" length="3"/>
+			<field readerColumn="RDM" writerColumn="RDM" length="3"/>
+			<field readerColumn="YZC" writerColumn="YZC" length="2"/>
+			<field readerColumn="XXDM" writerColumn="XXDM" length="6"/>
+			<field readerColumn="XXJSR" writerColumn="XXJSR" length="3"/>
+			<field readerColumn="CALDELBS" writerColumn="CALDELBS" length="1"/>
+			<field readerColumn="JSSCLJS" writerColumn="JSSCLJS" length="15" separate="\n"/>
+			
+			
+			<field readerColumn="JLLX2" writerColumn="JLLX2" length="6"/>
+			<field readerColumn="XXH" writerColumn="XXH" length="17"/>
+			<field readerColumn="XXLX2" writerColumn="XXLX2" length="3"/>
+			<field readerColumn="RQSJ" writerColumn="RQSJ" length="14"/>
+			<field readerColumn="SXRQKSRQ" writerColumn="SXRQKSRQ" length="14"/>
+			<field readerColumn="SXRQJSRQ" writerColumn="SXRQJSRQ" length="14"/>
+			<field readerColumn="XXGNDM" writerColumn="XXGNDM" length="4" separate="\n"/>
+			
+			<field readerColumn="JLLX3" writerColumn="JLLX3" length="6"/>
+			<field readerColumn="XSSDM" writerColumn="XSSDM" length="20"/>
+			<field readerColumn="XSSDMFZDLC" writerColumn="XSSDMFZDLC" length="3"/>
+			<field readerColumn="XSSNBZM" writerColumn="XSSNBZM" length="18" separate="\n"/>
+			
+			<field readerColumn="JLLX4" writerColumn="JLLX4" length="6"/>
+			<field readerColumn="GMSDM" writerColumn="GMSDM" length="20"/>
+			<field readerColumn="GMSDMFZDLC" writerColumn="GMSDMFZDLC" length="4" separate="\n" />
+			
+			
+			<field readerColumn="JLLX4" writerColumn="JLLX4" length="6"/>
+			<field readerColumn="JSRDM" writerColumn="JSRDM" length="20"/>
+			<field readerColumn="JSRDMFZDLC" writerColumn="JSRDMFZDLC" length="3"/>
+			
+			
+			<field readerColumn="JLLX5" writerColumn="JLLX5" length="6"/>
+			<field readerColumn="GMSLJH" writerColumn="GMSLJH" length="35"/>
+			<field readerColumn="DDH" writerColumn="DDH" length="17"/>
+			<field readerColumn="WHMXD" writerColumn="WHMXD" length="3"/>
+			<field readerColumn="JFQXRQ" writerColumn="JFQXRQ" length="14"/>
+			
+			
+			<field readerColumn="JLLX6" writerColumn="JLLX6" length="6"/>
+			<field readerColumn="XSSGYSLJH" writerColumn="XSSGYSLJH" length="35"/>
+			<field readerColumn="XGMSLJMS" writerColumn="XGMSLJMS" length="35"/>
+			
+			<field readerColumn="JLLX7" writerColumn="JLLX7" length="6"/>
+			<field readerColumn="JFKSRQ" writerColumn="JFKSRQ" length="14"/>
+			<field readerColumn="JFJSRQ" writerColumn="JFJSRQ" length="14"/>
+			<field readerColumn="JFSL" writerColumn="JFSL" length="18"/>
+			<field readerColumn="JFSLDW" writerColumn="JFSLDW" length="3"/>
+			<field readerColumn="JFYYDM" writerColumn="JFYYDM" length="3"/>
+			
+			<field readerColumn="JLLX8" writerColumn="JLLX8" length="6"/>
+			<field readerColumn="XHD" writerColumn="XHD" length="17"/>
+		</exchange-config>	 
+		
+		<exchange-config id="OUT_5" caption="要货令输出接口">
+			<reader sql="SELECT lpad(rownum, 6, '0') JLLX,
+				       '000000' SCHMD,
+				       y.usercenter FSQDM,
+				       '    ' FSQHGM,
+				       '              ' FSQDZ,
+				       '78001H74' JSQDM,
+				       '    ' JSQHGM,
+				       '             ' JSQDZ,
+				       '00' FYSCSJ,
+				       '000000' FYNYR,
+				       '0000' FYSJ,
+				       '      ' XXLX,
+				       '   ' XXBB,
+				       '   ' FBXX,
+				       '  ' YZDLC,
+				       '      ' LHXXDM,
+				       '   ' XXJSR,
+				       'Y' CALDELBS,
+				       
+				       '00000000000000000' XXH,
+				       '36' XXDM,
+				       to_char(sysdate, 'yyyymmddHH24MIss') RQSJ,
+				       
+				       '006065393170900000' LJJSRDM,
+				       '10' JSRDMFZDLC,
+				       
+				       '000254206547900272' SYRDM,
+				       '5' FYRDMFZDLC,
+				       
+				       Y.GONGYSDM XSSDM,
+				       '5' XSSFZDLC,
+				       '78001H' SXSZM,
+				       
+				       '3' SCSX,
+				       
+				       Y.UCRL UCLJSL,
+				       Y.DANW UCLJSLDW,
+				       Y.UCGS YZBZSL,
+				       
+				       Y.UCXH UCLX,
+				       '92' FZDLC,
+				       '1' BZJB,
+				       
+				       Y.BAOZXH UMLX,
+				       '92' FZDLC2,
+				       '3' BZJB2,
+				       
+				       Y.LINGJBH GMSLJH,
+				       Y.DINGDH  DDH,
+				       
+				       Y.XIEHD XHD,
+				       
+				       Y.MUDD SHD,
+				       
+				       Y.YAOHSL XJFSL,
+				       Y.DANW XJFSLDW,
+				       Y.JIAOFJ JFRQ,
+				       Y.ZUIZSJ ZZJFRQ,
+				       Y.ZUIWSJ ZWJFRQ,
+				       Y.YAOHLH ZLHKH,
+				       '  ' FYRSAFFIRDM,
+				       '  ' GMSDWBDM,
+				       '   ' FILLER
+				
+				  FROM ${dbSchemal3}IN_EDI_YAOHL y" datasourceId="1"></reader>
+			
+			<writers class="com.athena.component.output.WbyhlDataWriter">
+				<writer filePath="/interface2"  fileName="ATH_EDI_001.txt" encoding="GBK"></writer>
+			</writers>
+			
+			<field readerColumn="JLLX" writerColumn="JLLX" length="6"/>
+			<field readerColumn="SCHMD" writerColumn="SCHMD" length="6"/>
+			<field readerColumn="FSQDM" writerColumn="FSQDM" length="29"/>
+			<field readerColumn="FSQHGM" writerColumn="FSQHGM" length="4"/>
+			<field readerColumn="FSQDZ" writerColumn="FSQDZ" length="14"/>
+			<field readerColumn="JSQDM" writerColumn="JSQDM" length="35"/>
+			<field readerColumn="JSQHGM" writerColumn="JSQHGM" length="4"/>
+			<field readerColumn="JSQDZ" writerColumn="JSQDZ" length="14"/>
+			<field readerColumn="FYSCSJ" writerColumn="FYSCSJ" length="2"/>
+			<field readerColumn="FYNYR" writerColumn="FYNYR" length="6"/>
+			<field readerColumn="FYSJ" writerColumn="FYSJ" length="4"/>
+			<field readerColumn="XXLX" writerColumn="XXLX" length="6"/>
+			<field readerColumn="XXBB" writerColumn="XXBB" length="3"/>
+			<field readerColumn="FBXX" writerColumn="FBXX" length="3"/>
+			<field readerColumn="YZDLC" writerColumn="YZDLC" length="2"/>
+			<field readerColumn="LHXXDM" writerColumn="LHXXDM" length="6"/>
+			<field readerColumn="XXJSR" writerColumn="XXJSR" length="3"/>
+			<field readerColumn="CALDELBS" writerColumn="CALDELBS" length="1"/>
+			
+			<field readerColumn="XXH" writerColumn="XXH" length="17"/>
+			<field readerColumn="XXDM" writerColumn="XXDM" length="3"/>
+			<field readerColumn="RQSJ" writerColumn="RQSJ" length="14"/>
+			
+			<field readerColumn="LJJSRDM" writerColumn="LJJSRDM" length="20"/>
+			<field readerColumn="JSRDMFZDLC" writerColumn="JSRDMFZDLC" length="3"/>
+			
+			<field readerColumn="SYRDM" writerColumn="SYRDM" length="20"/>
+			<field readerColumn="FYRDMFZDLC" writerColumn="FYRDMFZDLC" length="3"/>
+			
+			<field readerColumn="XSSDM" writerColumn="XSSDM" length="20"/>
+			<field readerColumn="XSSFZDLC" writerColumn="XSSFZDLC" length="3"/>
+			<field readerColumn="SXSZM" writerColumn="SXSZM" length="17"/>
+			
+			<field readerColumn="SCSX" writerColumn="SCSX" length="3"/>
+			
+			<field readerColumn="UCLJSL" writerColumn="UCLJSL" length="14"/>
+			<field readerColumn="UCLJSLDW" writerColumn="UCLJSLDW" length="3"/>
+			<field readerColumn="YZBZSL" writerColumn="YZBZSL" length="6"/>
+			
+			<field readerColumn="UCLX" writerColumn="UCLX" length="17"/>
+			<field readerColumn="FZDLC" writerColumn="FZDLC" length="3"/>
+			<field readerColumn="BZJB" writerColumn="BZJB" length="3"/>
+			
+			<field readerColumn="UMLX" writerColumn="UMLX" length="17"/>
+			<field readerColumn="FZDLC2" writerColumn="FZDLC2" length="3"/>
+			<field readerColumn="BZJB2" writerColumn="BZJB2" length="3"/>
+			
+			<field readerColumn="GMSLJH" writerColumn="GMSLJH" length="35"/>
+			<field readerColumn="DDH" writerColumn="DDH" length="17"/>
+			
+			<field readerColumn="XHD" writerColumn="XHD" length="17"/>
+			
+			<field readerColumn="SHD" writerColumn="SHD" length="17"/>
+			
+			<field readerColumn="XJFSL" writerColumn="XJFSL" length="18"/>
+			<field readerColumn="XJFSLDW" writerColumn="XJFSLDW" length="3"/>
+			<field readerColumn="JFRQ" writerColumn="JFRQ" length="14"/>
+			<field readerColumn="ZZJFRQ" writerColumn="ZZJFRQ" length="14"/>
+			<field readerColumn="ZWJFRQ" writerColumn="ZWJFRQ" length="14"/>
+			<field readerColumn="ZLHKH" writerColumn="ZLHKH" length="9"/>
+			<field readerColumn="FYRSAFFIRDM" writerColumn="FYRSAFFIRDM" length="17"/>
+			<field readerColumn="GMSDWBDM" writerColumn="GMSDWBDM" length="20"/>
+			<field readerColumn="FILLER" writerColumn="FILLER" length="57"/>
+			
+		</exchange-config>
+		
+		
+		<exchange-config id="OUT_27" caption="审核后发货通知">
+		<reader sql="select USERCENTER，
+		             BLH,
+                     to_char(DAOHSJ,'yyyyMMddHh24Mihh') as DAOHSJ,
+      				 JUSLJS,
+     				 DANW,
+       			     LINGJBH,
+       			     DINGDH,
+       				 UAH,
+       				 UABZLX,
+       				 UCBZLX,
+       				 UCHL,
+       				 UCGS,
+       				 YAOHLH,
+       				 PICH
+  					 from CK_JUSGZD" datasourceId="1"></reader>
+		<writers>
+			<writer filePath="/interface2"  fileName="SHHFHTZ.txt" encoding="GBK"></writer>
+		</writers>
+		
+		<field readerColumn="USERCENTER" writerColumn="USERCENTER" length="3"/>
+		<field readerColumn="BLH" writerColumn="BLH" length="17"/>
+		<field readerColumn="DAOHSJ" writerColumn="DAOHSJ" length="14"/>
+		<field readerColumn="JUSLJS" writerColumn="JUSLJS" length="9"/>
+		<field readerColumn="DANW" writerColumn="DANW" length="3"/>
+		<field readerColumn="LINGJBH" writerColumn="LINGJBH" length="35"/>
+		<field readerColumn="DINGDH" writerColumn="DINGDH" length="17"/>
+		<field readerColumn="UAH" writerColumn="UAH" length="17"/>
+		<field readerColumn="UABZLX" writerColumn="UABZLX" length="5"/>
+		<field readerColumn="UCBZLX" writerColumn="UCBZLX" length="5"/>
+		<field readerColumn="UCHL" writerColumn="UCHL" length="9"/>
+		<field readerColumn="UCGS" writerColumn="UCGS" length="9"/>
+		<field readerColumn="DANW" writerColumn="DANW" length="2"/>
+		<field readerColumn="YAOHLH" writerColumn="YAOHLH" length="13"/>
+		<field readerColumn="PICH" writerColumn="PICH" length="17"/>
+		<field readerColumn="卷号" writerColumn="卷号" length="13"/>
+		<field readerColumn="规格牌号" writerColumn="规格牌号" length="20"/>
+		
+		</exchange-config> 
+		
+		
+			 		 
+	</exchange-config-group>
+   
+</exchange-configs>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

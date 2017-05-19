@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interfaces>
+	<interface id="IN_1" name="零件参考系" type="in">
+		<order id="IN_1" name="零件参考系" flag="false" istxt="true" />
+		<order id="FF_1" name="零件参考系"  istxt="false" />
+	</interface>	
+	
+	<interface id="IN_2" name="零件周期毛需求" type="in">
+		<order id="IN_2" name="零件周期毛需求" flag="true" istxt="true" />
+	</interface>
+	
+	
+	<interface id="IN_3" name="供应商参考系" type="in">
+		<order id="IN_3" name="供应商参考系" flag="true" istxt="true" />
+		<order id="FF_2" name="供应商参考系"  istxt="false" />
+	</interface>
+		
+	<interface id="IN_4" name="零件供应商参考系" type="in">
+		<order id="IN_4" name="零件供应商参考系" flag="true" istxt="true" />
+		<order id="FF_3" name="零件供应商参考系"  istxt="false" />
+	</interface>
+	
+	<interface id="IN_10" name="九天排产计划(商业化的时间)" type="in">
+		<order id="IN_10" name="九天排产计划(商业化的时间)" flag="true" istxt="true" />
+		<order id="FF_11" name="九天排产计划(商业化的时间)"  istxt="false" />
+	</interface>
+	
+	<interface id="IN_9" name="九天排产计划(JT的顺序)" type="in">
+		<order id="IN_9" name="九天排产计划(JT的顺序)" flag="true" istxt="true" />
+		<order id="FF_12" name="九天排产计划(JT的顺序)"  istxt="false" />
+	</interface>
+	
+	<interface id="IN_16" name="订单信息" type="in">
+		<order id="IN_16" name="订单信息" flag="true" istxt="true" />
+		<order id="FF_8_1" name="订单"  istxt="false" />
+		<order id="FF_8_1" name="订单明细"  istxt="false" />
+	</interface>
+	
+	<interface id="IN_11" name="EDI发货通知" type="in">
+		<order id="IN_11" name="EDI发货通知" flag="true" istxt="true" />
+		<order id="FF_6_1" name="EDI发货通知-发运主体信息"  istxt="false" />
+		<order id="FF_6_2" name="EDI发货通知-发运明细"  istxt="false" />
+		<order id="FF_6_3" name="EDI发货通知-包装对应信息"  istxt="false" />
+		<order id="FF_6_3" name="EDI发货通知-包装对应信息"  istxt="false" />
+	</interface>
+	
+	<interface id="IN_13" name="EFI发货通知" type="in">
+		<order id="IN_13" name="EFI发货通知" flag="true" istxt="true" />
+		<order id="FF_7_1" name="EFI发货通知-发运主体信息"  istxt="false" />
+		<order id="FF_7_2" name="EFI发货通知-发运明细"  istxt="false" />
+		<order id="FF_7_3" name="EFI发货通知-包装对应信息"  istxt="false" />
+		<order id="OUT_16" name="发货通知信息"  istxt="false" />
+	</interface>
+	
+	<interface id="IN_5" name="消耗点参考系" type="in">
+		<order id="IN_5" name="消耗点参考系" flag="true" istxt="true" />
+		<order id="FF_4" name="消耗点参考系"  istxt="false" />
+	</interface>
+	
+	<interface id="IN_6" name="消耗点零件参考系" type="in">
+		<order id="IN_6" name="消耗点零件参考系" flag="true" istxt="true" />
+		<order id="FF_5" name="消耗点零件参考系"  istxt="false" />
+	</interface>
+	
+	<interface id="IN_7" name="CODDC-消耗点，零件" type="in">
+		<order id="IN_7" name="CODDC-消耗点，零件" flag="false" istxt="true" />
+		<order id="FF_10" name="CODDC-消耗点，零件"  istxt="false" />
+	</interface>
+	
+	<interface id="IN_20" name="外部订单预告" type="in">
+		<order id="IN_20" name="外部订单预告" flag="false" istxt="true" />
+		<order id="FF_13" name="外部订单预告"  istxt="false" />
+	</interface>
+	
+	<interface id="IN_14" name="KD件在途、物理点信息" type="in">
+		<order id="IN_14" name="KD件在途、物理点信息" flag="false" istxt="true" />
+	</interface>
+	
+</interfaces>
+

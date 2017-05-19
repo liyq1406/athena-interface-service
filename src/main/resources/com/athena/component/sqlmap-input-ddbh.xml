@@ -1,0 +1,1815 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<!-- ibatis数据库操作配置文件 -->
+<sqlMap namespace="inPutddbh">
+   <!-- 3090 清除ckx_ticxxsj_t表数据 hzg 2013-3-6 -->
+   <delete id="ticxxsjTempDelete">
+   		<![CDATA[
+			truncate table ${dbSchemalddbh}ckx_ticxxsj_t 
+		]]>
+   </delete>
+   
+  <!-- 3090 未来几日剔除休息时间  gswang 2013-9-28 -->
+   <delete id="ticxxsjUpdate">
+   		<![CDATA[
+   		 	update ${dbSchemalddbh}ckx_ticxxsj t set t.editor = 'temp'
+		]]>
+   </delete>
+
+   <!-- 3090 未来几日剔除休息时间  gswang 2013-9-28-->
+   <delete id="ticxxsjDelete">
+   		<![CDATA[
+   		 	delete from  ${dbSchemalddbh}ckx_ticxxsj t where t.editor = 'temp' 
+		]]>
+   </delete>
+   
+   <!-- 3090 未来几日剔除休息时间 2013-9-28 -->
+   <update id="ticxxsjMerge">
+   		<![CDATA[
+			MERGE INTO ${dbSchemalddbh}CKX_TICXXSJ c
+		    USING (SELECT * from ${dbSchemalddbh}CKX_TICXXSJ_T) s ON(c.USERCENTER = s.USERCENTER and c.SHUNXH = s.SHUNXH and c.CHANXCK = s.CHANXCK and c.GONGZR = s.GONGZR) 
+		       WHEN MATCHED THEN UPDATE SET  c.RIQ=s.RIQ,c.SHIJDKSSJ=s.SHIJDKSSJ,c.SHIJDJSSJ=s.SHIJDJSSJ,c.SHIJCD=s.SHIJCD,c.CREATOR=s.CREATOR,c.CREATE_TIME=s.CREATE_TIME,c.EDITOR=s.EDITOR,c.EDIT_TIME=s.EDIT_TIME
+		       WHEN NOT MATCHED THEN INSERT ( USERCENTER,CHANXCK,GONGZR,SHUNXH,RIQ,SHIJDKSSJ,SHIJDJSSJ,SHIJCD,CREATOR,CREATE_TIME,EDITOR,EDIT_TIME) 
+		      VALUES(s.USERCENTER,s.CHANXCK,s.GONGZR,s.SHUNXH,s.RIQ,s.SHIJDKSSJ,s.SHIJDJSSJ,s.SHIJCD,s.CREATOR,s.CREATE_TIME,s.EDITOR,s.EDIT_TIME)            
+		]]>
+   </update>   
+   
+    <!-- 3190 工作时间模板  hzg 2013-3-6 -->
+   <delete id="gongzsjmbDelete">
+   		<![CDATA[
+   			truncate table ${dbSchemalddbh}ckx_gongzsjmb
+		]]>
+   </delete>
+
+   <!-- 3190 工作时间模板 GSWANG 2013-9-17 -->
+   <delete id="gongzsjmbTempDelete">
+   		<![CDATA[
+   			truncate table ${dbSchemalddbh}ckx_gongzsjmb_t
+		]]>
+   </delete>
+   
+      <!-- 3190 工作时间模板 GSWANG 2013-9-17  -->
+   <update id="gongzsjmbMerge">
+   		<![CDATA[
+     MERGE INTO ${dbSchemalddbh}CKX_GONGZSJMB c
+        USING (select ${dbSchemalddbh}CKX_GONGZSJMB_T.* FROM ${dbSchemalddbh}CKX_GONGZSJMB_T) s ON( C.USERCENTER=S.USERCENTER AND C.CHANX=S.CHANX AND C.GONGZR=S.GONGZR AND C.XIAOHSJ=S.XIAOHSJ) 
+       WHEN MATCHED THEN UPDATE SET C.JUEDSK=S.JUEDSK
+       WHEN NOT MATCHED THEN INSERT (USERCENTER,  CHANX,  GONGZR,  XIAOHSJ,  JUEDSK
+    ) VALUES(S.USERCENTER  ,S.CHANX    ,S.GONGZR    ,S.XIAOHSJ    ,S.JUEDSK )    			
+		]]>
+   </update>
+
+      <!-- 3190 工作时间模板 GSWANG 2013-9-17  -->
+   <select id="querygongzsjmbOldDate" parameterClass="java.util.Map" resultClass="java.util.HashMap">
+   		<![CDATA[
+   		select tt.*  from (   
+		   	select gmb.usercenter,gmb.chanx,gmb.gongzr,gmb.xiaohsj,gmbt.usercenter uc from ${dbSchemalddbh}ckx_gongzsjmb gmb left join ${dbSchemalddbh}ckx_gongzsjmb_t gmbt on 
+			gmb.usercenter = gmbt.usercenter and gmb.chanx = gmbt.chanx and gmb.gongzr = gmbt.gongzr and gmb.xiaohsj = gmbt.xiaohsj 
+			where gmbt.usercenter is null	
+			) tt  where rownum <=50000	
+		]]>
+   </select>
+ 
+       <!-- 3190 工作时间模板 GSWANG 2013-9-17  -->
+   <update id="gongzsjmbMergeDelete">
+   		<![CDATA[
+		   	delete from ${dbSchemalddbh}ckx_gongzsjmb  g where 	G.USERCENTER=#USERCENTER# AND G.CHANX = #CHANX# AND G.GONGZR=#GONGZR# AND G.XIAOHSJ = #XIAOHSJ#
+		]]>
+   </update>
+
+   
+   <!-- 3030 CODDC-消耗点零件 hzg 2013-3-7 -->
+   <update id="ddbhCoddcxhdljUpdate">
+   		<![CDATA[
+   			update ${dbSchemalddbh}ddbh_coddcxhdlj t set t.creator = 'temp'
+		]]>
+   </update>
+   
+   <delete id="ddbhCoddcxhdljDelete">
+   		<![CDATA[
+   			delete  from ${dbSchemalddbh}ddbh_coddcxhdlj  where creator = 'temp'
+		]]>
+   </delete>
+   
+   
+   <delete id="coddcDelete">
+   		<![CDATA[
+   			truncate table ${dbSchemalddbh}in_coddc
+		]]>
+   </delete>
+    <delete id="coddcDeletedanwNull">
+   		<![CDATA[
+   			delete from ${dbSchemalddbh}in_coddc where danw is null
+		]]>
+   </delete>
+   
+   <delete id="coddcDeleteRowidMax">
+   		<![CDATA[
+   			 DELETE FROM ${dbSchemalddbh}IN_CODDC A WHERE ROWID !=(SELECT MAX(ROWID) 
+	        	 FROM ${dbSchemalddbh}IN_CODDC B WHERE A.USERCENTER=B.USERCENTER AND A.CODDC=B.CODDC  
+	        		 AND A.LINGJ = B.LINGJ AND A.XIAOHD = B.XIAOHD AND A.ECOMQSSJ = B.ECOMQSSJ)  
+		]]>
+   </delete>
+   
+   <!-- 3030 删除in_coddc表上次重复的Coddc、LINGJ、XIAOHD数据0010734  xss 2015.1.6-->
+   <delete id="deleteDoubleCoddc">
+   		<![CDATA[
+   			 DELETE FROM ${dbSchemalddbh}IN_CODDC A WHERE ROWID >(SELECT min(ROWID) 
+	        	 FROM ${dbSchemalddbh}IN_CODDC B WHERE A.USERCENTER=B.USERCENTER AND A.CODDC=B.CODDC  
+	        		 AND A.LINGJ = B.LINGJ AND A.XIAOHD = B.XIAOHD)  
+		]]>
+   </delete>
+   
+   <!-- 3040 删除in_coddc表上次重复的Lcdv1424数据0010734  xss 2015.1.6-->
+   <delete id="deleteDoubleLcdvCoddc">
+   		<![CDATA[
+		delete from ${dbSchemalddbh}in_cldv_coddc a where a.coddc in (select b.ycoddc from ${dbSchemalddbh}in_cldv_coddc_t b  ) and a.lcdv1424 in (select b.beiz from ${dbSchemalddbh}in_cldv_coddc_t b  )
+   		]]>
+   </delete>
+   
+   	<!-- 3030 查询in_cldv_coddc_t表该后六位重复Coddc的sjCoddc xss 2015.1.9-->
+	<select id="findlsjCoddc" parameterClass="java.util.Map" resultClass="java.lang.String">
+	<![CDATA[
+	select b.sjcoddc from ${dbSchemalddbh}in_cldv_coddc_t b where b.ycoddc= #CODDC# and rownum=1
+		]]>		
+	</select>	
+	
+	<!-- 3030 查询in_cldv_coddc_t表该后六位重复Coddc的sjCoddc xss 2015.1.9-->
+	<select id="findlsjCoddc2" parameterClass="java.util.Map" resultClass="java.lang.String">
+	<![CDATA[
+	select b.sjcoddc from ${dbSchemalddbh}in_cldv_coddc_t b where  substr(b.ycoddc,2,6) = substr(#CODDC#,2,6)  and rownum=1
+		]]>		
+	</select>	
+		
+	
+	<!-- 3030 更新in_coddc表重复Coddc的实际Coddc xss 2015.1.9-->
+  	<update id="sjcoddcUpdate">
+	<![CDATA[
+		update ${dbSchemalddbh}in_coddc a set a.coddc=#SJCODDC# where a.coddc=#CODDC#
+	]]>		
+	</update>	
+	
+	<!-- 3040 更新in_cldv_coddc表中 A+CODDC的coddc为sjcoddc xss 2015.8.31-->
+  	<update id="acoddcUpdate">
+	<![CDATA[
+		update ${dbSchemalddbh}in_cldv_coddc a set a.coddc=#SJCODDC# where a.coddc=#CODDC#
+	]]>		
+	</update>	
+	
+	
+	<!-- 3030 更新in_coddc表重复Coddc的实际Coddc xss 2015.1.9-->
+  	<update id="CODDCXHDLJUpdate">
+	<![CDATA[
+		update ${dbSchemalddbh}DDBH_CODDCXHDLJ a set a.coddc=#SJCODDC# where a.coddc=#CODDC#
+	]]>		
+	</update>	
+	
+	<!-- 3030 查询in_coddc表需要转换为sjCoddc的所有Coddc xss 2015.1.9
+	<select id="findCoddclist" parameterClass="java.util.Map" resultClass="java.util.HashMap">
+	<![CDATA[
+	select distinct a.coddc from ${dbSchemalddbh}in_coddc a, ${dbSchemalddbh}in_cldv_coddc_t b where substr(a.coddc,2,6) =  substr(b.ycoddc,2,6) and a.coddc like 'A%'
+		]]>		
+	</select>	
+	-->
+	
+	<!-- 3030 查询in_coddc表需要转换为sjCoddc的所有Coddc xss 2015.1.9-->
+	<select id="findCoddclist" parameterClass="java.util.Map" resultClass="java.util.HashMap">
+	<![CDATA[
+	select distinct a.coddc from ${dbSchemalddbh}in_coddc a, ${dbSchemalddbh}in_cldv_coddc_t b where a.coddc  =  b.ycoddc  and a.coddc like 'A%'
+		]]>		
+	</select>	
+	
+	<!-- 3030 将in_coddc表中A开头的替换为0 xss 2015.1.10-->
+  	<update id="coddcUpdateA">
+	<![CDATA[
+		 update ${dbSchemalddbh}in_coddc b  set b.coddc='0'||substr(b.coddc,2,length(b.coddc)-1) where substr(b.coddc,0,1) ='A'
+	]]>		
+	</update>	     
+	
+
+   
+   
+   <update id="ddbhCoddcxhdljMerge">
+		<![CDATA[
+   		 MERGE INTO ${dbSchemalddbh}DDBH_CODDCXHDLJ c
+   		 USING (select * FROM ${dbSchemalddbh}IN_CODDC) s ON( 
+   		 C.USERCENTER=S.USERCENTER AND C.CODDC=S.CODDC AND C.LINGJ=S.LINGJ AND C.XIAOHD=S.XIAOHD AND C.ECOMQSSJ=S.ECOMQSSJ) 
+       WHEN MATCHED THEN UPDATE SET C.SHENGCX=S.SHENGCX ,C.ECOMJSSJ=S.ECOMJSSJ , C.XIAOHXS=S.XIAOHXS,C.CHULZT=S.CHULZT,C.DANW=S.DANW,C.ZHIZLX=S.ZHIZLX,C.CREATOR='3030',C.CREATE_TIME=S.CREATE_TIME
+       WHEN NOT MATCHED THEN INSERT (USERCENTER,  CODDC,  LINGJ,  XIAOHD,  SHENGCX,  ECOMQSSJ,  ECOMJSSJ,  XIAOHXS,CHULZT, DANW,ZHIZLX,CREATOR, CREATE_TIME	)
+        VALUES(S.USERCENTER,  S.CODDC,  S.LINGJ,  S.XIAOHD,  S.SHENGCX,  S.ECOMQSSJ,  S.ECOMJSSJ,  S.XIAOHXS,S.CHULZT, S.DANW,S.ZHIZLX,'3030', S.CREATE_TIME) 
+		]]>
+		
+   </update>
+   
+   <!-- 3030 新增CODDC-消耗点零件表数据 hzg 2013-3-7 -->
+   <insert id="insertCoddc" parameterClass="java.util.Map">
+   	<![CDATA[
+   			 insert into ${dbSchemalddbh}in_coddc (USERCENTER,CODDC,LINGJ,XIAOHD,DANW,XIAOHXS,SHENGCX,ECOMQSSJ,ECOMJSSJ,CHULZT,CREATOR,CREATE_TIME) values(
+				#usercenter#,#coddc#,#lingj#,#xiaohd#,#sydw#,#d_xhdxs#,#shengcxbh#,to_date(#dataStartStr#,'yyyy-MM-dd'),
+				to_date(#dataEndStr#,'yyyy-MM-dd'),'0','3030',sysdate)
+		]]>
+   </insert>
+    <!-- 3030 CODDC-消耗点零件 参考系分配区表里取出生产线号 hzg 2013-3-7 -->
+   <select id="queryShengcxbhOffenpq" parameterClass="java.util.Map" resultClass="java.lang.String">
+   	<![CDATA[
+   			 select shengcxbh from ${dbSchemalddbh}ckx_fenpq   
+   			 	 where usercenter = #usercenter# and fenpqh = substr(#xiaohd#, 1, 5)
+		]]>
+   </select>
+   
+   <!-- 查询需要变更的零件消耗点 hzg 2014.11.27 -->
+    <select id="queryCoddcLjxhdBg" parameterClass="java.util.Map" resultClass="java.util.HashMap">
+   	<![CDATA[
+   		select a.lingj,a.xiaohd,a.coddc,to_char(a.ecomqssj,'yyyy-MM-dd') ecomqssj from ${dbSchemalddbh}ddbh_coddcxhdlj a where (a.lingj,a.xiaohd) in 
+           (select t.lingjbh,t.yuanxhd from ${dbSchemalddbh}ckx_lingjxhd_s t 
+           		where t.shengxr <= trunc(sysdate) and t.biaos='1') 
+		]]>
+   </select>
+   
+    <!-- 3030 CODDC-消耗点零件 ， 删除xhdbgb表中失效时间小于当前时间的记录 hzg 2014-3-19 修改，增加条件，删除标识为2或jiesr为空的数据 14.5.12-->
+    <delete id="xhdbgbDelete">
+   		<![CDATA[
+   			delete from ${dbSchemalddbh}ckx_lingjxhd_s t where (t.biaos='2' or t.jiesr<trunc(sysdate) or t.jiesr is null )
+		]]>
+   </delete>
+   <!-- 3030 CODDC-消耗点零件 ，更新ddbh_coddcxhdlj表xiaohd，
+   		更新记录为生效时间小于当前时间的记录 hzg 2014-3-19 ,加biaos ; ckx_lingjxhd_s增加新零件号 ，
+   		如果零件编号被替换了则coddcljxhd零件也需修改 hzg　2014.11.5-->
+   <update id="xhdbgbUpdate">
+		<![CDATA[
+   		update ${dbSchemalddbh}ddbh_coddcxhdlj a set a.xiaohd=nvl((select t1.xiaohd from ${dbSchemalddbh}ckx_lingjxhd_s t1 
+   														where t1.lingjbh=a.lingj and t1.yuanxhd=a.xiaohd),a.xiaohd),
+   													 a.lingj = nvl((select t2.xinljbh from ${dbSchemalddbh}ckx_lingjxhd_s t2 
+   													 	where t2.lingjbh=a.lingj and t2.yuanxhd=a.xiaohd) ,a.lingj)
+   			where (a.lingj,a.xiaohd) in 
+   				(select t.lingjbh,t.yuanxhd from ${dbSchemalddbh}ckx_lingjxhd_s t where t.shengxr <= trunc(sysdate) and t.biaos='1')
+		]]>
+   </update>
+    <!-- 3030 CODDC-消耗点零件 ,逐条更新要替换的零件消耗点 hzg 2014.11.27-->
+    <update id="xhdbgbUpdateOne" parameterClass="java.util.Map">
+		<![CDATA[
+   		update ${dbSchemalddbh}ddbh_coddcxhdlj a set 
+   						a.xiaohd = nvl((select t1.xiaohd from ${dbSchemalddbh}ckx_lingjxhd_s t1 
+   									where t1.lingjbh=#LINGJ# and t1.yuanxhd=#XIAOHD#),a.xiaohd),
+   						a.lingj = nvl((select t2.xinljbh from ${dbSchemalddbh}ckx_lingjxhd_s t2 
+   									where t2.lingjbh=#LINGJ# and t2.yuanxhd=#XIAOHD#) ,a.lingj)
+   			where a.lingj=#LINGJ# and a.xiaohd=#XIAOHD#  and a.coddc=#CODDC# and a.ecomqssj=to_date(#ECOMQSSJ#,'yyyy-MM-dd') 
+		]]>
+   </update>
+   
+      		 <!-- 3030、3040 查询in_file_log接口运行文件的成功记录个数 xss 2014-10-22 -->
+	<select id="queryFileNumer" parameterClass="java.util.Map" resultClass="java.lang.String">
+	<![CDATA[
+select  count(*) from ${dbSchemalddbh}in_file_log t where t.file_satus='1' and  t.inbh=#inbh# and TO_CHAR(t.yunxkssj,'yyyy-MM-dd') between TO_CHAR(SYSDATE,'yyyy-MM-dd') and TO_CHAR(SYSDATE+1,'yyyy-MM-dd')
+		]]>
+	</select>
+	
+	 <!-- 3030、3040 查询in_file_log接口运行文件的错误的记录个数 xss 2014-10-22 -->
+	<select id="queryFiledFileNumer" parameterClass="java.util.Map" resultClass="java.lang.String">
+	<![CDATA[
+select  count(*) from ${dbSchemalddbh}in_file_log t where t.file_satus='-1' and  t.inbh=#inbh# and TO_CHAR(t.yunxkssj,'yyyy-MM-dd') between TO_CHAR(SYSDATE,'yyyy-MM-dd') and TO_CHAR(SYSDATE+1,'yyyy-MM-dd')
+		]]>
+	</select>
+	
+	   <!-- 3030、3040 查找上次的运行记录 xss.20160330 0012665 -->
+   <select id="queryLastFilelog" parameterClass="java.util.Map" resultClass="java.util.HashMap">
+   	<![CDATA[
+	select * from (select * from ${dbSchemalddbh}in_file_log t  where t.inbh=#inbh# and t.yunxkssj is not null and TO_CHAR(t.yunxkssj,'yyyy-MM-dd') between TO_CHAR(SYSDATE,'yyyy-MM-dd') and TO_CHAR(SYSDATE+1,'yyyy-MM-dd')  order by t.sid desc) where rownum=1
+	]]>
+   </select>
+	
+	
+	<!-- 3030、3040 查询in_file_log接口最后一次成功的运行文件名 xss 2014-11-28 -->
+	<select id="queryFileName" parameterClass="java.util.Map" resultClass="java.lang.String">
+	<![CDATA[
+	select file_name from (select * from ${dbSchemalddbh}in_file_log t  where t.inbh=#inbh# and t.file_satus='1' and t.yunxkssj is not null and TO_CHAR(t.yunxkssj,'yyyy-MM-dd') between TO_CHAR(SYSDATE,'yyyy-MM-dd') and TO_CHAR(SYSDATE+1,'yyyy-MM-dd')  order by t.sid desc) where rownum=1
+	]]>
+	</select>
+	
+	<!-- 3030、3040 查询in_file_log接口最后一次失败的运行文件名 xss 2014-11-28 -->
+	<select id="queryFileFiledName" parameterClass="java.util.Map" resultClass="java.lang.String">
+	<![CDATA[
+	select file_name from (select * from ${dbSchemalddbh}in_file_log t  where t.inbh=#inbh# and t.file_satus='-1' and t.yunxkssj is not null and TO_CHAR(t.yunxkssj,'yyyy-MM-dd') between TO_CHAR(SYSDATE,'yyyy-MM-dd') and TO_CHAR(SYSDATE+1,'yyyy-MM-dd')  order by t.sid desc) where rownum=1
+	]]>
+	</select>
+	
+	   <!-- 获取数据库配置的文件名 2014-11-28-->
+    <select id="findInFileType" parameterClass="java.util.Map" resultClass="java.lang.String">
+   		<![CDATA[
+   		 	select INFILETYPE from  ${dbSchemalddbh}in_zidb t where  t.inbh=#inbh# 
+		]]>
+	</select>
+	
+   
+   
+     <!-- 3040 CLDV-CODDC对应关系   update delete->truncate hzg 2013-11-19 -->
+    <delete id="cldv_coddcDelete">
+   		<![CDATA[
+   			truncate table ${dbSchemalddbh}in_cldv_coddc
+		]]>
+   </delete>
+   
+   <!-- 3040 查询in_cldv_coddc表该cldv1424相同，但是CODDC不同的数据 xss 2015.1.4|2015-8-31-->
+	<select id="checkLcdv" parameterClass="java.util.Map" resultClass="java.lang.String">
+	<![CDATA[
+		select count(*) from ${dbSchemalddbh}in_cldv_coddc  where LCDV1424= #LCDV1424#
+		]]>
+	</select>
+	
+	<!-- 3040 查询in_cldv_coddc表该cldv1424不同，但是CODDC相同的数据 xss 2015.1.4-->
+	<select id="checkLcdv2" parameterClass="java.util.Map" resultClass="java.lang.String">
+	<![CDATA[
+		select count(*) from ${dbSchemalddbh}in_cldv_coddc  where LCDV1424= #LCDV1424#
+		]]>
+	</select>
+	
+	<!-- 3040 查询in_cldv_coddc表该cldv1424相同，而且CODDC也相同的数据 xss 2015.1.4-->
+	<select id="checkLcdv3" parameterClass="java.util.Map" resultClass="java.lang.String">
+	<![CDATA[
+		select count(*) from ${dbSchemalddbh}in_cldv_coddc  where LCDV1424= #LCDV1424# and CODDC=#CODDC#
+		]]>
+	</select>
+	
+	<!-- 3030 查询in_coddc表该coddc是否已经存在 xss 2015.1.9-->
+	<select id="checkDobuleCoddc" parameterClass="java.util.Map" resultClass="java.lang.String">
+	<![CDATA[
+		select count(*) from ${dbSchemalddbh}in_coddc  where CODDC= #CODDC#
+		]]>
+	</select>
+	
+	<!-- 3040 查询in_cldv_coddc_t表该重复Coddc的实际Coddc xss 2015.1.9-->
+	<select id="findsjCoddc" parameterClass="java.util.Map" resultClass="java.lang.String">
+	<![CDATA[
+		select t.sjcoddc from ${dbSchemalddbh}IN_CLDV_CODDC_T t where t.ycoddc=#YCODDC# and beiz= #LCDV1424# and rownum=1
+		]]>
+	</select>	  
+	
+	<!-- 3040 查询in_cldv_coddc表该重复Coddc的实际Coddc xss 2015.8.31-->
+	<select id="findsjCoddc2" parameterClass="java.util.Map" resultClass="java.lang.String">
+	<![CDATA[
+		select t.coddc from (
+			 select s.CODDC from ${dbSchemalddbh}in_cldv_coddc s where s.LCDV1424= #LCDV1424# order by s.cj_date asc
+			 )t  where rownum=1
+		]]>
+	</select>	 
+	
+	<!-- 3040 查询in_cldv_coddc表该查找重复lcdv的第一个Coddc xss 2015.1.9-->
+	<select id="findLcdvCoddc" parameterClass="java.util.Map" resultClass="java.lang.String">
+	<![CDATA[
+		select * from (
+			 select s.CODDC from ${dbSchemalddbh}in_cldv_coddc s where s.LCDV1424= #LCDV1424# order by s.cj_date asc
+			 ) where rownum=1
+		]]>
+	</select>
+	
+	<!-- 3040 清空in_cldv_coddc_t xss 2015-1-9 -->
+    <delete id="deleteCoddc_t">
+   		<![CDATA[
+   			truncate table ${dbSchemalddbh}in_cldv_coddc_t
+		]]>
+   </delete>
+   
+   	<!-- 3040  更新in_cldv_coddc_t表中sjcoddc xss 2015-8-31 -->
+	<update id="updateSjCoddc" parameterClass="java.util.Map">
+			<![CDATA[
+					 update ${dbSchemalddbh}IN_CLDV_CODDC_T t set t.sjcoddc=#SJCODDC#
+					 where t.beiz= #LCDV1424# and t.ycoddc=#CODDC#
+			]]>
+	</update>
+	   
+   
+    <!-- 3050 九天排产计划(商业化的时间) update delete->truncate hzg 2013-11-19 -->
+   <delete id="clddxxDelete">
+   		<![CDATA[
+   			truncate table ${dbSchemalddbh}in_clddxx
+		]]>
+   </delete>
+   <delete id="shangyhsjjhDelete">
+   		<![CDATA[
+   			truncate table ${dbSchemalddbh}ddbh_shangyhsjjh
+		]]>
+   </delete> 
+   
+   <!-- 3050,3060 提取上线时间数据 hzg 2013-3-7 -->
+	<select id="queryJuedskOfGongzsjmb" parameterClass="java.util.Map" resultClass="java.util.HashMap">
+	<![CDATA[
+		 select * from (
+			select to_char(a.JUEDSK,'YYYY-MM-DD HH24:mi:ss') as JUEDSK from ${dbSchemalddbh}ckx_gongzsjmb a,${dbSchemalddbh}ckx_calendar_hebtime_info b 
+				where a.hebtimeh = b.hebtimeh and b.usercenter = #usercenter#  and b.chanxck = #chanx#
+				and a.GONGZR >= to_date(#yjjhzrq#,'yyyy-MM-dd') order by JUEDSK ) 
+	    where rownum <=5000  
+		]]>
+	</select>
+	
+	 <!-- 3050,3060 根据用户中心和生产线取整车生产节拍 hzg 2013-3-7 -->
+	<select id="queryJiepOfShengcx" parameterClass="java.util.Map" resultClass="java.lang.String">
+	<![CDATA[
+   			 select SHENGCJP from ${dbSchemalddbh}CKX_SHENGCX  
+			 where usercenter = #usercenter#  and shengcxbh = #shengcxbh#
+		]]>
+	</select>
+	
+	 <!-- 3050 得到焊装线编号 hzg 2013-3-7 -->
+	<select id="queryHzbhOfChexpt" parameterClass="java.util.Map" resultClass="java.lang.String">
+	<![CDATA[
+   			 select t1.chejbhhz||t1.shengcxbhhz hzbh from ${dbSchemalddbh}ckx_chexpt t1  
+			 where t1.usercenter = #usercenter#  and t1.CHEJBHZZ = #chejbhzz#
+			 and t1.lcdv = #lcdv# and t1.shengcxbhzz = #shengcxbhzz#
+
+		]]>
+	</select>
+	
+	<!-- 3050 查询焊装产线  hzg 2013-3-7 -->
+	<select id="queryHanzscxOfClddxx" parameterClass="java.util.Map" resultClass="java.util.HashMap">
+	<![CDATA[
+   			 SELECT T.USERCENTER,T.HANZSCX FROM ${dbSchemalddbh}IN_CLDDXX T  
+			 WHERE HANZSCX IS NOT NULL AND YJJHZRQ IS NOT NULL  
+			  AND TO_CHAR(T.YJJHZRQ,'YYYY-MM-DD') != '2099-12-31' 
+			  group by T.USERCENTER,T.HANZSCX  
+		]]>
+	</select>
+	
+	<!-- 3050    hzg 2013-3-7 -->
+	<select id="queryCountOfClddxx" parameterClass="java.util.Map" resultClass="java.lang.String">
+	<![CDATA[
+   			 SELECT COUNT(1) CXNUM FROM ${dbSchemalddbh}IN_CLDDXX T  
+			   WHERE HANZSCX IS NULL AND YJJHZRQ IS NOT NULL  
+			   AND TO_CHAR(T.YJJHZRQ,'YYYY-MM-DD') != '2099-12-31'  
+			   AND TO_CHAR(T.YJJZLSJ,'YYYYMMDD') >= TO_CHAR(SYSDATE,'YYYYMMDD')  
+		]]>
+	</select>
+	
+	<!-- 3050   查询是否存在coddc数据 hzg 2013-3-7 -->
+	<select id="queryCoddcnum" parameterClass="java.util.Map" resultClass="java.lang.String">
+	<![CDATA[
+	 	select count(1) coddcnum from ${dbSchemalddbh}ckx_chexpt z, ${dbSchemalddbh}in_cldv_coddc y,${dbSchemalddbh}in_clddxx t  
+			 where y.coddc is null and z.usercenter = t.usercenter  
+			  and z.shengcxbhzz = t.scxh  
+			  and z.CHEJBHZZ = t.usercenter || '5'  
+			  and z.lcdv = substr(t.lcdv24,1,6)  
+			  and y.lcdv1424 = t.lcdv24||t.lcdv  
+			  and t.shangxsj is not null  
+		]]>
+	</select>
+	
+	<!-- 3050 根据usercenter,whof从in_lcdv_clddxx表中查询是否有对应lcdv1400 -->
+	<select id="queryGetLcdv" parameterClass="java.util.Map" resultClass="java.lang.String">
+	<![CDATA[
+	 	select ilc.lcdv from ${dbSchemalddbh}in_lcdv_clddxx ilc
+		where ilc.usercenter = #USERCENTER#  
+		and ilc.whof = #WHOF#
+	]]>
+	</select>
+	
+	<!-- 3050  查询whof,hanzscx信息  hzg 2013-3-7 -->
+	<select id="queryWhof" parameterClass="java.util.Map" resultClass="java.util.HashMap">
+	<![CDATA[
+	  SELECT T.USERCENTER,T.WHOF,T.HANZSCX,TO_CHAR(T.YJJHZRQ,'YYYY-MM-DD') YJJHZRQ,T.SXSXH FROM ${dbSchemalddbh}IN_CLDDXX T  
+						   WHERE HANZSCX IS NOT NULL AND YJJHZRQ IS NOT NULL  
+						   AND TO_CHAR(T.YJJHZRQ,'YYYY-MM-DD') != '2099-12-31'  
+						   AND TO_CHAR(T.YJJZLSJ,'YYYYMMDD') >= TO_CHAR(SYSDATE,'YYYYMMDD')  
+						   ORDER BY T.USERCENTER,T.HANZSCX,T.YJJHZRQ,T.SXSXH  
+		]]>
+	</select>
+	
+	<!-- 3050 更新IN_CLDDXX表  hzg 2013-3-7 -->
+	<update id="updateIN_CLDDXX" parameterClass="java.util.Map">
+			<![CDATA[
+					 update ${dbSchemalddbh}IN_CLDDXX set SHANGXSJ = to_date(#d_shangXSJ#,'yyyy-MM-dd hh24:mi:ss'),
+					 KAIBSJ=to_date(#kanBanSJ#,'yyyy-MM-dd hh24:mi:ss'),sxsxh=#num# 
+					 where usercenter = #usercenter# and whof = #whof#
+			]]>
+	</update>
+	
+	 <!--3050,3060 插入错误日志SQL配置  hzg 2013-3-7-->
+   <insert id="insertErrorFileInfo" parameterClass="java.util.Map">
+   		<![CDATA[
+			insert into ${dbSchemalddbh}in_errorfile 
+				(EID,INBH,SID,FILE_ERRORINFO,ERROR_DATE,YUNXKSSJ)
+			values(
+				#EID#,#INBH#,#SID#,substr(#file_errorinfo#,0,700),#error_date#,sysdate)
+		]]>
+   </insert>
+   
+   <!-- 3052 将IN_LCDV_CLDDXX的lcdv和lcdvbzk更新到IN_CLDDXX表  2016-01-26 -->
+	<update id="updateILCtoIC" >
+		<![CDATA[
+			update ${dbSchemalddbh}in_clddxx ic set (ic.lcdv,ic.lcdvbzk)=(select  ilc.lcdv, ilc.lcdvbzk from ${dbSchemalddbh}in_lcdv_clddxx ilc
+		    where ilc.usercenter = ic.usercenter and ilc.whof = ic.whof and ic.lcdv is null)  
+		    where exists 
+		    (select 1 from ${dbSchemalddbh}in_lcdv_clddxx ilc
+		    where ilc.usercenter = ic.usercenter and ilc.whof = ic.whof and ic.lcdv is null)
+		]]>
+	</update>
+   
+     <!-- 3060 清除in_jtpcjh表数据 update delete->truncate hzg 2013-11-19-->
+   <delete id="jtpcjhDelete">
+   		<![CDATA[
+			truncate table ${dbSchemalddbh}in_jtpcjh 
+		]]>
+   </delete>
+   
+   
+   <!-- 3060   查询是否存在coddc数据 hzg 2013-3-11 -->
+	<select id="queryCoddcnumOfJtpc" parameterClass="java.util.Map" resultClass="java.lang.String">
+	<![CDATA[
+	 	 select count(1) coddcnum from ${dbSchemalddbh}in_lcdv_clddxx z,${dbSchemalddbh}in_cldv_coddc y 
+			 where y.lcdv1424(+) = z.lcdv24||z.lcdv  
+			 and y.coddc is null 
+		]]>
+	</select>
+   
+   <!-- 3060 九天排产计划（JT的顺序） hzg 2013-3-11 -->
+	<select id="queryOfhOfJtpc" parameterClass="java.util.Map" resultClass="java.util.HashMap" remapResults="true">
+		<![CDATA[
+			SELECT T.USERCENTER,T.OFH,T.ZZX,T.JTRQ,T.JTXX FROM ${dbSchemalddbh}IN_JTPCJH T  
+				 WHERE T.ZZX IS NOT NULL AND T.JTRQ IS NOT NULL  
+				 ORDER BY T.USERCENTER,T.ZZX,T.JTRQ,T.JTXX  
+			]]>
+	</select>
+	
+	<!-- 3060 更新IN_JTPCJH表  hzg 2013-3-11 -->
+	<update id="updateIN_JTPCJH" parameterClass="java.util.Map">
+		<![CDATA[
+			update ${dbSchemalddbh}IN_JTPCJH set SHANGXSJ = to_date(#d_shangXSJ#,'yyyy-MM-dd hh24:mi:ss'),
+			KAIBSJ=to_date(#kanBanSJ#,'yyyy-MM-dd hh24:mi:ss'),JTXX=#num# 
+			where usercenter = #usercenter#  and OFH = #whof#		 
+			]]>
+	</update>
+	
+	<!--3060 记录用户异常报警日志表  hzg 2013-3-11  -->
+	<insert id="insertDDBH_YICBJ" parameterClass="java.util.Map">
+		<![CDATA[
+		 insert into ${dbSchemalddbh}DDBH_YICBJ 
+		 (CID,USERCENTER,EXENANME,CHNNAME,CUOWLX,MEMO,CREATE_TIME)
+		values(
+		   #cId#,#usercenter#,#exenanme#,#chnname#,#yclx#,substr(#ycxx#,0,25),sysdate)
+		]]>
+	</insert>
+	
+	 <!-- 3200 九天排产计划（一二厂临时）pan.rui 2013-7-25 -->
+	<select id="queryOfhOfJtpcLs" parameterClass="java.util.Map" resultClass="java.util.HashMap" remapResults="true">
+		<![CDATA[
+			SELECT T.USERCENTER,T.OFH,T.ZZX,T.JTRQ,T.JTXX FROM ${dbSchemalddbh}IN_JTPCJH T  
+				 WHERE T.ZZX IS NOT NULL AND T.JTRQ IS NOT NULL AND JTXX NOT IN (0,99999999)
+				 ORDER BY T.USERCENTER,T.ZZX,T.JTRQ,T.JTXX  
+			]]>
+	</select>
+	
+	<!-- #########################  DB->DB hzg 2013-3-15 ######################### -->
+   <!-- id="3010" caption="商业化OF接口"  hzg 2013-3-15 -->
+	<select id="queryAthena002" parameterClass="java.util.Map" resultClass="java.util.HashMap" remapResults="true">
+		<![CDATA[
+		$head$
+		select tt.*,ROWNUM RN from (
+			select WHOF,'F' as JSBS,to_char(sysdate,'yyyy-MM-dd hh24:mi:ss') as cj_date  from sppv.ATHENA002  where JSBS='J' 
+         $middle$      
+		 order by  WHOF  
+		 ) tt where 1=1    
+		$foot$	
+			]]>
+	</select>
+	
+	 <!-- 3010  商业化OF接口  before更新ATHENA002表 STATE=J hzg 2013-12-4  -->
+   <update id="updateATHENA002JsbsToJ">
+   		<![CDATA[
+		   update sppv.ATHENA002 set JSBS='J' where JSBS='F'
+		]]>
+   </update>
+	
+	<!-- 3010 商业化OF接口  after更新ATHENA002表中JSBS状态为T -->
+   <update id="updateAthena002">
+   		<![CDATA[
+		   update sppv.ATHENA002 set JSBS='T' where JSBS='J'
+		]]>
+   </update>
+   
+   <!-- 3020 整车过点信息  hzg 2013-3-15 取STATE状态为J的数据 hzg 2013-10-12 mantis:8600 ; 取MONVEH状态为J的数据 hzg 2013.12.20-->
+   <select id="queryAzposveh" parameterClass="java.util.Map" resultClass="java.util.HashMap" remapResults="true">
+		<![CDATA[
+		$head$
+			select WHOF,UW5ANOSEQ,CODECEN,EFERPORTE,LMP,PORTEDATE,AZPOSVEH,'0' as CHULZT,'1' as FLAG,'3020' as CREATOR,
+							to_char(sysdate,'yyyy-MM-dd hh24:mi:ss') as CREATE_TIME ,rownum RN 
+							 from sppv.ATHENA001 where AZPOSVEH in ('6000','2000') and STATE='J'
+		$foot$	
+			]]>
+	</select>
+   
+   <!-- 3020 整车过点信息  更新ATHENA001表 STATE=J hzg 2013-10-12 mantis:8600 ，hzg 2014.5.19 改为写存储过程proc_updateATHENA001State_FtoJ-->
+  <!--  <update id="updateATHENA001JsbsToJ">
+   		<![CDATA[
+		   update sppv.ATHENA001 set STATE='J' where STATE='F'
+		]]>
+   </update> -->
+   
+   <!-- 3020 整车过点信息  更新ATHENA001表 ，hzg 2014.5.19 改为写存储过程proc_updateAthena001State_JtoT  -->
+ <!--   <update id="updateAthena001">
+   		<![CDATA[
+		   update sppv.ATHENA001 set STATE='T' where STATE='J'
+		]]>
+   </update> -->
+   
+   <!-- 3020 整车过点信息  更新ddbh_sppvxx表 , hzg 2014.5.19 不用了，注释掉-->
+  <!--  <update id="updateDdbh_sppvxx1">
+   		<![CDATA[
+		  update ${dbSchemalddbh}ddbh_sppvxx set shengcx=usercenter||'5L'||substr(zongzlsh,1,1) 
+		  			where wuld='6000' and length(shengcx) <> 5 and flag='1' and chulzt='0'
+		]]>
+   </update> -->
+   
+   <!-- 3020 整车过点信息  更新ddbh_sppvxx表，hzg 2014.5.19 不用了，注释掉 -->
+  <!--  <update id="updateDdbh_sppvxx2">
+   		<![CDATA[
+		    update ${dbSchemalddbh}ddbh_sppvxx set shengcx=usercenter||'2L'||substr(zongzlsh,1,1) 
+		    		where wuld='2000' and length(shengcx) <> 5  and flag='1' and chulzt='0'
+		]]>
+   </update> -->
+   
+   
+   <!-- 3020  hzg  add 2014.4.12  , hzg 2014.5.19 改为写存储过程proc_updateDdbhSppvxx-->
+  <!--  <update id="updateFlagOfSppvxx1">
+   		<![CDATA[
+		    update ${dbSchemalddbh}ddbh_sppvxx set flag='2' where  flag='1' and chulzt='0'
+		]]>
+   </update> -->
+   <!-- 3020 将整车过点信息写到ddbh_sppvxx_zxc表  , hzg 2014.5.19 改为写存储过程proc_updateDdbhSppvxx-->
+  <!--  <insert id="insertSppvxxToSppvzxc">
+   			insert into ${dbSchemalddbh}ddbh_sppvxx_zxc ( 
+				select usercenter,dingdh,zongzlsh,hanzsxd,shengcx,guodsj,wuld,chulzt,'3' as flag,creator,create_time
+			from ${dbSchemalddbh}ddbh_sppvxx where flag='2' and chulzt='0')
+   </insert> -->
+   <!-- 3020 整车过点信息  更新ddbh_sppvxx表flag状态  , hzg 2014.5.19 改为写存储过程proc_updateDdbhSppvxx-->
+  <!--  <update id="updateFlagOfSppvxx2">
+   		<![CDATA[
+		    update ${dbSchemalddbh}ddbh_sppvxx set flag='3' where  flag='2' and chulzt='0'
+		]]>
+   </update> -->
+   
+   <!-- 3020,3021存储过程  hzg 2014.5.19 -->
+   <procedure id="proc_updateATHENA001State_FtoJ">
+   			{call sppv.proc_updateATHENA001State_FtoJ}
+   </procedure>
+   
+   <procedure id="proc_updateAthena001State_JtoT">
+   			{call sppv.proc_updateAthena001State_JtoT}
+   </procedure>
+   
+   <procedure id="proc_updateDdbhSppvxx">
+   			{call ${dbSchemalddbh}proc_updateDdbhSppvxx}
+   </procedure>
+   
+     <!-- 3310 焊装过点信息  lc 2015-12-23 |0013625:订单号为空的给八个0，上线物理点为空的给BAP，这种属备件分装线  lc 2017-04-19 -->
+   <select id="queryhzgdsbxx" parameterClass="java.util.Map" resultClass="java.util.HashMap" remapResults="true">
+		<![CDATA[
+		$head$
+		select nvl(trim(WHOF),'00000000') WHOF,UW5ANOSEQ,PRODUCT,SEQ,CODECEN,nvl(trim(LOCALWLDID),'BAP') LOCALWLDID,LMP,ATIME,AZPOSVEH,SBLX,'0' as CHULZT,'1' as FLAG,'0' as BAOFZT,
+		       '3310' as CREATOR,to_char(sysdate,'yyyy-MM-dd hh24:mi:ss') as CREATE_TIME ,rownum RN 
+		  from sppv.ATHENA006 where AZPOSVEH in ('1000','1','6000') and STATE='J'
+		$foot$	
+		]]>
+   </select>
+   
+   <!-- 3310 焊装过点信息  更新ddbh_sppvxx表  lc 2015-12-24 -->
+   <update id="updatehzDdbh_sppvxx">
+   		<![CDATA[
+		    update ${dbSchemalddbh}ddbh_sppvxx set shengcx=
+		           (case when wuld='1000' then usercenter||'2L'||substr(zongzlsh,1,1) 
+		                 when wuld='1' then usercenter||'2F'||substr(zongzlsh,1,1) 
+		                 else usercenter||'5L'||substr(zongzlsh,1,1) end) 
+		     where wuld in ('1000','1','6000') and length(rtrim(shengcx)) <> 5  and flag='1' and chulzt='0'
+		]]>
+   </update>
+   
+   <!-- 3310存储过程  lc 2015-12-24 -->
+   <procedure id="proc_updateATHENA006State_FtoJ">
+   			{call sppv.proc_updateATHENA006State_FtoJ}
+   </procedure>
+   
+   <procedure id="proc_updateAthena006State_JtoT">
+   			{call sppv.proc_updateAthena006State_JtoT}
+   </procedure>
+   
+   <procedure id="proc_updateDdbhhzSppvxx">
+   			{call ${dbSchemalddbh}proc_updateDdbhhzSppvxx}
+   </procedure>
+   
+   <!-- 3031 CODDC-消耗点零件  hzg 2013-3-15  -->
+   <select id="queryIn_coddc" parameterClass="java.util.Map" resultClass="java.util.HashMap" remapResults="true">
+		<![CDATA[
+		$head$
+			SELECT USERCENTER,CODDC,LINGJ,XIAOHD,
+								SHENGCX,ECOMQSSJ,ECOMJSSJ,XIAOHXS,CHULZT,
+								DANW,ZHIZLX,CREATOR,CREATE_TIME,rownum RN 
+						   FROM ${dbSchemalddbh}in_coddc WHERE 1=1
+		$foot$	
+			]]>
+	</select>
+	
+	<!-- 3051 九天排产计划(商业化的时间)  hzg 2013-3-16  -->
+   <select id="queryIn_clddxx" parameterClass="java.util.Map" resultClass="java.util.HashMap" remapResults="true">
+		<![CDATA[
+		$head$
+		select tt.*,ROWNUM RN from ( 
+			select   t1.usercenter usercenter,
+		                      t1.whof whof,
+		                      '2' flag,
+		                      t1.lcdv24 lcdv24,
+		                      t1.chejbhhz chejbhhz,
+		                      t1.hanzscx hanzscx,
+		                      t1.yjjhzsx yjjhzsx,
+		                      t1.shengcptbh shengcptbh,
+		                      t1.yjsyhsj shangyhsj,
+		                      t1.coddc coddc,
+		                      '0' as CHULZT,
+		                      to_char(sysdate,'yyyy-MM-dd hh24:mi:ss') as shij,
+		                      t1.wenjlj wenjlj,
+		                      t1.wenjmc wenjmc,
+		                      t1.shangxsj shangxsj,
+		                      t1.kaibsj kaibsj  
+		                       from (
+		                      select t.usercenter usercenter,
+		                             t.whof whof,
+		                             t.lcdv24 lcdv24,
+		                             t.sxsxh yjjhzsx,
+		                             z.chejbhhz chejbhhz,
+		                             z.shengcptbh shengcptbh,
+		                             t.hanzscx hanzscx,
+		                             y.coddc coddc,
+		                             t.wenjlj wenjlj,
+		                             t.wenjmc wenjmc,
+		                             t.yjsyhsj yjsyhsj,
+		                             to_char(t.shangxsj,'yyyy-MM-dd hh24:mi:ss') shangxsj,
+		                      		 to_char(t.kaibsj,'yyyy-MM-dd hh24:mi:ss')  kaibsj
+		                        from ${dbSchemalddbh}ckx_chexpt    z,
+		                             ${dbSchemalddbh}in_cldv_coddc y,
+		                             ${dbSchemalddbh}in_clddxx     t
+		                       where z.usercenter = t.usercenter
+		                         and z.shengcxbhzz = t.scxh
+		                         and z.CHEJBHZZ = t.usercenter || '5'
+		                         and z.lcdv = substr(t.lcdv24,1,6)
+		                         and y.lcdv1424 = t.lcdv24||t.lcdv
+		                         and t.shangxsj is not null
+		                      ) t1 where 1=1 
+		$middle$ 
+		order by USERCENTER,whof,FLAG       	
+		) tt where 1=1	                      
+		$foot$	
+			]]>
+	</select>
+	
+	
+	<!-- 3052 九天排产计划(商业化的时间)  hzg 2013-3-30  -->
+   <select id="queryIn_clddxxAll" parameterClass="java.util.Map" resultClass="java.util.HashMap" remapResults="true">
+		<![CDATA[
+		$head$
+		select tt.*,ROWNUM RN from ( 
+			select usercenter,whof,lcdv24,yplbj,yjjhzrq,
+					yjjhzsx,scxh,yjjzlsj,yjsyhsj,sxsxh,lcdv,to_char(cj_date,'yyyy-MM-dd hh24:mi:ss') cj_date,clzt,hanzscx,lcdvbzk     
+			from ${dbSchemalddbh}in_clddxx where 1 = 1 and lcdv is not null 
+		$middle$ 
+		order by USERCENTER,whof        	
+		) tt where 1=1		
+		$foot$	
+			]]>
+	</select>
+   
+   
+   <!-- 3061 九天排产计划(JT的顺序)  hzg 2013-3-16  -->
+   <select id="queryIn_lcdv_clddxx" parameterClass="java.util.Map" resultClass="java.util.HashMap" remapResults="true">
+		<![CDATA[
+		$head$
+		select tt.*,ROWNUM RN from (  
+			select * from (select t.usercenter usercenter,
+				       t.ofh as ofh,
+				       '1' as zflag,
+				       t.usercenter || '5' as zongzcjdm,
+				       t.usercenter || '5'||t.zzx as zzx,
+				       t.jtxx as jtxx,
+				       t.lcdv24 as lcdv24,
+				       '' as shengcptbh,
+				       t1.yjsyhsj as shangyhsj,
+				       (select coddc from ${dbSchemalddbh}in_cldv_coddc y
+               				where y.lcdv1424 = t1.lcdv24 || t1.lcdv) as coddc,
+				       '0' as CHULZT, 
+				       '3061' as CREATOR,
+				       to_char(sysdate,'yyyy-MM-dd hh24:mi:ss')  as cjsj,
+                       to_char(t.shangxsj,'yyyy-MM-dd hh24:mi:ss') shangxsj,
+		               to_char(t.kaibsj,'yyyy-MM-dd hh24:mi:ss')  kaibsj,
+                       t.wenjlj wenjlj,
+				       t.wenjmc wenjmc  
+				  from ${dbSchemalddbh}in_lcdv_clddxx t1, ${dbSchemalddbh}in_jtpcjh t
+				 where 1=1
+				   and t1.usercenter = t.usercenter
+				   and t1.whof = t.ofh
+				   and t.shangxsj is not null) where 1=1  
+		$middle$ 
+		order by USERCENTER,OFH,ZFLAG      	
+		) tt where 1=1				   
+		$foot$	
+			]]>
+	</select>
+   
+   <!-- 3201九天排产计划(一二厂CLV临时)  pan.rui 2013-7-25  -->
+   <select id="queryIn_lcdv_clddxx_ls" parameterClass="java.util.Map" resultClass="java.util.HashMap" remapResults="true">
+		<![CDATA[
+		$head$
+		select tt.*,ROWNUM RN from (  
+			select * from (select t.usercenter usercenter,
+				       t.ofh as ofh,
+				       '1' as zflag,
+				       t.usercenter || '5' as zongzcjdm,
+				       t.usercenter || '5'||t.zzx as zzx,
+				       t.jtxx as jtxx,
+				       t.lcdv24 as lcdv24,
+				       '' as shengcptbh,
+				       t1.yjsyhsj as shangyhsj,
+				       (select coddc from ${dbSchemalddbh}in_cldv_coddc y
+               				where y.lcdv1424 = t1.lcdv24 || t1.lcdv) as coddc,
+				       '0' as CHULZT, 
+				       '3201' as CREATOR,
+				       to_char(sysdate,'yyyy-MM-dd hh24:mi:ss')  as cjsj,
+                       to_char(t.shangxsj,'yyyy-MM-dd hh24:mi:ss') shangxsj,
+		               to_char(t.kaibsj,'yyyy-MM-dd hh24:mi:ss')  kaibsj,
+                       t.wenjlj wenjlj,
+				       t.wenjmc wenjmc  
+				  from ${dbSchemalddbh}in_lcdv_clddxx t1, ${dbSchemalddbh}in_jtpcjh t
+				 where 1=1
+				   and t1.usercenter = t.usercenter
+				   and t1.whof = t.ofh
+				   and t.shangxsj is not null) where 1=1  
+		$middle$ 
+		order by USERCENTER,OFH,ZFLAG      	
+		) tt where 1=1					   
+		$foot$	
+			]]>
+	</select>
+
+    <!--3210 合并时间-详细  gswang 2014-3-19-->   
+   <update id="HebtimeDDBHUpdateTemp" parameterClass="java.util.Map">
+   		<![CDATA[
+		 update ${dbSchemalddbh}CKX_CALENDAR_HEBTIME_INFO g set g.CREATOR='temp'
+		]]>
+   </update> 
+
+   <!-- 3210 合并时间-详细 gswang 2014-3-19 -->
+   <delete id="HebtimeDDBHDeleteTemp">
+   		<![CDATA[
+		   	delete from ${dbSchemalddbh}CKX_CALENDAR_HEBTIME_INFO  g where 	g.CREATOR = 'temp'
+		]]>
+   </delete>
+   
+   <!-- 3220 工作时间模板  gswang 2014-3-19 -->
+   <delete id="gongzsjmbTDelete">
+   		<![CDATA[
+   			truncate table  ${dbSchemalddbh}ckx_gongzsjmb_t
+		]]>
+   </delete>
+   
+    <!--3220 工作时间模板  gswang 2014-3-19-->   
+   <update id="updateGongzsjmbCreator" parameterClass="java.util.Map">
+   		<![CDATA[
+		 update ${dbSchemalddbh}CKX_GONGZSJMB g set g.CREATOR='temp'
+		]]>
+   </update>   
+   
+   <!-- 3220 工作时间模板  gswang 2014-3-19 -->
+   <update id="gongzsjmbTMerge">
+   		<![CDATA[
+     MERGE INTO ${dbSchemalddbh}CKX_GONGZSJMB c
+        USING (select * FROM ${dbSchemalddbh}CKX_GONGZSJMB_T) s ON( C.HEBTIMEH=S.HEBTIMEH AND C.GONGZR=S.GONGZR AND C.XIAOHSJ=S.XIAOHSJ) 
+       WHEN MATCHED THEN UPDATE SET C.JUEDSK=S.JUEDSK,C.CREATOR=S.CREATOR,C.CREATE_TIME=S.CREATE_TIME 
+       WHEN NOT MATCHED THEN INSERT (HEBTIMEH,  GONGZR,  XIAOHSJ,  JUEDSK,CREATOR,CREATE_TIME
+    ) VALUES(S.HEBTIMEH    ,S.GONGZR    ,S.XIAOHSJ    ,S.JUEDSK ,S.CREATOR,S.CREATE_TIME)    			
+		]]>
+   </update>
+   
+   <!-- 3220 工作时间模板 gswang 2014-3-19 -->
+   <delete id="deleteGongzsjmbTemp">
+   		<![CDATA[
+		   	delete from ${dbSchemalddbh}CKX_GONGZSJMB  g where 	g.CREATOR = 'temp'
+		]]>
+   </delete>
+   
+   <!-- 3240 根据创建时间删除100天以前的主线计划 yz 2015-11-24 -->
+   <delete id="deleteZhuxjh">
+   		<![CDATA[
+			delete from ${dbSchemalddbh}in_zhuxpcjh t where t.create_time<sysdate-100
+		]]>
+   </delete>
+   
+   <!-- 3300 接口运行前清除in_zongccfjg表 yz 2016-3-10 -->
+   <delete id="deletein_zongccfjg">
+   		<![CDATA[
+			truncate table ${dbSchemalddbh}in_zongccfjg
+		]]>
+   </delete>
+   
+    <!-- 3300 新老消耗点的替换 yz 2015-11-19 -->
+   <update id="updateXiaohd" parameterClass="java.util.Map" >
+   		<![CDATA[
+    	  update ${dbSchemalddbh}in_zongccfjg x
+   		set x.xiaohd =
+       (select a.xiaohd 
+          from ${dbSchemalddbh}ckx_lingjxhd_s a
+         where x.usercenter = a.usercenter
+           and x.lingj = a.lingjbh
+           and x.xiaohd = a.yuanxhd),
+       	x.lingj  = nvl((select t2.xinljbh
+                        from ${dbSchemalddbh}ckx_lingjxhd_s t2
+                       where t2.lingjbh = x.lingj
+                         and t2.yuanxhd = x.xiaohd),x.lingj)
+ 		where (x.lingj, x.xiaohd) in (select t.lingjbh, t.yuanxhd
+                                 from ${dbSchemalddbh}ckx_lingjxhd_s t
+                                where t.shengxr <= trunc(sysdate)
+                                  and t.biaos = '1')
+   		]]>
+   </update>
+   
+    <!-- 3300 查询需要修改的单位还有数量  yz 2015-12-21  -->
+	<select id="queryDanwShulzongccfjg" parameterClass="java.util.Map" resultClass="java.util.HashMap" remapResults="true">
+		<![CDATA[
+			select decode(c.huansbl,null,a.xis,a.xis*c.huansbl) xis,decode(c.huansbl,null,b.danw,c.mubdw) danw,
+     		 a.usercenter,a.zongch,a.xiaohd,a.lingj,a.kaiszkrq,a.jieszkrq
+      		from ${dbSchemalddbh}in_zongccfjg a 
+        	join ${dbSchemalddbh}ckx_lingj b on a.usercenter=b.usercenter and a.lingj=b.lingjbh and a.danw!=b.danw
+         	left join ${dbSchemalddbh}ckx_danwhs c on a.usercenter=c.usercenter and a.danw=c.beihdw  and b.danw=c.mubdw  
+        	where b.biaos='1'
+		]]>
+	</select>
+	
+	  <!-- 3300 跟新总成-零件-消耗点-系数 系数还有单位  yz 2015-12-7 -->
+   <update id="updatezongccfjg" parameterClass="java.util.Map" >
+   		<![CDATA[
+   		update ${dbSchemalddbh}in_zongccfjg a set a.xis=#XIS#,  a.danw = #DANW# 
+		where  a.usercenter = #USERCENTER# and a.zongch = #ZONGCH#
+		and a.xiaohd = #XIAOHD# and a.lingj = #LINGJ# and a.kaiszkrq = #KAISZKRQ# and a.jieszkrq = #JIESZKRQ#
+		]]>
+   </update>   
+   
+   <!-- 3300 清除ckx_lingjxhd_s表数据 yz 2015-11-19 -->
+   <delete id="deleteLissj">
+   		<![CDATA[
+			delete from ${dbSchemalddbh}ckx_lingjxhd_s t where t.jiesr < sysdate or t.biaos='2'
+		]]>
+   </delete>
+   
+   <!-- 3260 关联备件外销计划表和分装线表，得到大线线号 lc 2015-11-30 -->
+    <update id="updateBeijwxjh" parameterClass="java.util.Map">
+		<![CDATA[
+   		update ${dbSchemalddbh}in_beijwxjh a set 
+   		            a.daxxh=(select t.daxxh from ${dbSchemalddbh}ckx_fenzx t 
+   							  where a.usercenter=t.usercenter and a.fenzxh=t.fenzxh and t.biaos='1')
+		]]>
+   </update>
+   
+   <!-- 3260 若更新后大线线号仍为空值，则取分装线号值更新 lc 2016-2-1 -->
+    <update id="updatedaxxh" parameterClass="java.util.Map">
+		<![CDATA[
+   		update ${dbSchemalddbh}in_beijwxjh a set a.daxxh=a.fenzxh where a.daxxh is null
+		]]>
+   </update>
+   
+   <!-- 3260 查询in_beijwxjh表中最大的流水号值  lc 2015-12-2  -->
+	<select id="queryliush" resultClass="java.lang.String">
+		<![CDATA[
+			select nvl(max(to_number(liush)),0) from ${dbSchemalddbh}in_beijwxjh 
+		]]>
+	</select>
+	
+	<!-- 3330 in_nup_tmp表关联ckx_lingj表、ckx_danwhs表查询更新数量和单位  lc 2015-12-5 -->
+    <select id="queryshuldanw" parameterClass="java.util.Map" resultClass="java.util.HashMap" remapResults="true">
+		<![CDATA[ 
+		SELECT DECODE(HUANSBL,NULL,A.SHUL,A.SHUL*C.HUANSBL) SHUL,
+               DECODE(HUANSBL,NULL,B.DANW,C.MUBDW) DANW,
+               A.USERCENTER,
+		       A.LCDV24,
+		       A.LCDVBZK,
+		       A.ZHANKRQ,
+		       A.LINGJBH,
+		       A.CHEJ 
+          FROM ${dbSchemalddbh}IN_NUP_TMP A JOIN ${dbSchemalddbh}CKX_LINGJ B ON A.USERCENTER=B.USERCENTER AND A.LINGJBH=B.LINGJBH AND A.DANW!=B.DANW
+          LEFT JOIN ${dbSchemalddbh}CKX_DANWHS C ON A.USERCENTER=C.USERCENTER AND A.DANW=C.BEIHDW AND B.DANW=C.MUBDW  
+         WHERE B.BIAOS='1'
+			]]>
+	</select>
+	
+	<!-- 3330 更新单位和换算比例后的数量  lc 2015-12-7 -->
+    <update id="updateshuldanw" parameterClass="java.util.Map" >
+    	UPDATE ${dbSchemalddbh}IN_NUP_TMP A SET A.SHUL = #SHUL#,A.DANW = #DANW#
+    	    WHERE A.USERCENTER = #USERCENTER# AND A.LCDV24 = #LCDV24# 
+    	      <isNotEmpty prepend=" and " property="LCDVBZK"><![CDATA[A.LCDVBZK = #LCDVBZK#]]></isNotEmpty>
+    	      <isEmpty prepend=" and " property="LCDVBZK"><![CDATA[A.LCDVBZK IS NULL]]></isEmpty>
+    	      AND A.ZHANKRQ = #ZHANKRQ# AND A.LINGJBH = #LINGJBH# AND A.CHEJ = #CHEJ#    	
+   </update>
+   
+   <!-- ***********************************************************↓由程思远于2015-12-21修改************************************************************ -->
+
+	<!-- 3330 清空nup单量份接口表 in_nup csy 2015-12-18 -->
+	<delete id="inNupTmpDelete">
+	    <![CDATA[
+	   		TRUNCATE TABLE ${dbSchemalddbh}IN_NUP_TMP
+		]]>
+	</delete>
+	
+	<!-- 3330 清空单量份差异表 in_nup csy 2015-12-18 -->
+	<delete id="ckxdanlfcyDelete">
+	    <![CDATA[
+	   		TRUNCATE TABLE ${dbSchemalddbh}CKX_DANLFCY
+		]]>
+	</delete>
+
+	<!-- 3330 查询‘单量份接口表’中的 用户中心、lcdv24、半展开码、展开日期 csy 2015-12-18 -->
+	<select id="QUERYdanlfjkbYLBZ" resultClass="java.util.HashMap"
+		remapResults="true">
+		<![CDATA[ 
+		SELECT DISTINCT USERCENTER,LCDV24,LCDVBZK,ZHANKRQ 
+			FROM ${dbSchemalddbh}IN_NUP_TMP 
+			ORDER BY USERCENTER,LCDV24,LCDVBZK,ZHANKRQ
+		]]>
+	</select>
+
+	<!-- 3330 查询‘单量份接口表’中的 满足条件的所有内容 csy 2015-12-18 -->
+	<select id="QUERYdanlfjkbAll" parameterClass="java.util.Map"
+		resultClass="java.util.HashMap" remapResults="true"> 
+		SELECT USERCENTER,LCDV24,LCDVBZK,ZHANKRQ,LINGJBH,CHEJ,SHUL,DANW,ZHIZLX,BIAOS,YANSBS,
+		       YEZBS,UWJBS,CREATOR,CREATE_TIME,EDITOR,EDIT_TIME,WENJMC,WENJLJ 
+			FROM ${dbSchemalddbh}IN_NUP_TMP
+       		WHERE USERCENTER = #USERCENTER#
+	         	AND LCDV24 = #LCDV24#
+	         	<isNotEmpty prepend=" and " property="LCDVBZK"><![CDATA[LCDVBZK = #LCDVBZK#]]></isNotEmpty>
+	         	<isEmpty prepend=" and " property="LCDVBZK"><![CDATA[LCDVBZK IS NULL]]></isEmpty>
+	         	AND ZHANKRQ = #ZHANKRQ#
+      		ORDER BY CHEJ,LINGJBH ASC
+	</select>
+
+	<!-- 3330 根据 用户中心、lcdv24、半展开码、展开日期 查询‘单量份正式表’中相应 序列号 csy 2015-12-19 -->
+	<select id="QUERYgetAllXULH" parameterClass="java.util.Map"
+		resultClass="java.util.HashMap" remapResults="true">
+			SELECT DISTINCT XULH
+		       FROM ${dbSchemalddbh}CKX_DANLF C
+		       WHERE USERCENTER = #USERCENTER#
+		         AND LCDV24 = #LCDV24#
+		         <isNotEmpty prepend=" and " property="LCDVBZK"><![CDATA[LCDVBZK = #LCDVBZK#]]></isNotEmpty>
+		         <isEmpty prepend=" and " property="LCDVBZK"><![CDATA[LCDVBZK IS NULL]]></isEmpty>
+		         AND ZHANKRQ = #ZHANKRQ#
+		       ORDER BY XULH
+	</select>
+
+	<!-- 3330 根据 序列号 查询‘单量份表’中相应 车间号、零件编号、数量、行号等数据 csy 2015-12-19 -->
+	<select id="QUERYdanlfCLSH" parameterClass="java.util.Map"
+		resultClass="java.util.HashMap" remapResults="true">
+		<![CDATA[ 
+			SELECT XULH,USERCENTER,LCDV24,LCDVBZK,ZHANKRQ,HANGH,LINGJBH,CHEJ,SHUL,DANW,ZHIZLX,BIAOS,YANSBS,YEZBS,UWJBS,CREATOR,CREATE_TIME,EDITOR,EDIT_TIME 
+		       FROM ${dbSchemalddbh}CKX_DANLF
+		       WHERE XULH = #XULH#
+		       ORDER BY CHEJ,LINGJBH,HANGH
+		]]>
+	</select>
+
+	<!-- 3330根据lcdv24的前16位查询五位选装车型 csy 2015-12-19 -->
+	<select id="QUERYxuanzcxByLCDV16" parameterClass="java.util.Map"
+		resultClass="java.util.HashMap" remapResults="true">
+		<![CDATA[ 
+			SELECT ZHONGZCX 
+		       FROM ${dbSchemalddbh}IN_CHEXDY
+		       WHERE LCDV16 = #LCDV16#
+		]]>
+	</select>
+
+	<!-- 3330 查询当前最大序列号的号码和序号 csy 2015-12-19 -->
+	<select id="QUERYgetMaxXULH" resultClass="java.util.HashMap"
+		remapResults="true">
+		<![CDATA[ 
+			SELECT DISTINCT T.XULH XULH,TC.MAXXULH MAXXULH FROM ${dbSchemalddbh}CKX_DANLF T,
+	       (
+	             SELECT MAX(SUBSTR(C.XULH,6,10)) MAXXULH FROM ${dbSchemalddbh}CKX_DANLF C 
+	       )TC
+	       WHERE SUBSTR(T.XULH,6,10)=TC.MAXXULH
+		]]>
+	</select>
+
+	<!-- 3330 查询当前符合条件的最大序列号的号码和序号 csy 2015-12-19 -->
+	<select id="QUERYgetMaxXULHByCondition" parameterClass="java.util.Map" resultClass="java.util.HashMap"
+		remapResults="true">	
+	       SELECT DISTINCT T.XULH XULH,TC.MAXXULH MAXXULH FROM ${dbSchemalddbh}CKX_DANLF T,
+	       (
+	             SELECT MAX(SUBSTR(CC.XULH,6,10)) MAXXULH FROM 
+               (
+                      SELECT * FROM ${dbSchemalddbh}CKX_DANLF C
+                      WHERE C.USERCENTER = #USERCENTER#
+                        AND C.LCDV24 = #LCDV24#
+                        <isNotEmpty prepend=" and " property="LCDVBZK"><![CDATA[C.LCDVBZK = #LCDVBZK#]]></isNotEmpty>
+                        <isEmpty prepend=" and " property="LCDVBZK"><![CDATA[C.LCDVBZK IS NULL]]></isEmpty>
+                        AND C.ZHANKRQ = #ZHANKRQ#
+               )CC
+	       )TC
+	       WHERE SUBSTR(T.XULH,6,10)=TC.MAXXULH  
+	</select>
+	
+	<!-- 3330 查询上次的序列号 csy 2016-01-21 -->
+	<select id="QUERYgetLastXULHByCondition" parameterClass="java.util.Map" resultClass="java.util.HashMap"
+		remapResults="true"> 	
+           	SELECT 
+			  	XULH
+			FROM ${dbSchemalddbh}CKX_LCDV_XH
+			WHERE LIUSH =
+			(
+				SELECT MAX(CLX.LIUSH) FROM ${dbSchemalddbh}CKX_LCDV_XH CLX
+				WHERE CLX.USERCENTER = #USERCENTER#
+				AND CLX.LCDV24 = #LCDV24#
+				<isNotEmpty prepend=" and " property="LCDVBZK"><![CDATA[CLX.LCDVBZK = #LCDVBZK#]]></isNotEmpty>
+				<isEmpty prepend=" and " property="LCDVBZK"><![CDATA[CLX.LCDVBZK IS NULL]]></isEmpty>
+				AND CLX.ZHANKRQ = #ZHANKRQ#
+			)
+	</select>
+
+	<!-- 3330 将数据插入单量份正式表中 csy 2015-12-19 -->
+	<insert id="insertIntoCkxdanlf" parameterClass="java.util.Map">
+		INSERT INTO ${dbSchemalddbh}CKX_DANLF
+		  (XULH,
+		   USERCENTER,
+		   LCDV24,
+		   LCDVBZK,
+		   ZHANKRQ,
+		   HANGH,
+		   LINGJBH,
+		   CHEJ,
+		   SHUL,
+		   DANW,
+		   ZHIZLX,
+		   BIAOS,
+		   YANSBS,
+		   YEZBS,
+		   UWJBS,
+		   CREATOR,
+		   CREATE_TIME,
+		   EDITOR,
+		   EDIT_TIME,
+		   GONGCBGH)
+		  SELECT #XULH#,
+		         USERCENTER,
+		         LCDV24,
+		         LCDVBZK,
+		         ZHANKRQ,
+		         ROWNUM,
+		         LINGJBH,
+		         CHEJ,
+		         SHUL,
+		         DANW,
+		         ZHIZLX,
+		         BIAOS,
+		         YANSBS,
+		         YEZBS,
+		         UWJBS,
+		         CREATOR,
+		         CREATE_TIME,
+		         EDITOR,
+		         EDIT_TIME,
+		         #GONGCBGH#
+		    FROM (SELECT USERCENTER,
+		                 LCDV24,
+		                 LCDVBZK,
+		                 ZHANKRQ,
+		                 LINGJBH,
+		                 CHEJ,
+		                 SHUL,
+		                 DANW,
+		                 ZHIZLX,
+		                 BIAOS,
+		                 YANSBS,
+		                 YEZBS,
+		                 UWJBS,
+		                 CREATOR,
+		                 CREATE_TIME,
+		                 EDITOR,
+		                 EDIT_TIME
+		            FROM ${dbSchemalddbh}IN_NUP_TMP
+		           WHERE USERCENTER = #USERCENTER#
+		             AND LCDV24 = #LCDV24#
+		            <isNotEmpty prepend=" and " property="LCDVBZK"><![CDATA[lcdvbzk = #LCDVBZK#]]></isNotEmpty>
+		            <isEmpty prepend=" and " property="LCDVBZK"><![CDATA[lcdvbzk IS NULL]]></isEmpty>
+		             AND ZHANKRQ = #ZHANKRQ#
+		             ORDER BY CHEJ,LINGJBH ASC )
+	</insert>
+
+	<!-- 3330 将数据插入整车lcdv号表中 csy 2015-12-19 -->
+	<insert id="insertIntoCkxlcdvxh" parameterClass="java.util.Map">
+		<![CDATA[
+		INSERT INTO ${dbSchemalddbh}CKX_LCDV_XH
+		  (LIUSH, USERCENTER, XULH, LCDV24, LCDVBZK, ZHANKRQ, CREATOR, CREATE_TIME)
+		VALUES
+		  (#LIUSH#,
+		   #USERCENTER#,
+		   #XULH#,
+		   #LCDV24#,
+		   #LCDVBZK#,
+		   #ZHANKRQ#,
+		   #CREATOR#,
+		   #CREATE_TIME#)
+		]]>
+	</insert>
+
+	<!-- 3330 查询整车lcdv序列号表中的最大流水号 csy 2015-12-19 -->
+	<select id="queryGetMaxLiush" resultClass="java.util.HashMap"
+		remapResults="true">
+		<![CDATA[
+		SELECT NVL(MAX(X.LIUSH),0) MAXLIUSH FROM ${dbSchemalddbh}CKX_LCDV_XH X
+		]]>
+	</select>
+	
+	<!-- 3330 查询整车lcdv序列号表中符合条件的所有数据 csy 2015-12-21 -->
+	<select id="QUERYgetMaxLcdvs" parameterClass="java.util.Map" resultClass="java.util.HashMap"
+		remapResults="true">
+		SELECT * FROM
+		(
+		SELECT DISTINCT CLX.XULH FROM ${dbSchemalddbh}CKX_LCDV_XH CLX
+		WHERE CLX.USERCENTER = #USERCENTER#
+		AND CLX.LCDV24 = #LCDV24#
+		<isNotEmpty prepend=" and " property="LCDVBZK"><![CDATA[CLX.LCDVBZK = #LCDVBZK#]]></isNotEmpty>
+		<isEmpty prepend=" and " property="LCDVBZK"><![CDATA[CLX.LCDVBZK IS NULL]]></isEmpty>
+		AND CLX.ZHANKRQ = #ZHANKRQ#
+		ORDER BY CLX.XULH DESC
+		)T
+	</select>
+	
+	<!-- 3330 向单量份差异表中添加数据 csy 2015-12-21 -->
+	<insert id="insertIntoDLFCY" parameterClass="java.util.Map">
+		<![CDATA[
+		INSERT INTO ${dbSchemalddbh}CKX_DANLFCY
+		  (USERCENTER,
+		   BENCXH,
+		   SHANGCXH,
+		   LCDV24,
+		   LCDVBZK,
+		   ZHANKRQ,
+		   LINGJBH,
+		   CHEJ,
+		   HANGH,
+		   SHUL,
+		   DANW,
+		   CAOZM,
+		   CREATOR,
+		   CREATE_TIME,
+		   GONGCBGH)
+		VALUES
+		  (#USERCENTER#,
+		   #BENCXH#,
+		   #SHANGCXH#,
+		   #LCDV24#,
+		   #LCDVBZK#,
+		   #ZHANKRQ#,
+		   #LINGJBH#,
+		   #CHEJ#,
+		   #HANGH#,
+		   #SHUL#,
+		   #DANW#,
+		   #CAOZM#,
+		   #CREATOR#,
+		   #CREATE_TIME#,
+		   #GONGCBGH#)
+		]]>
+	</insert>
+
+	<!-- 3330 从单量份正式表删除30天未使用的序列号 csy 2015-12-21 -->
+	<delete id="danlfDeleteXLH">
+		<![CDATA[
+		DELETE FROM ${dbSchemalddbh}CKX_DANLF CZ
+		WHERE CZ.XULH IN
+		(
+		SELECT Y.XULH FROM
+		(
+		SELECT MAX(X.CREATE_TIME) MAXDATE,X.XULH FROM ${dbSchemalddbh}CKX_LCDV_XH X
+		GROUP BY X.XULH
+		)Y
+		WHERE (SYSDATE-Y.MAXDATE)>30
+		)
+		]]>
+   	</delete>
+
+	<!-- 3330 从序列号表删除30天未使用的序列号 csy 2015-12-21 -->
+	<delete id="lcdvxhDeleteXLH">
+		<![CDATA[
+		DELETE FROM ${dbSchemalddbh}CKX_LCDV_XH Z
+		WHERE Z.XULH IN
+		(
+		SELECT Y.XULH FROM
+		(
+		SELECT MAX(X.CREATE_TIME) MAXDATE,X.XULH FROM ${dbSchemalddbh}CKX_LCDV_XH X
+		GROUP BY X.XULH
+		)Y
+		WHERE (SYSDATE-Y.MAXDATE)>30
+		)
+		]]>
+   	</delete>
+   	
+   	<!-- 3330 查询最大工程变更号 -->
+	<select id="getMaxGongcbgh" resultClass="java.util.HashMap"
+		remapResults="true">
+   		<![CDATA[
+			SELECT NVL(MAX(TO_NUMBER(IG.AENNR)),0) MAXGCBGH FROM ${dbSchemalddbh}IN_GONGCBGH IG
+		]]>
+	</select>
+	
+	<!-- 3330 向工程变更号表中插入数据 -->
+	<insert id="insertIntoGongcbgh" parameterClass="java.util.Map">
+   		<![CDATA[
+			INSERT INTO ${dbSchemalddbh}IN_GONGCBGH IG
+			  (AENNR, AETXT, AENST, DATUV, XULH, ZHUANGT, YUNXSJ)
+			VALUES
+			  (#AENNR#, #AETXT#, #AENST#, #DATUV#, #XULH#, #ZHUANGT#, #YUNXSJ#)
+		]]>
+	</insert>
+	
+	<!-- 3330 删除IN_NUP表中USERCENTER、LCDV24、LCDVBZK、ZHANKRQ与IN_NUP_TMP表中相同的数据 -->
+	<delete id="deleteInNupIINT">
+   		<![CDATA[
+			DELETE FROM ${dbSchemalddbh}IN_NUP N
+			 WHERE EXISTS
+			 (SELECT 1
+			          FROM ${dbSchemalddbh}IN_NUP_TMP NT
+			         WHERE N.USERCENTER || N.LCDV24 || N.LCDVBZK || N.ZHANKRQ =
+			               NT.USERCENTER || NT.LCDV24 || NT.LCDVBZK || NT.ZHANKRQ)
+		]]>
+	</delete>
+	
+	<!-- 3330 将IN_NUP_TMP表中所有数据插入IN_NUP表中 -->
+	<insert id="insertInNupIINT" parameterClass="java.util.Map">
+   		<![CDATA[
+			INSERT INTO ${dbSchemalddbh}IN_NUP A
+			  (A.USERCENTER,
+			   A.LCDV24,
+			   A.LCDVBZK,
+			   A.ZHANKRQ,
+			   A.LINGJBH,
+			   A.CHEJ,
+			   A.SHUL,
+			   A.DANW,
+			   A.ZHIZLX,
+			   A.BIAOS,
+			   A.YANSBS,
+			   A.YEZBS,
+			   A.UWJBS,
+			   A.CREATOR,
+			   A.CREATE_TIME,
+			   A.EDITOR,
+			   A.EDIT_TIME,
+			   A.WENJMC,
+			   A.WENJLJ)
+			  SELECT B.USERCENTER,
+			         B.LCDV24,
+			         B.LCDVBZK,
+			         B.ZHANKRQ,
+			         B.LINGJBH,
+			         B.CHEJ,
+			         B.SHUL,
+			         B.DANW,
+			         B.ZHIZLX,
+			         B.BIAOS,
+			         B.YANSBS,
+			         B.YEZBS,
+			         B.UWJBS,
+			         B.CREATOR,
+			         B.CREATE_TIME,
+			         B.EDITOR,
+			         B.EDIT_TIME,
+			         B.WENJMC,
+			         B.WENJLJ
+			    FROM ${dbSchemalddbh}IN_NUP_TMP B	
+		]]>
+	</insert>
+	
+	<!-- 3330 清除IN_NUP表中创建时间为45天之前的数据 -->
+	<delete id="deleteInNupOld">
+   		<![CDATA[
+			DELETE FROM ${dbSchemalddbh}IN_NUP WHERE (SYSDATE-CREATE_TIME) > 45
+		]]>
+	</delete>
+	
+	<!-- 3330 清除IN_NUP表中创建时间为100天之前的数据(四厂专用) -->
+	<delete id="deleteInNupOldHund">
+   		<![CDATA[
+			DELETE FROM ${dbSchemalddbh}IN_NUP WHERE (SYSDATE-CREATE_TIME) > 100
+		]]>
+	</delete>
+	
+	<!-- 3330 将IN_NUP_TMP表中半展开码为BZK的改为空 -->
+	<update id="updateINNUPTMPBZK">
+   		UPDATE ${dbSchemalddbh}IN_NUP_TMP I SET I.LCDVBZK = '' WHERE I.LCDVBZK = 'BZK'
+   	</update> 
+   	
+   	<!-- 3330 将IN_NUP_TMP表中所有数据插入CKX_DANLF表中 -->
+	<insert id="insertInCKXDLF" parameterClass="java.util.Map">
+   		<![CDATA[
+			INSERT INTO ${dbSchemalddbh}CKX_DANLF A
+			  (A.XULH,
+			   A.USERCENTER,
+			   A.LCDV24,
+			   A.LCDVBZK,
+			   A.ZHANKRQ,
+			   A.LINGJBH,
+			   A.CHEJ,
+			   A.SHUL,
+			   A.DANW,
+			   A.ZHIZLX,
+			   A.BIAOS,
+			   A.YANSBS,
+			   A.YEZBS,
+			   A.UWJBS,
+			   A.CREATOR,
+			   A.CREATE_TIME,
+			   A.EDITOR,
+			   A.EDIT_TIME)
+			  SELECT SEQ_CKX_DANLF.NEXTVAL,
+			         B.USERCENTER,
+			         B.LCDV24,
+			         B.LCDVBZK,
+			         B.ZHANKRQ,
+			         B.LINGJBH,
+			         B.CHEJ,
+			         B.SHUL,
+			         B.DANW,
+			         B.ZHIZLX,
+			         B.BIAOS,
+			         B.YANSBS,
+			         B.YEZBS,
+			         B.UWJBS,
+			         B.CREATOR,
+			         B.CREATE_TIME,
+			         B.EDITOR,
+			         B.EDIT_TIME
+			    FROM ${dbSchemalddbh}IN_NUP_TMP B
+		]]>
+	</insert>
+
+	<!-- 3330 清除CKX_DANLF表中创建时间为100天之前的数据 -->
+	<delete id="deleteCkxDlfOld">
+   		<![CDATA[
+			DELETE FROM ${dbSchemalddbh}CKX_DANLF N WHERE (SYSDATE-N.CREATE_TIME) > 100
+		]]>
+	</delete>
+	<!-- ***********************************************************↑由程思远于2015-12-21修改************************************************************ -->
+	
+   
+   
+	 <!-- 3320 查询需要修改的单位还有数量  yz 2015-12-7  -->
+	<select id="queryDanwShulzongcdlf" parameterClass="java.util.Map" resultClass="java.util.HashMap" remapResults="true">
+		<![CDATA[
+			SELECT  DECODE(C.HUANSBL,NULL,A.SHUL,A.SHUL*C.HUANSBL) SHUL,DECODE(C.HUANSBL,NULL,B.DANW,C.MUBDW) DANW,
+			A.USERCENTER,A.ZONGCLJ,A.ECOM,A.ZIJSYCJ,A.LINGJBH
+			FROM ${dbSchemalddbh}IN_NUP_ZONGCDLF A 
+    		JOIN ${dbSchemalddbh}CKX_LINGJ B ON A.USERCENTER=B.USERCENTER AND A.LINGJBH=B.LINGJBH AND A.DANW!=B.DANW
+     		LEFT JOIN ${dbSchemalddbh}CKX_DANWHS C ON A.USERCENTER=C.USERCENTER AND A.DANW=C.BEIHDW  AND B.DANW=C.MUBDW  
+   			WHERE B.BIAOS='1'
+		]]>
+	</select>
+   
+   <!-- 3320 更新总成单量份的零件数量还有单位  yz 2015-12-7 -->
+   <update id="updatezongcdlf" parameterClass="java.util.Map" >
+   		<![CDATA[
+   		UPDATE ${dbSchemalddbh}IN_NUP_ZONGCDLF A SET A.SHUL=#SHUL#,  A.DANW = #DANW# 
+		WHERE  A.USERCENTER = #USERCENTER# AND A.ZONGCLJ = #ZONGCLJ#
+		AND A.ECOM = #ECOM# AND A.ZIJSYCJ = #ZIJSYCJ# AND A.LINGJBH = #LINGJBH#
+		]]>
+   </update>  
+   
+   <!-- ******************************************************************************************************************** --> 
+   <!-- 3320 清空总成单量份接口表 in_nup_zongcdlf csy 2016-01-04 -->
+	<delete id="inNupZongcdlfDelete">
+	    <![CDATA[
+	   		TRUNCATE TABLE ${dbSchemalddbh}IN_NUP_ZONGCDLF
+		]]>
+	</delete>
+	
+	<!-- 3320 清空总成单量份差异表 ckx_zongcdlfc csy 2016-01-04 -->
+	<delete id="ckxZongcdlfcDelete">
+	    <![CDATA[
+	   		TRUNCATE TABLE ${dbSchemalddbh}CKX_ZONGCDLFC
+		]]>
+	</delete>
+	
+	<!-- 3320 向总成单量份差异表中添加数据 csy 2016-01-04 -->
+	<insert id="insertIntoZongcDLFC" parameterClass="java.util.Map">
+		<![CDATA[
+		INSERT INTO ${dbSchemalddbh}CKX_ZONGCDLFC
+		  (USERCENTER,
+		   ZONGCLJ,
+		   ZHANKRQ,
+		   LINGJBH,
+		   CHEJ,
+		   HANGH,
+		   SHUL,
+		   DANW,
+		   CAOZM,
+		   CREATOR,
+		   CREATE_TIME,
+		   GONGCBGH)
+		VALUES
+		  (#USERCENTER#,
+		   #ZONGCLJ#,
+		   #ECOM#,
+		   #LINGJBH#,
+		   #ZIJSYCJ#,
+		   #HANGH#,
+		   #SHUL#,
+		   #DANW#,
+		   #CAOZM#,
+		   #CREATOR#,
+		   #CREATE_TIME#,
+		   #GONGCBGH#)
+		]]>
+	</insert>
+	
+	<!-- 3320 查询当天传入的总成单量份接口表中所有总成号（重复的只取一个） -->
+	<select id="QueryZongcdlfZCLJH" resultClass="java.util.HashMap" remapResults="true">
+		<![CDATA[
+		SELECT DISTINCT INZ.ZONGCLJ 
+	    FROM ${dbSchemalddbh}IN_NUP_ZONGCDLF INZ
+	    ORDER BY INZ.ZONGCLJ
+		]]>
+	</select>
+	
+	<!-- 3320 根据组合键查询之前最大数据 -->
+	<select id="QueryZongcdlfMax" parameterClass="java.util.Map" resultClass="java.util.HashMap" remapResults="true">
+		<![CDATA[
+		SELECT * FROM ${dbSchemalddbh}CKX_ZONGCDLF
+	    WHERE ZONGCLJ = #ZONGCLJ#
+	    AND ECOM =
+	    (
+	    SELECT MAX(ECOM) FROM ${dbSchemalddbh}CKX_ZONGCDLF
+	    WHERE ZONGCLJ = #ZONGCLJ#
+	    )
+	    ORDER BY ZIJSYCJ,LINGJBH,SHUL
+		]]>
+	</select>
+	
+	<!-- 3320 查询当天传入的总成单量份接口表中当前总成号和展开日期组合（重复的只取一个，且展开日期大于当前总成单量份正是表中相应总成号的最大展开日期） -->
+	<select id="QueryZongcdlfZB" resultClass="java.util.HashMap" remapResults="true">
+		<![CDATA[
+		SELECT DISTINCT INZ.ZONGCLJ,INZ.ECOM 
+	    FROM ${dbSchemalddbh}IN_NUP_ZONGCDLF INZ
+      	WHERE INZ.ZONGCLJ = #ZONGCLJ#
+      	AND INZ.ECOM > NVL((SELECT MAX(ECOM) FROM ${dbSchemalddbh}CKX_ZONGCDLF WHERE ZONGCLJ = #ZONGCLJ#),' ')
+	    ORDER BY INZ.ZONGCLJ,INZ.ECOM
+		]]>
+	</select>
+	
+	<!-- 3320 根据组合（总成号+展开日期）从总成单量份接口表中查询相应数据，并加入行号，插入总成单量份正式表中 -->
+	<insert id="insertIntoZongcdlf" parameterClass="java.util.Map">
+		<![CDATA[
+		INSERT INTO ${dbSchemalddbh}CKX_ZONGCDLF
+		  (USERCENTER,
+		   ZONGCLJ,
+		   ECOM,
+		   HANGH,
+		   CHEJ,
+		   ZIJSYCJ,
+		   LINGJBH,
+		   SHUL,
+		   DANW,
+		   ZHIZLX,
+		   UWJBS,
+		   BIAOS,
+		   YANSBS,
+		   XITBS,
+		   CHULRQ,
+		   BEIZ,
+		   BEIZ1,
+		   CREATOR,
+		   CREATE_TIME,
+		   WENJMC,
+		   WENJLJ,
+		   GONGCBGH)
+		  SELECT CZ.USERCENTER,
+		         CZ.ZONGCLJ,
+		         CZ.ECOM,
+		         ROWNUM,
+		         CZ.CHEJ,
+		         CZ.ZIJSYCJ,
+		         CZ.LINGJBH,
+		         CZ.SHUL,
+		         CZ.DANW,
+		         CZ.ZHIZLX,
+		         CZ.UWJBS,
+		         CZ.BIAOS,
+		         CZ.YANSBS,
+		         CZ.XITBS,
+		         CZ.CHULRQ,
+		         CZ.BEIZ,
+		         '',
+		         CZ.CREATOR,
+		         CZ.CREATE_TIME,
+		         CZ.WENJMC,
+		         CZ.WENJLJ,
+		         #GONGCBGH#
+		    FROM (SELECT USERCENTER,
+		                 ZONGCLJ,
+		                 ECOM,
+		                 CHEJ,
+		                 ZIJSYCJ,
+		                 LINGJBH,
+		                 SHUL,
+		                 DANW,
+		                 ZHIZLX,
+		                 UWJBS,
+		                 BIAOS,
+		                 YANSBS,
+		                 XITBS,
+		                 CHULRQ,
+		                 BEIZ,
+		                 CREATOR,
+		                 CREATE_TIME,
+		                 WENJMC,
+		                 WENJLJ
+		            FROM ${dbSchemalddbh}IN_NUP_ZONGCDLF
+		           WHERE ZONGCLJ = #ZONGCLJ#
+		             AND ECOM = #ECOM#
+		           ORDER BY ZIJSYCJ, LINGJBH, SHUL) CZ
+		]]>
+	</insert>
+	
+	<!-- 3320 根据组合键查询单量份正式表中的集合列表 -->
+	<select id="QueryZongcdlfByCondition" parameterClass="java.util.Map" resultClass="java.util.HashMap" remapResults="true">
+		<![CDATA[
+		SELECT * FROM ${dbSchemalddbh}CKX_ZONGCDLF
+	    WHERE ZONGCLJ = #ZONGCLJ#
+	    AND ECOM = #ECOM#
+	    ORDER BY ZIJSYCJ,LINGJBH,SHUL
+		]]>
+	</select>
+	
+	<!-- 3320 删除in_zongcdlf中ecom小于ckx_zongcdlf已存在最大ecom的数据 -->
+	<delete id="inZongCdlfDelete">
+		<![CDATA[
+		DELETE FROM ${dbSchemalddbh}IN_NUP_ZONGCDLF N
+		 WHERE EXISTS (SELECT 1
+		          FROM (SELECT C.USERCENTER, C.ZONGCLJ, MAX(C.ECOM) ECOM
+		                  FROM ${dbSchemalddbh}CKX_ZONGCDLF C
+		                 GROUP BY C.USERCENTER, C.ZONGCLJ) NT
+		         WHERE N.USERCENTER = NT.USERCENTER
+		           AND N.ZONGCLJ = NT.ZONGCLJ
+		           AND N.ECOM <= NT.ECOM)
+		]]>
+   	</delete>
+	
+	<!-- 3320 清除30天前的展开日期数据 -->
+	<delete id="ZongCdlfDelete">
+		<![CDATA[
+		DELETE FROM ${dbSchemalddbh}CKX_ZONGCDLF
+		WHERE (SYSDATE - TO_DATE(ECOM,'YYYY-MM-DD'))>30
+		]]>
+   	</delete>
+   	
+   	<!-- 3320 将IN_NUP_ZONGCDLF表中所有数据插入CKX_ZONGCDLF表中 -->
+	<insert id="insertInCKXZCDLF" parameterClass="java.util.Map">
+   		<![CDATA[
+			INSERT INTO ${dbSchemalddbh}CKX_ZONGCDLF
+			  (USERCENTER,
+			   ZONGCLJ,
+			   ECOM,
+			   CHEJ,
+			   ZIJSYCJ,
+			   LINGJBH,
+			   SHUL,
+			   DANW,
+			   ZHIZLX,
+			   UWJBS,
+			   BIAOS,
+			   YANSBS,
+			   XITBS,
+			   CHULRQ,
+			   BEIZ,
+			   BEIZ1,
+			   CREATOR,
+			   CREATE_TIME,
+			   WENJMC,
+			   WENJLJ)
+			  SELECT B.USERCENTER,
+			         B.ZONGCLJ,
+			         B.ECOM,
+			         B.CHEJ,
+			         B.ZIJSYCJ,
+			         B.LINGJBH,
+			         B.SHUL,
+			         B.DANW,
+			         B.ZHIZLX,
+			         B.UWJBS,
+			         B.BIAOS,
+			         B.YANSBS,
+			         B.XITBS,
+			         B.CHULRQ,
+			         B.BEIZ,
+			         '',
+			         B.CREATOR,
+			         B.CREATE_TIME,
+			         B.WENJMC,
+			         B.WENJLJ
+			    FROM ${dbSchemalddbh}IN_NUP_ZONGCDLF B
+		]]>
+	</insert>
+   <!-- ******************************************************************************************************************** --> 
+   
+    <!-- 3470 物流路径总图  yz 2015-12-12 -->
+   <delete id="wulljDelete">
+   		<![CDATA[
+   		 	truncate table  ${dbSchemalddbh}ckx_wullj
+		]]>
+   </delete>
+   
+   <!-- 3390 更新表中的editor为delete yz 2016-1-12 -->
+  	<update id="updateckx_fenzxpcsl">
+	<![CDATA[
+		update ${dbSchemalddbh}ckx_fenzxpcsl a set a.editor='temp' 
+	]]>		
+	</update>	
+   
+   <!-- 3390 删除表中editor为delete的数据 yz 2016-1-12 -->
+   <delete id="deleteckx_fenzxpcsl">
+   		<![CDATA[
+   		 	delete from ${dbSchemalddbh}ckx_fenzxpcsl a where a.editor='temp'
+		]]>
+   </delete>
+   
+   <!-- 3340 更新表中的editor为delete yz 2016-1-12 -->
+  	<update id="updateckx_shengcx_lingj">
+	<![CDATA[
+		update ${dbSchemalddbh}ckx_shengcx_lingj a set a.editor='temp' 
+	]]>		
+	</update>	
+   
+   <!-- 3340 删除表中editor为delete的数据 yz 2016-1-12 -->
+   <delete id="deleteckx_shengcx_lingj">
+   		<![CDATA[
+   		 	delete from ${dbSchemalddbh}ckx_shengcx_lingj a where a.editor='temp'
+		]]>
+   </delete>
+   
+   <!-- 3470 更新表中的editor为delete yz 2016-1-12 -->
+  	<update id="updateckx_wullj">
+	<![CDATA[
+		update ${dbSchemalddbh}ckx_wullj a set a.editor='temp' 
+	]]>		
+	</update>	
+   
+   <!-- 3470 物流路径总图  删除物流路径总图主表editor为temp的数据 -->
+   <delete id="deleteckx_wullj">
+   		<![CDATA[
+   			delete from ${dbSchemalddbh}ckx_wullj where editor = 'temp'
+		]]>
+   </delete>
+   
+   <!-- 3720 CLDDXX2总装计划  lc 2016-5-16 -->
+   <select id="queryIn_clddxx2" parameterClass="java.util.Map" resultClass="java.util.HashMap" remapResults="true">
+		<![CDATA[
+		$head$
+		select tt.*,ROWNUM RN from (  
+			select * from (
+			    select lpad(to_char(t.liush),10,0) as liush,
+				       t.yjsxsj as yjsxsj,
+				       a.coddc as coddc,
+				       t.whof as whof,
+				       t.usercenter as usercenter,
+				       t.scxh as scxh,
+				       t.yjsyhsj as yjsyhsj,
+				       '2' as xuqly,
+				       '3720' as creator,
+				       sysdate as create_time  
+				  from ${dbSchemalddbh}in_clddxx2 t join ${dbSchemalddbh}in_cldv_coddc a
+				       on t.lcdv24||t.lcdv = a.lcdv1424 
+				 where t.leix='5'
+				       and t.cj_date >= (select to_date(to_char(b.lastcpltime,'yyyy-mm-dd HH24:mi:ss'),'yyyy-mm-dd HH24:mi:ss') from ${dbSchemalddbh}in_zidb b where b.inbh = '3720')
+			           and t.cj_date < (select to_date(to_char(b.yunxkssj,'yyyy-mm-dd HH24:mi:ss'),'yyyy-mm-dd HH24:mi:ss') from ${dbSchemalddbh}in_zidb b where b.inbh = '3720')) where 1=1  
+		order by usercenter,scxh,liush      	
+		) tt where 1=1				   
+		$foot$	
+		]]>
+   </select>
+   
+   <!-- 3730 CODDC总成零件消耗点  lc 2016-5-16 -->
+   <select id="queryIncoddc" parameterClass="java.util.Map" resultClass="java.util.HashMap" remapResults="true">
+		<![CDATA[
+		$head$
+		select tt.*,ROWNUM RN from (  
+			select * from (
+			    select t.usercenter as usercenter,
+				       substr(t.shengcx,0,3) as shengcx,
+				       t.coddc as coddc,
+				       t.lingj as lingj,
+				       t.xiaohd as xiaohd,
+				       t.danw as danw,
+				       t.xiaohxs as xiaohxs,
+				       to_char(t.ecomqssj,'yyyy-MM-dd') as ecomqssj,
+				       to_char(t.ecomjssj,'yyyy-MM-dd') as ecomjssj,
+				       '3730' as creator,
+				       sysdate as create_time,
+				       '3730' as editor,
+				       sysdate as edit_time  
+				  from ${dbSchemalddbh}in_coddc t join ${dbSchemalddbh}ckx_shengcx_lingj a
+				       on t.usercenter=a.usercenter and t.lingj=a.lingjbh) where 1=1   
+		order by usercenter,coddc,lingj,xiaohd,ecomqssj,ecomjssj      	
+		) tt where 1=1				   
+		$foot$	
+		]]>
+   </select>
+   
+</sqlMap>
+

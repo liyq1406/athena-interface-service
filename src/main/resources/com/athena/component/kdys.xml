@@ -1,0 +1,570 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="kdysService">
+	<resultMap class="com.athena.component.service.bean.Inwuld" id="resultInwuld">
+		<result column="ID" property="id" />
+		<result column="FALG" property="falg" />
+		<result column="PAP_SHEET_ID" property="papSheetId" />
+		<result column="PAP_BOX_ID" property="papBoxId" />
+		<result column="KDYS_SHEET_ID" property="kdysSheetId" />
+		<result column="KDYS_BOX_ID" property="kdysBoxId" />
+		<result column="C_POINT_ID" property="cPointId" />
+		<result column="T_TIME" property="tTime" />
+		<result column="CJ_DATE" property="cjDate" />
+		<result column="CLZT" property="clzt" />
+	</resultMap>
+	<!--查询接口数据-->
+	<select id="queryInwuld" resultMap="resultInwuld">
+		SELECT
+		t1.ID,
+		t1.FALG,
+		t1.PAP_SHEET_ID,
+		t1.PAP_BOX_ID,
+		t1.KDYS_SHEET_ID,
+		t1.KDYS_BOX_ID,
+		t1.C_POINT_ID,
+		t1.T_TIME,
+		to_char(t1.CJ_DATE,'YYYY-MM-DD') AS CJ_DATE,
+		t1.CLZT
+		FROM ${dbSchemal0}IN_KDWLD t1 LEFT JOIN 
+		${dbSchemal0}CKX_YUNSWLD t2 on t1.C_POINT_ID = t2.WULDBH 
+		WHERE CLZT = #clzt#
+		ORDER BY to_number(nvl(t2.SHUNXH,0)) ASC
+	</select>
+	<!--更新接口表中的处理状态-->
+	<!--<update id="updateInwuld" parameterClass="com.athena.component.service.bean.Inwuld">
+		UPDATE ${dbSchemal0}IN_KDWLD SET CLZT = #clzt# 
+		WHERE KDYS_SHEET_ID = #kdysSheetId# and KDYS_BOX_ID = #kdysBoxId#
+	</update>-->
+	<update id="updateInwuld" parameterClass="com.athena.component.service.bean.Inwuld">
+		UPDATE ${dbSchemal0}IN_KDWLD SET CLZT = '1' 
+		WHERE CLZT = #clzt#
+	</update>
+	
+	<update id="updatezjInwuld" parameterClass="com.athena.component.service.bean.Inwuld">
+		UPDATE ${dbSchemal0}IN_KDWLD SET CLZT = '2' 
+		WHERE CLZT = '0'
+	</update>
+	
+	<resultMap class="com.athena.component.service.bean.TC" id="TC">
+		<result column="ID" property="id" />
+		<result column="TCNO" property="tcNo" />
+		<result column="UTNO" property="utNo" />
+		<result column="QIYSJ" property="qiysj" />
+		<result column="QIYD" property="qiyd" />
+		<result column="MUDD" property="mudd" />
+		<result column="DINGHCJ" property="dinghcj" />
+		<result column="YUJDDSJ" property="yujddsj" />
+		<result column="ZUISWLD" property="zuiswld" />
+		<result column="DAODWLDSJ" property="daodwldsj" />
+		<result column="ZUIXYJDDSJ" property="zuixyjddsj" />
+		<result column="TCZT" property="tczt" />
+		<result column="LUJDM" property="lujdm" />
+		<result column="PAP_SHEET_ID" property="papSheetId" />
+		<result column="PAP_BOX_ID" property="papBoxId" />
+		<result column="KDYS_SHEET_ID" property="kdysSheetId" />
+		<result column="CREATOR" property="creator" />
+		<result column="CREATE_TIME" property="createTime" />
+		<result column="EDITOR" property="editor" />
+		<result column="EDIT_TIME" property="editTime" />
+	</resultMap>
+	<!--查询XQJS_TC中的数据 -->
+	<select id="queryTc" resultMap="TC">
+		SELECT
+		ID,
+		TCNO,
+		UTNO,
+		to_char(QIYSJ,'YYYY-MM-DD') AS QIYSJ,
+		QIYD,
+		MUDD,
+		DINGHCJ,
+		YUJDDSJ,
+		ZUISWLD,
+		to_char(DAODWLDSJ,'YYYY-MM-DD') AS DAODWLDSJ,
+		to_char(ZUIXYJDDSJ,'YYYY-MM-DD') AS ZUIXYJDDSJ,
+		TCZT,
+		LUJDM,
+		PAP_SHEET_ID,
+		PAP_BOX_ID,
+		KDYS_SHEET_ID,
+		CREATOR,
+		CREATE_TIME,
+		EDITOR,
+		EDIT_TIME
+		FROM ${dbSchemal0}XQJS_TC WHERE 1=1 
+		<dynamic>
+			<isNotEmpty property="tcNo">
+				and TCNO = #tcNo# 
+			</isNotEmpty>
+			<isNotEmpty property="kdysSheetId">
+				and KDYS_SHEET_ID = #kdysSheetId# 
+			</isNotEmpty>
+			<isNotEmpty property="papBoxId">
+				and PAP_BOX_ID = #papBoxId# 
+			</isNotEmpty>
+			<isNotEmpty property="papSheetId">
+				and PAP_SHEET_ID = #papSheetId# 
+			</isNotEmpty>
+		</dynamic>
+	</select>
+	
+	<!--查询XQJS_TC中的数据 -->
+	<select id="queryTcZT" resultMap="TC">
+		SELECT
+		ID,
+		TCNO,
+		UTNO,
+		to_char(QIYSJ,'YYYY-MM-DD') AS QIYSJ,
+		QIYD,
+		MUDD,
+		DINGHCJ,
+		YUJDDSJ,
+		ZUISWLD,
+		to_char(DAODWLDSJ,'YYYY-MM-DD') AS DAODWLDSJ,
+		to_char(ZUIXYJDDSJ,'YYYY-MM-DD') AS ZUIXYJDDSJ,
+		TCZT,
+		LUJDM,
+		PAP_SHEET_ID,
+		PAP_BOX_ID,
+		KDYS_SHEET_ID,
+		CREATOR,
+		CREATE_TIME,
+		EDITOR,
+		EDIT_TIME
+		FROM ${dbSchemal0}XQJS_TC WHERE 1=1 
+		<dynamic>
+			<isNotEmpty property="tcNo">
+				and TCNO = #tcNo# and TCZT='1'
+			</isNotEmpty>
+		</dynamic>
+	</select>
+	
+	<!--查询XQJS_TC中的数据 -->
+	<select id="queryTcbyUt" resultMap="TC">
+		SELECT
+		ID,
+		TCNO,
+		UTNO,
+		to_char(QIYSJ,'YYYY-MM-DD') AS QIYSJ,
+		QIYD,
+		MUDD,
+		DINGHCJ,
+		YUJDDSJ,
+		ZUISWLD,
+		to_char(DAODWLDSJ,'YYYY-MM-DD') AS DAODWLDSJ,
+		to_char(ZUIXYJDDSJ,'YYYY-MM-DD') AS ZUIXYJDDSJ,
+		TCZT,
+		LUJDM,
+		PAP_SHEET_ID,
+		PAP_BOX_ID,
+		KDYS_SHEET_ID,
+		CREATOR,
+		CREATE_TIME,
+		EDITOR,
+		EDIT_TIME
+		FROM ${dbSchemal0}XQJS_TC WHERE 1=1 
+		<dynamic>
+			<isNotEmpty property="tcNo">
+				and TCNO = #tcNo# and TCZT='1'
+			</isNotEmpty>
+			<isNotEmpty property="utNo">
+				and UTNO = #utNo#
+			</isNotEmpty>
+		</dynamic>
+	</select>
+	
+	
+	<!--插入数据到XQJS_TC （A类）-->
+	<insert id="insertTC" parameterClass="com.athena.component.service.bean.TC">
+		INSERT INTO ${dbSchemal0}XQJS_TC(
+			ID,
+			TCNO,
+			UTNO,
+			MUDD,
+			DINGHCJ,
+			YUJDDSJ,
+			TCZT,
+			LUJDM,
+			PAP_SHEET_ID,
+			PAP_BOX_ID,
+			KDYS_SHEET_ID,
+			CREATOR,
+			CREATE_TIME,
+			EDITOR,
+			EDIT_TIME
+		)VALUES(
+			#id#,
+			#tcNo#,
+			#utNo#,
+			#mudd#,
+			#dinghcj#,
+			to_date(#yujddsj#,'YYYY-MM-DD HH24:MI:SS'),
+			#tczt#,
+			#lujdm#,
+			#papSheetId#,
+			#papBoxId#,
+			#kdysSheetId#,
+			#creator#,
+			to_date(#createTime#,'YYYY-MM-DD HH24:MI:SS'),
+			#editor#,
+			to_date(#editTime#,'YYYY-MM-DD HH24:MI:SS')
+		)
+	</insert>	
+		<!--插入数据到XQJS_TC （C类1）-->
+	<insert id="insertTCC1" parameterClass="com.athena.component.service.bean.TC">
+		INSERT INTO ${dbSchemal0}XQJS_TC(
+			ID,
+			TCNO,
+			UTNO,
+			MUDD,
+			DINGHCJ,
+			YUJDDSJ,
+			TCZT,
+			LUJDM,
+			QIYD,
+			GUANXSJ,
+			PAP_SHEET_ID,
+			PAP_BOX_ID,
+			KDYS_SHEET_ID,
+			CREATOR,
+			CREATE_TIME,
+			EDITOR,
+			EDIT_TIME
+		)VALUES(
+			#id#,
+			#tcNo#,
+			#utNo#,
+			#mudd#,
+			#dinghcj#,
+			to_date(#yujddsj#,'YYYY-MM-DD HH24:MI:SS'),
+			#tczt#,
+			#lujdm#,
+			#qiyd#,
+			to_date(#guanxsj#,'YYYY-MM-DD HH24:MI:SS'),
+			#papSheetId#,
+			#papBoxId#,
+			#kdysSheetId#,
+			#creator#,
+			to_date(#createTime#,'YYYY-MM-DD HH24:MI:SS'),
+			#editor#,
+			to_date(#editTime#,'YYYY-MM-DD HH24:MI:SS')
+		)
+	</insert>
+	<!--插入数据到XQJS_TC （C类2）-->
+	<insert id="insertTCC2" parameterClass="com.athena.component.service.bean.TC">
+		INSERT INTO ${dbSchemal0}XQJS_TC(
+			ID,
+			TCNO,
+			UTNO,
+			MUDD,
+			DINGHCJ,
+			YUJDDSJ,
+			TCZT,
+			LUJDM,
+			QIYD,
+			GUANXSJ,
+			ZUISWLD,
+			PAP_SHEET_ID,
+			PAP_BOX_ID,
+			KDYS_SHEET_ID,
+			CREATOR,
+			CREATE_TIME,
+			EDITOR,
+			EDIT_TIME
+		)VALUES(
+			#id#,
+			#tcNo#,
+			#utNo#,
+			#mudd#,
+			#dinghcj#,
+			to_date(#yujddsj#,'YYYY-MM-DD HH24:MI:SS'),
+			#tczt#,
+			#lujdm#,
+			#qiyd#,
+			to_date(#guanxsj#,'YYYY-MM-DD HH24:MI:SS'),
+			#zuiswld#,
+			#papSheetId#,
+			#papBoxId#,
+			#kdysSheetId#,
+			#creator#,
+			to_date(#createTime#,'YYYY-MM-DD HH24:MI:SS'),
+			#editor#,
+			to_date(#editTime#,'YYYY-MM-DD HH24:MI:SS')
+		)
+	</insert>	
+	<!--更新数据到XQJS_TC （B类）-->
+	<update id="updateTC" parameterClass="com.athena.component.service.bean.TC">
+		UPDATE ${dbSchemal0}XQJS_TC SET
+		TCNO = #tcNo#,
+		KDYS_SHEET_ID = #kdysSheetId#,
+		EDITOR = #editor#,
+		EDIT_TIME = to_date(#editTime#,'YYYY-MM-DD HH24:MI:SS')
+		WHERE PAP_SHEET_ID = #papSheetId# and PAP_BOX_ID = #papBoxId#
+	</update>
+	
+	<!--更新数据到XQJS_TC-->
+	<update id="updateTC1" parameterClass="com.athena.component.service.bean.TC">
+		UPDATE ${dbSchemal0}XQJS_TC SET
+		TCNO = #tcNo#,
+		PAP_BOX_ID = #tcNo#,
+		EDITOR = #editor#,
+		EDIT_TIME = to_date(#editTime#,'YYYY-MM-DD HH24:MI:SS')
+		WHERE  KDYS_SHEET_ID = #kdysSheetId# and PAP_BOX_ID = #papBoxId#
+	</update>
+	
+	<!--更新数据到XQJS_TC-->
+	<update id="updateJzxh" parameterClass="com.athena.component.service.bean.TC">
+		UPDATE ${dbSchemal0}XQJS_TC SET
+		KDYS_SHEET_ID = #kdysSheetId#,
+		EDITOR = #editor#,
+		EDIT_TIME = to_date(#editTime#,'YYYY-MM-DD HH24:MI:SS')
+		WHERE  PAP_SHEET_ID = #papSheetId# and PAP_BOX_ID = #papBoxId# and ID=#id#
+	</update>
+	
+	<!--更新XQJS_TC中物理点信息 （C类）-->
+	<update id="updateTcInfo" parameterClass="com.athena.component.service.bean.TC">
+		UPDATE ${dbSchemal0}XQJS_TC SET
+		<dynamic>
+			<isNotEmpty property="qiysj">
+				QIYSJ = to_date(#qiysj#,'yyyy-MM-dd'),
+			</isNotEmpty>
+		</dynamic>
+		<dynamic>
+			<isNotEmpty property="qiyd">
+				QIYD = #qiyd#,
+			</isNotEmpty>
+		</dynamic>
+		<dynamic>
+			<isNotEmpty property="guanxsj">
+				GUANXSJ = to_date(#guanxsj#,'yyyy-MM-dd'),
+			</isNotEmpty>
+		</dynamic>
+		<dynamic>
+			<isNotEmpty property="zuixyjddsj">
+				ZUIXYJDDSJ = to_date(#zuixyjddsj#,'yyyy-MM-dd'),
+			</isNotEmpty>
+		</dynamic>
+		ZUISWLD = #zuiswld#,
+		DAODWLDSJ = to_date(#daodwldsj#,'yyyy-MM-dd'),
+		EDITOR = '4110',
+		EDIT_TIME = sysdate
+		WHERE TCNO = #tcNo# 
+		<!--  and KDYS_SHEET_ID = #kdysSheetId# -->
+	</update>
+	<delete id="deleteTc" parameterClass="com.athena.component.service.bean.TC">
+		DELETE FROM ${dbSchemal0}XQJS_TC WHERE TCNO = #tcNo# and KDYS_SHEET_ID = #kdysSheetId#
+	</delete>
+	
+	<update id="deleteTc1" parameterClass="com.athena.component.service.bean.TC">
+		UPDATE ${dbSchemal0}XQJS_TC SET
+		TCZT = '0',
+		EDITOR = #editor#,
+		EDIT_TIME = to_date(#editTime#,'YYYY-MM-DD HH24:MI:SS')
+		WHERE  TCNO = #tcNo# and KDYS_SHEET_ID = #kdysSheetId# and ID=#id#
+	</update>
+	
+	<resultMap class="com.athena.component.service.bean.Yaohl" id="Yaohl">
+		<result column="USERCENTER" property="usercenter" />
+		<result column="UTH" property="uth" />
+		<result column="YAOHLH" property="yaohlh" />
+		<result column="FAHD" property="fahd" />
+		<result column="CANGKBH" property="cangkbh" />
+		<result column="ZUIWSJ" property="zuiwsj" />
+		<result column="USERCENTER" property="usercenter" />
+		<result column="YAOHLZT" property="yaohlzt" />
+		<result column="SHIJFYSJ" property="shijfysj" />
+		<result column="XIUGHYJJFSJ" property="xiughyjjfsj" />
+		<result column="JIAOFZT" property="jiaofzt" />
+		<result column="DINGHCJ" property="dinghcj" />
+		<result column="LUJDM" property="lujdm" />
+	</resultMap>
+	<!--查询CK_YAOHL中的数据    查询不是待验收状态的   待验收状态为4 -->
+	<select id="queryYaohl" parameterClass="com.athena.component.service.bean.TC" resultMap="Yaohl">
+		SELECT
+		t1.USERCENTER,
+		t1.UTH,
+		t3.YAOHLH,
+		t3.FAHD,
+		t3.CANGKBH,
+		to_char(t3.ZUIWSJ,'YYYY-MM-DD') AS ZUIWSJ,
+		t3.YAOHLZT,
+		to_char(t3.SHIJFYSJ,'YYYY-MM-DD') AS SHIJFYSJ,
+		to_char(t3.XIUGHYJJFSJ,'YYYY-MM-DD') AS XIUGHYJJFSJ,
+		t3.JIAOFZT,
+		t4.DINGHCJ,
+		t4.LUJDM
+		FROM ${dbSchemal0}CK_DAOHTZD t1 LEFT JOIN ${dbSchemal0}CK_UABQ t2 on t1.UTH = t2.UTH and t1.USERCENTER = t2.USERCENTER 
+		LEFT JOIN ${dbSchemal0}CK_YAOHL t3 on t2.YAOHLH = t3.YAOHLH and t2.USERCENTER = t3.USERCENTER 
+		LEFT JOIN ${dbSchemal0}XQJS_DINGDMX t4 on t3.DINGDMXID = t4.ID
+		Where t1.TCH = #tcNo# and t1.ZHUANGT != '4' 
+		ORDER BY t1.UTH ASC
+	</select>
+	<!--查询CK_YAOHL中的数据    查询不是待验收状态的   待验收状态为4 -->
+	<select id="queryYaohlUt" parameterClass="com.athena.component.service.bean.TC" resultMap="Yaohl">
+		SELECT
+		t1.USERCENTER,
+		t1.UTH,
+		t3.YAOHLH,
+		t3.FAHD,
+		t3.CANGKBH,
+		to_char(t3.ZUIWSJ,'YYYY-MM-DD') AS ZUIWSJ,
+		t3.YAOHLZT,
+		to_char(t3.SHIJFYSJ,'YYYY-MM-DD') AS SHIJFYSJ,
+		to_char(t3.XIUGHYJJFSJ,'YYYY-MM-DD') AS XIUGHYJJFSJ,
+		t3.JIAOFZT,
+		t4.DINGHCJ,
+		t4.LUJDM
+		FROM ${dbSchemal0}CK_DAOHTZD t1 LEFT JOIN ${dbSchemal0}CK_UABQ t2 on t1.UTH = t2.UTH and t1.USERCENTER = t2.USERCENTER 
+		LEFT JOIN ${dbSchemal0}CK_YAOHL t3 on t2.YAOHLH = t3.YAOHLH and t2.USERCENTER = t3.USERCENTER 
+		LEFT JOIN ${dbSchemal0}XQJS_DINGDMX t4 on t3.DINGDMXID = t4.ID
+		Where t1.TCH = #tcNo# and t1.UTH = #utNo# and t1.ZHUANGT != '4' 
+		ORDER BY t1.UTH ASC
+	</select>
+	<!--查询CK_YAOHL中的数据    查询不是待验收状态的   待验收状态为4 -->
+	<select id="queryYaohlByut" parameterClass="com.athena.component.service.bean.TC" resultClass="com.athena.component.service.bean.Yaohl">
+		SELECT DISTINCT t1.UTH
+		FROM ${dbSchemal0}CK_DAOHTZD t1 LEFT JOIN ${dbSchemal0}CK_UABQ t2 on t1.UTH = t2.UTH and t1.USERCENTER = t2.USERCENTER 
+		LEFT JOIN ${dbSchemal0}CK_YAOHL t3 on t2.YAOHLH = t3.YAOHLH and t2.USERCENTER = t3.USERCENTER 
+		LEFT JOIN ${dbSchemal0}XQJS_DINGDMX t4 on t3.DINGDMXID = t4.ID
+		Where t1.TCH = #tcNo# and t1.ZHUANGT != '4' 
+		ORDER BY t1.UTH ASC
+	</select>
+	<!--更新数据到CK_YAOHL表    SHIJFYSJ，XIUGHYJJFSJ，JIAOFZT-->
+	<update id="updateYaohl" parameterClass="com.athena.component.service.bean.Yaohl">
+		UPDATE ${dbSchemal0}CK_YAOHL SET 
+		XIUGHYJJFSJ = case when #xiughyjjfsj#='' then null else to_date(#xiughyjjfsj#,'yyyy-MM-dd') end,
+		JIAOFZT = #jiaofzt#,
+		SHIJFYSJ = case when #shijfysj#='' then null else to_date(#shijfysj#,'yyyy-MM-dd') end
+		WHERE YAOHLH = #yaohlh#
+		AND USERCENTER = #usercenter#
+	</update>
+	
+	<!--查询CKX_WAIBWLXX中的数据    外部物理信息数据 -->
+	<resultMap class="com.athena.component.service.bean.Waibwlxx" id="Waibwlxx">
+		<result column="LUJBH" property="lujbh" />
+		<result column="XUH" property="xuh" />
+		<result column="WULDBH" property="wuldbh" />
+		<result column="WULDMC" property="wuldmc" />
+		<result column="SHIFJK" property="shifjk" />
+		<result column="GUANJDBS" property="guanjdbs" />
+		<result column="JIHDHSYSJ" property="jihdhsysj" />
+		<result column="GCBH" property="gcbh" />
+		<result column="YUNSMS" property="yunsms" />
+		<result column="BEIHZQ" property="beihzq" />
+		<result column="YUNSSJ" property="yunssj" />
+		<result column="SHENGXBS" property="shengxbs" />
+		<result column="SHENGXRQ" property="shengxrq" />
+		<result column="YAOHLZKBS" property="yaohlzkbs" />
+		<result column="USERCENTER" property="usercenter" />
+	</resultMap>
+	<select id="queryWaibwlxx" resultMap="Waibwlxx">
+		SELECT 
+		LUJBH,
+		XUH,
+		WULDBH,
+		WULDMC,
+		SHIFJK,
+		GUANJDBS,
+		JIHDHSYSJ,
+		GCBH,
+		YUNSMS,
+		BEIHZQ,
+		YUNSSJ,
+		SHENGXBS,
+		to_char(SHENGXRQ,'YYYY-MM-DD') AS SHENGXRQ,
+		YAOHLZKBS,
+		USERCENTER 
+		FROM ${dbSchemal0}CKX_WAIBWLXX WHERE 1=1
+	</select>
+	
+	<!--查询CK_JIZXGL中的数据    集装箱管理数据 -->
+	<resultMap class="com.athena.component.service.bean.Jizxgl" id="Jizxgl">
+		<result column="USERCENTER" property="usercenter" />
+		<result column="JIZXH" property="jizxh" />
+		<result column="JIUFJZXH" property="jiufjzxh" />
+		<result column="ZHUANGT" property="zhuangt" />
+		<result column="CREATOR" property="creator" />
+		<result column="CREATE_TIME" property="create_time" />
+		<result column="EDITOR" property="editor" />
+		<result column="EDIT_TIME" property="edit_time" />
+		<result column="SHIFJFZ" property="shifjfz" />
+	</resultMap>
+	<select id="queryJizxgl" resultMap="Jizxgl"  parameterClass="com.athena.component.service.bean.Jizxgl">
+		SELECT 
+		USERCENTER,
+		JIZXH,
+		JIUFJZXH,
+		ZHUANGT,
+		CREATOR,
+		CREATE_TIME,
+		EDITOR,
+		EDIT_TIME,
+		SHIFJFZ 
+		FROM ${dbSchemal0}CK_JIZXGL WHERE 1=1
+		<dynamic>
+			<isNotEmpty property="usercenter">
+				and USERCENTER = #usercenter# 
+			</isNotEmpty>
+			<isNotEmpty property="jizxh">
+				and JIZXH = #jizxh# 
+			</isNotEmpty>
+			<isNotEmpty property="jiufjzxh">
+				and JIUFJZXH = #jiufjzxh# 
+			</isNotEmpty>
+		</dynamic>
+	</select>
+	<insert id="insertJizxgl" parameterClass="com.athena.component.service.bean.Jizxgl">
+		INSERT INTO ${dbSchemal0}CK_JIZXGL(
+			USERCENTER,
+			JIZXH,
+			ZHUANGT,
+			SHIFJFZ,
+			CREATOR,
+			CREATE_TIME
+		)VALUES(
+			#usercenter#,
+			#jizxh#,
+			#zhuangt#,
+			#shifjfz#,
+			#creator#,
+			to_date(#create_time#,'YYYY-MM-DD HH24:MI:SS')
+		)
+	</insert>
+	<delete id="deleteJizxgl" parameterClass="com.athena.component.service.bean.Jizxgl">
+		DELETE FROM ${dbSchemal0}CK_JIZXGL WHERE USERCENTER = #usercenter# and JIZXH = #jizxh# 
+	</delete>
+	
+	<select id="getTcId" parameterClass="java.util.HashMap" resultClass="java.util.HashMap">
+		SELECT MAX(ID) as ID FROM ${dbSchemal0}XQJS_TC 
+		WHERE ID LIKE '%'||#createTimeNoLine#||'%'
+	</select>
+	
+	 <!-- 物理点 -->
+   <resultMap class="com.athena.component.service.bean.Wuld" id="Wuld">
+		<result column="WULDBH" property="wuldbh" />
+		<result column="WULDMC" property="wuldmc" />
+		<result column="WULDLX" property="wuldlx" />
+		<result column="SHUNXH" property="shunxh" />
+		<result column="QUY" property="quy" />
+		<result column="BIAOS" property="biaos" />
+	</resultMap>
+	<select id="queryWuld"  resultMap="Wuld" parameterClass="java.util.Map">
+		SELECT 
+		WULDBH,
+		WULDMC,
+		WULDLX,
+		SHUNXH,
+		QUY,
+		BIAOS FROM ${dbSchemal0}CKX_YUNSWLD WHERE BIAOS = '1'  $leix$
+	</select>
+	
+	<select id="queryWuldC"  resultMap="Wuld" parameterClass="java.lang.String">
+		SELECT 
+		WULDBH,
+		WULDMC,
+		WULDLX,
+		SHUNXH,
+		QUY,
+		BIAOS FROM ${dbSchemal0}CKX_YUNSWLD WHERE BIAOS = '1' and  WULDBH=#wuldbh#
+	</select>
+</sqlMap>

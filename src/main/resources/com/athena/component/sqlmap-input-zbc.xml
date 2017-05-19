@@ -1,0 +1,1456 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<!-- ibatis数据库操作配置文件 -->
+<sqlMap namespace="inPutzbc">
+
+<!-- 设置ibatis缓存毛需求SQL	 hzg 2013-5-4 -->
+	<cacheModel id="model-cache" type="LRU" readOnly="true">
+     <flushInterval minutes="15" />
+     <flushOnExecute statement="inPutzbc.queryDanwXuqslOfMaoxqmx"/>
+     <flushOnExecute statement="inPutzbc.queryZhizlxDinghlxOfMaoxqmx"/>
+     <flushOnExecute statement="inPutzbc.queryZhizlxDinghlxOfMaoxqmxCount"/>
+     <flushOnExecute statement="inPutzbc.queryZhizlxDinghlxOfMaoxqmxCuowu"/>
+     <flushOnExecute statement="inPutzbc.queryLingjbhZhizlxxIsNullOfMaoxqmx"/>
+     <flushOnExecute statement="inPutzbc.queryLingjbhZhizlxxIsNullOfMaoxqmxCount"/>
+     <flushOnExecute statement="inPutzbc.queryDiffChanxCount"/>
+     <flushOnExecute statement="inPutzbc.queryMubcxDiffChanx"/>
+     <flushOnExecute statement="inPutzbc.query1050ListOfMaoxqmx"/>
+     <flushOnExecute statement="inPutzbc.query1051ListOfMaoxqmx"/>
+     <flushOnExecute statement="inPutzbc.query1052ListOfMaoxqmx"/>
+     
+     <!-- 旧写法 -->
+     <flushOnExecute statement="inPutzbc.queryLiushOfMaoxq"/>
+     <flushOnExecute statement="inPutzbc.queryXuqbcOfmaoxq"/>
+     <flushOnExecute statement="inPutzbc.queryLingjOfDinghlxzh"/>
+     <flushOnExecute statement="inPutzbc.queryDinghlx"/>
+     <flushOnExecute statement="inPutzbc.maoxqmxDelOfCLV"/>
+     <flushOnExecute statement="inPutzbc.maoxqDelOfCLV"/>
+     <flushOnExecute statement="inPutzbc.queryZuoyyOfXuqly"/>
+     <flushOnExecute statement="inPutzbc.queryMubChanx"/>
+     <flushOnExecute statement="inPutzbc.queryZhizxl"/>
+     <flushOnExecute statement="inPutzbc.updateMaoxqsl"/>
+     <flushOnExecute statement="inPutzbc.queryLingjDW"/>
+     <flushOnExecute statement="inPutzbc.queryHuansbl"/>
+     <flushOnExecute statement="inPutzbc.queryZhouqCalendarCenter"/>
+     
+     <property name="size" value="1000" />
+    </cacheModel>
+    
+   <!-- 1010 零件MAF库存 hzg 2013-1-30 -->
+   <delete id="mafDelete">
+   		<![CDATA[
+			truncate table ${dbSchemalzbc}in_maf 
+		]]>
+   </delete>
+   
+   
+    <!-- 1010 零件MAF库存 hzg 2013-1-30 -->
+   <delete id="inMaoxqmxDelete" parameterClass="java.lang.String">
+   		<![CDATA[
+			delete from  ${dbSchemalzbc}in_maoxqmx where biaos=#biaos#
+		]]>
+   </delete>
+   
+   
+    <!-- 1040 NUP零件 查询系统参数定义 hzg 2014.4.27 -->
+   <select id="queryXitcsdyOfDinghcj" parameterClass="java.util.Map" resultClass="java.util.HashMap">
+   		<![CDATA[
+   			select  t.usercenter,t.beiz from ${dbSchemalzbc}ckx_xitcsdy t where t.usercenter in(SELECT U.USERCENTER FROM ${dbSchemalzbc}CKX_USERCENTER U WHERE U.BIAOS = '1') 
+   				   and t.zidlx in('UWDINGHCJ','ULDINGHCJ','UXDINGHCJ','VDDINGHCJ') 
+   			ORDER BY T.USERCENTER 
+		]]>
+   </select>
+   
+   
+      <!-- 1040 NUP零件 查询 hzg 2014.4.27 -->
+   <select id="queryLingjDhcj" parameterClass="java.util.Map" resultClass="java.lang.String">
+   		<![CDATA[
+   				select dinghcj from ${dbSchemalzbc}ckx_lingj where usercenter = #usercenter# and lingjbh =#lingjbh# and biaos='1'
+		]]>
+   </select>
+
+    <!-- 1040 NUP 查询用户中心 gswang 2015.3.4 -->
+   <select id="queryUsercenterList" parameterClass="java.util.Map" resultClass="java.util.HashMap">
+   		<![CDATA[
+   			select l.usercenter from ${dbSchemalzbc}ckx_usercenter l where l.biaos = '1'
+		]]>
+   </select>
+
+      <!-- 1040 当零件名称在零件表中为空时，将nup传入的零件名称更新到零件表中 gswang 2014-12-16 -->
+   <update id="updateCkxlingjZhongwmc" parameterClass="java.util.Map" >
+   		<![CDATA[
+   		update ${dbSchemalzbc}ckx_lingj l set l.zhongwmc = #zhongwmc# where l.lingjbh = #lingjbh# and l.usercenter = #usercenter# and  (l.zhongwmc is  null  OR trim(l.zhongwmc)  is null)
+		]]>
+   </update>
+   
+     <!-- 1040 当零件为多用户中心零件时，更新新拆分出的零件到系统中 gswang 2015-03-04 -->
+   <update id="updateCkxCopylingj" parameterClass="java.util.Map" >
+   		<![CDATA[
+   		update ${dbSchemalzbc}ckx_lingj l set l.dinghcj=#dinghcj#,  l.kaisrq = to_date(#kaisrq#,'yyyy-mm-dd'),l.jiesrq =  to_date(#jiesrq#,'yyyy-mm-dd') ,l.zhizlx = #zhizlx#,l.fawmc=#fawmc#,l.editor = #editor#,l.edit_time= to_date(#edit_time#,'yyyy-MM-dd HH24:mi:ss') 
+		where l.lingjbh = #lingjbh# and l.usercenter = #usercenter#
+		]]>
+   </update>   
+
+    <!-- 1040 当零件为多用户中心零件时，插入新拆分出的零件到系统中 gswang 2015-03-04 -->
+   <insert id="insertCkxCopylingj" parameterClass="java.util.Map" >
+   		<![CDATA[
+		insert into ${dbSchemalzbc}ckx_lingj(usercenter,dinghcj,lingjbh,kaisrq,jiesrq,zhizlx,danw,zhongwmc,fawmc,biaos,creator,create_time,editor,edit_time) 
+		values(#usercenter#,#dinghcj#,#lingjbh#,to_date(#kaisrq#,'yyyy-mm-dd'),to_date(#jiesrq#,'yyyy-mm-dd'),#zhizlx#,#danw#,#zhongwmc#,#fawmc#,#biaos#,#creator#,to_date(#create_time#,'yyyy-MM-dd HH24:mi:ss'),#editor#,to_date(#edit_time#,'yyyy-MM-dd HH24:mi:ss')) 
+		]]>
+   </insert>  
+   
+    <!-- ###################### 1050 新写法  2013-4-17 #################################### -->
+    <!-- 1050 零件单位换算 查询零件单位和换算比例   hzg 2013-4-17 
+    flag 用于判断转换比例是否为空，0表示换算比例空，1表示换算比例不为空，如果为空则记录异常报警日志
+    -->
+    <select id="queryDanwXuqslOfMaoxqmx" parameterClass="java.lang.String"  resultClass="java.util.HashMap" cacheModel="model-cache">
+   		<![CDATA[
+	   select xq_dwsl.mxq_danw beihsdw,
+	    decode(dwhs.huansbl, null, xq_dwsl.mxq_danw, xq_dwsl.lj_danw) danw, 
+        decode(dwhs.huansbl,null,xq_dwsl.xuqsl,xq_dwsl.xuqsl * dwhs.huansbl) xuqsl,
+          xq_dwsl.usercenter,
+          xq_dwsl.lingjbh,
+          xq_dwsl.xuqbc,
+          xq_dwsl.id,
+          xq_dwsl.biaos,
+          decode(dwhs.huansbl,null,0,1) flag 
+                  from ${dbSchemalzbc}ckx_danwhs dwhs,
+                       ((select lj.usercenter,
+                                mxq.danw   mxq_danw,
+                                lj.danw    lj_danw,
+                                lj.lingjbh,
+                                mxq.xuqsl,
+                                mxq.xuqbc,
+                                mxq.id,
+                                mxq.biaos
+                           from ${dbSchemalzbc}ckx_lingj lj, ${dbSchemalzbc}in_maoxqmx mxq
+                          where lj.usercenter = mxq.usercenter
+                            and lj.lingjbh = mxq.lingjbh
+                            and lj.danw <> mxq.danw and mxq.biaos=#BIAOS#)) xq_dwsl
+                 where dwhs.usercenter(+) = xq_dwsl.usercenter
+                   and dwhs.beihdw(+) = xq_dwsl.mxq_danw
+                   and dwhs.mubdw(+) = xq_dwsl.lj_danw
+		]]>
+   </select>
+   
+   <!-- 1050 更新单位和换算比例后的需求数量  hzg 2013-4-17 -->
+   <update id="updateDanwXuqsl" parameterClass="java.util.Map" >
+    <![CDATA[
+    	update ${dbSchemalzbc}in_maoxqmx x set x.danw =#DANW#,x.xuqsl =#XUQSL# 
+    	    where x.usercenter = #USERCENTER#  and x.lingjbh = #LINGJBH# and x.id=#ID# and x.biaos=#BIAOS#
+    		
+   		]]>	
+   </update>
+   
+   
+   <!-- 1050 查询需要更新的制造路线查询 hzg 2013-4-17
+   nvl(dhlx.dinghlx, mxq_zzlx.zhizlxx) zhizlxx 如果定货路线为空，则取现制造路线；
+   flag 用于判断定货路线是否为空，如果定货路线为空，则用0表示说明需要记录异常报警信息，否则用1表示。
+    -->
+   <select id="queryZhizlxDinghlxOfMaoxqmx" parameterClass="java.lang.String"  resultClass="java.util.HashMap" cacheModel="model-cache">
+   		<![CDATA[
+			 select decode(dhlx.dinghlx,null,'0','1') flag,
+			mxq_zzlx.lingjbh, nvl(dhlx.dinghlx, mxq_zzlx.zhizlxx) lux, mxq_zzlx.usercenter, mxq_zzlx.id,mxq_zzlx.biaos
+			  from ${dbSchemalzbc}ckx_dinghlxzh dhlx,
+			       (select t.zhizlx, t1.zhizlxx, t.lingjbh, t.usercenter, t.id,t.biaos
+			          from ${dbSchemalzbc}in_maoxqmx t, ${dbSchemalzbc}ckx_zhizlxzh t1
+			         where t.usercenter = t1.usercenter
+			           and t.zhizlx = t1.zhizlxy and t.biaos=#BIAOS#) mxq_zzlx
+			 where dhlx.usercenter(+) = mxq_zzlx.usercenter
+			   and dhlx.lingjbh(+) = mxq_zzlx.lingjbh
+			   and dhlx.zhizlx(+) = mxq_zzlx.zhizlxx
+		]]>
+   </select>
+   
+    <!-- 1050 查询定货路线为空的数量  hzg 2013-4-18 -->
+    <select id="queryZhizlxDinghlxOfMaoxqmxCount" parameterClass="java.lang.String" resultClass="java.lang.String" cacheModel="model-cache">
+   		<![CDATA[
+			select count(*) num from 
+			(
+			select decode(dhlx.dinghlx, null, '0', '1') flag,
+			       mxq_zzlx.lingjbh,
+			       nvl(dhlx.dinghlx, mxq_zzlx.zhizlxx) lux,
+			       mxq_zzlx.usercenter,
+			       mxq_zzlx.id
+			  from ${dbSchemalzbc}ckx_dinghlxzh dhlx,
+			       (select t.zhizlx, t1.zhizlxx, t.lingjbh, t.usercenter, t.id
+			          from ${dbSchemalzbc}in_maoxqmx t, ${dbSchemalzbc}ckx_zhizlxzh t1
+			         where t.usercenter = t1.usercenter
+			           and t.zhizlx = t1.zhizlxy and t.biaos=#BIAOS#) mxq_zzlx
+			 where dhlx.usercenter(+) = mxq_zzlx.usercenter
+			   and dhlx.lingjbh(+) = mxq_zzlx.lingjbh
+			   and dhlx.zhizlx(+) = mxq_zzlx.zhizlxx
+			   ) where flag='0'
+		]]>
+   </select>
+   
+    <!-- 1050 查询定货路线为空的零件和路线  hzg 2013-4-18 -->
+   <select id="queryZhizlxDinghlxOfMaoxqmxCuowu" parameterClass="java.lang.String" resultClass="java.util.HashMap" cacheModel="model-cache">
+   		<![CDATA[
+			 select * from ( 
+				select * from 
+				(
+				select decode(dhlx.dinghlx, null, '0', '1') flag,
+				       mxq_zzlx.lingjbh,
+				       nvl(dhlx.dinghlx, mxq_zzlx.zhizlxx) lux,
+				       mxq_zzlx.usercenter
+				  from ${dbSchemalzbc}ckx_dinghlxzh dhlx,
+				       (select t.zhizlx, t1.zhizlxx, t.lingjbh, t.usercenter
+				          from ${dbSchemalzbc}in_maoxqmx t, ${dbSchemalzbc}ckx_zhizlxzh t1
+				         where t.usercenter = t1.usercenter
+				           and t.zhizlx = t1.zhizlxy and t.biaos=#BIAOS#) mxq_zzlx
+				 where dhlx.usercenter(+) = mxq_zzlx.usercenter
+				   and dhlx.lingjbh(+) = mxq_zzlx.lingjbh
+				   and dhlx.zhizlx(+) = mxq_zzlx.zhizlxx
+				   )  p where flag='0'   group by  p.flag,p.lingjbh,p.lux,p.usercenter )
+		 where rownum <5
+		]]>
+   </select>
+   
+   
+   <!-- 1050 更新制造路线和定货路线  hzg 2013-4-17  xh 215-07-28  PPL版次的毛需求不需要更新制造路线 -->
+   <update id="updateZhizlxDinghlx" parameterClass="java.util.Map" >
+    <![CDATA[
+    	 update ${dbSchemalzbc}in_maoxqmx x set x.zhizlx=#LUX# where x.lingjbh=#LINGJBH# and x.usercenter=#USERCENTER# and x.id=#ID# and x.biaos=#BIAOS#
+   		 and substr(x.xuqbc,0,3) !='PPL'
+   		]]>	
+   </update>
+   
+   <!-- 1050查询制造路线为空的需求写异常报警表的零件  hzg 2013-4-17 -->
+   <select id="queryLingjbhZhizlxxIsNullOfMaoxqmx" parameterClass="java.lang.String"  resultClass="java.util.HashMap" cacheModel="model-cache">
+   		<![CDATA[
+			 select * from (  
+				   select p.lingjbh,p.zhizlx,p.zhizlxx,p.usercenter
+				  from (select t.zhizlx, t1.zhizlxx, t.lingjbh, t.usercenter
+				          from ${dbSchemalzbc}in_maoxqmx t, ${dbSchemalzbc}ckx_zhizlxzh t1
+				         where t.usercenter = t1.usercenter(+)
+				           and t.zhizlx = t1.zhizlxy(+) and t.biaos=#BIAOS#) p
+				 where p.zhizlxx is null group by  p.lingjbh,p.zhizlx,p.zhizlxx,p.usercenter ) 
+			where   rownum<5
+		]]>
+   </select>
+   
+   <!-- 1050查询制造路线为空的异常报警数量  hzg 2013-4-17 -->
+   <select id="queryLingjbhZhizlxxIsNullOfMaoxqmxCount"  parameterClass="java.lang.String"  resultClass="java.lang.String" cacheModel="model-cache">
+   		<![CDATA[
+			 select count(*) num from (
+			  select p.lingjbh,p.zhizlx,p.zhizlxx,p.usercenter
+			  from (select t.zhizlx, t1.zhizlxx, t.lingjbh, t.usercenter
+			          from ${dbSchemalzbc}in_maoxqmx t, ${dbSchemalzbc}ckx_zhizlxzh t1
+			         where t.usercenter = t1.usercenter(+)
+			           and t.zhizlx = t1.zhizlxy(+) and t.biaos=#BIAOS#) p
+			 where p.zhizlxx is null group by  p.lingjbh,p.zhizlx,p.zhizlxx,p.usercenter
+			 ) t
+		]]>
+   </select>
+   
+    <!-- 1050 查询是否存在不同的产线 hzg 2013-4-17 -->
+   <select id="queryDiffChanxCount" parameterClass="java.lang.String" resultClass="java.lang.String" cacheModel="model-cache">
+   		<![CDATA[
+			select count(*) diffChanxNum from ${dbSchemalzbc}in_maoxqmx t, ${dbSchemalzbc}ckx_chanxhb t1 where t.usercenter=t1.usercenter(+) 
+			and t.chanx=t1.yuancx(+) and t.chanx<>t1.mubcx and t.biaos=#BIAOS#
+		]]>
+   </select>
+   
+    <!-- 1050 查询不同的产线的结果集  hzg 2013-4-17 -->
+    <select id="queryMubcxDiffChanx" parameterClass="java.lang.String" resultClass="java.util.HashMap" cacheModel="model-cache">
+   		<![CDATA[
+			select t.chanx,t1.mubcx,t.id from ${dbSchemalzbc}in_maoxqmx t, ${dbSchemalzbc}ckx_chanxhb t1 where t.usercenter=t1.usercenter(+) 
+			and t.chanx=t1.yuancx(+) and t.chanx<>t1.mubcx  and t.biaos=#BIAOS#
+		]]>
+   </select>
+   
+    <!-- 1050 更新不同的产线为产线表的目标产线  hzg 2013-4-17 -->
+   <update id="updateMubcxOfChanxhb" parameterClass="java.util.Map" >
+    <![CDATA[
+    	  update ${dbSchemalzbc}in_maoxqmx x set x.chanx=#MUBCX# where x.id=#ID# 
+    		
+   		]]>	
+   </update>
+
+    <!-- 1050 周、周期转换查询   hzg 2013-5-15 -->
+    <select id="queryZxZqOfCalendarCenter" parameterClass="java.lang.String" resultClass="java.util.HashMap" cacheModel="model-cache">
+   		<![CDATA[
+			 select m.id, to_char(m.xuqrq,'yyyy-mm-dd') xuqrq,m.usercenter, c.nianzx, c.nianzq
+			   from ${dbSchemalzbc}in_maoxqmx m
+			  inner join ${dbSchemalzbc}ckx_calendar_center c
+			     on m.usercenter = c.usercenter
+			    and to_char(m.xuqrq,'YYYY-MM-DD') = c.riq and m.biaos=#BIAOS#
+		]]>
+   </select>
+   
+    <!-- 1050 更新需求所属周、需求所属周期  hzg 2013-5-15 -->
+   <update id="updateZxZqOfmaoxqmx" parameterClass="java.util.Map" >
+    <![CDATA[
+    	update ${dbSchemalzbc}in_maoxqmx x set x.xuqz=#NIANZX#,x.xuqsszq=#NIANZQ# where x.id=#ID#
+    		
+   		]]>	
+   </update>
+   
+   
+   <!-- 1050周期毛需求 查询合并数据结果集 分页查询  hzg 2013-5-6 -->
+    <select id="query1050ListOfMaoxqmx" resultClass="java.util.HashMap" cacheModel="model-cache"  remapResults="true">
+   		<![CDATA[
+			$head$ 
+		select t.*,
+		current_timestamp create_time,
+		'interface' creator,
+		'1' active,
+		ROWNUM RN
+  	from (select max(id) ID,
+               q.xuqbc,
+               q.usercenter,
+               q.shiycj,
+               q.chanx,
+               q.xuqrq,
+               q.lingjbh,
+               sum(q.xuqsl) xuqsl,
+               q.danw,
+               q.zhizlx,
+               max(q.xuqsszq) xuqsszq,
+               max(q.xuqksrq) xuqksrq,
+               max(q.xuqjsrq) xuqjsrq
+          from ${dbSchemalzbc}in_maoxqmx q where biaos='1'
+         group by q.xuqbc,
+                  q.usercenter,
+                  q.shiycj,
+                  q.chanx,
+                  q.xuqrq,
+                  q.lingjbh,
+                  q.danw,
+                  q.zhizlx  
+         order by q.xuqbc,
+                  q.usercenter,
+                  q.shiycj,
+                  q.chanx,
+                  q.xuqrq,
+                  q.lingjbh,
+                  q.danw,
+                  q.zhizlx         
+                  ) t where 1=1    
+        $middle$           
+		$foot$
+		]]>
+   </select>
+   
+   
+   <!-- 1052日 毛需求 查询合并数据结果集 分页查询，需要传不同的参数，所以将几个拆分来写  hzg 2013-5-6 -->
+    <select id="query1052ListOfMaoxqmx" resultClass="java.util.HashMap" cacheModel="model-cache"  remapResults="true">
+   		<![CDATA[
+			$head$ 
+		select t.*,
+		current_timestamp create_time,
+		'interface' creator,
+		'1' active,
+		ROWNUM RN
+  	from (select max(id) ID,
+               q.xuqbc,
+               q.usercenter,
+               q.shiycj,
+               q.chanx,
+               max(q.xuqz) xuqz,
+               q.xuqrq,
+               q.lingjbh,
+               sum(q.xuqsl) xuqsl,
+               q.danw,
+               q.zhizlx,
+               max(q.xuqsszq) xuqsszq,
+               max(q.xuqksrq) xuqksrq,
+               max(q.xuqjsrq) xuqjsrq
+          from ${dbSchemalzbc}in_maoxqmx q where biaos='2'
+         group by q.xuqbc,
+                  q.usercenter,
+                  q.shiycj,
+                  q.chanx,
+                  q.xuqrq,
+                  q.lingjbh,
+                  q.danw,
+                  q.zhizlx
+           order by q.xuqbc,
+                  q.usercenter,
+                  q.shiycj,
+                  q.chanx,
+                  q.xuqrq,
+                  q.lingjbh,
+                  q.danw,
+                  q.zhizlx       ) t where 1=1 
+        $middle$          
+		$foot$
+		]]>
+   </select>
+ 
+    <!-- 1056 查询毛需求明细接口表中clv版次 gswang 2014-10-23 -->
+    <select id="queryRiClvInMaoxq" resultClass="java.lang.String">
+   		<![CDATA[
+			select * from (select m.xuqbc from ${dbSchemalzbc}in_maoxqmx m where m.biaos = '2'  group by m.xuqbc order by m.xuqbc desc) t where  rownum = 1
+		]]>
+   </select>  
+   
+     <!-- 1056 查询毛需求明细接口表中clv最新一版毛需求的用户中心 gswang 2014-10-23 -->
+    <select id="queryRiClvInMaoxqUc" resultClass="java.util.HashMap" parameterClass="java.util.Map">
+   		<![CDATA[
+			select m.usercenter from ${dbSchemalzbc}in_maoxqmx m inner join ${dbSchemalzbc}ckx_usercenter u on m.usercenter = u.usercenter and u.biaos = '1' 
+			where m.biaos = '2' and m.xuqbc = #XUQBC#  group by m.usercenter order by m.usercenter desc
+		]]>
+   </select>    
+
+     <!-- 1056 查询用户中心表中用户中心 gswang 2014-10-23 -->
+    <select id="queryRiClvCkxUc" resultClass="java.util.HashMap" parameterClass="java.util.Map">
+   		<![CDATA[
+			select u.usercenter from ${dbSchemalzbc}ckx_usercenter u where u.biaos = '1' order by u.usercenter desc
+		]]>
+   </select>    
+
+     <!-- 1056 查询毛需求中最新一版毛需求 gswang 2014-10-23 -->
+    <select id="queryNewClvMaoxq" resultClass="java.lang.String" parameterClass="java.util.Map">
+   		<![CDATA[
+			select * from (select m.xuqbc from ${dbSchemalzbc}xqjs_maoxq m where m.xuqly = 'CLV' and m.creator = 'interface'  and m.xuqbc != #XUQBC# and to_char(m.create_time,'yyyy-mm-dd') != to_char(sysdate,'yyyy-mm-dd') order by m.xuqbc desc) t where  rownum = 1
+		]]>
+   </select>   
+
+   <!-- 1056 插入毛需求明细  hzg 2013-2-19 -->
+  <insert id="insertCLVLastMaoxq" parameterClass="java.util.Map">
+  		<![CDATA[
+   			insert into ${dbSchemalzbc}IN_maoxqmx(id,xuqbc,usercenter,shiycj,chanx,xuqz,xuqrq,lingjbh,xuqsl,danw,zhizlx,xuqsszq,
+           xuqksrq,xuqjsrq,cangkdm,editor,edit_time,creator,create_time,active,biaos) 
+     SELECT id,#XUQBC#,usercenter,shiycj,chanx,xuqz,xuqrq,lingjbh,xuqsl,danw,zhizlx,xuqsszq,
+           xuqksrq,xuqjsrq,cangkdm,editor,edit_time,creator,create_time,active,'2' FROM ${dbSchemalzbc}xqjs_maoxqmx MX WHERE MX.XUQBC = #LASTBANC# AND MX.USERCENTER IN ($UC$) AND MX.CREATOR = 'interface'
+   		]]>	
+  </insert>
+   
+    <!-- 1051周期毛需求 分页查询，需要传不同的参数，所以将几个拆分来写  hzg 2013-5-6 -->
+    <select id="query1051ListOfMaoxqmx" resultClass="java.util.HashMap" cacheModel="model-cache"  remapResults="true">
+   		<![CDATA[
+			$head$ 
+		select tt.*,ROWNUM RN from ( 
+			select 
+		current_timestamp create_time,
+		'interface' creator,
+		'1' active,
+  	           q.id,
+               q.xuqbc,
+               q.usercenter,
+               q.shiycj,
+               q.chanx,
+               q.xuqz,
+               q.xuqrq,
+               q.lingjbh,
+               q.xuqsl,
+               q.danw,
+               q.zhizlx,
+               q.xuqsszq,
+               q.xuqksrq,
+               q.xuqjsrq 
+          from ${dbSchemalzbc}in_maoxqmx q where biaos='3'   
+          order by q.id 
+          ) tt where 1=1 
+         $middle$    
+		$foot$
+		]]>
+   </select>
+   
+
+    <!-- 1050 毛需求明细数量合并  hzg 2013-4-17 无用了 -->
+   <update id="updateMaoxqslOfMaoxqmx" parameterClass="java.util.Map" >
+    <![CDATA[
+    		 update ${dbSchemalzbc}xqjs_maoxqmx t set t.xuqsl =( select t1.xuqsl from 
+    		 		(select q.xuqbc,q.usercenter,q.shiycj,q.lingjbh,q.danw,q.zhizlx,q.xuqrq,q.chanx,sum(q.xuqsl) xuqsl 
+					from ${dbSchemalzbc}xqjs_maoxqmx q group by q.xuqbc,q.usercenter,q.shiycj,q.lingjbh,q.danw,q.zhizlx,q.xuqrq,q.chanx) t1
+				where 
+				t.xuqbc = t1.xuqbc
+				and t.usercenter = t1.usercenter
+				and t.shiycj = t1.shiycj
+				and t.lingjbh = t1.lingjbh
+				and t.danw = t1.danw
+				and t.zhizlx = t1.zhizlx
+				and t.xuqrq = t1.xuqrq
+				and t.chanx = t1.chanx)
+   		]]>	
+   </update>
+   
+   <!-- 1050 删除毛需求明细数量合并后的重复数据  hzg 2013-4-17 无用了 -->
+   <delete id="deleteRepeatDataOfMaoxqmx" parameterClass="java.util.Map">
+   	 <![CDATA[
+	   	 delete from ${dbSchemalzbc}xqjs_maoxqmx t where rowid !=( select max(rowid) from ${dbSchemalzbc}xqjs_maoxqmx t1 
+			where  t.xuqbc = t1.xuqbc
+			and t.usercenter = t1.usercenter
+			and t.shiycj = t1.shiycj
+			and t.lingjbh = t1.lingjbh
+			and t.danw = t1.danw
+			and t.zhizlx = t1.zhizlx
+			and t.xuqrq = t1.xuqrq
+			and t.chanx = t1.chanx )
+		]]>	
+   </delete>
+   
+   
+   <!-- ###################### 老写法 #################################### -->
+   
+   
+   <!-- 1050 流水号查询 hzg 2013-2-19 -->
+   <select id="queryLiushOfMaoxq" parameterClass="java.lang.String" resultClass="java.lang.String" cacheModel="model-cache">
+   		<![CDATA[
+			select count(xuqbc) as liush from ${dbSchemalzbc}xqjs_maoxq where to_char(create_time,'yyyyMMdd')=#currentDate# 
+		]]>
+   </select>
+   
+    <!-- 1050 需求版次查询 hzg 2013-2-19 -->
+   <select id="queryXuqbcOfmaoxq" parameterClass="java.lang.String" resultClass="java.lang.String" cacheModel="model-cache">
+   <![CDATA[
+   			select xuqbc from ${dbSchemalzbc}xqjs_maoxq where xuqbc = #xuqbc#
+   		]]>	
+   </select>
+   
+   <!-- 1050 参考系订货路线转换零件查询 hzg 2013-2-19 -->
+   <select id="queryLingjOfDinghlxzh" parameterClass="java.lang.String" resultClass="java.util.HashMap" cacheModel="model-cache">
+   <![CDATA[
+   			select lingjbh from ${dbSchemalzbc}ckx_dinghlxzh where usercenter = #usercenter#
+   		]]>	
+   </select>
+   
+    <!-- 1050 订货路线查询 hzg 2013-2-19 -->
+   <select id="queryDinghlx" parameterClass="java.util.Map" resultClass="java.lang.String" cacheModel="model-cache">
+   <![CDATA[
+   			select dinghlx from ${dbSchemalzbc}ckx_dinghlxzh where usercenter = #usercenter# and lingjbh =#lingjbh#  and zhizlx =#zhizlxx#
+   		]]>	
+   </select>
+   
+     <!-- 1050 CLV数据处理 hzg 2013-2-19 -->
+    <delete id="maoxqmxDelOfCLV">
+   		<![CDATA[
+			delete ${dbSchemalzbc}xqjs_maoxqmx where xuqbc in (select xuqbc from ${dbSchemalzbc}xqjs_maoxq  where xuqly='CLV')
+		]]>
+   </delete>
+   
+   <!-- 1050 CLV数据处理 hzg 2013-2-19 -->
+    <delete id="maoxqDelOfCLV">
+   		<![CDATA[
+			 delete ${dbSchemalzbc}xqjs_maoxq where xuqly ='CLV'
+		]]>
+   </delete>
+   
+    <!-- 1050 参考系作用域查询  hzg 2013-2-19 -->
+   <select id="queryZuoyyOfXuqly" parameterClass="java.util.Map" resultClass="java.lang.String" cacheModel="model-cache">
+   <![CDATA[
+  			select zuoyy from ${dbSchemalzbc}ckx_xuqly where xuqly = #xuqly# and zuoyy = #chejh#
+   		]]>	
+   </select>
+   
+   <!-- 1050 参考系目标产线查询  hzg 2013-2-19 -->
+   <select id="queryMubChanx" parameterClass="java.util.Map" resultClass="java.lang.String" cacheModel="model-cache">
+   <![CDATA[
+     		select mubcx from ${dbSchemalzbc}ckx_chanxhb where usercenter =#usercenter# and yuancx = #chanx#
+   		]]>	
+   </select>
+    <!-- 1050 参考系目标产线查询  hzg 2013-2-19 -->
+   <select id="queryZhizxl" parameterClass="java.util.Map" resultClass="java.lang.String" cacheModel="model-cache">
+   <![CDATA[
+     		select zhizlxx from  ${dbSchemalzbc}ckx_zhizlxzh where usercenter =#usercenter# and zhizlxy = #zhizlx#
+   		]]>	
+   </select>
+   <!-- 1051毛需求转换制造路线与订货路线  xh 2015-09-01 11541 -->
+   <select id="queryZhizxlxx" parameterClass="java.util.Map" resultClass="java.lang.String" cacheModel="model-cache">
+    <![CDATA[
+    select nvl(dhlx.dinghlx, mxq_zzlx.zhizlxx) zhizlxx
+			  from ${dbSchemalzbc}ckx_dinghlxzh dhlx,
+			       (select t.zhizlx, nvl(t1.zhizlxx,t.zhizlx) zhizlxx, t.lingjbh, t.usercenter
+			          from (select #usercenter# usercenter,#zhizlx# zhizlx,#lingjbh# lingjbh from dual) t, ${dbSchemalzbc}ckx_zhizlxzh t1
+			         where t.usercenter = t1.usercenter(+)
+			           and t.zhizlx = t1.zhizlxy(+) ) mxq_zzlx
+			 where dhlx.usercenter(+) = mxq_zzlx.usercenter
+			   and dhlx.lingjbh(+) = mxq_zzlx.lingjbh
+			   and dhlx.zhizlx(+) = mxq_zzlx.zhizlxx
+   		]]>	
+   	</select>
+    <!-- 1050 毛需求明细ID查询  hzg 2013-2-19 -->
+   <!-- <select id="queryMaoxqmxOfId" parameterClass="java.util.Map" resultClass="java.lang.String">
+   <![CDATA[
+   			select id from ${dbSchemalzbc}xqjs_maoxqmx where xuqbc =#xuqbc# and usercenter =#usercenter# and shiycj = #chejh# 
+   			and lingjbh = #lingjbh# and danw = #danw# and zhizlx = #zhizlx# and xuqrq = to_date(#xuqrq#,'yyyyMMdd') and chanx =#chanx#
+   		]]>	
+   </select>  -->
+   
+    <!-- 1050 毛需求明细数量合并  hzg 2013-2-19 -->
+   <update id="updateMaoxqsl" parameterClass="java.util.Map">
+    <![CDATA[
+    		update ${dbSchemalzbc}xqjs_maoxqmx set xuqsl = (xuqsl + #xuqsl#) where  xuqbc =#xuqbc# and usercenter =#usercenter# and shiycj = #chejh# 
+   			and lingjbh = #lingjbh# and danw = #danw# and zhizlx = #zhizlx# and xuqrq = to_date(#xuqrq#,'yyyyMMdd') and chanx =#chanx#
+   		]]>	
+   </update>
+   
+   <!-- 1050 零件单位查询  hzg 2013-2-19 -->
+   <select id="queryLingjDW" parameterClass="java.util.Map" resultClass="java.lang.String" cacheModel="model-cache">
+   <![CDATA[
+   			select danw from ${dbSchemalzbc}ckx_lingj where usercenter = #usercenter# and lingjbh = #lingjbh#
+   		]]>	
+   </select>
+   
+    <!-- 1050 零件单位换算查询  hzg 2013-2-19 -->
+   <select id="queryHuansbl" parameterClass="java.util.Map" resultClass="java.lang.Object" cacheModel="model-cache">
+   <![CDATA[
+   			 select huansbl from ${dbSchemalzbc}ckx_danwhs where usercenter = #usercenter# and beihdw = #danw# and mubdw = #lingjdw#
+   		]]>	
+   </select>
+   
+   <!-- 1050 插入毛需求明细  hzg 2013-2-19 -->
+  <insert id="insertMaoxqmx" parameterClass="java.util.Map">
+  		<![CDATA[
+   			insert into ${dbSchemalzbc}xqjs_maoxqmx(id,xuqbc,usercenter,shiycj,chanx,xuqz,xuqrq,lingjbh,xuqsl,danw,zhizlx,xuqsszq,
+   				xuqksrq,xuqjsrq,cangkdm,editor,edit_time,creator,create_time,active) 
+			values(#id#,#xuqbc#,#usercenter#,#shiycj#,#chanx#,#xuqz#,to_date(#xuqrq#,'yyyy-MM-dd'),#lingjbh#,#xuqsl#,#danw#,#zhizlx#,#xuqsszq#,
+			#xuqksrq#,#xuqjsrq#,#cangkdm#,'interface',to_timestamp(#edit_time#,'yyyy-MM-dd HH24:mi:ss'),
+				'interface',to_timestamp(#create_time#,'yyyy-MM-dd HH24:mi:ss'),'1')
+   		]]>	
+  </insert>
+  
+   <!-- 1050 插入毛需求  hzg 2013-2-19  xh 2015-7-28 PPL毛需求版次需添加PPL备注-->
+  <insert id="insertMaoxq" parameterClass="java.util.Map">
+  		<![CDATA[
+			insert into ${dbSchemalzbc}xqjs_maoxq(xuqbc,xuqcfsj,xuqly,shengxbz,creator,create_time,editor,edit_time,active,beiz) 
+			values(#xuqbc#,to_date(#xuqcfsj#,'yyyyMMdd'),#xuqly#,'0','interface',to_date(#create_time#,'yyyy-MM-dd HH24:mi:ss'),
+				'interface',to_date(#edit_time#,'yyyy-MM-dd HH24:mi:ss'),'1',#beiz#)
+   		]]>	
+  </insert>
+  
+  <!-- 1061 插入毛需求 -->
+  <insert id="insertMaoxqPJ" parameterClass="java.util.Map">
+  		<![CDATA[
+			insert into ${dbSchemalzbc}xqjs_maoxq(xuqbc,xuqcfsj,xuqly,shengxbz,creator,create_time,editor,edit_time,active,beiz,usercenter) 
+			values(#xuqbc#,to_date(#xuqcfsj#,'yyyyMMdd'),#xuqly#,'0','interface',to_date(#create_time#,'yyyy-MM-dd HH24:mi:ss'),
+				'interface',to_date(#edit_time#,'yyyy-MM-dd HH24:mi:ss'),'1',#beiz#,#usercenter#)
+   		]]>	
+  </insert>
+  
+  <!-- 1050 插入异常报警  hzg 2013-2-19 -->
+  <insert id="insertYicbj" parameterClass="java.util.Map">
+  		<![CDATA[
+			insert into ${dbSchemalzbc}xqjs_yicbj(jismk,lingjbh,usercenter,cuowlx,cuowxxxx,jihyz,jihydm,creator,create_time,editor,edit_time) 
+			values('10',#lingjbh#,#usercenter#,'200',#cuowxxxx#,'interface','interface','interface',to_timestamp(#create_time#,'yyyy-MM-dd HH24:mi:ss'),
+				 	'interface',to_timestamp(#edit_time#,'yyyy-MM-dd HH24:mi:ss'))
+   		]]>	
+  </insert>
+  
+  <!-- 1051，1052 周、周期查询  hzg 2013-2-22 -->
+   <select id="queryZhouqCalendarCenter" parameterClass="java.util.Map" resultClass="java.util.HashMap" cacheModel="model-cache">
+   <![CDATA[
+		select nianzx,nianzq from ${dbSchemalzbc}ckx_calendar_center where usercenter =#usercenter#
+		 	and riq = to_char(to_date(#xuqrq#,'yyyyMMdd'),'yyyy-MM-dd')
+   		]]>	
+   </select>
+   
+   <!-- 1020 订单信息(输入) hzg 2013-2-25 -->
+   <delete id="ddxxDelete">
+   		<![CDATA[
+			truncate table ${dbSchemalzbc}in_ddxx 
+		]]>
+   </delete>
+   
+    <!-- 1020 供应商类型查询 hzg 2013-2-25 -->
+   <select id="queryLeixOfGongys" parameterClass="java.util.Map" resultClass="java.lang.String">
+   		<![CDATA[
+   			select leix from ${dbSchemalzbc}ckx_gongys t where t.usercenter=#usercenter#  and t.gcbh=#gysdm#
+		]]>
+   </select>
+   
+   <!-- 1020 卸货站台查询 hzg 2013-2-25 -->
+   <select id="queryXiehztbhOfLingjck" parameterClass="java.util.Map" resultClass="java.lang.String">
+   		<![CDATA[
+			  select xiehztbh from ${dbSchemalzbc}ckx_lingjck t 
+		 		where t.usercenter=#usercenter#  and t.lingjbh=#lingjbh#  and t.cangkbh=#cangkbh#
+		]]>
+   </select>
+   
+    <!-- 1020 订货车间查询 hzg 2013-2-25 -->
+   <select id="queryDinghcjOfLingj" parameterClass="java.util.Map" resultClass="java.lang.String">
+   		<![CDATA[
+   		 select dinghcj from ${dbSchemalzbc}ckx_lingj t where t.usercenter=#usercenter# and t.lingjbh=#lingjbh#
+		]]>
+   </select>
+   
+   <!-- 1020 UA查询 hzg 2013-2-25 -->
+   <select id="queryUAOfLingjgys" parameterClass="java.util.Map" resultClass="java.util.HashMap">
+   		<![CDATA[
+   		select uabzlx,ucbzlx,ucrl,uaucgs from ${dbSchemalzbc}ckx_lingjgys t 
+		where t.usercenter=#usercenter#
+		  	and t.lingjbh=#lingjbh#
+		  	and t.gongysbh=#gongysbh#
+		]]>
+   </select>
+   
+    <!-- 1020 物流路径查询hzg 2013-2-25 -->
+   <select id="queryLujbhOfWaibwl" parameterClass="java.util.Map" resultClass="java.lang.String">
+   		<![CDATA[
+   		 	select lujbh from ${dbSchemalzbc}ckx_waibwl t  where t.usercenter=#usercenter#
+		]]>
+		<isNotEmpty prepend="and" property="ckdm">
+			<![CDATA[ t.mudd=#ckdm# ]]>
+		</isNotEmpty>
+			<![CDATA[ and t.gongysbh=#gongysbh# ]]>
+   </select>
+   
+    <!-- 1021 读取in_ddxx中间表记录hzg 2013-2-25 -->
+   <select id="queryIn_ddxxToDingd" parameterClass="java.util.Map" resultClass="java.util.HashMap" remapResults="true">
+   		<![CDATA[
+   		$head$ 
+   		select tt.*,ROWNUM RN from (  
+   		 	select usercenter,dingdh,'P' as DINGDLX,'4' DINGDZT,gysdm,leix,'1020' as EDITOR,
+   		 	current_timestamp as EDIT_TIME  from ${dbSchemalzbc}in_ddxx    
+		order by USERCENTER,DINGDH        	
+		) tt where 1=1	   		 	
+   		$foot$
+		]]>
+   </select>
+   
+      <!-- 1160 资源快照 表的删除  hzg 2013-4-19  删除当天的资源快照  hzg 2013-8-19 ， 加usercenter条件按用户中心删除 hzg 2014.3.22-->
+   <delete id="ziykzbDelete" parameterClass="java.lang.String" >
+   		<![CDATA[
+			delete from ${dbSchemalzbc}xqjs_ziykzb where ziyhqrq = to_date(to_char(sysdate,'yyyy-MM-dd'),'yyyy-MM-dd') 
+			and usercenter in($usercenter$)
+		]]>
+   </delete>
+   
+         <!-- 1170 异常申报 表的删除  hzg 2013-4-19 只删除接口增加的数据flag=1 hzg 2013-7-3   保留15天  hzg 2013-11-5 -->
+   <delete id="ycsbDelete">
+   		<![CDATA[                 
+          delete from ${dbSchemalzbc}xqjs_kucjscsb t where t.create_time < (
+                select dingdjssj-15  from ( select dingdjssj from ${dbSchemalzbc}xqjs_dingd d where d.chullx='C' 
+                and d.dingdjssj is not null order by dingdjssj asc) where rownum=1
+            )    and flag='1'    
+		]]>
+   </delete>
+   
+   <!-- 1022 读取in_ddxx中间表记录hzg 2013-2-25 查询总条数出错count(1) COUNTNUM，原因：ORA-02287:此处不允许序号
+   将t_order_id_seq.nextval as id 改为select ((select max(to_number(id)) from xqjs_dingdmx )+rownum) as id,
+     序列不能用分页 子查询，单独写一个类来实现输出   hzg 2013-11-28 -->
+   <select id="queryIn_ddxxToDingdmx" parameterClass="java.util.Map" resultClass="java.util.HashMap" remapResults="true">
+   		<![CDATA[
+   		 select XQJS_DINGDMX_SEQ.nextval as id,
+   		    usercenter,dingdh,lingjbh,gysdm,leix,'9' jidYugLeix,'4' zhuangt,
+   		    to_char(yhqs_date,'yyyy-MM-dd hh24:mi:ss') as yhqs_date, 
+   		    to_char(yhjs_date,'yyyy-MM-dd hh24:mi:ss') as yhjs_date,xiehztbh,
+		    ckdm,dhcj,shul,danw,uabzlx,ucbzlx,ucrl,uaucgs,
+		    to_char(jf_date,'yyyy-MM-dd hh24:mi:ss') as jf_date,zhwhr,
+		    to_char(zhwhsj,'yyyy-MM-dd hh24:mi:ss') as zhwhsj,
+		    lujbh,'PP' as gonghlx,'1020' as EDITOR,
+		    current_timestamp as EDIT_TIME 
+		    from ${dbSchemalzbc}in_ddxx 
+		    where 1=1   
+		]]>
+   </select>
+   
+   
+     <!-- 1070 零件供应商信息查询 hzg 2013-2-27 -->
+   <select id="queryLingjGYS" parameterClass="java.util.Map" resultClass="java.util.HashMap">
+   		<![CDATA[
+   		 select * from ${dbSchemalzbc}CKX_LINGJGYS where USERCENTER = #usercenter# and LINGJBH = #lingjbh# and GONGYSBH = #gongysbh#
+		]]>
+   </select>
+   
+    <!-- 1070 应商参考系"发运地"查询 hzg 2013-2-27 -->
+   <select id="queryFaydOfGongys" parameterClass="java.util.Map" resultClass="java.util.HashMap">
+   		<![CDATA[
+   		 select t.fayd as fayd from ${dbSchemalzbc}ckx_gongys t left join ${dbSchemalzbc}ckx_lingjgys y 
+   		 on y.usercenter = t.usercenter and y.gongysbh = t.gcbh 
+   		 where y.usercenter = #usercenter# and y.gongysbh = #gongysbh#
+		]]>
+   </select>
+   
+    <!-- 1070 零件供应商判断份额查询 hzg 2013-2-27 -->
+   <select id="queryLingjGYSFE" parameterClass="java.util.Map" resultClass="java.util.HashMap">
+   		<![CDATA[
+   		 select * from ${dbSchemalzbc}CKX_LINGJGYS  where USERCENTER = #usercenter# and LINGJBH = #lingjbh# 
+   		 and  GONGYHTH is not null and BIAOS = '1'
+		]]>
+   </select>
+   
+   
+   <!-- 1380 到货通知单 hzg 2013-3-3  将truncate改为delete按用户中心删除 hzg 2014.3.22-->
+   <delete id="daohtzdDelete" parameterClass="java.lang.String" >
+   		<![CDATA[
+			delete from ${dbSchemalzbc}ck_daohtzd where usercenter in($usercenter$)
+		]]>
+   </delete>
+   
+   <!-- 1150 DDBH拆分结果sppv hzg 2013-3-3 update 多保留15天 mantis:8405 -->
+   <delete id="anxmaoxqDelete">
+   		<![CDATA[
+   		 delete from ${dbSchemalzbc}xqjs_anxmaoxq t  where t.xhsj < (select t1.lastcpltime -15  from ${dbSchemalzbc}in_zidb t1 where t1.inbh = '1150' )
+		  and t.laiybs = '2'
+		]]>
+   </delete>
+   
+    <!-- 1730 DDBH拆分结果CLV hzg 2013-3-3 , 增加用户中心条件  hzg 2014.3.22-->
+   <delete id="anxmaoxqBybsDelete" parameterClass="java.lang.String">
+   		<![CDATA[
+   		 	delete from ${dbSchemalzbc}xqjs_anxmaoxq where laiybs = '1' and usercenter in($usercenter$)
+		]]>
+   </delete>
+   
+    <!-- 1080 查询in_file_log接口运行文件的成功记录个数 xss 2014-10-27 -->
+	<select id="queryFileNumer" parameterClass="java.util.Map" resultClass="java.lang.String">
+	<![CDATA[
+select  count(*) from ${dbSchemalzbc}in_file_log t where t.file_satus='1' and  t.inbh=#inbh# and TO_CHAR(t.yunxkssj,'yyyy-MM-dd') between TO_CHAR(SYSDATE,'yyyy-MM-dd') and TO_CHAR(SYSDATE+1,'yyyy-MM-dd')
+		]]>
+	</select>
+	
+	<!-- 1080 查询in_file_log接口运行文件的错误记录个数 xss 2014-10-22 -->
+	<select id="queryFiledFileNumer" parameterClass="java.util.Map" resultClass="java.lang.String">
+	<![CDATA[
+select  count(*) from ${dbSchemalzbc}in_file_log t where t.file_satus='-1' and  t.inbh=#inbh# and TO_CHAR(t.yunxkssj,'yyyy-MM-dd') between TO_CHAR(SYSDATE,'yyyy-MM-dd') and TO_CHAR(SYSDATE+1,'yyyy-MM-dd')
+		]]>
+	</select>
+	
+	<!-- 1080 查询in_file_log接口最后一次成功的运行文件名 xss 2014-11-28 -->
+	<select id="queryFileName" parameterClass="java.util.Map" resultClass="java.lang.String">
+	<![CDATA[
+	select file_name from (select * from ${dbSchemalzbc}in_file_log t  where t.inbh=#inbh# and t.file_satus='1' and t.yunxkssj is not null and TO_CHAR(t.yunxkssj,'yyyy-MM-dd') between TO_CHAR(SYSDATE,'yyyy-MM-dd') and TO_CHAR(SYSDATE+1,'yyyy-MM-dd')  order by t.sid desc) where rownum=1
+	]]>
+	</select>
+	
+	<!-- 1080 查询in_file_log接口最后一次失败的运行文件名 xss 2014-11-28 -->
+	<select id="queryFileFiledName" parameterClass="java.util.Map" resultClass="java.lang.String">
+	<![CDATA[
+	select file_name from (select * from ${dbSchemalzbc}in_file_log t  where t.inbh=#inbh# and t.file_satus='-1' and t.yunxkssj is not null and TO_CHAR(t.yunxkssj,'yyyy-MM-dd') between TO_CHAR(SYSDATE,'yyyy-MM-dd') and TO_CHAR(SYSDATE+1,'yyyy-MM-dd')  order by t.sid desc) where rownum=1
+	]]>
+	</select>	
+   
+   
+   <!-- 1080 消耗点参考系  hzg 2013-3-6 -->
+   <update id="updateGongyxhd" parameterClass="java.util.Map" >
+    <![CDATA[
+    	update ${dbSchemalzbc}ckx_gongyxhd d set d.gongybs=0
+   		]]>	
+   </update>
+   
+   <!-- 1780 订单数量查询  hzg 2013-7-26 -->
+   <select id="queryCountOfDingd" parameterClass="java.lang.String" resultClass="java.lang.String" >
+    <![CDATA[
+    	select count(*) cnum  from ${dbSchemalzbc}xqjs_dingd where dingdh='C1DDD0008' and usercenter='UL'
+   		]]>	
+   </select>
+   
+    <!-- 1780 更新xqjs_dingdjssj表的订单生效时间  hzg 2016-1-6 -->
+   <update id="updateDingdsxsj" parameterClass="java.util.Map">
+   	<![CDATA[
+    	 update ${dbSchemalzbc}xqjs_dingdjssj set dingdsxsj=to_date(#dingdsxsj#,'yyyy-mm-dd hh24:mi:ss') 
+    	 		where dingdbh=#dingdh# and usercenter=#usercenter#
+   		]]>	
+   </update>
+   
+    <!-- 1781 订单数量查询  hzg 2013-7-26 -->
+   <select id="queryCountOfDingdUW" parameterClass="java.lang.String" resultClass="java.lang.String" >
+    <![CDATA[
+    	select count(*) cnum  from ${dbSchemalzbc}xqjs_dingd where dingdh='C1DDD0009' and usercenter='UW'
+   		]]>	
+   </select>
+   
+   <!-- 1410  新增查询类别为调拨的内部要货令   wy 2014-8-6 -->
+    <select id="yaohnblList" resultClass="java.util.HashMap" >
+    	<![CDATA[   
+			select distinct dingdh,cangkbh,usercenter,lingjbh,zickbh  from ${dbSchemalzbc}ck_yaonbhl  where trim(beiz7)='1'
+		]]>
+    </select>
+   
+   <!-- 1410  新增查询类别为调拨的内部要货令   wy 2014-8-6 -->
+   <select id="yaohnblcount" parameterClass="java.util.Map" resultClass="java.util.HashMap">
+    	<![CDATA[   
+			select yaohlzt,count(*) as ztsl ,(select count(*) from ck_yaonbhl where dingdh = #DINGDH# and cangkbh = #CANGKBH# and usercenter = #USERCENTER# and lingjbh = #LINGJBH# and zickbh = #ZICKBH#) as zsl from ${dbSchemalzbc}ck_yaonbhl 
+			where dingdh = #DINGDH# and cangkbh = #CANGKBH# and usercenter = #USERCENTER# and lingjbh = #LINGJBH# and zickbh = #ZICKBH#  group by yaohlzt
+		]]>
+    </select>
+   
+   <!-- 1410  新增查询类别为调拨的内部要货令   wy 2014-8-6 -->
+   <update id="updateyaohnblcount" parameterClass="java.util.Map" >
+    <![CDATA[
+    	update ${dbSchemalzbc}xqjs_diaobmx dbmx 
+       set dbmx.zhixsl=(select sum(jiaofzl) from ${dbSchemalzbc}ck_yaonbhl where dingdh=#DINGDH# and   lingjbh=#LINGJBH#
+         and usercenter= #USERCENTER# and  cangkbh=#CANGKBH# and zickbh=#ZICKBH#),zhuangt=#diaobmxzt#
+       where dbmx.usercenter=#USERCENTER# and dbmx.diaobdh=#DINGDH# and dbmx.lingjbh=#LINGJBH#
+             and dbmx.cangkbh=#CANGKBH# and dbmx.zickbh=#ZICKBH#
+   		]]>	
+   </update>
+    
+    <!-- 1410  新增查询类别为调拨的内部要货令   wy 2014-8-6 -->
+    <update id="updateyaohnblcounts" parameterClass="java.util.Map" >
+    <![CDATA[
+       update ${dbSchemalzbc}ck_yaonbhl  
+       set beiz7='2'
+       where trim(beiz7)='1'
+   		]]>	
+   </update>
+
+	<!-- 1410  新增查询类别为调拨的内部要货令   wy 2014-8-6 -->      
+    <update id="updatediaobmxcount" parameterClass="java.util.Map" >
+    <![CDATA[
+        update ${dbSchemalzbc}xqjs_diaobsqmx  sqmx
+        set sqmx.zhuangt =   (select min(zhuangt) from ${dbSchemalzbc}xqjs_diaobmx where (diaobsqdh, usercenter,lingjbh) in
+        (select dbmx.diaobsqdh ,dbmx.usercenter,dbmx.lingjbh from ${dbSchemalzbc}xqjs_diaobmx dbmx where
+        dbmx.usercenter = #USERCENTER# and dbmx.lingjbh = #LINGJBH# and dbmx.diaobdh = #DINGDH# and dbmx.cangkbh = #CANGKBH#)),
+        sqmx.editor = '1410',
+        sqmx.edit_time = sysdate
+        where sqmx.diaobsqdh in (select dbmx.diaobsqdh from ${dbSchemalzbc}xqjs_diaobmx dbmx where  dbmx.usercenter = #USERCENTER# and  dbmx.lingjbh = #LINGJBH# and dbmx.diaobdh = #DINGDH# and dbmx.cangkbh = #CANGKBH#)
+        and sqmx.usercenter = #USERCENTER#
+        and sqmx.lingjbh = #LINGJBH#
+   		]]>	
+   </update>
+
+	<!-- 1410  新增查询类别为调拨的内部要货令   wy 2014-8-6 -->   
+   <update id="updatediaobcounts" parameterClass="java.util.Map" >
+    <![CDATA[
+        update ${dbSchemalzbc}xqjs_diaobsq  sq set sq.zhuangt = (select min(zhuangt) from ${dbSchemalzbc}xqjs_diaobmx where (diaobsqdh, usercenter) in
+        (select dbmx.diaobsqdh ,dbmx.usercenter from ${dbSchemalzbc}xqjs_diaobmx dbmx where dbmx.usercenter = #USERCENTER# and dbmx.lingjbh = #LINGJBH# and dbmx.diaobdh = #DINGDH# and dbmx.cangkbh = #CANGKBH#)),
+        sq.editor  = '1410',
+        sq.edit_time = sysdate
+        where sq.diaobsqdh in (select dbmx.diaobsqdh from ${dbSchemalzbc}xqjs_diaobmx dbmx
+        where  dbmx.usercenter = #USERCENTER# and dbmx.lingjbh = #LINGJBH# and  dbmx.diaobdh = #DINGDH# and dbmx.cangkbh = #CANGKBH#) and  sq.usercenter = #USERCENTER#
+   		]]>	
+   </update> 
+   
+   <!-- 1090 PDS新增生效时间 ckx_lingjxhd_in 状态打标 -->
+    <update id="updateLingjxhdin" parameterClass="java.lang.String" >
+        update ${dbSchemalzbc}ckx_lingjxhd_in set zhuangt = #zhuangt#
+   </update> 
+   <!-- 删除标识为0的消耗点信息 -->
+    <delete id="deleteLingjxhdin" parameterClass="java.util.Map" >
+			delete from ${dbSchemalzbc}ckx_lingjxhd_in where usercenter=#USERCENTER# and lingjbh=#LINGJBH# 
+			and xiaohdbh=#XIAOHDBH# and zhuangt='0'
+   </delete>
+   <!-- 向ckx_lingjxhd_in表中插入数据  -->
+   <insert id="insertLingjxhdin" parameterClass="java.util.Map">
+  		<![CDATA[
+   			insert into ${dbSchemalzbc}ckx_lingjxhd_in(usercenter,lingjbh,xiaohdbh,zhuangt,pdsshengxsj,pdsshixsj,editor,edit_time,creator,create_time,shurwjm) 
+			values(#USERCENTER#,#LINGJBH#,#XIAOHDBH#,#ZHUANGT#,to_date(#PDSSHENGXSJ#,'yyyy-MM-dd'),to_date(#PDSSHIXSJ#,'yyyy-MM-dd'),
+			#EDITOR#,#EDIT_TIME#,#CREATOR#,#CREATE_TIME#,#SHURWJM#)
+   		]]>	
+  </insert>
+   <!-- ckx_shengcx表安全库存天数查询  -->
+  <select id="queryAqkctsOfFenpq" parameterClass="java.util.Map" resultClass="java.lang.String">
+   	<![CDATA[
+   			 select s.anqkctsmrz from ${dbSchemalzbc}ckx_shengcx s  where s.usercenter=#usercenter# 
+  			and s.shengcxbh= (select f.shengcxbh from ${dbSchemalzbc}ckx_fenpq f 
+  					where f.usercenter=#usercenter#  and  f.fenpqh=#fenpqh#)
+   		]]>	
+  </select>
+  
+
+   
+   <!-- 1890 0011505 删除2天前xqjs_anxmaoxq_temp的数据  UW-->
+   <delete id="anxpytempDelete" parameterClass="java.util.Map" >
+   <![CDATA[
+   			delete FROM ${dbSchemalzbc}xqjs_anxmaoxq_temp  where usercenter in ($usercenter$)  and CREATE_TIME < sysdate -2
+   	]]>
+   </delete>
+   
+   <!-- 1890 0011505  统计创建时间的参数表 UW-->
+    <select id="countAnxpy" parameterClass="java.util.Map" resultClass="java.lang.String">
+    <![CDATA[
+   			select count(*)  from ${dbSchemalzbc}CKX_ANXPY 
+   			 where usercenter in ($usercenter$) and create_time >= (SELECT to_date(to_char(B.LASTCPLTIME,'yyyy-mm-dd HH24:mi:ss'), 'YYYY-MM-DD HH24:mi:ss') FROM ${dbSchemalzbc}IN_ZIDB B WHERE B.INBH=#inbh#) 
+			 AND  create_time < sysdate
+		]]>
+    </select>
+    
+    
+    <!-- 1890 0011505  统计创建时间的用户中心和产线  UW-->
+    <select id="queryAnxpychx"  parameterClass="java.util.Map" resultClass="java.util.HashMap">
+    <![CDATA[
+		select distinct usercenter,chanx from ${dbSchemalzbc}ckx_anxpy
+   	   		where usercenter in ($usercenter$) and create_time >= (SELECT B.LASTCPLTIME FROM ${dbSchemalzbc}IN_ZIDB B WHERE B.INBH=#inbh#) 
+			 AND  create_time < sysdate
+		]]>
+    </select>
+    
+    
+    
+    <!-- 1890 0011505  查询xqjs-anxmaoxq  今天的数据 UL/UX-->
+    <select id="UlqueryAnxmxq" parameterClass="java.util.Map"  resultClass="java.util.HashMap" remapResults="true">
+    <![CDATA[
+    	$head$ 
+		select temp.*, '1' active, ROWNUM RN from (
+    		select  
+				t.usercenter as usercenter,
+				t.ofh as ofh,
+				t.hanzbs as hanzbs,
+				t.zhongzlxh as zhongzlxh,
+				t.emon as emon,
+				t.shunxh as shunxh ,
+				t.lingjbh as lingjbh, 
+				t.danw as danw,
+				t.xiaohd as xiaohd ,
+				t.xhsj as xhsj,
+				t.xiaohxs as xiaohxs,
+				t.xuqly as xuqly,
+				t.chejh as chejh,
+				t.chanx as chanx,
+				t.zhizlx as  zhizlx,
+				t.caifsj as caifsj ,
+				t.laiybs as laiybs ,
+				t.creator as creator , 
+				t.create_time as  create_time,
+				t.editor as editor,
+				t.edit_time as edit_time
+ 			from ${dbSchemalzbc}xqjs_anxmaoxq_temp  t
+    		 where usercenter in ('UL','UX') and trunc(t.create_time) = trunc(sysdate)
+			 order by t.usercenter, t.ofh, t.lingjbh, t.xiaohd, t.xhsj, t.xuqly
+			 )temp where 1=1 
+		$middle$           
+		$foot$
+		]]>
+    </select>
+    
+     <!-- 1891 0011505  查询xqjs-anxmaoxq  今天的数据 UW-->
+    <select id="UwqueryAnxmxq" parameterClass="java.util.Map"  resultClass="java.util.HashMap" remapResults="true">
+    <![CDATA[
+    	$head$ 
+		select temp.*, '1' active, ROWNUM RN from (
+    		select  
+				t.usercenter as usercenter,
+				t.ofh as ofh,
+				t.hanzbs as hanzbs,
+				t.zhongzlxh as zhongzlxh,
+				t.emon as emon,
+				t.shunxh as shunxh ,
+				t.lingjbh as lingjbh, 
+				t.danw as danw,
+				t.xiaohd as xiaohd ,
+				t.xhsj as xhsj,
+				t.xiaohxs as xiaohxs,
+				t.xuqly as xuqly,
+				t.chejh as chejh,
+				t.chanx as chanx,
+				t.zhizlx as  zhizlx,
+				t.caifsj as caifsj ,
+				t.laiybs as laiybs ,
+				t.creator as creator , 
+				t.create_time as  create_time,
+				t.editor as editor,
+				t.edit_time as edit_time
+ 			from ${dbSchemalzbc}xqjs_anxmaoxq_temp  t
+    		 where usercenter in ('UW') and trunc(t.create_time) = trunc(sysdate)
+			 order by t.usercenter, t.ofh, t.lingjbh, t.xiaohd, t.xhsj, t.xuqly
+			 )temp where 1=1 
+		$middle$           
+		$foot$
+		]]>
+    </select>
+    
+    
+   
+     <!-- 1890/1891 0011505  查询参数表数据参数-->
+    <select id="queryAnxpy" parameterClass="java.util.Map" resultClass="java.util.HashMap">
+    <![CDATA[
+   			select usercenter,chanx ,to_char(txsj,'yyyy-mm-dd hh24:mi:ss') txsj,pysj  
+   				from ${dbSchemalzbc}CKX_ANXPY c
+   			 where  c.USERCENTER = #USERCENTER#
+   			 and c.chanx=#CHANX#
+   			 AND  c.create_time >= (SELECT to_date(to_char(B.LASTCPLTIME,'yyyy-mm-dd HH24:mi:ss'), 'YYYY-MM-DD HH24:mi:ss') FROM ${dbSchemalzbc}IN_ZIDB B WHERE B.INBH=#inbh#) 
+			 AND  c.create_time < sysdate
+			 and c.flag='0'
+			 order by c.edit_time desc 
+		]]>
+    </select>
+    
+    
+    <!-- 1890/1891 0011505  查询符合条件的SPPV数据-->
+    <select id="queryAnxpySppv" parameterClass="java.util.Map" resultClass="java.util.HashMap">
+    <![CDATA[
+		select         
+				 a.usercenter as usercenter ,
+ 				a.ofh as ofh,
+				a.hanzbs as hanzbs,
+				to_char(a.emon,'yyyy-MM-dd hh24:mi:ss')  as emon,
+				a.shunxh as shunxh ,
+				a.lingjbh as lingjbh,
+				a.zhongzlxh as zhongzlxh, 
+				a.danw as danw,
+				a.xiaohd as xiaohd ,
+				to_char(a.xhsj,'yyyy-MM-dd hh24:mi:ss')  as xhsj,
+				a.xiaohxs as xiaohxs,
+				a.xuqly as xuqly,
+				a.chejh as chejh,
+				a.chanx as chanx,
+				a.zhizlx as  zhizlx,
+				a.caifsj as caifsj   
+		from 
+		${dbSchemalzbc}xqjs_anxmaoxq_temp a 
+		where  a.usercenter = #USERCENTER#
+		and a.chanx=#CHANX#
+		and a.emon<= to_date(#TXSJ#,'yyyy-mm-dd hh24:mi:ss') 
+		and a.xhsj>=to_date(#TXSJ#,'yyyy-mm-dd hh24:mi:ss')
+		and a.xuqly='3' 
+		and a.biaos is null
+		]]>
+    </select>
+       
+     <!-- 1890/1891 0011505 算出此数据的新消耗时间-->
+    <select id="queryNewxhsj" parameterClass="java.util.Map" resultClass="java.lang.String">
+    <![CDATA[
+         select to_char(juedsk,'yyyy-MM-dd hh24:mi:ss') as newxhsj
+       from (select rownum rn, juedsk
+               from (select a.usercenter,a.chanxck,b.gongzr,b.xiaohsj,b.juedsk
+                       from ${dbSchemalzbc}CKX_CALENDAR_HEBTIME_INFO a, ${dbSchemalzbc}CKX_GONGZSJMB b
+                      where a.hebtimeh = b.hebtimeh
+                        and a.usercenter = #USERCENTER#
+                        and a.chanxck = #CHANX#
+                        and b.juedsk >=
+                            (select min(juedsk)
+                               from (select a.usercenter, a.chanxck , b.gongzr,b.xiaohsj,b.juedsk
+                                       from ${dbSchemalzbc}CKX_CALENDAR_HEBTIME_INFO a,${dbSchemalzbc}CKX_GONGZSJMB b
+                                      where a.hebtimeh = b.hebtimeh 
+                                      	and a.usercenter = #USERCENTER#
+                                        and a.chanxck = #CHANX#
+                                        and b.juedsk >=
+                                            to_date(#XHSJ#,
+                                                    'yyyy-mm-dd hh24:mi:ss')))
+                      order by juedsk asc))
+      where rn = #PYSJ# + 1    
+    		]]>
+    </select>
+    
+    
+    <!-- 1890/1891 0011505 更新xqjs_anxmaoxq表的消耗时间uw-->
+     <update id="updateNewxhsjSppv" parameterClass="java.util.Map" >
+    	<![CDATA[
+			update ${dbSchemalzbc}xqjs_anxmaoxq b 
+				set b.xhsj= to_date(#NEWXHSJ#,'yyyy-mm-dd hh24:mi:ss'),    
+				    b.edit_time = sysdate,
+				    b.editor=#inbh#
+					where b.usercenter = #USERCENTER#
+						and b.chanx=#CHANX#
+						and b.xiaohd=#XIAOHD#
+						and b.LINGJBH=#LINGJBH#	
+						and b.zhongzlxh=#ZHONGZLXH#					
+						and b.ofh=#OFH#
+						and b.xuqly='3'
+						and b.xhsj=to_date(#XHSJ#,'yyyy-mm-dd hh24:mi:ss')
+		]]>	
+   </update> 
+    
+      <!-- 1890/1891 0011505 更新xqjs_anxmaoxq_temp 表的flag-->
+       <update id="updateFlag" parameterClass="java.util.Map" >
+    	<![CDATA[
+			update ${dbSchemalzbc}xqjs_anxmaoxq_temp b 
+			set b.biaos='1'
+				where b.usercenter = #USERCENTER#
+					and b.chanx=#CHANX#
+					and b.xiaohd=#XIAOHD#
+					and b.LINGJBH=#LINGJBH#		
+					and b.zhongzlxh=#ZHONGZLXH#				
+					and b.ofh=#OFH#	
+					and b.xuqly='3'	
+					and b.xhsj=to_date(#XHSJ#,'yyyy-mm-dd hh24:mi:ss')				
+		]]>	
+   </update> 
+   
+       <!-- 1890/1891 0011505 更新xqjs_anxmaoxq_temp 表的flag-->
+       <update id="updateCkxFlag" parameterClass="java.util.Map" >
+    	<![CDATA[
+			update ${dbSchemalzbc}CKX_ANXPY b 
+			set b.flag='1'
+				where b.usercenter = #USERCENTER#
+				and   b.chanx=#CHANX#
+				and  b.pysj=#PYSJ#
+									
+		]]>	
+   </update>
+  
+   <!-- PPL毛需求版次修改为DKS/DIP  xh  2015-09-09 传参修改-->
+  <update id="updatePPLMaoxq" parameterClass="java.util.Map" >
+         update ${dbSchemalzbc}xqjs_maoxq m  set m.xuqly=#xuqbc#,m.xuqbc=#xuqbc#||substr(m.xuqbc,4),m.beiz=#beiz# where m.xuqly = #xuqly#
+         and to_char(sysdate,'yyyy-mm-dd')=to_char(m.create_time,'yyyy-mm-dd') 
+  </update>
+  <!-- PPL毛需求明细版次号修改为DKS/DIP   xh  2015-09-09 传参修改-->
+  <update id="updatePPLMaoxqmx" parameterClass="java.util.Map" >
+         update ${dbSchemalzbc}in_maoxqmx m  set m.xuqbc=#xuqbc#||substr(m.xuqbc,4) where  substr(m.xuqbc,0,3)=#xuqly#
+          and to_char(sysdate,'yyyy-mm-dd')=to_char(m.create_time,'yyyy-mm-dd')  and biaos=#biaos#
+  </update>
+  <!-- 如果PPL毛需求版次修改为DKS/DIP失败时则删除当前PPL毛需求信息 xh  2015-09-09 传参修改-->
+   <update id="deletePPLMaoxq" parameterClass="java.util.Map" >
+         delete from ${dbSchemalzbc}xqjs_maoxq m   where m.xuqly = #xuqly# 
+          and to_char(sysdate,'yyyy-mm-dd')=to_char(m.create_time,'yyyy-mm-dd')
+  </update>
+    
+  <!-- 1121 更新工艺消耗点距上线点车身数  yz 2015-12-31 -->
+   <update id="updateckx_gongyxhd" parameterClass="java.util.Map" >
+   		<![CDATA[
+   		update ${dbSchemalzbc}ckx_gongyxhd a set a.chessl = 
+       (select b.chessl from    
+       ${dbSchemalzbc}ckx_xiaohddygx b where a.gongyxhd = b.xiaohdbh and b.chessl is not null)
+       where exists (select 1 from ${dbSchemalzbc}ckx_xiaohddygx b where a.gongyxhd = b.xiaohdbh and b.chessl is not null)
+		]]>
+   </update> 
+  
+  <!-- 1061 PJ毛需求（UL） add by csy 2016-01-19 -->
+    <select id="query1061ListOfMaoxqmx" resultClass="java.util.HashMap" cacheModel="model-cache"  remapResults="true">
+   		<![CDATA[
+			$head$ 
+		select t.*,
+		current_timestamp create_time,
+		'interface' creator,
+		'1' active,
+		ROWNUM RN
+  	from (select max(id) ID,
+               q.xuqbc,
+               q.usercenter,
+               q.shiycj,
+               q.chanx,
+               max(q.xuqz) xuqz,
+               q.xuqrq,
+               q.lingjbh,
+               sum(q.xuqsl) xuqsl,
+               q.danw,
+               q.zhizlx,
+               max(q.xuqsszq) xuqsszq,
+               max(q.xuqksrq) xuqksrq,
+               max(q.xuqjsrq) xuqjsrq
+          from ${dbSchemalzbc}in_maoxqmx q where biaos in ('4','7')
+         group by q.xuqbc,
+                  q.usercenter,
+                  q.shiycj,
+                  q.chanx,
+                  q.xuqrq,
+                  q.lingjbh,
+                  q.danw,
+                  q.zhizlx
+           order by q.xuqbc,
+                  q.usercenter,
+                  q.shiycj,
+                  q.chanx,
+                  q.xuqrq,
+                  q.lingjbh,
+                  q.danw,
+                  q.zhizlx       ) t where 1=1 
+        $middle$          
+		$foot$
+		]]>
+   </select>
+   
+   <!-- 1062 PJ毛需求（UW） add by csy 2016-01-19 -->
+    <select id="query1062ListOfMaoxqmx" resultClass="java.util.HashMap" cacheModel="model-cache"  remapResults="true">
+   		<![CDATA[
+			$head$ 
+		select t.*,
+		current_timestamp create_time,
+		'interface' creator,
+		'1' active,
+		ROWNUM RN
+  	from (select max(id) ID,
+               q.xuqbc,
+               q.usercenter,
+               q.shiycj,
+               q.chanx,
+               max(q.xuqz) xuqz,
+               q.xuqrq,
+               q.lingjbh,
+               sum(q.xuqsl) xuqsl,
+               q.danw,
+               q.zhizlx,
+               max(q.xuqsszq) xuqsszq,
+               max(q.xuqksrq) xuqksrq,
+               max(q.xuqjsrq) xuqjsrq
+          from ${dbSchemalzbc}in_maoxqmx q where biaos='5'
+         group by q.xuqbc,
+                  q.usercenter,
+                  q.shiycj,
+                  q.chanx,
+                  q.xuqrq,
+                  q.lingjbh,
+                  q.danw,
+                  q.zhizlx
+           order by q.xuqbc,
+                  q.usercenter,
+                  q.shiycj,
+                  q.chanx,
+                  q.xuqrq,
+                  q.lingjbh,
+                  q.danw,
+                  q.zhizlx       ) t where 1=1 
+        $middle$          
+		$foot$
+		]]>
+   </select>
+   
+   <!-- 1063 PJ毛需求（VD） add by csy 2016-01-19 -->
+    <select id="query1063ListOfMaoxqmx" resultClass="java.util.HashMap" cacheModel="model-cache"  remapResults="true">
+   		<![CDATA[
+			$head$ 
+		select t.*,
+		current_timestamp create_time,
+		'interface' creator,
+		'1' active,
+		ROWNUM RN
+  	from (select max(id) ID,
+               q.xuqbc,
+               q.usercenter,
+               q.shiycj,
+               q.chanx,
+               max(q.xuqz) xuqz,
+               q.xuqrq,
+               q.lingjbh,
+               sum(q.xuqsl) xuqsl,
+               q.danw,
+               q.zhizlx,
+               max(q.xuqsszq) xuqsszq,
+               max(q.xuqksrq) xuqksrq,
+               max(q.xuqjsrq) xuqjsrq
+          from ${dbSchemalzbc}in_maoxqmx q where biaos='6'
+         group by q.xuqbc,
+                  q.usercenter,
+                  q.shiycj,
+                  q.chanx,
+                  q.xuqrq,
+                  q.lingjbh,
+                  q.danw,
+                  q.zhizlx
+           order by q.xuqbc,
+                  q.usercenter,
+                  q.shiycj,
+                  q.chanx,
+                  q.xuqrq,
+                  q.lingjbh,
+                  q.danw,
+                  q.zhizlx       ) t where 1=1 
+        $middle$          
+		$foot$
+		]]>
+   </select>
+   
+   <!-- 1067 查询毛需求明细接口表中clv版次 gswang 2014-10-23 -->
+    <select id="queryRiClvInMaoxqPJ" resultClass="java.lang.String">
+   		<![CDATA[
+			select * from (select m.xuqbc from ${dbSchemalzbc}in_maoxqmx m where m.biaos = #BIAOZ#  group by m.xuqbc order by m.xuqbc desc) t where  rownum = 1
+		]]>
+   </select>  
+   
+     <!-- 1067 查询毛需求明细接口表中clv最新一版毛需求的用户中心 gswang 2014-10-23 -->
+    <select id="queryRiClvInMaoxqUcPJ" resultClass="java.util.HashMap" parameterClass="java.util.Map">
+   		<![CDATA[
+			select m.usercenter from ${dbSchemalzbc}in_maoxqmx m inner join ${dbSchemalzbc}ckx_usercenter u on m.usercenter = u.usercenter and u.biaos = '1' 
+			where m.biaos = #BIAOZ# and m.xuqbc = #XUQBC#  group by m.usercenter order by m.usercenter desc
+		]]>
+   </select>    
+
+     <!-- 1067 查询用户中心表中用户中心 gswang 2014-10-23 -->
+    <select id="queryRiClvCkxUcPJ" resultClass="java.util.HashMap" parameterClass="java.util.Map">
+   		<![CDATA[
+			select u.usercenter from ${dbSchemalzbc}ckx_usercenter u where u.biaos = '1' order by u.usercenter desc
+		]]>
+   </select>    
+
+     <!-- 1067 查询毛需求中最新一版毛需求 gswang 2014-10-23 -->
+    <select id="queryNewClvMaoxqPJ" resultClass="java.lang.String" parameterClass="java.util.Map">
+   		<![CDATA[
+			select * from (select m.xuqbc from ${dbSchemalzbc}xqjs_maoxq m where m.xuqly = 'JLV' and m.creator = 'interface'  and m.xuqbc != #XUQBC# and to_char(m.create_time,'yyyy-mm-dd') != to_char(sysdate,'yyyy-mm-dd') order by m.xuqbc desc) t where  rownum = 1
+		]]>
+   </select>   
+
+   <!-- 1067 插入毛需求明细  hzg 2013-2-19 -->
+  <insert id="insertCLVLastMaoxqPJ" parameterClass="java.util.Map">
+  		<![CDATA[
+   			insert into ${dbSchemalzbc}IN_maoxqmx(id,xuqbc,usercenter,shiycj,chanx,xuqz,xuqrq,lingjbh,xuqsl,danw,zhizlx,xuqsszq,
+           xuqksrq,xuqjsrq,cangkdm,editor,edit_time,creator,create_time,active,biaos) 
+     SELECT id,#XUQBC#,usercenter,shiycj,chanx,xuqz,xuqrq,lingjbh,xuqsl,danw,zhizlx,xuqsszq,
+           xuqksrq,xuqjsrq,cangkdm,editor,edit_time,creator,create_time,active,#BIAOZ# FROM ${dbSchemalzbc}xqjs_maoxqmx MX WHERE MX.XUQBC = #LASTBANC# AND MX.USERCENTER IN ($UC$) AND MX.CREATOR = 'interface'
+   		]]>	
+  </insert>
+  
+	<!-- id='1410' 0012554 查询50状态的调拨明细原始数据--> 
+   	 <select id="queryDiaobmx50_tmp" parameterClass="java.util.Map"  resultClass="java.util.HashMap">
+   	 		<![CDATA[
+   	 		select    distinct      
+   	 			 a.usercenter  as usercenter,
+                 a.diaobsqdh   as diaobsqdh ,
+                 c.diaobdh     as diaobdh,
+                 c.CANGKBH     as cangkbh,
+                 c.ZICKBH      as zickbh,
+                 c.LINGJBH     as lingjbh,
+                 c.SHIPSL      as shipsl,
+                 c.zhixsl      as zhixsl,
+                 a.EDITOR      as editor,
+                 to_char (a.EDIT_TIME ,'yyyy-MM-dd HH24:mi:ss') as edit_time ,
+                 c.zhuangt     as zhuangt
+           from ${dbSchemalzbc}xqjs_diaobsq a
+           join ${dbSchemalzbc}xqjs_diaobsqmx b
+                on a.usercenter = b.usercenter
+                and a.diaobsqdh = b.diaobsqdh
+           join ${dbSchemalzbc}xqjs_diaobmx c 
+             on  b.usercenter = c.usercenter 
+             and b.diaobsqdh = c.diaobsqdh  
+             and b.lingjbh = c.lingjbh 
+           join ${dbSchemalzbc}ck_yaonbhl d 
+              on  d.usercenter = c.usercenter
+              and d.dingdh = c.diaobdh
+              and d.lingjbh = c.lingjbh
+            where d.beiz7='1'
+   	 		]]>
+   </select> 
+   
+   <!-- id='1410' 0012554 查询50状态的调拨明细--> 
+   	 <select id="queryDiaobmx50" parameterClass="java.util.Map"  resultClass="java.util.HashMap">
+   	 		<![CDATA[
+   	 		select    distinct      
+   	 			 a.usercenter  as usercenter,
+                 a.diaobsqdh   as diaobsqdh ,
+                 c.diaobdh     as diaobdh,
+                 c.CANGKBH     as cangkbh,
+                 c.ZICKBH      as zickbh,
+                 c.LINGJBH     as lingjbh,
+                 c.SHIPSL      as shipsl,
+                 c.zhixsl      as zhixsl,
+                 a.EDITOR      as editor,
+                 to_char (a.EDIT_TIME ,'yyyy-MM-dd HH24:mi:ss') as edit_time ,
+                 c.zhuangt     as zhuangt
+           from ${dbSchemalzbc}xqjs_diaobsq a
+           join ${dbSchemalzbc}xqjs_diaobsqmx b
+                on a.usercenter = b.usercenter
+                and a.diaobsqdh = b.diaobsqdh
+           join ${dbSchemalzbc}xqjs_diaobmx c 
+             on  b.usercenter = c.usercenter 
+             and b.diaobsqdh = c.diaobsqdh  
+             and b.lingjbh = c.lingjbh 
+           join ${dbSchemalzbc}ck_yaonbhl d 
+              on  d.usercenter = c.usercenter
+              and d.dingdh = c.diaobdh
+              and d.lingjbh = c.lingjbh
+            where c.zhuangt=#yaohlzt# and d.beiz7='1'
+   	 		]]>
+   </select> 
+   
+    <!-- id='1410' 0012554 根据调拨明细 查询 本次执行数量--> 
+    <select id="SumDbZxshul" parameterClass="java.util.Map" resultClass="java.lang.String"> 
+   		 select nvl ( sum(jiaofzl),0 ) 
+            from ${dbSchemalzbc}ck_yaonbhl
+           where dingdh = #dingdh#
+             and lingjbh = #lingjbh#
+             and usercenter = #usercenter#
+             and cangkbh = #cangkbh#
+             and zickbh = #zickbh#
+             and beiz7='1'
+   </select> 
+   
+       <!-- id='1410' 0012554 根据调拨明细 查询中汇总最新的执行数量--> 
+    <select id="SumDbZxshul2" parameterClass="java.util.Map" resultClass="java.lang.String"> 
+   		 select nvl ( sum(jiaofzl),0 ) 
+            from ${dbSchemalzbc}ck_yaonbhl
+           where dingdh = #dingdh#
+             and lingjbh = #lingjbh#
+             and usercenter = #usercenter#
+             and cangkbh = #cangkbh#
+             and zickbh = #zickbh# 
+   </select> 
+   
+   	<!-- id="1410" 生效时 将实批数量 记录异常消耗 0012554 -->
+	<insert id="insert_kucjscsb" parameterClass="java.util.Map">
+		insert into ${dbSchemalzbc}xqjs_kucjscsb(usercenter,lingjbh,YICXHL,XIAOHD,create_time,creator , flag)
+		values(
+		    #usercenter#,
+			#lingjbh#,
+			#yicxhl#,
+			#xiaohd#,
+			sysdate,
+			#creator#,
+			'2'
+		)
+	</insert>
+  
+</sqlMap>

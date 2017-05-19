@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="common">
+	<!--零件供应商包装信息 -->
+	<select id="queryLingjgysBaoz" resultClass="com.athena.component.service.bean.Gysckbaoz">
+		<![CDATA[
+		 select aa.*,b.baozlx,b.baozmc,b.changd,b.kuand,
+			b.gaod,b.baozzl,b.leib,b.caiz,b.shifhs,
+			b.zhedgd,b.duidcs,b.baiffx from (
+		   select a.usercenter,a.lingjbh,a.gongysbh,
+			       a.ucbzlx,
+			       a.ucrl,
+			       a.uabzlx,
+			       a.ucrl * a.uaucgs as uarl,
+			       a.uaucgs,
+			       a.gaib,
+			       a.neic 
+			       from ${dbSchemal0}ckx_lingjgys a  where a.lingjbh=#lingjbh# and a.biaos=1 ) aa
+			 left join ${dbSchemal0}ckx_baoz  b  on aa.uabzlx=b.baozlx 
+		]]>
+	</select>
+	
+	<!--零件仓库包装信息-->
+	<select id="queryLingjckBaoz" resultClass="com.athena.component.service.bean.Gysckbaoz">
+		<![CDATA[
+		select aa.*,b.baozlx,b.baozmc,b.changd,b.kuand,
+			b.gaod,b.baozzl,b.leib,b.caiz,b.shifhs,
+			b.zhedgd,b.duidcs,b.baiffx from (
+		 select a.usercenter,a.lingjbh,a.cangkbh,
+			a.usbzlx,
+			a.usbzrl,
+			a.uclx,
+			a.ucrl  
+			from ${dbSchemal0}ckx_lingjck a where a.lingjbh=#lingjbh# )aa
+	 	left join ${dbSchemal0}ckx_baoz  b  on aa.usbzlx=b.baozlx
+		]]>
+	</select>
+	
+	<!--零件供应商信息-->
+	<select id="queryLingjgysJk" resultClass="com.athena.component.service.bean.Lingjgys">
+		<![CDATA[
+		   select a.usercenter,a.lingjbh,a.gongysbh,
+			       a.ucbzlx,
+			       a.ucrl,
+			       a.uabzlx,
+			       a.ucrl * a.uaucgs as uarl,
+			       a.uaucgs,
+			       a.gaib,
+			       a.neic 
+			       from ${dbSchemal0}ckx_lingjgys a  where a.lingjbh=#lingjbh# and a.biaos=1 
+		]]>
+	</select>
+	<!--零件仓库信息-->
+	<select id="queryLingjckJk" resultClass="com.athena.component.service.bean.Lingjck">
+		<![CDATA[
+		 select a.usercenter,a.lingjbh,a.cangkbh,
+			a.usbzlx,
+			a.usbzrl,
+			a.uclx,
+			a.ucrl  
+			from ${dbSchemal0}ckx_lingjck a where a.lingjbh=#lingjbh# 
+		]]>
+	</select>
+	<!--包装信息-->
+	<select id="queryBaozJk" resultClass="com.athena.component.service.bean.Baoz">
+		<![CDATA[
+		select distinct bb.*  from (
+			select  b.baozlx,b.baozmc,b.changd,b.kuand,
+				b.gaod,b.baozzl,b.leib,b.caiz,b.shifhs,b.zhedgd,b.duidcs,b.baiffx 
+				from ${dbSchemal0}ckx_lingjgys a,${dbSchemal0}ckx_baoz  b where a.lingjbh=#lingjbh# and a.biaos=1 
+				      and (a.ucbzlx=b.baozlx or a.uabzlx=b.baozlx)
+		   union all
+		   select   b.baozlx,b.baozmc,b.changd,b.kuand,
+				b.gaod,b.baozzl,b.leib,b.caiz,b.shifhs,b.zhedgd,b.duidcs,b.baiffx
+				 from ${dbSchemal0}ckx_lingjck a,${dbSchemal0}ckx_baoz  b where a.lingjbh=#lingjbh# 
+				       and (a.usbzlx=b.baozlx or a.uclx=b.baozlx)
+		) bb 
+		]]>
+	</select>
+	
+	
+</sqlMap>

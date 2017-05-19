@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE sqlMapConfig      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map Config 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-config-2.dtd">
+<sqlMapConfig>
+	<properties resource="sqlmap.properties"/>
+	<settings cacheModelsEnabled="true" enhancementEnabled="true"
+			lazyLoadingEnabled="true" maxRequests="256" maxSessions="128"
+		maxTransactions="32" useStatementNamespaces="true" />
+	<sqlMap resource="com/toft/core2/dao/TableUtils.xml"/>
+	<sqlMap resource="config/sqlmap-config.xml"/>
+    <sqlMap resource="com/athena/component/sqlmap-output-zbc.xml"/>
+    <sqlMap resource="com/athena/component/sqlmap-output-zxc.xml"/>
+    <sqlMap resource="com/athena/component/sqlmap-output-ddbh.xml"/>
+    <sqlMap resource="com/athena/component/sqlmap-input-zbc.xml"/>
+    <sqlMap resource="com/athena/component/sqlmap-input-zxc.xml"/>
+    <sqlMap resource="com/athena/component/sqlmap-input-ddbh.xml"/>
+    
+    <sqlMap resource="com/athena/component/kdys.xml"/>
+    <sqlMap resource="com/athena/component/common.xml"/>
+</sqlMapConfig>
