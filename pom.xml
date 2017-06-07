@@ -713,6 +713,19 @@
 					<skipTests>true</skipTests>
 				</configuration>
 			</plugin>
+
+			<plugin>  
+                <groupId>org.codehaus.mojo</groupId>  
+                <artifactId>cobertura-maven-plugin</artifactId>  
+                <version>2.6</version>  
+                <configuration>  
+                    <formats>  
+                        <format>html</format>  
+                        <format>xml</format>  
+                    </formats>  
+                </configuration>  
+            </plugin> 
+
 			
 			<!-- 版本发布配置  add by hzg 2013-11-1  -->
 			<plugin>
@@ -737,6 +750,23 @@
 		</resources>
 
 	</build>
+
+	<reporting>
+         <plugins>
+		  <plugin>  
+	            <groupId>org.codehaus.mojo</groupId>  
+	            <artifactId>cobertura-maven-plugin</artifactId>  
+	            <version>2.6</version>  
+	            <configuration>  
+	                <formats>  
+	                    <format>html</format>  
+	                    <format>xml</format>  
+	                </formats>  
+	            </configuration>  
+	        </plugin>  
+
+         </plugins>
+    </reporting>
 
 	<!-- 替换配置文件 hzg 2012-8-29 -->
 	<profiles>
